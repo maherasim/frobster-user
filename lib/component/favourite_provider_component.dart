@@ -1,0 +1,247 @@
+import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart';
+import 'package:booking_system_flutter/utils/string_extensions.dart';
+import 'package:flutter/material.dart';
+import 'package:nb_utils/nb_utils.dart';
+import '../main.dart';
+import '../model/user_data_model.dart';
+import '../network/rest_apis.dart';
+import '../utils/colors.dart';
+import '../utils/images.dart';
+import 'cached_image_widget.dart';
+import 'disabled_rating_bar_widget.dart';
+import 'social_icons_list.dart';
+
+class FavouriteProviderComponent extends StatefulWidget {
+  final double width;
+  final UserData? data;
+  final Function? onUpdate;
+  final bool isFavouriteProvider;
+
+  FavouriteProviderComponent(
+      {required this.width,
+      this.data,
+      this.onUpdate,
+      this.isFavouriteProvider = true});
+
+  @override
+  State<FavouriteProviderComponent> createState() =>
+      _FavouriteProviderComponentState();
+}
+
+class _FavouriteProviderComponentState
+    extends State<FavouriteProviderComponent> {
+  //Favourite provider
+  Future<bool> addProviderToWishList({required int providerId}) async {
+    Map req = {"id": "", "provider_id": providerId, "user_id": appStore.userId};
+    return await addProviderWishList(req).then((res) {
+      toast(language.providerAddedToFavourite);
+      return true;
+    }).catchError((error) {
+      toast(error.toString());
+      return false;
+    });
+  }
+
+  Future<bool> removeProviderToWishList({required int providerId}) async {
+    Map req = {"user_id": appStore.userId, 'provider_id': providerId};
+
+    return await removeProviderWishList(req).then((res) {
+      toast(language.providerRemovedFromFavourite);
+      return true;
+    }).catchError((error) {
+      toast(error.toString());
+      return false;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    init();
+  }
+
+  void init() async {
+    //
+  }
+
+  @override
+  void setState(fn) {
+    if (mounted) super.setState(fn);
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Stack(
+      children: [
+        Container(
+          width: widget.width,
+          decoration: boxDecorationWithRoundedCorners(
+              borderRadius: radius(),
+              backgroundColor: appStore.isDarkMode
+                  ? context.scaffoldBackgroundColor
+                  : white),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                decoration: BoxDecoration(
+                  borderRadius: radiusOnly(
+                      topLeft: defaultRadius, topRight: defaultRadius),
+                  color: primaryColor.withValues(alpha: 0.2),
+                ),
+                child: CachedImageWidget(
+                  url: widget.data!.profileImage.validate(),
+                  width: context.width(),
+                  height: 110,
+                  fit: BoxFit.cover,
+                  circle: false,
+                ).cornerRadiusWithClipRRectOnly(
+                    topRight: defaultRadius.toInt(),
+                    topLeft: defaultRadius.toInt()),
+              ),
+              8.height,
+              DisabledRatingBarWidget(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      rating: widget.data!.providersServiceRating.validate(),
+                      size: 14)
+                  .paddingSymmetric(horizontal: 16),
+              5.height,
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(
+                    'assets/icons/verified_badge.jpg',
+                    width: 15,
+                    height: 15,
+                  ),
+                  Marquee(
+                    directionMarguee: DirectionMarguee.oneDirection,
+                    child: Text(
+                      widget.data!.displayName.validate(),
+                      style: boldTextStyle(),
+                      maxLines: 1,
+                    ),
+                  ).paddingSymmetric(horizontal: 8),
+                  Image.asset(
+                    'assets/icons/free-membership.jpg',
+                    width: 15,
+                    height: 15,
+                  ),
+                ],
+              ),
+              Marquee(
+                directionMarguee: DirectionMarguee.oneDirection,
+                child: Text('Berlin - Germany',
+                    style: primaryTextStyle(size: 12), maxLines: 1),
+              ).paddingSymmetric(horizontal: 8),
+              5.height,
+              SocialIconsList(),
+              16.height,
+
+              /// Hide email and calling function
+              /*8.height,
+                  Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      if (widget.data!.contactNumber.validate().isNotEmpty)
+                        TextIcon(
+                          onTap: () {
+                            launchCall(widget.data!.contactNumber.validate());
+                          },
+                          prefix: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: boxDecorationWithRoundedCorners(
+                              boxShape: BoxShape.circle,
+                              backgroundColor: primaryColor.withValues(alpha:0.1),
+                            ),
+                            child: Image.asset(ic_calling, color: primaryColor, height: 14, width: 14),
+                          ),
+                        ),
+                      if (widget.data!.email.validate().isNotEmpty)
+                        TextIcon(
+                          onTap: () {
+                            launchMail(widget.data!.email.validate());
+                          },
+                          prefix: Container(
+                            padding: EdgeInsets.all(8),
+                            decoration: boxDecorationWithRoundedCorners(
+                              boxShape: BoxShape.circle,
+                              backgroundColor: primaryColor.withValues(alpha:0.1),
+                            ),
+                            child: ic_message.iconImage(size: 14, color: primaryColor),
+                          ),
+                        ),
+                    ],
+                  ),*/
+            ],
+          ),
+        ),
+        if (widget.isFavouriteProvider)
+          Positioned(
+            top: 8,
+            right: 0,
+            child: Container(
+              padding: EdgeInsets.all(8),
+              margin: EdgeInsets.only(right: 8),
+              decoration: boxDecorationWithShadow(
+                  boxShape: BoxShape.circle,
+                  backgroundColor: context.cardColor),
+              child: widget.data!.isFavourite == 1
+                  ? ic_fill_heart.iconImage(color: favouriteColor, size: 18)
+                  : ic_heart.iconImage(color: unFavouriteColor, size: 22),
+            ).onTap(() async {
+              if (widget.data!.isFavourite == 1) {
+                widget.data!.isFavourite = 0;
+                setState(() {});
+
+                await removeProviderToWishList(
+                        providerId: widget.data!.providerId.validate())
+                    .then((value) {
+                  if (!value) {
+                    widget.data!.isFavourite = 1;
+                    setState(() {});
+                  }
+                });
+
+                widget.onUpdate!.call();
+              } else {
+                widget.data!.isFavourite = 1;
+                setState(() {});
+                await addProviderToWishList(
+                        providerId: widget.data!.providerId.validate())
+                    .then((value) {
+                  if (!value) {
+                    widget.data!.isFavourite = 0;
+                    setState(() {});
+                  }
+                });
+                widget.onUpdate!.call();
+              }
+            }),
+          ),
+        // if ((widget.data?.providersServiceRating.validate() ?? 0) > 0)
+        //   Row(
+        //     children: [
+        //       Image.asset(ic_star_fill,
+        //           height: 16,
+        //           color: getRatingBarColor(
+        //               widget.data!.providersServiceRating.validate().toInt())),
+        //       4.width,
+        //       Text(
+        //           "${widget.data!.providersServiceRating.validate().toStringAsFixed(1)}",
+        //           style: boldTextStyle()),
+        //     ],
+        //   ).paddingRight(16),
+      ],
+    ).onTap(() {
+      ProviderInfoScreen(
+        providerId: widget.data!.providerId.validate(),
+        onUpdate: () {
+          widget.onUpdate!.call();
+        },
+      ).launch(context);
+    });
+  }
+}
