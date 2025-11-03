@@ -9,7 +9,7 @@ class DateItemWidget extends StatelessWidget {
   ///display [DateTime]
   final DateTime dateTime;
 
-  ///State of the date
+  ///State of the date good work
   final DateItemState dateItemState;
 
   final String locale;
