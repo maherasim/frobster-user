@@ -45,6 +45,24 @@ class ProviderServiceComponent extends StatefulWidget {
 }
 
 class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
+  String _titleCase(String input) {
+    final normalized = input.replaceAll('_', ' ').replaceAll('-', ' ').trim();
+    if (normalized.isEmpty) return '';
+    return normalized
+        .split(RegExp(r'\s+'))
+        .map((w) => w.isEmpty
+            ? w
+            : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}')
+        .join(' ');
+  }
+
+  String visitTypeLabel(String? visitType) {
+    final v = visitType.validate().trim().toUpperCase();
+    if (v == 'ONLINE') return 'Remote';
+    if (v == 'ON_SITE') return 'Onsite';
+    if (v == 'HYBRID') return 'Hybrid';
+    return _titleCase(visitType.validate());
+  }
   String serviceTypeLabel(String? type) {
     final t = type.validate();
     final lower = t.toLowerCase();
@@ -223,22 +241,23 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (widget.providerData != null &&
-                          (widget.providerData!.cityName
-                                  .validate()
-                                  .isNotEmpty ||
-                              widget.providerData!.countryName
-                                  .validate()
-                                  .isNotEmpty))
-                        Text(
-                          "${widget.providerData!.cityName.validate()}${(widget.providerData!.cityName.validate().isNotEmpty && widget.providerData!.countryName.validate().isNotEmpty) ? ' - ' : ''}${widget.providerData!.countryName.validate()}",
-                          style: secondaryTextStyle(
-                              size: 10, color: defaultActivityStatus),
+                      Builder(builder: (context) {
+                        final String primaryCity = widget.serviceData?.serviceCityName.validate() ?? '';
+                        final String primaryCountry = widget.serviceData?.serviceCountryName.validate() ?? '';
+                        final String fallbackCity = widget.serviceData?.cityName.validate() ?? '';
+                        final String fallbackCountry = widget.serviceData?.countryName.validate() ?? '';
+                        final String city = primaryCity.isNotEmpty ? primaryCity : fallbackCity;
+                        final String country = primaryCountry.isNotEmpty ? primaryCountry : fallbackCountry;
+                        if (city.isEmpty && country.isEmpty) return Offstage();
+                        return Text(
+                          "$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country",
+                          style: secondaryTextStyle(size: 10, color: defaultActivityStatus),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
-                        ),
+                        );
+                      }),
                       Text(
-                        'Job Type: ${serviceTypeLabel(widget.serviceData?.type)}',
+                        'Job Type: ${visitTypeLabel(widget.serviceData?.visitType)}',
                         style: secondaryTextStyle(
                             size: 10, color: defaultActivityStatus),
                       ),
@@ -251,7 +270,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                           ),
                           12.width,
                           Text(
-                            'Views: ${widget.serviceData!.totalViews.validate()}',
+                            'Viewgs: ${widget.serviceData!.totalViews.validate()}',
                             style: secondaryTextStyle(
                                 size: 10, color: defaultActivityStatus),
                           ),

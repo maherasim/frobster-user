@@ -11,10 +11,12 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../model/city_list_model.dart';
 import '../../model/country_list_model.dart';
+import '../../model/state_list_model.dart';
 import '../../utils/constant.dart';
 import '../../utils/model_keys.dart';
 import 'component/filter_city_component.dart';
 import 'component/filter_country_component.dart';
+import 'component/filter_state_component.dart';
 import 'component/filter_rating_component.dart';
 import 'component/filter_subcategory_component.dart';
 
@@ -36,7 +38,9 @@ class _FilterScreenState extends State<FilterScreen> {
   List<UserData> providerList = [];
   List<CountryListResponse> countryList = [];
   List<CityListResponse> cityList = [];
+  List<StateListResponse> stateList = [];
   List<int> selCountryIdList = [];
+  final Set<int> selectedStateIds = <int>{};
 
   @override
   void initState() {
@@ -110,7 +114,8 @@ class _FilterScreenState extends State<FilterScreen> {
       await getCityList({UserKeys.stateId: countryId}).then((value) {
         cityList = value.validate();
         cityList.forEach((element) {
-          if (filterStore.countryId.contains(element.id)) {
+          // Mark previously selected cities as selected
+          if (filterStore.cityId.contains(element.id)) {
             element.isSelected = true;
           }
         });
@@ -204,7 +209,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 4 : 3),
-                            name: 'City')
+                            name: 'State')
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 4 : 3;
@@ -214,7 +219,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 5 : 4),
-                            name: language.lblPrice)
+                            name: 'City')
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 5 : 4;
@@ -224,10 +229,20 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 6 : 5),
-                            name: language.lblRating)
+                            name: language.lblPrice)
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 6 : 5;
+                        setState(() {});
+                      }
+                    }),
+                    buildItem(
+                            isSelected:
+                                isSelected == ((widget.isFromProvider) ? 7 : 6),
+                            name: language.lblRating)
+                        .onTap(() {
+                      if (!appStore.isLoading) {
+                        isSelected = (widget.isFromProvider) ? 7 : 6;
                         setState(() {});
                       }
                     }),
@@ -237,9 +252,64 @@ class _FilterScreenState extends State<FilterScreen> {
               [
                 if (appStore.isLoading) Offstage(),
                 FilterProviderComponent(providerList: providerList),
-                FilterCategoryComponent(catList: catList),
+                FilterCategoryComponent(
+                  catList: catList,
+                  onCategoryToggle: (catId) async {
+                    appStore.setLoading(true);
+                    await getSubCategoryList(catId: catId).then((value) {
+                      subCatList = value.categoryList.validate();
+                      // Keep previously selected subcategory if exists
+                      subCatList.forEach((element) {
+                        element.isSelected =
+                            filterStore.selectedSubCategoryId == element.id;
+                      });
+                      setState(() {});
+                    }).catchError((e) {
+                      toast(e.toString());
+                    });
+                    appStore.setLoading(false);
+                  },
+                ),
                 FilterSubCategoryComponent(catList: subCatList),
-                FilterCountryComponent(countryList: countryList),
+                FilterCountryComponent(
+                  countryList: countryList,
+                  onCountryToggle: (countryId) async {
+                    appStore.setLoading(true);
+                    // Load states for selected country
+                    await getStateList({UserKeys.countryId: countryId})
+                        .then((value) async {
+                      stateList = value.validate();
+                      selectedStateIds.clear();
+                      setState(() {});
+                    }).catchError((e) {
+                      toast(e.toString());
+                    });
+                    appStore.setLoading(false);
+                  },
+                ),
+                FilterStateComponent(
+                  stateList: stateList,
+                  selectedStateIds: selectedStateIds,
+                  onStateToggle: (stateId) async {
+                    if (selectedStateIds.contains(stateId)) {
+                      selectedStateIds.remove(stateId);
+                    } else {
+                      selectedStateIds.add(stateId);
+                    }
+                    appStore.setLoading(true);
+                    await getCityList({UserKeys.stateId: stateId}).then((value) {
+                      cityList = value.validate();
+                      cityList.forEach((element) {
+                        element.isSelected =
+                            filterStore.cityId.contains(element.id);
+                      });
+                      setState(() {});
+                    }).catchError((e) {
+                      toast(e.toString());
+                    });
+                    appStore.setLoading(false);
+                  },
+                ),
                 FilterCityComponent(cityList: cityList),
                 FilterPriceComponent(),
                 FilterRatingComponent(),

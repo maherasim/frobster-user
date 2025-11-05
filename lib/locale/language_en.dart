@@ -488,7 +488,7 @@ class LanguageEn extends BaseLanguage {
   String get lblSeeYourRatings => "See Your Ratings";
 
   @override
-  String get lblFeatured => "Featured";
+  String get lblFeatured => "Featured Services";
 
   @override
   String get lblNoServicesFound => "No services Found";

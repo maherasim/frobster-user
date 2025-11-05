@@ -108,60 +108,22 @@ class ServiceComponentState extends State<ServiceComponent> {
   }
 
   Widget _buildDefaultDashboard(BuildContext context) {
-    final String address =
-        (widget.serviceData.serviceAddressMapping ?? []).isEmpty
-            ? ''
-            : (widget.serviceData.serviceAddressMapping ?? [])
-                .first
-                .providerAddressMapping!
-                .address
-                .validate();
+    final double cardWidth = widget.width ?? double.infinity;
+    // Removed free-form address parsing as we now rely on mapped city/country
 
-    // Derive a compact City - Country label from a free-form provider address.
-    // Handles common formats like:
-    //  - "Street, City, Country"
-    //  - multiline addresses where the last line looks like "CA-56234 Montreal"
-    //  - values separated by hyphens (e.g., "F-75000 Paris")
-    String deriveCityCountryLabel(String rawAddress) {
-      if (rawAddress.isEmpty) return '';
-
-      // Normalize newlines/extra spaces and split into chunks
-      final normalized = rawAddress
-          .replaceAll('\n', ',')
-          .replaceAll(RegExp(r'\s+'), ' ')
-          .trim();
-      final chunks = normalized
-          .split(',')
-          .map((s) => s.trim())
-          .where((s) => s.isNotEmpty)
-          .toList();
-
-      // Prefer the last meaningful chunk (often contains city/country code)
-      final tail = chunks.isNotEmpty ? chunks.last : normalized;
-
-      // Try to parse ISO country code + postal code + city e.g. "CA-56234 Montreal"
-      final isoMatch =
-          RegExp(r'^([A-Z]{2})[-\s]?\d*\s*(.+)$').firstMatch(tail);
-      if (isoMatch != null) {
-        final code = isoMatch.group(1)!.trim();
-        var rest = isoMatch.group(2)!.trim();
-        // If there is a hyphenated remainder, keep the first city-like token
-        rest = rest.split(RegExp(r'\s*-\s*')).first.trim();
-        if (rest.isNotEmpty) return [rest, code].join(' - ');
-        return code; // fallback to country code only
-      }
-
-      // Fallbacks: if we have multiple chunks, pick the last two as city/country
-      if (chunks.length >= 2) {
-        final city = chunks.last;
-        final country = chunks[chunks.length - 2];
-        return [city, country].where((e) => e.isNotEmpty).join(' - ');
-      }
-
-      return tail; // last resort, show tail as-is
-    }
-
-    final String compactLocation = deriveCityCountryLabel(address);
+    // Prefer city/country coming directly from the service payload if present.
+    final ServiceAddressMapping? firstMapping =
+        (widget.serviceData.serviceAddressMapping?.isNotEmpty ?? false)
+            ? widget.serviceData.serviceAddressMapping!.first
+            : null;
+    final String mappedCity = firstMapping?.cityName.validate() ?? '';
+    final String mappedCountry = firstMapping?.countryName.validate() ?? '';
+    final String cityCountry = (mappedCity.isEmpty && mappedCountry.isEmpty)
+        ? 'N/A'
+        : (mappedCity.isNotEmpty && mappedCountry.isNotEmpty
+            ? '${mappedCity} - ${mappedCountry}'
+            : '${mappedCity}${mappedCountry}');
+    final String locationLabel = cityCountry;
     return Container(
       decoration: boxDecorationWithRoundedCorners(
         borderRadius: radius(),
@@ -179,7 +141,7 @@ class ServiceComponentState extends State<ServiceComponent> {
         children: [
           SizedBox(
             height: 205,
-            width: context.width(),
+            width: cardWidth,
             child: Stack(
               clipBehavior: Clip.none,
               children: [
@@ -196,7 +158,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                           : '',
                   fit: BoxFit.cover,
                   height: 180,
-                  width: widget.width ?? context.width(),
+                  width: double.infinity,
                   circle: false,
                 ).cornerRadiusWithClipRRectOnly(
                     topRight: defaultRadius.toInt(),
@@ -206,8 +168,8 @@ class ServiceComponentState extends State<ServiceComponent> {
                   left: 12,
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 2, vertical: 2),
-                    constraints:
-                        BoxConstraints(maxWidth: context.width() * 0.3),
+                    constraints: BoxConstraints(
+                        maxWidth: (cardWidth.isFinite ? cardWidth : context.width()) * 0.5),
                     decoration: boxDecorationWithShadow(
                       backgroundColor: context.cardColor.withValues(alpha: 0.9),
                       borderRadius: radius(24),
@@ -320,11 +282,11 @@ class ServiceComponentState extends State<ServiceComponent> {
                     .paddingSymmetric(horizontal: 16),
               ),
               4.height,
-              if (compactLocation.isNotEmpty)
+              if (locationLabel.isNotEmpty)
                 Marquee(
                   directionMarguee: DirectionMarguee.oneDirection,
                   child:
-                      Text(compactLocation, style: primaryTextStyle(size: 10))
+                      Text(locationLabel, style: primaryTextStyle(size: 10))
                           .paddingSymmetric(horizontal: 16),
                 ),
               8.height,
@@ -366,20 +328,21 @@ class ServiceComponentState extends State<ServiceComponent> {
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
-                        if (compactLocation.isNotEmpty)
-                          Text(
-                            compactLocation,
-                            style: secondaryTextStyle(
-                                size: 9,
-                                color: appStore.isDarkMode
-                                    ? Colors.white
-                                    : appTextSecondaryColor),
-                            maxLines: 1,
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        if (!widget.isSmallGrid)
-                          Text(
-                            'Member Since: ${(widget.serviceData.serviceAddressMapping ?? []).isEmpty ? '' : formatDate(widget.serviceData.serviceAddressMapping?.first.providerAddressMapping?.createdAt)}',
+                        // Removed service city/country under provider details to avoid duplication.
+                        Builder(builder: (context) {
+                          final String providerCity =
+                              widget.serviceData.cityName.validate();
+                          final String providerCountry =
+                              widget.serviceData.countryName.validate();
+                          if (providerCity.isEmpty && providerCountry.isEmpty) {
+                            return Offstage();
+                          }
+                          final String providerLabel = providerCity.isNotEmpty && providerCountry.isNotEmpty
+                              ? '${providerCity} - ${providerCountry}'
+                              : providerCity + providerCountry;
+
+                          return Text(
+                            providerLabel,
                             style: secondaryTextStyle(
                                 size: 10,
                                 color: appStore.isDarkMode
@@ -387,7 +350,8 @@ class ServiceComponentState extends State<ServiceComponent> {
                                     : appTextSecondaryColor),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
-                          ),
+                          );
+                        }),
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [

@@ -785,6 +785,7 @@ Future<BookingDetailResponse> getBookingDetail(Map<String, dynamic> request,
         BookingDetailResponse.fromJson(await handleResponse(
             await buildHttpResponse('booking-detail',
                 request: request, method: HttpMethodType.POST)));
+    bookingDetailResponse.normalizeLocations();
     callbackForStatus
         ?.call(bookingDetailResponse.bookingDetail!.status.validate());
     bookingDetailResponse.bookingDetail?.couponData =

@@ -10,8 +10,9 @@ import '../../../component/image_border_component.dart';
 
 class FilterCategoryComponent extends StatefulWidget {
   final List<CategoryData> catList;
+  final ValueChanged<int>? onCategoryToggle;
 
-  FilterCategoryComponent({required this.catList});
+  FilterCategoryComponent({required this.catList, this.onCategoryToggle});
 
   @override
   State<FilterCategoryComponent> createState() =>
@@ -72,6 +73,9 @@ class _FilterCategoryComponentState extends State<FilterCategoryComponent> {
             data.isSelected = false;
           } else {
             data.isSelected = true;
+          }
+          if (widget.onCategoryToggle != null) {
+            widget.onCategoryToggle!.call(data.id.validate());
           }
           setState(() {});
         });

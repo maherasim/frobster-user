@@ -100,6 +100,19 @@ class BookingDetailResponse {
     );
   }
 
+  // After factory: normalize booking/service location for easy UI access
+  // Prefer service_city_name/country_name when available
+  void normalizeLocations() {
+    if (service != null && bookingDetail != null) {
+      final sc = service!.serviceCityName.validate();
+      final sctr = service!.serviceCountryName.validate();
+      if (sc.isNotEmpty || sctr.isNotEmpty) {
+        bookingDetail!.cityName = sc;
+        bookingDetail!.countryName = sctr;
+      }
+    }
+  }
+
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     if (this.bookingActivity != null) {

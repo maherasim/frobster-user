@@ -8,8 +8,9 @@ import '../../../model/country_list_model.dart';
 
 class FilterCountryComponent extends StatefulWidget {
   final List<CountryListResponse> countryList;
+  final ValueChanged<int>? onCountryToggle;
 
-  FilterCountryComponent({required this.countryList});
+  FilterCountryComponent({required this.countryList, this.onCountryToggle});
 
   @override
   State<FilterCountryComponent> createState() => _FilterCountryComponentState();
@@ -61,6 +62,9 @@ class _FilterCountryComponentState extends State<FilterCountryComponent> {
             data.isSelected = false;
           } else {
             data.isSelected = true;
+          }
+          if (widget.onCountryToggle != null) {
+            widget.onCountryToggle!.call(data.id.validate());
           }
           setState(() {});
         });

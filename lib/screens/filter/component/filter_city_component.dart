@@ -1,5 +1,4 @@
 import 'package:booking_system_flutter/component/selected_item_widget.dart';
-import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -32,7 +31,7 @@ class _FilterCountryComponentState extends State<FilterCityComponent> {
   Widget build(BuildContext context) {
     if (widget.cityList.isEmpty)
       return NoDataWidget(
-        title: language.noCategoryFound,
+        title: 'No City Found',
         imageWidget: EmptyStateWidget(),
       );
 

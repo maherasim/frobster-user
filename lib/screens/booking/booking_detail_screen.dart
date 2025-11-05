@@ -326,13 +326,19 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  if (bookingDetail.address.validate().isNotEmpty)
-                    Text(
-                      bookingDetail.address.validate(),
+                  Builder(builder: (context) {
+                    final String city = bookingDetail.cityName.validate();
+                    final String country = bookingDetail.countryName.validate();
+                    final String label = (city.isEmpty && country.isEmpty)
+                        ? 'N/A'
+                        : '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
+                    return Text(
+                      label,
                       style: primaryTextStyle(),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
-                    ),
+                    );
+                  }),
 
                   /// Pricing Section
                   8.height,
@@ -396,23 +402,30 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                 crossAxisAlignment: CrossAxisAlignment.start,
                 spacing: 5,
                 children: [
-                  if (bookingDetail.address.validate().isNotEmpty)
+                  if ((bookingDetail.paymentStatus.validate() ==
+                          SERVICE_PAYMENT_STATUS_ADVANCE_PAID ||
+                      bookingDetail.isAdvancePaymentDone) &&
+                      bookingDetail.address.validate().isNotEmpty)
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       spacing: 8,
                       children: [
                         Text(
-                          '${language.hintAddress}: ',
+                          'Working Address: ',
                           style: secondaryTextStyle(),
                         ),
                         8.width,
-                        Marquee(
-                          child: Text(
-                            bookingDetail.address.validate(),
-                            style: boldTextStyle(size: 12),
-                            textAlign: TextAlign.left,
+                        Expanded(
+                          child: Marquee(
+                            directionMarguee: DirectionMarguee.oneDirection,
+                            child: Text(
+                              bookingDetail.address.validate(),
+                              style: boldTextStyle(size: 12),
+                              maxLines: 1,
+                              overflow: TextOverflow.visible,
+                            ),
                           ),
-                        )
+                        ),
                       ],
                     ),
                   Row(
@@ -481,15 +494,14 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   ),
                   Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    spacing: 8,
                     children: [
                       Text(
-                        'Total Price:',
+                        'Total Price: ',
                         style: secondaryTextStyle(),
                       ),
                       Marquee(
                         child: Text(
-                          '${bookingDetail.totalAmount}',
+                          '€ ${bookingDetail.totalAmount}',
                           style: boldTextStyle(size: 12),
                           textAlign: TextAlign.left,
                         ),

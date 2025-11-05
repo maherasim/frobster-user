@@ -181,8 +181,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           vertical: 8.0, horizontal: 10),
                       child: Text(
                         (() {
-                          final city = provider?.cityName.validate() ?? '';
-                          final country = provider?.countryName.validate() ?? '';
+                          final city = value.cityName.validate();
+                          final country = value.countryName.validate();
                           if (city.isEmpty && country.isEmpty) {
                             return 'N/A';
                           }
@@ -395,7 +395,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
       if (snap.hasError) {
         return Text(snap.error.toString()).center();
       } else if (snap.hasData) {
-        final String address = snap.data!.serviceDetail!.address.validate();
         return AppScaffold(
           appBarTitle: snap.data!.serviceDetail?.categoryName.validate() ?? '',
           showLoader: false,
@@ -482,18 +481,31 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                               weight: FontWeight.bold, size: 16),
                         ),
                         10.height,
-                        if ((snap.data?.provider?.cityName
+                        if ((snap.data?.serviceDetail?.serviceCityName
                                     .validate()
                                     .isNotEmpty ??
                                 false) ||
-                            (snap.data?.provider?.countryName
+                            (snap.data?.serviceDetail?.serviceCountryName
+                                    .validate()
+                                    .isNotEmpty ??
+                                false) ||
+                            (snap.data?.serviceDetail?.cityName
+                                    .validate()
+                                    .isNotEmpty ??
+                                false) ||
+                            (snap.data?.serviceDetail?.countryName
                                     .validate()
                                     .isNotEmpty ??
                                 false)) ...[
                           Text(
-                            "${snap.data?.provider?.cityName.validate() ?? ''}"
-                            "${(snap.data?.provider?.cityName.validate().isNotEmpty ?? false) && (snap.data?.provider?.countryName.validate().isNotEmpty ?? false) ? ' - ' : ''}"
-                            "${snap.data?.provider?.countryName.validate() ?? ''}",
+                            (() {
+                              
+                              final fallbackCity = snap.data?.serviceDetail?.cityName.validate() ?? '';
+                              final fallbackCountry = snap.data?.serviceDetail?.countryName.validate() ?? '';
+                              final city = fallbackCity.isNotEmpty ? fallbackCity : fallbackCity;
+                              final country = fallbackCountry.isNotEmpty ? fallbackCountry : fallbackCountry;
+                              return "$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country";
+                            })(),
                             style:
                                 secondaryTextStyle(size: 11, color: Colors.red),
                           ),
@@ -503,10 +515,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             .validate()
                             .isNotEmpty) ...[
                           Builder(builder: (context) {
-                            final city = snap.data?.provider?.cityName.validate() ?? '';
-                            final country = snap.data?.provider?.countryName.validate() ?? '';
+                            final primaryCity = snap.data?.serviceDetail?.serviceCityName.validate() ?? '';
+                            final primaryCountry = snap.data?.serviceDetail?.serviceCountryName.validate() ?? '';
+                            final fallbackCity = snap.data?.serviceDetail?.cityName.validate() ?? '';
+                            final fallbackCountry = snap.data?.serviceDetail?.countryName.validate() ?? '';
+                            final city = primaryCity.isNotEmpty ? primaryCity : fallbackCity;
+                            final country = primaryCountry.isNotEmpty ? primaryCountry : fallbackCountry;
                             final label = (city.isEmpty && country.isEmpty)
-                                ? address
+                                ? 'N/A'
                                 : "$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country";
                             return Text(
                               label,
@@ -593,6 +609,21 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           ],
                         ),
                         10.height,
+                        // Description right after Minimum Orders
+                        Text('Description',
+                                style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                        16.height,
+                        (snap.data!.serviceDetail!.description
+                                    .validate()
+                                    .isNotEmpty
+                            ? HtmlWidget(
+                                snap.data!.serviceDetail!.description
+                                    .validate(),
+                                textStyle: secondaryTextStyle(),
+                              )
+                            : Text(language.lblNotDescription,
+                                style: secondaryTextStyle())),
+                        10.height,
                         // Job Type (always show, fallback to N/A)
                         Row(
                           children: [
@@ -677,16 +708,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          snap.data!.serviceDetail!.description
-                                  .validate()
-                                  .isNotEmpty
-                              ? HtmlWidget(
-                                  snap.data!.serviceDetail!.description
-                                      .validate(),
-                                  textStyle: secondaryTextStyle(),
-                                )
-                              : Text(language.lblNotDescription,
-                                  style: secondaryTextStyle()),
                           8.height,
                           slotsAvailable(
                             data: snap.data!.serviceDetail!.bookingSlots

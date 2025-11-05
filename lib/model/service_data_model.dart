@@ -35,6 +35,12 @@ class ServiceData {
   String? categoryName;
   String? subCategoryName;
   String? providerImage;
+  // Provider location from list API
+  String? cityName;
+  String? countryName;
+  // Service location from detail/list
+  String? serviceCityName;
+  String? serviceCountryName;
   String? name;
   String? type;
   String? cancelationPolicy;
@@ -108,6 +114,10 @@ class ServiceData {
     this.price,
     this.providerId,
     this.providerName,
+    this.cityName,
+    this.countryName,
+    this.serviceCityName,
+    this.serviceCountryName,
     this.status,
     this.totalViews,
     this.totalRating,
@@ -160,6 +170,10 @@ class ServiceData {
       isFeatured: json['is_featured'],
       completedBookings: json['completed_booking_count'],
       providerName: json['provider_name'],
+      cityName: json['city_name'],
+      countryName: json['country_name'],
+      serviceCityName: json['service_city_name'],
+      serviceCountryName: json['service_country_name'],
       categoryName: json['category_name'],
       attachments: json['attchments'] != null
           ? List<String>.from(json['attchments'])
@@ -198,7 +212,8 @@ class ServiceData {
               .map((i) => Attachments.fromJson(i))
               .toList()
           : null,
-      visitType: json['visit_type'],
+      // Some endpoints may return a misspelled key 'visite_type'
+      visitType: json['visit_type'] ?? json['visite_type'],
       remoteWorkLevel: json['remote_work_level'],
       careerLevel: json['career_level'],
       travelRequired: json['travel_required']?.toString(),
@@ -242,6 +257,10 @@ class ServiceData {
     data['digital_service'] = this.isOnlineService;
     data['provider_id'] = this.providerId;
     data['provider_name'] = this.providerName;
+    if (this.cityName != null) data['city_name'] = this.cityName;
+    if (this.countryName != null) data['country_name'] = this.countryName;
+    if (this.serviceCityName != null) data['service_city_name'] = this.serviceCityName;
+    if (this.serviceCountryName != null) data['service_country_name'] = this.serviceCountryName;
     data['status'] = this.status;
     data['total_views'] = this.totalViews;
     data['total_rating'] = this.totalRating;
@@ -297,6 +316,8 @@ class ServiceAddressMapping {
   int? providerAddressId;
   String? createdAt;
   String? updatedAt;
+  String? cityName;
+  String? countryName;
   ProviderAddressMapping? providerAddressMapping;
 
   ServiceAddressMapping(
@@ -305,6 +326,8 @@ class ServiceAddressMapping {
       this.providerAddressId,
       this.createdAt,
       this.updatedAt,
+      this.cityName,
+      this.countryName,
       this.providerAddressMapping});
 
   ServiceAddressMapping.fromJson(Map<String, dynamic> json) {
@@ -313,6 +336,8 @@ class ServiceAddressMapping {
     providerAddressId = json['provider_address_id'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    cityName = json['city_name'];
+    countryName = json['country_name'];
     providerAddressMapping = json['provider_address_mapping'] != null
         ? new ProviderAddressMapping.fromJson(json['provider_address_mapping'])
         : null;
@@ -325,6 +350,8 @@ class ServiceAddressMapping {
     data['provider_address_id'] = this.providerAddressId;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    if (this.cityName != null) data['city_name'] = this.cityName;
+    if (this.countryName != null) data['country_name'] = this.countryName;
     if (this.providerAddressMapping != null) {
       data['provider_address_mapping'] = this.providerAddressMapping!.toJson();
     }
