@@ -30,6 +30,8 @@ import 'package:booking_system_flutter/screens/booking/track_location.dart';
 import 'package:booking_system_flutter/screens/payment/payment_screen.dart';
 import 'package:booking_system_flutter/screens/review/components/review_widget.dart';
 import 'package:booking_system_flutter/screens/review/rating_view_all_screen.dart';
+import 'package:booking_system_flutter/screens/chat/api_chat_screen.dart';
+import 'package:booking_system_flutter/model/chat_api_models.dart';
 import 'package:booking_system_flutter/screens/service/service_detail_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
@@ -1562,6 +1564,41 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     return Offstage();
   }
 
+  Future<void> _openChatWithUser({required int userId, required String displayName}) async {
+    if (userId == 0 || appStore.userId == userId) {
+      toast(language.lblNotValidUser);
+      return;
+    }
+    String? avatarUrl;
+    try {
+      if (displayName.isNotEmpty) {
+        final matches = await chatSearchUsers(query: displayName, page: 1);
+        if (matches.isNotEmpty) {
+          ChatUserItem? exact;
+          for (final u in matches) {
+            if (u.id == userId) {
+              exact = u; break;
+            }
+          }
+          avatarUrl = (exact ?? matches.first).avatarUrl;
+        }
+      }
+    } catch (e) {
+      // ignore avatar preload errors
+    }
+    try {
+      final open = await chatOpenWithUser(userId: userId);
+      ApiChatScreen(
+        conversationId: open.conversationId,
+        otherUserId: userId,
+        otherUserName: displayName,
+        otherUserAvatarUrl: avatarUrl,
+      ).launch(context);
+    } catch (e) {
+      toast(e.toString());
+    }
+  }
+
   Widget buildBodyWidget(AsyncSnapshot<BookingDetailResponse> snap) {
     return Stack(
       fit: StackFit.expand,
@@ -1693,6 +1730,114 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                         serviceDetail: snap.data!.service!,
                         bookingDetail: snap.data!.bookingDetail!,
                       ),
+
+                      /// Chat buttons after Accept + Advance Paid
+                      Builder(builder: (context) {
+                        final status = snap.data!.bookingDetail!.status;
+                        final pay = snap.data!.bookingDetail!.paymentStatus;
+                        final isAccepted = status == BookingStatusKeys.accept;
+                        final isAdvancePaid =
+                            pay == SERVICE_PAYMENT_STATUS_ADVANCE_PAID;
+                        if (!(isAccepted && isAdvancePaid)) return Offstage();
+
+                        final provider = snap.data!.providerData;
+                        final handymen = snap.data!.handymanData.validate();
+
+                        List<Widget> buttons = [];
+                        if (provider != null && provider.id != null) {
+                          buttons.add(
+                            AppButton(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.chat_bubble_outline, color: white, size: 18),
+                                      8.width,
+                                      Text(
+                                        provider.displayName.validate(),
+                                        style: boldTextStyle(color: white),
+                                        maxLines: 1,
+                                        overflow: TextOverflow.ellipsis,
+                                      ),
+                                    ],
+                                  ),
+                                  4.height,
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: white.withValues(alpha: 0.15),
+                                      borderRadius: radius(12),
+                                    ),
+                                    child: Text(
+                                      'Provider',
+                                      style: secondaryTextStyle(color: white, size: 10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              textColor: white,
+                              color: context.primaryColor,
+                              onTap: () => _openChatWithUser(
+                                userId: provider.id!.toInt(),
+                                displayName: provider.displayName.validate(),
+                              ),
+                            ).expand(),
+                          );
+                        }
+                        if (handymen.isNotEmpty && handymen.first.id != null) {
+                          if (buttons.isNotEmpty) buttons.add(16.width);
+                          buttons.add(
+                            AppButton(
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Icon(Icons.chat_bubble_outline, color: white, size: 18),
+                                      8.width,
+                                      Flexible(
+                                        child: Text(
+                                          handymen.first.displayName.validate(),
+                                          style: boldTextStyle(color: white),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  4.height,
+                                  Container(
+                                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 3),
+                                    decoration: BoxDecoration(
+                                      color: white.withValues(alpha: 0.15),
+                                      borderRadius: radius(12),
+                                    ),
+                                    child: Text(
+                                      'Handyman',
+                                      style: secondaryTextStyle(color: white, size: 10),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              textColor: white,
+                              color: context.primaryColor,
+                              onTap: () => _openChatWithUser(
+                                userId: handymen.first.id!.toInt(),
+                                displayName: handymen.first.displayName.validate(),
+                              ),
+                            ).expand(),
+                          );
+                        }
+
+                        if (buttons.isEmpty) return Offstage();
+                        return Row(children: buttons)
+                            .paddingOnly(top: 8, bottom: 8);
+                      }),
 
                       /// Refund Payment Details
                       refundPaymentDetailsWidget(snap: snap.data!),

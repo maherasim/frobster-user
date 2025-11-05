@@ -5,9 +5,10 @@ import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/model/post_job_detail_response.dart';
-import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
-import 'package:booking_system_flutter/screens/chat/user_chat_screen.dart';
+// removed old firebase chat import
+import 'package:booking_system_flutter/screens/chat/api_chat_screen.dart';
+import 'package:booking_system_flutter/model/chat_api_models.dart';
 import 'package:booking_system_flutter/screens/jobRequest/components/payment_dialog.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
@@ -462,19 +463,68 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         color: context.primaryColor,
                         width: context.width(),
                         onTap: () async {
-                          toast(language.pleaseWaitWhileWeLoadChatDetails +
-                              (postJobDetail?.provider?.id?.toString() ?? ''));
-                          UserData? user = await userService.getUserNull(
-                              email: postJobDetail?.provider?.id?.toString(),
-                              key: 'id');
-                          if (user != null) {
+                          final providerId = postJobDetail?.provider?.id;
+                          if (providerId == null) {
+                            toast(language.somethingWentWrong);
+                            return;
+                          }
+                          if (appStore.userId == providerId.toInt()) {
+                            toast(language.lblNotValidUser);
+                            return;
+                          }
+                          String? avatarUrl;
+                          try {
+                            final displayName = postJobDetail?.provider?.displayName.validate() ?? '';
+                            if (displayName.isNotEmpty) {
+                              final matches = await chatSearchUsers(query: displayName, page: 1);
+                              if (matches.isNotEmpty) {
+                                ChatUserItem? exact;
+                                for (final u in matches) {
+                                  if (u.id == providerId.toInt()) {
+                                    exact = u; break;
+                                  }
+                                }
+                                avatarUrl = (exact ?? matches.first).avatarUrl;
+                              }
+                            }
+                          } catch (e) {
+                            // ignore avatar preload errors
+                          }
+                          toast(language.pleaseWaitWhileWeLoadChatDetails + providerId.toString());
+                          try {
+                            final open = await chatOpenWithUser(userId: providerId.toInt());
                             Fluttertoast.cancel();
-                            UserChatScreen(receiverUser: user).launch(context);
-                          } else {
+                            ApiChatScreen(
+                              conversationId: open.conversationId,
+                              otherUserId: providerId.toInt(),
+                              otherUserName: postJobDetail?.provider?.displayName.validate() ?? '',
+                              otherUserAvatarUrl: avatarUrl,
+                            ).launch(context);
+                          } catch (e) {
                             Fluttertoast.cancel();
-                            await Future.delayed(Duration(milliseconds: 500));
-                            toast(
-                                "${postJobDetail?.provider?.displayName} ${language.isNotAvailableForChat}");
+                            // Fallback: try searching user by display name and open DM
+                            try {
+                              final displayName = postJobDetail?.provider?.displayName.validate() ?? '';
+                              if (displayName.isNotEmpty) {
+                                final matches = await chatSearchUsers(query: displayName, page: 1);
+                                if (matches.isNotEmpty) {
+                                  final match = matches.first;
+                                  final open2 = await chatOpenWithUser(userId: match.id);
+                                  ApiChatScreen(
+                                    conversationId: open2.conversationId,
+                                    otherUserId: match.id,
+                                    otherUserName: match.displayName,
+                                    otherUserAvatarUrl: match.avatarUrl,
+                                  ).launch(context);
+                                  return;
+                                }
+                              }
+                              await Future.delayed(Duration(milliseconds: 500));
+                              toast(e.toString());
+                            } catch (e2) {
+                              await Future.delayed(Duration(milliseconds: 500));
+                              toast(e2.toString());
+                            }
                           }
                         },
                       ),

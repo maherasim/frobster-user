@@ -48,6 +48,9 @@ import '../model/wallet_response.dart';
 import '../utils/app_configuration.dart';
 import '../utils/firebase_messaging_utils.dart';
 
+//region Chat Api (Frobster)
+import '../model/chat_api_models.dart';
+//endregion
 //region Auth Api
 Future<LoginResponse> createUser(Map request) async {
   return LoginResponse.fromJson(await (handleResponse(await buildHttpResponse(
@@ -1406,3 +1409,125 @@ Future<BaseResponseModel> peoviderWithdrawMoney({required Map request}) async {
       await buildHttpResponse('withdraw-money',
           request: request, method: HttpMethodType.POST)));
 }
+
+//region Chat Api
+Future<ConversationOpenResponse> chatOpenWithUser({
+  required int userId,
+  String title = 'Direct Message',
+}) async {
+  final body = {'user_id': userId, 'title': title};
+  final res = await handleResponse(
+    await buildHttpResponse('chat/open-with-user',
+        request: body, method: HttpMethodType.POST),
+  );
+  return ConversationOpenResponse.fromJson(res);
+}
+
+Future<List<ApiChatMessage>> chatFetchMessages({
+  required int conversationId,
+  int afterId = 0,
+  int beforeId = 0,
+  int limit = 50,
+}) async {
+  final endpoint =
+      'chat/$conversationId/messages?after_id=$afterId&before_id=$beforeId&limit=$limit';
+  final res = await handleResponse(
+    await buildHttpResponse(endpoint, method: HttpMethodType.GET),
+  );
+  final list = (res['messages'] as List? ?? const <dynamic>[])
+      .map((e) => ApiChatMessage.fromJson(e as Map<String, dynamic>))
+      .toList();
+  return list;
+}
+
+Future<ApiSendResponse> chatSendMessage({
+  required int conversationId,
+  String? message,
+  File? attachment,
+}) async {
+  final mp = await getMultiPartRequest('chat/$conversationId/send');
+  mp.headers.addAll(buildHeaderTokens());
+  if (message != null && message.trim().isNotEmpty) {
+    mp.fields['message'] = message.trim();
+  }
+  if (attachment != null) {
+    mp.files.add(await MultipartFile.fromPath('attachment', attachment.path));
+  }
+  late ApiSendResponse parsed;
+  await sendMultiPartRequest(mp, onSuccess: (body) {
+    final Map<String, dynamic> json = jsonDecode(body);
+    parsed = ApiSendResponse.fromJson(json);
+  }, onError: (err) {
+    throw err.toString();
+  });
+  return parsed;
+}
+
+Future<void> chatMarkRead({
+  required int conversationId,
+  required int upToId,
+}) async {
+  final body = {'up_to_id': upToId};
+  await handleResponse(await buildHttpResponse('chat/$conversationId/read',
+      method: HttpMethodType.POST, request: body));
+}
+
+String chatDownloadUrl({required int messageId}) {
+  // Consumer must attach Authorization header when performing the GET
+  return '${BASE_URL}chat/download/$messageId';
+}
+
+Future<({List<ChatConversation> conversations, PaginationMeta? pagination})>
+    chatListConversations({int page = 1}) async {
+  final res = await handleResponse(
+    await buildHttpResponse('chat/conversations?page=$page',
+        method: HttpMethodType.GET),
+  );
+
+  // Accept both shapes: { data, pagination } or { items, page, per_page, total }
+  final List rawList = (res['data'] as List?) ?? (res['items'] as List?) ?? const [];
+  final List<ChatConversation> convos = rawList
+      .map((e) => ChatConversation.fromJson(e as Map<String, dynamic>))
+      .toList();
+
+  PaginationMeta? meta;
+  if (res['pagination'] is Map<String, dynamic>) {
+    meta = PaginationMeta.fromJson(res['pagination']);
+  } else if (res['page'] != null && res['per_page'] != null && res['total'] != null) {
+    meta = PaginationMeta.fromFlat(
+      page: (res['page'] as num?)?.toInt() ?? page,
+      perPage: (res['per_page'] as num?)?.toInt() ?? 20,
+      total: (res['total'] as num?)?.toInt() ?? 0,
+    );
+  }
+
+  return (conversations: convos, pagination: meta);
+}
+
+Future<Map<String, int>> chatUnreadSummary() async {
+  final res = await handleResponse(
+    await buildHttpResponse('chat/unread', method: HttpMethodType.GET),
+  );
+  final Map<String, int> byConv = {};
+  final list = (res['by_conversation'] as List? ?? const []);
+  for (final item in list) {
+    if (item is Map<String, dynamic>) {
+      final id = (item['conversation_id'] as num?)?.toInt();
+      final unread = (item['unread'] as num?)?.toInt() ?? 0;
+      if (id != null) byConv['$id'] = unread;
+    }
+  }
+  return byConv;
+}
+
+Future<List<ChatUserItem>> chatSearchUsers({required String query, int page = 1}) async {
+  final res = await handleResponse(
+    await buildHttpResponse('chat/users?query=${Uri.encodeComponent(query)}&page=$page',
+        method: HttpMethodType.GET),
+  );
+  final data = (res['data'] as List? ?? const []);
+  return data
+      .map((e) => ChatUserItem.fromJson(e as Map<String, dynamic>))
+      .toList();
+}
+//endregion

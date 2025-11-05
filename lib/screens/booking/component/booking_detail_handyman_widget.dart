@@ -5,12 +5,10 @@ import 'package:booking_system_flutter/model/booking_data_model.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
-import 'package:booking_system_flutter/screens/chat/user_chat_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
-import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -187,63 +185,6 @@ class BookingDetailHandymanWidgetState
           8.height,
           Divider(color: context.dividerColor),
           8.height,
-          Row(
-            children: [
-              if (widget.handymanData.contactNumber.validate().isNotEmpty &&
-                  widget.bookingDetail.canCustomerContact)
-                AppButton(
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      ic_calling.iconImage(size: 18, color: Colors.white),
-                      8.width,
-                      Text(language.lblCall,
-                          style: boldTextStyle(color: white)),
-                    ],
-                  ).fit(),
-                  width: context.width(),
-                  color: primaryColor,
-                  elevation: 0,
-                  onTap: () {
-                    launchCall(widget.handymanData.contactNumber.validate());
-                  },
-                ).paddingRight(16).expand(),
-              AppButton(
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    ic_chat.iconImage(size: 18),
-                    8.width,
-                    Text(language.lblChat, style: boldTextStyle()),
-                  ],
-                ).fit(),
-                width: context.width(),
-                elevation: 0,
-                color: context.scaffoldBackgroundColor,
-                onTap: () async {
-                  toast(language.pleaseWaitWhileWeLoadChatDetails);
-                  UserData? user = await userService.getUserNull(
-                      email: widget.handymanData.email.validate());
-                  if (user != null) {
-                    Fluttertoast.cancel();
-                    isChattingAllow = widget.bookingDetail.status ==
-                            BookingStatusKeys.complete ||
-                        widget.bookingDetail.status ==
-                            BookingStatusKeys.cancelled;
-                    UserChatScreen(
-                            receiverUser: user,
-                            isChattingAllow: isChattingAllow)
-                        .launch(context);
-                  } else {
-                    Fluttertoast.cancel();
-                    toast(
-                        "${widget.handymanData.firstName} ${language.isNotAvailableForChat}");
-                  }
-                },
-              ).expand(),
-              16.width,
-            ],
-          ),
           8.height,
           if (widget.bookingDetail.status == BookingStatusKeys.complete)
             TextButton(
