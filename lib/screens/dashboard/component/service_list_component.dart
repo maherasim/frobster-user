@@ -28,17 +28,15 @@ class ServiceListComponent extends StatelessWidget {
         ).paddingSymmetric(horizontal: 16),
         8.height,
         serviceList.isNotEmpty
-            ? Wrap(
-                spacing: 16,
-                runSpacing: 16,
+            ? Column(
                 children: List.generate(serviceList.length, (index) {
                   return ServiceComponent(
                     isFromService: true,
                     isSmallGrid: true,
                     serviceData: serviceList[index],
                     isBorderEnabled: true,
-                    width: context.width() / 2 - 26,
-                  );
+                    width: context.width() - 32, // full width inside 16px padding
+                  ).paddingOnly(bottom: 16);
                 }),
               ).paddingSymmetric(horizontal: 16, vertical: 8)
             : Container(
