@@ -181,17 +181,19 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           vertical: 8.0, horizontal: 10),
                       child: Text(
                         (() {
+                          final addr = value.providerAddressMapping?.address.validate() ?? '';
+                          if (addr.trim().isNotEmpty) return addr;
                           final city = value.cityName.validate();
                           final country = value.countryName.validate();
-                          if (city.isEmpty && country.isEmpty) {
-                            return 'N/A';
-                          }
+                          if (city.isEmpty && country.isEmpty) return 'N/A';
                           return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
                         })(),
                         style: boldTextStyle(
                             color: isSelected
                                 ? Colors.white
                                 : textPrimaryColorGlobal),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                       ),
                     ),
                   ),
@@ -609,21 +611,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           ],
                         ),
                         10.height,
-                        // Description right after Minimum Orders
-                        Text('Description',
-                                style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                        16.height,
-                        (snap.data!.serviceDetail!.description
-                                    .validate()
-                                    .isNotEmpty
-                            ? HtmlWidget(
-                                snap.data!.serviceDetail!.description
-                                    .validate(),
-                                textStyle: secondaryTextStyle(),
-                              )
-                            : Text(language.lblNotDescription,
-                                style: secondaryTextStyle())),
-                        10.height,
                         // Job Type (always show, fallback to N/A)
                         Row(
                           children: [
@@ -692,6 +679,21 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             )
                           ],
                         ),
+                        10.height,
+                        // Description right after attributes
+                        Text('Description',
+                                style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                        16.height,
+                        (snap.data!.serviceDetail!.description
+                                    .validate()
+                                    .isNotEmpty
+                            ? HtmlWidget(
+                                snap.data!.serviceDetail!.description
+                                    .validate(),
+                                textStyle: secondaryTextStyle(),
+                              )
+                            : Text(language.lblNotDescription,
+                                style: secondaryTextStyle())),
                         10.height,
                       ],
                     ).paddingSymmetric(horizontal: 16),

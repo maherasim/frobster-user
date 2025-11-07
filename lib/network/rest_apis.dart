@@ -518,6 +518,8 @@ Future<List<ServiceData>> searchServiceAPI({
   String longitude = '',
   String isFeatured = '',
   String subCategory = '',
+  String countryId = '',
+  String cityId = '',
   int page = 1,
   required List<ServiceData> list,
   Function(bool)? lastPageCallBack,
@@ -530,6 +532,8 @@ Future<List<ServiceData>> searchServiceAPI({
   String isPriceMaxPara =
       isPriceMax.isNotEmpty ? 'is_price_max=$isPriceMax&' : '';
   String ratingPara = ratingId.isNotEmpty ? 'is_rating=$ratingId&' : '';
+  String countryPara = countryId.isNotEmpty ? 'country_id=$countryId&' : '';
+  String cityPara = cityId.isNotEmpty ? 'city_id=$cityId&' : '';
   String latitudes = latitude.isNotEmpty ? 'latitude=$latitude&' : '';
   String longitudes = longitude.isNotEmpty ? 'longitude=$longitude&' : '';
   String isFeatures = isFeatured.isNotEmpty ? 'is_featured=$isFeatured&' : '';
@@ -546,7 +550,7 @@ Future<List<ServiceData>> searchServiceAPI({
   try {
     var res = ServiceResponse.fromJson(await handleResponse(
       await buildHttpResponse(
-          'search-list?$categoryIds$customerId$providerIds$isPriceMinPara$isPriceMaxPara$ratingPara$subCategorys$searchPara$latitudes$longitudes$isFeatures$pages$perPages'),
+          'search-list?$categoryIds$customerId$providerIds$isPriceMinPara$isPriceMaxPara$ratingPara$countryPara$cityPara$subCategorys$searchPara$latitudes$longitudes$isFeatures$pages$perPages'),
     ));
 
     if (page == 1) list.clear();

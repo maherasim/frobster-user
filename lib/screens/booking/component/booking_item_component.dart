@@ -330,9 +330,9 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                     );
                   }),
                   8.height,
-                  if (widget.bookingData.bookingPackage != null)
-                    PriceWidget(
-                      price: widget.bookingData.totalAmount.validate(),
+                if (widget.bookingData.bookingPackage != null)
+                  PriceWidget(
+                      price: widget.bookingData.amount.validate(),
                       color: primaryColor,
                       isHourlyService: widget.bookingData.isHourlyService,
                       isFixedService: widget.bookingData.isFixedService,
@@ -353,7 +353,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                 isFreeService: widget.bookingData.type ==
                                     SERVICE_TYPE_FREE,
                                 price:
-                                    widget.bookingData.totalAmount.validate(),
+                                    widget.bookingData.amount.validate(),
                                 color: primaryColor,
                                 isHourlyService:
                                     widget.bookingData.isHourlyService,

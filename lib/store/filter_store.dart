@@ -18,6 +18,9 @@ abstract class FilterStoreBase with Store {
   List<int> countryId = ObservableList();
 
   @observable
+  List<int> stateId = ObservableList();
+
+  @observable
   List<int> cityId = ObservableList();
 
   @observable
@@ -158,6 +161,16 @@ abstract class FilterStoreBase with Store {
   }
 
   @action
+  Future<void> addToStateList({required int id}) async {
+    stateId.add(id);
+  }
+
+  @action
+  Future<void> removeFromStateList({required int id}) async {
+    stateId.removeWhere((element) => element == id);
+  }
+
+  @action
   Future<void> addToCategoryIdList({required int prodId}) async {
     categoryId.add(prodId);
   }
@@ -198,6 +211,7 @@ abstract class FilterStoreBase with Store {
     serviceId.clear();
     providerId.clear();
     countryId.clear();
+    stateId.clear();
     cityId.clear();
     handymanId.clear();
     bookingStatus.clear();

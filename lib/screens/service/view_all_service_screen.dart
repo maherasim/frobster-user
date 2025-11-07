@@ -88,6 +88,8 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
       providerId: widget.providerId != null
           ? widget.providerId.toString()
           : filterStore.providerId.join(","),
+      countryId: filterStore.countryId.join(','),
+      cityId: filterStore.cityId.join(','),
       isPriceMin: filterStore.isPriceMin,
       isPriceMax: filterStore.isPriceMax,
       ratingId: filterStore.ratingId.join(','),

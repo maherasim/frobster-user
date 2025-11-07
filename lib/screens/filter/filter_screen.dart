@@ -372,7 +372,13 @@ class _FilterScreenState extends State<FilterScreen> {
                         }
                       });
 
+                      filterStore.stateId = [];
                       filterStore.cityId = [];
+
+                      // Save selected state ids
+                      selectedStateIds.forEach((sId) {
+                        filterStore.addToStateList(id: sId);
+                      });
 
                       cityList.forEach((element) {
                         if (element.isSelected) {
