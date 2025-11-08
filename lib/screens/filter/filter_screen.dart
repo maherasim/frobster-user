@@ -110,20 +110,7 @@ class _FilterScreenState extends State<FilterScreen> {
       toast(e.toString());
     });
 
-    filterStore.countryId.forEach((countryId) async {
-      await getCityList({UserKeys.stateId: countryId}).then((value) {
-        cityList = value.validate();
-        cityList.forEach((element) {
-          // Mark previously selected cities as selected
-          if (filterStore.cityId.contains(element.id)) {
-            element.isSelected = true;
-          }
-        });
-        setState(() {});
-      }).catchError((e) {
-        toast(e.toString());
-      });
-    });
+    // City list is loaded when a state is picked; no initial city load here.
 
     appStore.setLoading(false);
   }
@@ -280,6 +267,9 @@ class _FilterScreenState extends State<FilterScreen> {
                         .then((value) async {
                       stateList = value.validate();
                       selectedStateIds.clear();
+                      // Clear city selections when country changes
+                      cityList.forEach((c) => c.isSelected = false);
+                      filterStore.cityId = [];
                       setState(() {});
                     }).catchError((e) {
                       toast(e.toString());
@@ -299,9 +289,15 @@ class _FilterScreenState extends State<FilterScreen> {
                     appStore.setLoading(true);
                     await getCityList({UserKeys.stateId: stateId}).then((value) {
                       cityList = value.validate();
+                      // Clear previous city selections when state changes
                       cityList.forEach((element) {
-                        element.isSelected =
-                            filterStore.cityId.contains(element.id);
+                        element.isSelected = filterStore.cityId.contains(element.id);
+                      });
+                      cityList.forEach((element) {
+                        // maintain only those that are in the new state set
+                        if (!value.any((v) => v.id == element.id)) {
+                          element.isSelected = false;
+                        }
                       });
                       setState(() {});
                     }).catchError((e) {
