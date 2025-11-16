@@ -110,11 +110,20 @@ class _FavouriteProviderComponentState
               Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/icons/verified_badge.jpg',
-                    width: 15,
-                    height: 15,
-                  ),
+                  // Verified/Not Verified Icon (dynamic from API)
+                  if (widget.data!.verifiedStickerIcon.validate().isNotEmpty)
+                    CachedImageWidget(
+                      url: widget.data!.verifiedStickerIcon.validate(),
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                    )
+                  else
+                    Image.asset(
+                      'assets/icons/verified_badge.jpg',
+                      width: 20,
+                      height: 20,
+                    ),
                   Marquee(
                     directionMarguee: DirectionMarguee.oneDirection,
                     child: Text(
@@ -123,11 +132,20 @@ class _FavouriteProviderComponentState
                       maxLines: 1,
                     ),
                   ).paddingSymmetric(horizontal: 8),
-                  Image.asset(
-                    'assets/icons/free-membership.jpg',
-                    width: 15,
-                    height: 15,
-                  ),
+                  // Membership Icon (dynamic from API)
+                  if (widget.data!.membershipIcon.validate().isNotEmpty)
+                    CachedImageWidget(
+                      url: widget.data!.membershipIcon.validate(),
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                    )
+                  else
+                    Image.asset(
+                      'assets/icons/free-membership.jpg',
+                      width: 20,
+                      height: 20,
+                    ),
                 ],
               ),
               Marquee(

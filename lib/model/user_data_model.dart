@@ -68,6 +68,11 @@ class UserData {
   // Handyman Data
   String? handymanImage;
   int? isVerifyHandyman;
+  
+  // Sticker Icons (from API)
+  String? verifiedStickerIcon; // URL to verified/not verified icon
+  String? membership; // Membership type: "gold", "silver", "basic", "free", etc.
+  String? membershipIcon; // URL to membership icon
 
   ///Local
   bool get isHandyman => userType == USER_TYPE_HANDYMAN;
@@ -168,6 +173,9 @@ class UserData {
     this.emailVerified,
     this.handymanImage,
     this.isVerifyHandyman,
+    this.verifiedStickerIcon,
+    this.membership,
+    this.membershipIcon,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
@@ -232,6 +240,9 @@ class UserData {
       emailVerified: json['is_email_verified'],
       handymanImage: json['handyman_image'],
       isVerifyHandyman: json['is_verified'],
+      verifiedStickerIcon: json['verified_sticker_icon'],
+      membership: json['membership'],
+      membershipIcon: json['membership_icon'],
     );
   }
 
@@ -300,6 +311,9 @@ class UserData {
       data['is_email_verified'] = this.emailVerified;
     if (this.handymanImage != null) data['handyman_image'] = this.handymanImage;
     if (this.isVerifyHandyman != null) data['is_verified'] = isVerifyHandyman;
+    if (this.verifiedStickerIcon != null) data['verified_sticker_icon'] = this.verifiedStickerIcon;
+    if (this.membership != null) data['membership'] = this.membership;
+    if (this.membershipIcon != null) data['membership_icon'] = this.membershipIcon;
     if (this.handymanReview != null) {
       data['handyman_review'] = this.handymanReview!.toJson();
     }

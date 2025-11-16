@@ -614,17 +614,35 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                             children: [
                               Row(
                                 children: [
-                                  Image.asset(
-                                    'assets/icons/verified_badge.jpg',
-                                    width: 15,
-                                    height: 15,
-                                  ),
+                                  // Verified/Not Verified Icon (dynamic from API)
+                                  if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
+                                    CachedImageWidget(
+                                      url: widget.bookingData.verifiedStickerIcon.validate(),
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.contain,
+                                    )
+                                  else
+                                    Image.asset(
+                                      'assets/icons/verified_badge.jpg',
+                                      width: 20,
+                                      height: 20,
+                                    ),
                                   SizedBox(width: 6),
-                                  Image.asset(
-                                    'assets/icons/free-membership.jpg',
-                                    width: 15,
-                                    height: 15,
-                                  ),
+                                  // Membership Icon (dynamic from API)
+                                  if (widget.bookingData.membershipIcon.validate().isNotEmpty)
+                                    CachedImageWidget(
+                                      url: widget.bookingData.membershipIcon.validate(),
+                                      width: 20,
+                                      height: 20,
+                                      fit: BoxFit.contain,
+                                    )
+                                  else
+                                    Image.asset(
+                                      'assets/icons/free-membership.jpg',
+                                      width: 20,
+                                      height: 20,
+                                    ),
                                 ],
                               ),
                               5.height,

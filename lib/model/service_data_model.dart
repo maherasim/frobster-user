@@ -66,6 +66,9 @@ class ServiceData {
   String? careerLevel;     // e.g., intern, junior, senior
   String? travelRequired;  // 'true'/'false'/'0'/'1' as string for easy display
   Map<String, MultiLanguageRequest>? translations;
+  String? verifiedStickerIcon; // URL to verified/not verified icon
+  String? membership; // Membership type: "gold", "silver", "basic", "free", etc.
+  String? membershipIcon; // URL to membership icon
 
   // Local
   bool isSelected = false;
@@ -146,6 +149,9 @@ class ServiceData {
     this.careerLevel,
     this.travelRequired,
     this.translations,
+    this.verifiedStickerIcon,
+    this.membership,
+    this.membershipIcon,
   });
 
   factory ServiceData.fromJson(Map<String, dynamic> json) {
@@ -232,6 +238,9 @@ class ServiceData {
       dateTimeVal: json['date_time_val'] != null
           ? List<String>.from(json['date_time_val'])
           : [],
+      verifiedStickerIcon: json['verified_sticker_icon'],
+      membership: json['membership'],
+      membershipIcon: json['membership_icon'],
     );
   }
 
@@ -306,6 +315,9 @@ class ServiceData {
       data['translations'] =
           translations!.map((key, value) => MapEntry(key, value.toJson()));
     }
+    if (this.verifiedStickerIcon != null) data['verified_sticker_icon'] = this.verifiedStickerIcon;
+    if (this.membership != null) data['membership'] = this.membership;
+    if (this.membershipIcon != null) data['membership_icon'] = this.membershipIcon;
     return data;
   }
 }

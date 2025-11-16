@@ -226,11 +226,20 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  Image.asset(
-                    'assets/icons/verified_badge.jpg',
-                    width: 20,
-                    height: 20,
-                  ),
+                  // Verified/Not Verified Icon (dynamic from API)
+                  if (widget.data.verifiedStickerIcon.validate().isNotEmpty)
+                    CachedImageWidget(
+                      url: widget.data.verifiedStickerIcon.validate(),
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                    )
+                  else
+                    Image.asset(
+                      'assets/icons/verified_badge.jpg',
+                      width: 20,
+                      height: 20,
+                    ),
                   6.width,
                   Text(
                     widget.data.displayName.validate(),
@@ -243,11 +252,20 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                       .visible((widget.data.isVerifyProvider == 1) ||
                           (widget.data.isVerifyHandyman == 1)),
                   6.width,
-                  Image.asset(
-                    'assets/icons/free-membership.jpg',
-                    width: 20,
-                    height: 20,
-                  ),
+                  // Membership Icon (dynamic from API)
+                  if (widget.data.membershipIcon.validate().isNotEmpty)
+                    CachedImageWidget(
+                      url: widget.data.membershipIcon.validate(),
+                      width: 20,
+                      height: 20,
+                      fit: BoxFit.contain,
+                    )
+                  else
+                    Image.asset(
+                      'assets/icons/free-membership.jpg',
+                      width: 20,
+                      height: 20,
+                    ),
                 ],
               ).expand(),
               12.width,

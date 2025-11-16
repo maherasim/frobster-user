@@ -688,6 +688,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           providerData: res.providerData!,
           canCustomerContact: canCustomerContact,
           providerIsHandyman: providerIsHandyman,
+          bookingDetail: res.bookingDetail,
         ).onTap(
           () {
             ProviderInfoScreen(

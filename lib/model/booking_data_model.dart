@@ -23,6 +23,9 @@ class BookingData {
   String? providerName;
   int? providerIsVerified;
   String? providerImage;
+  String? verifiedStickerIcon; // URL to verified/not verified icon
+  String? membership; // Membership type: "gold", "silver", "basic", "free", etc.
+  String? membershipIcon; // URL to membership icon
   String? serviceName;
   String? paymentStatus;
   String? paymentMethod;
@@ -135,6 +138,9 @@ class BookingData {
     this.providerName,
     this.providerImage,
     this.providerIsVerified,
+    this.verifiedStickerIcon,
+    this.membership,
+    this.membershipIcon,
     this.quantity,
     this.serviceAttachments,
     this.serviceId,
@@ -203,7 +209,10 @@ class BookingData {
           ? json['provider_is_verified'] == true
               ? 1
               : 0
-          : 0,
+          : json['provider_is_verified'],
+      verifiedStickerIcon: json['verified_sticker_icon'],
+      membership: json['membership'],
+      membershipIcon: json['membership_icon'],
       quantity: json['quantity'],
       serviceAttachments: json['service_attchments'] != null
           ? new List<String>.from(json['service_attchments'])
@@ -281,6 +290,9 @@ class BookingData {
     data['provider_name'] = this.providerName;
     data['provider_image'] = this.providerImage;
     data['provider_is_verified'] = this.providerIsVerified;
+    if (this.verifiedStickerIcon != null) data['verified_sticker_icon'] = this.verifiedStickerIcon;
+    if (this.membership != null) data['membership'] = this.membership;
+    if (this.membershipIcon != null) data['membership_icon'] = this.membershipIcon;
     data['quantity'] = this.quantity;
     data['service_id'] = this.serviceId;
     data['service_name'] = this.serviceName;

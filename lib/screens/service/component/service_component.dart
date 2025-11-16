@@ -302,17 +302,35 @@ class ServiceComponentState extends State<ServiceComponent> {
                       children: [
                         Row(
                           children: [
-                            Image.asset(
-                              'assets/icons/verified_badge.jpg',
-                              width: 15,
-                              height: 15,
-                            ),
+                            // Verified/Not Verified Icon (dynamic from API)
+                            if (widget.serviceData.verifiedStickerIcon.validate().isNotEmpty)
+                              CachedImageWidget(
+                                url: widget.serviceData.verifiedStickerIcon.validate(),
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.contain,
+                              )
+                            else
+                              Image.asset(
+                                'assets/icons/verified_badge.jpg',
+                                width: 20,
+                                height: 20,
+                              ),
                             SizedBox(width: 6),
-                            Image.asset(
-                              'assets/icons/free-membership.jpg',
-                              width: 15,
-                              height: 15,
-                            ),
+                            // Membership Icon (dynamic from API)
+                            if (widget.serviceData.membershipIcon.validate().isNotEmpty)
+                              CachedImageWidget(
+                                url: widget.serviceData.membershipIcon.validate(),
+                                width: 20,
+                                height: 20,
+                                fit: BoxFit.contain,
+                              )
+                            else
+                              Image.asset(
+                                'assets/icons/free-membership.jpg',
+                                width: 20,
+                                height: 20,
+                              ),
                           ],
                         ),
                         if (widget.serviceData.providerName

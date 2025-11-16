@@ -100,17 +100,41 @@ class BookingDetailProviderWidgetState
                 children: [
                   Row(
                     children: [
-                      Image.asset(
-                        'assets/icons/verified_badge.jpg',
-                        width: 15,
-                        height: 15,
-                      ),
+                      // Verified/Not Verified Icon (dynamic from API - check bookingDetail first, then providerData)
+                      if ((widget.bookingDetail?.verifiedStickerIcon.validate().isNotEmpty == true) ||
+                          (widget.providerData.verifiedStickerIcon.validate().isNotEmpty))
+                        CachedImageWidget(
+                          url: (widget.bookingDetail?.verifiedStickerIcon.validate().isNotEmpty == true)
+                              ? widget.bookingDetail!.verifiedStickerIcon.validate()
+                              : widget.providerData.verifiedStickerIcon.validate(),
+                          width: 20,
+                          height: 20,
+                          fit: BoxFit.contain,
+                        )
+                      else
+                        Image.asset(
+                          'assets/icons/verified_badge.jpg',
+                          width: 20,
+                          height: 20,
+                        ),
                       SizedBox(width: 6),
-                      Image.asset(
-                        'assets/icons/free-membership.jpg',
-                        width: 15,
-                        height: 15,
-                      ),
+                      // Membership Icon (dynamic from API - check bookingDetail first, then providerData)
+                      if ((widget.bookingDetail?.membershipIcon.validate().isNotEmpty == true) ||
+                          (widget.providerData.membershipIcon.validate().isNotEmpty))
+                        CachedImageWidget(
+                          url: (widget.bookingDetail?.membershipIcon.validate().isNotEmpty == true)
+                              ? widget.bookingDetail!.membershipIcon.validate()
+                              : widget.providerData.membershipIcon.validate(),
+                          width: 20,
+                          height: 20,
+                          fit: BoxFit.contain,
+                        )
+                      else
+                        Image.asset(
+                          'assets/icons/free-membership.jpg',
+                          width: 20,
+                          height: 20,
+                        ),
                     ],
                   ),
                   5.height,
