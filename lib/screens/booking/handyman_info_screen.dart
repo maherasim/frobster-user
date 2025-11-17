@@ -1,3 +1,5 @@
+import 'dart:ui' as ui;
+import 'package:http/http.dart' as http;
 import 'package:booking_system_flutter/component/back_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -104,8 +106,8 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                     ),
                   ),
                   
-                  // Profile Image Header - COMMENTED TO TEST
-                  // _buildProfileHeader(userData),
+                  // Profile Image Header
+                  _buildProfileHeader(userData),
                   
                   // Main Content Card
                   Container(
@@ -194,19 +196,36 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
       height: 280,
       child: Stack(
         children: [
-          // Profile Image - Simplest possible approach
-          Container(
+          // Profile Image - Using low-level dart:ui to avoid triggering image picker
+          _LowLevelImageWidget(
+            imageUrl: userData.profileImage.validate(),
             height: 280,
             width: context.width(),
-            color: context.cardColor,
-            child: userData.profileImage.validate().isNotEmpty
-                ? Image.network(
-                    userData.profileImage.validate(),
-                    fit: BoxFit.cover,
-                    height: 280,
-                    width: context.width(),
-                  )
-                : Icon(Icons.person, size: 80, color: context.iconColor),
+            placeholder: Container(
+              height: 280,
+              width: context.width(),
+              color: context.cardColor,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Container(
+                    width: 120,
+                    height: 120,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: primaryColor.withValues(alpha: 0.1),
+                    ),
+                    child: Icon(Icons.person, size: 80, color: primaryColor),
+                  ),
+                  16.height,
+                  Text(
+                    userData.displayName.validate(),
+                    style: boldTextStyle(size: 20),
+                    textAlign: TextAlign.center,
+                  ),
+                ],
+              ),
+            ),
           ),
           
           // Rating Badge
@@ -532,5 +551,135 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
         ],
       ),
     );
+  }
+}
+
+// Low-level image widget using dart:ui to completely bypass Flutter's image widgets
+class _LowLevelImageWidget extends StatefulWidget {
+  final String imageUrl;
+  final double height;
+  final double width;
+  final Widget placeholder;
+
+  const _LowLevelImageWidget({
+    required this.imageUrl,
+    required this.height,
+    required this.width,
+    required this.placeholder,
+  });
+
+  @override
+  State<_LowLevelImageWidget> createState() => _LowLevelImageWidgetState();
+}
+
+class _LowLevelImageWidgetState extends State<_LowLevelImageWidget> {
+  ui.Image? _uiImage;
+  bool _isLoading = false;
+  bool _hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.imageUrl.isNotEmpty) {
+      _loadImage();
+    }
+  }
+
+  Future<void> _loadImage() async {
+    if (widget.imageUrl.isEmpty) return;
+    
+    setState(() {
+      _isLoading = true;
+      _hasError = false;
+    });
+
+    try {
+      final response = await http.get(Uri.parse(widget.imageUrl));
+      if (response.statusCode == 200) {
+        final codec = await ui.instantiateImageCodec(response.bodyBytes);
+        final frame = await codec.getNextFrame();
+        
+        if (mounted) {
+          setState(() {
+            _uiImage = frame.image;
+            _isLoading = false;
+            _hasError = false;
+          });
+        }
+      } else {
+        if (mounted) {
+          setState(() {
+            _isLoading = false;
+            _hasError = true;
+          });
+        }
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() {
+          _isLoading = false;
+          _hasError = true;
+        });
+      }
+    }
+  }
+
+  @override
+  void dispose() {
+    _uiImage?.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (widget.imageUrl.isEmpty || _hasError) {
+      return widget.placeholder;
+    }
+
+    if (_isLoading) {
+      return Container(
+        height: widget.height,
+        width: widget.width,
+        color: context.cardColor,
+        child: Center(
+          child: CircularProgressIndicator(),
+        ),
+      );
+    }
+
+    if (_uiImage != null) {
+      return CustomPaint(
+        size: Size(widget.width, widget.height),
+        painter: _ImagePainter(_uiImage!),
+      );
+    }
+
+    return widget.placeholder;
+  }
+}
+
+// Custom painter to draw the ui.Image
+class _ImagePainter extends CustomPainter {
+  final ui.Image image;
+
+  _ImagePainter(this.image);
+
+  @override
+  void paint(Canvas canvas, Size size) {
+    final paint = Paint();
+    final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
+    final dstRect = Rect.fromLTWH(0, 0, size.width, size.height);
+    
+    canvas.drawImageRect(
+      image,
+      srcRect,
+      dstRect,
+      paint,
+    );
+  }
+
+  @override
+  bool shouldRepaint(_ImagePainter oldDelegate) {
+    return oldDelegate.image != image;
   }
 }
