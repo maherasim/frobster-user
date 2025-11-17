@@ -227,7 +227,8 @@ class ChatUserItem {
   factory ChatUserItem.fromJson(Map<String, dynamic> json) {
     return ChatUserItem(
       id: (json['id'] as num?)?.toInt() ?? 0,
-      displayName: (json['display_name'] as String?) ?? '',
+      // API returns "name" field, but we also support "display_name" for backward compatibility
+      displayName: (json['name'] as String?) ?? (json['display_name'] as String?) ?? '',
       avatarUrl: json['avatar_url'] as String?,
       userType: json['user_type'] as String?,
     );

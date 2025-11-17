@@ -503,7 +503,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       ),
                       Marquee(
                         child: Text(
-                          '€ ${bookingDetail.totalAmount}',
+                          '€ ${bookingDetail.totalAmount.validate().toStringAsFixed(2)}',
                           style: boldTextStyle(size: 12),
                           textAlign: TextAlign.left,
                         ),
@@ -1565,7 +1565,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     return Offstage();
   }
 
-  Future<void> _openChatWithUser({required int userId, required String displayName}) async {
+  Future<void> _openChatWithUser({
+    required int userId, 
+    required String displayName,
+    String? profileImageUrl, // Profile image from booking detail data
+  }) async {
     if (userId == 0 || appStore.userId == userId) {
       toast(language.lblNotValidUser);
       return;
@@ -1587,6 +1591,12 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     } catch (e) {
       // ignore avatar preload errors
     }
+    
+    // Use profile image from booking detail as fallback if chatSearchUsers didn't return avatar
+    if (avatarUrl == null || avatarUrl.isEmpty) {
+      avatarUrl = profileImageUrl;
+    }
+    
     try {
       final open = await chatOpenWithUser(userId: userId);
       ApiChatScreen(
@@ -1784,6 +1794,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                               onTap: () => _openChatWithUser(
                                 userId: provider.id!.toInt(),
                                 displayName: provider.displayName.validate(),
+                                profileImageUrl: provider.profileImage.validate(),
                               ),
                             ).expand(),
                           );
@@ -1830,6 +1841,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                               onTap: () => _openChatWithUser(
                                 userId: handymen.first.id!.toInt(),
                                 displayName: handymen.first.displayName.validate(),
+                                profileImageUrl: handymen.first.profileImage.validate(),
                               ),
                             ).expand(),
                           );

@@ -1526,10 +1526,12 @@ Future<Map<String, int>> chatUnreadSummary() async {
 
 Future<List<ChatUserItem>> chatSearchUsers({required String query, int page = 1}) async {
   final res = await handleResponse(
-    await buildHttpResponse('chat/users?query=${Uri.encodeComponent(query)}&page=$page',
+    // API uses "search" parameter, not "query"
+    await buildHttpResponse('chat/users?search=${Uri.encodeComponent(query)}&page=$page&per_page=20',
         method: HttpMethodType.GET),
   );
-  final data = (res['data'] as List? ?? const []);
+  // API returns "users" array, not "data" array
+  final data = (res['users'] as List? ?? res['data'] as List? ?? const []);
   return data
       .map((e) => ChatUserItem.fromJson(e as Map<String, dynamic>))
       .toList();
