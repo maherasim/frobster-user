@@ -767,6 +767,262 @@ void share({required String url, required BuildContext context}) {
   }
 }
 
+/// Generic function to share service content - opens platform directly with clipboard content
+/// Downloads image URL and copies text to clipboard, then opens the platform
+Future<void> shareServiceContent({
+  required String serviceImageUrl,
+  required String serviceLink,
+  required String price,
+  required String city,
+  required String country,
+  required String providerName,
+  required String serviceName,
+  required String platformUrl,
+  String platformName = 'social media',
+}) async {
+  try {
+    // Build the post text with all collected information
+    final String location = (city.isNotEmpty && country.isNotEmpty)
+        ? '$city - $country'
+        : (city.isNotEmpty ? city : country);
+    
+    // Build post text without image URL
+    String postText = '''
+$serviceName
+
+Provider: $providerName
+Price: $price
+Location: $location
+
+$serviceLink
+''';
+
+    // Copy the post text to clipboard
+    await Clipboard.setData(ClipboardData(text: postText));
+    
+    // Show toast message
+    toast('Content copied! Opening $platformName...');
+
+    // Open the platform directly
+    try {
+      final Uri platformUri = Uri.parse(platformUrl);
+      await launchUrl(platformUri, mode: LaunchMode.externalApplication);
+      
+      // Wait a moment for the platform to open, then show paste hint
+      Future.delayed(Duration(milliseconds: 1500), () {
+        toast('Content is copied! Click + icon, then paste and post');
+      });
+    } catch (e) {
+      log('Failed to open $platformName: $e');
+      toast('Failed to open $platformName. Content is copied to clipboard.');
+    }
+  } catch (e) {
+    log('Failed to share to $platformName: $e');
+    toast('Failed to share. Please try again.');
+  }
+}
+
+/// Share service to Facebook with pre-filled content
+/// Collects: image, link, price, city, country, provider name
+/// Copies content to clipboard and opens Facebook directly
+Future<void> shareToFacebook({
+  required String serviceImageUrl,
+  required String serviceLink,
+  required String price,
+  required String city,
+  required String country,
+  required String providerName,
+  required String serviceName,
+}) async {
+  final String encodedUrl = Uri.encodeComponent(serviceLink);
+  final String facebookUrl = 'https://www.facebook.com/sharer/sharer.php?u=$encodedUrl';
+  
+  await shareServiceContent(
+    serviceImageUrl: serviceImageUrl,
+    serviceLink: serviceLink,
+    price: price,
+    city: city,
+    country: country,
+    providerName: providerName,
+    serviceName: serviceName,
+    platformUrl: facebookUrl,
+    platformName: 'Facebook',
+  );
+}
+
+/// Share service to Instagram with pre-filled content
+/// Collects: image, link, price, city, country, provider name
+/// Copies content to clipboard and opens Instagram directly
+Future<void> shareToInstagram({
+  required String serviceImageUrl,
+  required String serviceLink,
+  required String price,
+  required String city,
+  required String country,
+  required String providerName,
+  required String serviceName,
+}) async {
+  // Instagram doesn't have a direct share URL, so open the app
+  final String instagramUrl = Platform.isAndroid 
+      ? 'https://www.instagram.com/' 
+      : 'instagram://';
+  
+  await shareServiceContent(
+    serviceImageUrl: serviceImageUrl,
+    serviceLink: serviceLink,
+    price: price,
+    city: city,
+    country: country,
+    providerName: providerName,
+    serviceName: serviceName,
+    platformUrl: instagramUrl,
+    platformName: 'Instagram',
+  );
+}
+
+/// Share service to Twitter with pre-filled content
+/// Collects: image, link, price, city, country, provider name
+/// Copies content to clipboard and opens Twitter app first, then web if app not available
+Future<void> shareToTwitter({
+  required String serviceImageUrl,
+  required String serviceLink,
+  required String price,
+  required String city,
+  required String country,
+  required String providerName,
+  required String serviceName,
+}) async {
+  // Build the post text
+  final String location = (city.isNotEmpty && country.isNotEmpty)
+      ? '$city - $country'
+      : (city.isNotEmpty ? city : country);
+  
+  final String postText = '''
+$serviceName
+
+Provider: $providerName
+Price: $price
+Location: $location
+
+$serviceLink
+''';
+
+  // Copy the post text to clipboard
+  await Clipboard.setData(ClipboardData(text: postText));
+  
+  // Show toast message
+  toast('Content copied! Opening Twitter...');
+
+  // Try Twitter app first, then fall back to web
+  final String encodedText = Uri.encodeComponent('$serviceName - $serviceLink');
+  final String encodedUrl = Uri.encodeComponent(serviceLink);
+  
+  // Twitter app URL schemes
+  final String twitterAppUrl = 'twitter://post?message=$encodedText';
+  final String twitterWebUrl = 'https://twitter.com/intent/tweet?text=$encodedText&url=$encodedUrl';
+  
+  bool launched = false;
+  
+  // Try to open Twitter app first
+  try {
+    final Uri appUri = Uri.parse(twitterAppUrl);
+    if (await canLaunchUrl(appUri)) {
+      await launchUrl(appUri, mode: LaunchMode.externalApplication);
+      launched = true;
+      Future.delayed(Duration(milliseconds: 1500), () {
+        toast('Content is copied! Click + icon, then paste and post');
+      });
+    }
+  } catch (e) {
+    log('Twitter app launch failed: $e');
+  }
+  
+  // If app didn't launch, use web version
+  if (!launched) {
+    try {
+      final Uri webUri = Uri.parse(twitterWebUrl);
+      await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      Future.delayed(Duration(milliseconds: 1500), () {
+        toast('Content is copied! Paste it in the tweet');
+      });
+    } catch (e) {
+      log('Failed to open Twitter: $e');
+      toast('Failed to open Twitter. Content is copied to clipboard.');
+    }
+  }
+}
+
+/// Share service to LinkedIn with pre-filled content
+/// Collects: image, link, price, city, country, provider name
+/// Copies content to clipboard and opens LinkedIn app first, then web if app not available
+Future<void> shareToLinkedIn({
+  required String serviceImageUrl,
+  required String serviceLink,
+  required String price,
+  required String city,
+  required String country,
+  required String providerName,
+  required String serviceName,
+}) async {
+  // Build the post text
+  final String location = (city.isNotEmpty && country.isNotEmpty)
+      ? '$city - $country'
+      : (city.isNotEmpty ? city : country);
+  
+  final String postText = '''
+$serviceName
+
+Provider: $providerName
+Price: $price
+Location: $location
+
+$serviceLink
+''';
+
+  // Copy the post text to clipboard
+  await Clipboard.setData(ClipboardData(text: postText));
+  
+  // Show toast message
+  toast('Content copied! Opening LinkedIn...');
+
+  // Try LinkedIn app first, then fall back to web
+  final String encodedUrl = Uri.encodeComponent(serviceLink);
+  
+  // LinkedIn app URL schemes
+  final String linkedInAppUrl = 'linkedin://shareArticle?url=$encodedUrl';
+  final String linkedInWebUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=$encodedUrl';
+  
+  bool launched = false;
+  
+  // Try to open LinkedIn app first
+  try {
+    final Uri appUri = Uri.parse(linkedInAppUrl);
+    if (await canLaunchUrl(appUri)) {
+      await launchUrl(appUri, mode: LaunchMode.externalApplication);
+      launched = true;
+      Future.delayed(Duration(milliseconds: 1500), () {
+        toast('Content is copied! Click + icon, then paste and post');
+      });
+    }
+  } catch (e) {
+    log('LinkedIn app launch failed: $e');
+  }
+  
+  // If app didn't launch, use web version
+  if (!launched) {
+    try {
+      final Uri webUri = Uri.parse(linkedInWebUrl);
+      await launchUrl(webUri, mode: LaunchMode.externalApplication);
+      Future.delayed(Duration(milliseconds: 1500), () {
+        toast('Content is copied! Paste it in the post');
+      });
+    } catch (e) {
+      log('Failed to open LinkedIn: $e');
+      toast('Failed to open LinkedIn. Content is copied to clipboard.');
+    }
+  }
+}
+
 Future<List<File>> getMultipleImageSource({bool isCamera = true}) async {
   final pickedImage = await ImagePicker().pickMultiImage();
   return pickedImage.map((e) => File(e.path)).toList();

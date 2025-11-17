@@ -15,8 +15,9 @@ import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
 import '../../component/loader_widget.dart';
 import '../../utils/colors.dart';
-import '../../utils/common.dart';
-import '../../utils/images.dart';
+
+// NOTE: This screen is READ-ONLY. No edit/update functionality should be added.
+// CustomImagePicker or any upload components should NEVER be used here.
 
 class HandymanInfoScreen extends StatefulWidget {
   final int? handymanId;

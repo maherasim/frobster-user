@@ -11,7 +11,9 @@ import 'package:booking_system_flutter/screens/newDashboard/dashboard_4/componen
 import 'package:booking_system_flutter/screens/service/service_detail_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
+import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
@@ -68,6 +70,135 @@ class ServiceComponentState extends State<ServiceComponent> {
 
   Future<void> init() async {
     // Initialize any required data
+  }
+
+  /// Get service data for sharing
+  Map<String, String> _getServiceDataForSharing() {
+    // Get service image URL
+    final String serviceImageUrl = widget.isFavouriteService
+        ? (widget.serviceData.serviceAttachments.validate().isNotEmpty
+            ? widget.serviceData.serviceAttachments!.first.validate()
+            : '')
+        : (widget.serviceData.attachments.validate().isNotEmpty
+            ? widget.serviceData.attachments!.first.validate()
+            : '');
+
+    // Construct service detail URL
+    final int serviceId = widget.isFavouriteService
+        ? widget.serviceData.serviceId.validate().toInt()
+        : widget.serviceData.id.validate();
+    final String serviceLink = '$DOMAIN_URL/service-detail/$serviceId';
+
+    // Format price
+    String priceText = '';
+    if (widget.serviceData.type.validate() == SERVICE_TYPE_FREE) {
+      priceText = language.lblFree;
+    } else {
+      priceText = widget.serviceData.price.validate().toPriceFormat();
+      if (widget.serviceData.isHourlyService) {
+        priceText += '/Hour';
+      } else if (widget.serviceData.isDailyService) {
+        priceText += '/Day';
+      } else if (widget.serviceData.isFixedService) {
+        priceText += '/Fix';
+      }
+    }
+
+    // Get city and country
+    final String city = widget.serviceData.cityName.validate();
+    final String country = widget.serviceData.countryName.validate();
+
+    // Get provider name
+    final String providerName = widget.serviceData.providerName.validate();
+
+    // Get service name
+    final String serviceName = widget.serviceData.name.validate();
+
+    return {
+      'serviceImageUrl': serviceImageUrl,
+      'serviceLink': serviceLink,
+      'price': priceText,
+      'city': city,
+      'country': country,
+      'providerName': providerName,
+      'serviceName': serviceName,
+    };
+  }
+
+  /// Handle Facebook sharing
+  Future<void> _handleFacebookShare() async {
+    try {
+      final data = _getServiceDataForSharing();
+      await shareToFacebook(
+        serviceImageUrl: data['serviceImageUrl']!,
+        serviceLink: data['serviceLink']!,
+        price: data['price']!,
+        city: data['city']!,
+        country: data['country']!,
+        providerName: data['providerName']!,
+        serviceName: data['serviceName']!,
+      );
+    } catch (e) {
+      log('Error sharing to Facebook: $e');
+      toast('Failed to share to Facebook. Please try again.');
+    }
+  }
+
+  /// Handle Instagram sharing
+  Future<void> _handleInstagramShare() async {
+    try {
+      final data = _getServiceDataForSharing();
+      await shareToInstagram(
+        serviceImageUrl: data['serviceImageUrl']!,
+        serviceLink: data['serviceLink']!,
+        price: data['price']!,
+        city: data['city']!,
+        country: data['country']!,
+        providerName: data['providerName']!,
+        serviceName: data['serviceName']!,
+      );
+    } catch (e) {
+      log('Error sharing to Instagram: $e');
+      toast('Failed to share to Instagram. Please try again.');
+    }
+  }
+
+  /// Handle Twitter sharing
+  Future<void> _handleTwitterShare() async {
+    try {
+      final data = _getServiceDataForSharing();
+      await shareToTwitter(
+        serviceImageUrl: data['serviceImageUrl']!,
+        serviceLink: data['serviceLink']!,
+        price: data['price']!,
+        city: data['city']!,
+        country: data['country']!,
+        providerName: data['providerName']!,
+        serviceName: data['serviceName']!,
+      );
+    } catch (e) {
+      log('Error sharing to Twitter: $e');
+      toast('Failed to share to Twitter. Please try again.');
+    }
+  }
+
+  /// Handle LinkedIn sharing
+  Future<void> _handleLinkedInShare() async {
+    try {
+      final data = _getServiceDataForSharing();
+      await shareToLinkedIn(
+        serviceImageUrl: data['serviceImageUrl']!,
+        serviceLink: data['serviceLink']!,
+        price: data['price']!,
+        city: data['city']!,
+        country: data['country']!,
+        providerName: data['providerName']!,
+        serviceName: data['serviceName']!,
+      );
+    } catch (e) {
+      log('Error sharing to LinkedIn: $e');
+      toast('Failed to share to LinkedIn. Please try again.');
+    }
   }
 
   @override
@@ -398,7 +529,12 @@ class ServiceComponentState extends State<ServiceComponent> {
                         4.height,
                         if (widget.isSmallGrid && widget.isFromService)
                           SocialIconsList(
-                              mainAxisAlignment: MainAxisAlignment.start),
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            onFacebookTap: () => _handleFacebookShare(),
+                            onInstagramTap: () => _handleInstagramShare(),
+                            onTwitterTap: () => _handleTwitterShare(),
+                            onLinkedInTap: () => _handleLinkedInShare(),
+                          ),
                       ],
                     ),
                   ),

@@ -6,6 +6,7 @@ import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_data_model.dart';
 import 'package:booking_system_flutter/screens/booking/component/edit_booking_service_dialog.dart';
+import 'package:booking_system_flutter/screens/booking/handyman_info_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
@@ -362,20 +363,6 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                 isDailyService:
                                     widget.bookingData.isDailyService,
                               ),
-                              if (widget.bookingData.isHourlyService)
-                                Row(
-                                  children: [
-                                    4.width,
-                                    PriceWidget(
-                                      price:
-                                          widget.bookingData.amount.validate(),
-                                      color: textSecondaryColorGlobal,
-                                      isHourlyService: true,
-                                      size: 12,
-                                      isBoldText: false,
-                                    ),
-                                  ],
-                                ),
                               if (widget.bookingData.discount.validate() != 0)
                                 Text(
                                   '(${widget.bookingData.discount!}% ${language.lblOff})',
@@ -592,167 +579,242 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                       dashLength: 8,
                     ).paddingAll(8),
 
-                    Padding(
-                      padding: EdgeInsets.all(8),
-                      child: Row(
-                        children: [
-                          ImageBorder(
-                            src: widget.bookingData.handyman!.isEmpty
-                                ? widget.bookingData.providerImage.validate()
-                                : widget.bookingData.isProviderAndHandymanSame
-                                    ? widget.bookingData.providerImage
-                                        .validate()
-                                    : widget.bookingData.handyman!.first
-                                        .handyman!.handymanImage
-                                        .validate(),
-                            height: 40,
-                          ),
-                          16.width,
-                          Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            mainAxisAlignment: MainAxisAlignment.center,
+                    // Handyman/Provider card - clickable to view details (read-only)
+                    if (widget.bookingData.handyman!.isNotEmpty &&
+                        !widget.bookingData.isProviderAndHandymanSame)
+                      GestureDetector(
+                        behavior: HitTestBehavior.opaque,
+                        onTap: () {
+                          // Open handyman info screen (read-only, no edit functionality)
+                          // Prevent any edit/update screens from opening
+                          HandymanInfoScreen(
+                            handymanId: widget.bookingData.handyman!.first
+                                .handyman!.id.validate(),
+                          ).launch(context);
+                        },
+                        child: Padding(
+                          padding: EdgeInsets.all(8),
+                          child: Row(
                             children: [
-                              Row(
-                                children: [
-                                  // Verified/Not Verified Icon (dynamic from API)
-                                  if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
-                                    CachedImageWidget(
-                                      url: widget.bookingData.verifiedStickerIcon.validate(),
-                                      width: 20,
-                                      height: 20,
-                                      fit: BoxFit.contain,
-                                    )
-                                  else
-                                    Image.asset(
-                                      'assets/icons/verified_badge.jpg',
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                                  SizedBox(width: 6),
-                                  // Membership Icon (dynamic from API)
-                                  if (widget.bookingData.membershipIcon.validate().isNotEmpty)
-                                    CachedImageWidget(
-                                      url: widget.bookingData.membershipIcon.validate(),
-                                      width: 20,
-                                      height: 20,
-                                      fit: BoxFit.contain,
-                                    )
-                                  else
-                                    Image.asset(
-                                      'assets/icons/free-membership.jpg',
-                                      width: 20,
-                                      height: 20,
-                                    ),
-                                ],
+                              // Use CachedImageWidget directly instead of ImageBorder to avoid its click handler
+                              Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                      color: context.dividerColor, width: 1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: CachedImageWidget(
+                                  url: widget.bookingData.handyman!.first
+                                      .handyman!.handymanImage
+                                      .validate(),
+                                  circle: true,
+                                  height: 40,
+                                  width: 40,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
-                              5.height,
-                              Row(
+                              16.width,
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
-                                  Marquee(
-                                    child: Text(
-                                      widget.bookingData.handyman!.isEmpty
-                                          ? widget.bookingData.providerName
-                                              .validate()
-                                          : widget.bookingData
-                                                  .isProviderAndHandymanSame
-                                              ? widget.bookingData.providerName
-                                                  .validate()
-                                              : widget.bookingData.handyman!
-                                                  .first.handyman!.displayName
-                                                  .validate(),
-                                      style: boldTextStyle(size: 14),
-                                    ),
-                                  ).flexible(),
-                                  4.width,
-                                  ImageIcon(
-                                    AssetImage(ic_verified),
-                                    size: 14,
-                                    color: Colors.green,
-                                  ).visible(
-                                    widget.bookingData.handyman!.isEmpty
-                                        ? widget.bookingData.providerIsVerified
-                                                .validate() ==
-                                            1
-                                        : widget.bookingData
-                                                .isProviderAndHandymanSame
-                                            ? widget.bookingData
-                                                    .providerIsVerified
-                                                    .validate() ==
-                                                1
-                                            : widget.bookingData.handyman!.first
-                                                    .handyman!.isVerifyHandyman
-                                                    .validate() ==
-                                                1,
+                                  Row(
+                                    children: [
+                                      // Verified/Not Verified Icon (dynamic from API)
+                                      if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
+                                        CachedImageWidget(
+                                          url: widget.bookingData.verifiedStickerIcon.validate(),
+                                          width: 20,
+                                          height: 20,
+                                          fit: BoxFit.contain,
+                                        )
+                                      else
+                                        Image.asset(
+                                          'assets/icons/verified_badge.jpg',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                      SizedBox(width: 6),
+                                      // Membership Icon (dynamic from API)
+                                      if (widget.bookingData.membershipIcon.validate().isNotEmpty)
+                                        CachedImageWidget(
+                                          url: widget.bookingData.membershipIcon.validate(),
+                                          width: 20,
+                                          height: 20,
+                                          fit: BoxFit.contain,
+                                        )
+                                      else
+                                        Image.asset(
+                                          'assets/icons/free-membership.jpg',
+                                          width: 20,
+                                          height: 20,
+                                        ),
+                                    ],
                                   ),
+                                  5.height,
+                                  Row(
+                                    children: [
+                                      Marquee(
+                                        child: Text(
+                                          widget.bookingData.handyman!.first
+                                              .handyman!.displayName
+                                              .validate(),
+                                          style: boldTextStyle(size: 14),
+                                        ),
+                                      ).flexible(),
+                                      4.width,
+                                      ImageIcon(
+                                        AssetImage(ic_verified),
+                                        size: 14,
+                                        color: Colors.green,
+                                      ).visible(
+                                        widget.bookingData.handyman!.first
+                                                .handyman!.isVerifyHandyman
+                                                .validate() ==
+                                            1,
+                                      ),
+                                    ],
+                                  ),
+                                  DisabledRatingBarWidget(
+                                    rating: widget.bookingData.handyman!.first
+                                            .handyman?.handymanRating
+                                            .validate() ??
+                                        0.0,
+                                    size: 14,
+                                  ),
+                                  Text(
+                                    language.textHandyman,
+                                    style: secondaryTextStyle(size: 12),
+                                  ),
+                                  // City - Country label
+                                  Builder(builder: (context) {
+                                    final h = widget
+                                        .bookingData.handyman!.first.handyman;
+                                    final city = h?.cityName.validate() ?? '';
+                                    final country =
+                                        h?.countryName.validate() ?? '';
+                                    final label = (city.isEmpty && country.isEmpty)
+                                        ? 'N/A'
+                                        : "${city}${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}${country}";
+                                    return Text(
+                                      label,
+                                      style: secondaryTextStyle(size: 10),
+                                      maxLines: 1,
+                                      overflow: TextOverflow.ellipsis,
+                                    );
+                                  }),
+                                  if (widget.bookingData.handyman!.first.handyman!
+                                      .designation
+                                      .validate()
+                                      .isNotEmpty)
+                                    Text(
+                                      widget.bookingData.handyman!.first.handyman!
+                                          .designation
+                                          .validate(),
+                                      style: secondaryTextStyle(size: 10),
+                                    ),
                                 ],
+                              ).expand(),
+                            ],
+                          ),
+                        ),
+                      )
+                    else
+                      // Provider card (not clickable, just display)
+                      Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Row(
+                          children: [
+                            // Use CachedImageWidget directly instead of ImageBorder to avoid its click handler
+                            Container(
+                              decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: context.dividerColor, width: 1),
+                                shape: BoxShape.circle,
                               ),
-                              DisabledRatingBarWidget(
-                                rating:
-                                    (widget.bookingData.handyman?.isNotEmpty ==
-                                            true)
-                                        ? widget.bookingData.handyman!.first
-                                                .handyman?.handymanRating
-                                                .validate() ??
-                                            0.0
-                                        : 0.0,
-                                size: 14,
+                              child: CachedImageWidget(
+                                url: widget.bookingData.providerImage.validate(),
+                                circle: true,
+                                height: 40,
+                                width: 40,
+                                fit: BoxFit.cover,
                               ),
-                              Text(
-                                widget.bookingData.handyman!.isEmpty
-                                    ? language.textProvider
-                                    : language.textHandyman,
-                                style: secondaryTextStyle(size: 12),
-                              ),
-                              // City - Country label
-                              if (widget.bookingData.handyman!.isEmpty)
+                            ),
+                            16.width,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Row(
+                                  children: [
+                                    // Verified/Not Verified Icon (dynamic from API)
+                                    if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
+                                      CachedImageWidget(
+                                        url: widget.bookingData.verifiedStickerIcon.validate(),
+                                        width: 20,
+                                        height: 20,
+                                        fit: BoxFit.contain,
+                                      )
+                                    else
+                                      Image.asset(
+                                        'assets/icons/verified_badge.jpg',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                    SizedBox(width: 6),
+                                    // Membership Icon (dynamic from API)
+                                    if (widget.bookingData.membershipIcon.validate().isNotEmpty)
+                                      CachedImageWidget(
+                                        url: widget.bookingData.membershipIcon.validate(),
+                                        width: 20,
+                                        height: 20,
+                                        fit: BoxFit.contain,
+                                      )
+                                    else
+                                      Image.asset(
+                                        'assets/icons/free-membership.jpg',
+                                        width: 20,
+                                        height: 20,
+                                      ),
+                                  ],
+                                ),
+                                5.height,
+                                Row(
+                                  children: [
+                                    Marquee(
+                                      child: Text(
+                                        widget.bookingData.providerName.validate(),
+                                        style: boldTextStyle(size: 14),
+                                      ),
+                                    ).flexible(),
+                                    4.width,
+                                    ImageIcon(
+                                      AssetImage(ic_verified),
+                                      size: 14,
+                                      color: Colors.green,
+                                    ).visible(
+                                      widget.bookingData.providerIsVerified.validate() == 1,
+                                    ),
+                                  ],
+                                ),
                                 Text(
-                                  (_providerCityCountryLabel
-                                                  ?.isNotEmpty ??
-                                              false)
+                                  language.textProvider,
+                                  style: secondaryTextStyle(size: 12),
+                                ),
+                                // City - Country label
+                                Text(
+                                  (_providerCityCountryLabel?.isNotEmpty ?? false)
                                       ? _providerCityCountryLabel!
                                       : 'N/A',
                                   style: secondaryTextStyle(size: 10),
                                   maxLines: 1,
                                   overflow: TextOverflow.ellipsis,
-                                )
-                              else
-                                Builder(builder: (context) {
-                                  final h = widget
-                                      .bookingData.handyman!.first.handyman;
-                                  final city = h?.cityName.validate() ?? '';
-                                  final country =
-                                      h?.countryName.validate() ?? '';
-                                  final label = (city.isEmpty && country.isEmpty)
-                                      ? 'N/A'
-                                      : "${city}${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}${country}";
-                                  return Text(
-                                    label,
-                                    style: secondaryTextStyle(size: 10),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
-                                  );
-                                }),
-                              if (widget.bookingData.handyman!.isNotEmpty &&
-                                  widget.bookingData.handyman!.first.handyman!
-                                      .designation
-                                      .validate()
-                                      .isNotEmpty)
-                                Text(
-                                  widget.bookingData.handyman!.first.handyman!
-                                      .designation
-                                      .validate(),
-                                  style: secondaryTextStyle(size: 10),
                                 ),
-                              // if (address.isNotEmpty)
-                              //   Text(
-                              //     '${address.first.validate()} -${address.last.validate()}',
-                              //     style: secondaryTextStyle(size: 10),
-                              //   ),
-                            ],
-                          ).expand(),
-                        ],
+                              ],
+                            ).expand(),
+                          ],
+                        ),
                       ),
-                    ),
                   ],
                 ),
               ],
