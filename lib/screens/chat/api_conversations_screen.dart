@@ -113,8 +113,22 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
                                 width: 40,
                                 circle: true,
                               )
-                            : CircleAvatar(
-                                child: Icon(Icons.person),
+                            : Container(
+                                height: 40,
+                                width: 40,
+                                decoration: BoxDecoration(
+                                  color: context.primaryColor.withValues(alpha: 0.2),
+                                  shape: BoxShape.circle,
+                                ),
+                                alignment: Alignment.center,
+                                child: Text(
+                                  (other?.name.validate().isNotEmpty == true)
+                                      ? other!.name.validate()[0].toUpperCase()
+                                      : (c.title.validate().isNotEmpty
+                                          ? c.title.validate()[0].toUpperCase()
+                                          : '?'),
+                                  style: boldTextStyle(color: context.primaryColor, size: 16),
+                                ),
                               ),
                         title: Text(
                           other?.name.validate().isNotEmpty == true

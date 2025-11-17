@@ -334,11 +334,30 @@ class _UserChatScreenState extends State<UserChatScreen>
                 },
                 icon: ic_arrow_left.iconImage(color: Colors.white),
               ),
-              CachedImageWidget(
-                  url: widget.receiverUser.profileImage.validate(),
-                  height: 36,
-                  circle: true,
-                  fit: BoxFit.cover),
+              // Show first letter if no image, otherwise show image
+              widget.receiverUser.profileImage.validate().isNotEmpty
+                  ? CachedImageWidget(
+                      url: widget.receiverUser.profileImage.validate(),
+                      height: 36,
+                      circle: true,
+                      fit: BoxFit.cover)
+                  : Container(
+                      height: 36,
+                      width: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        widget.receiverUser.displayName.validate().isNotEmpty
+                            ? widget.receiverUser.displayName.validate()[0].toUpperCase()
+                            : (widget.receiverUser.firstName.validate().isNotEmpty
+                                ? widget.receiverUser.firstName.validate()[0].toUpperCase()
+                                : '?'),
+                        style: boldTextStyle(color: Colors.white, size: 16),
+                      ),
+                    ),
               12.width,
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,

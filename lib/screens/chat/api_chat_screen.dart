@@ -240,11 +240,28 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
                 onPressed: () => finish(context),
                 icon: Icon(Icons.arrow_back, color: Colors.white),
               ),
-              CachedImageWidget(
-                  url: widget.otherUserAvatarUrl.validate(),
-                  height: 36,
-                  circle: true,
-                  fit: BoxFit.cover),
+              // Show first letter if no image, otherwise show image
+              widget.otherUserAvatarUrl.validate().isNotEmpty
+                  ? CachedImageWidget(
+                      url: widget.otherUserAvatarUrl.validate(),
+                      height: 36,
+                      circle: true,
+                      fit: BoxFit.cover)
+                  : Container(
+                      height: 36,
+                      width: 36,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.2),
+                        shape: BoxShape.circle,
+                      ),
+                      alignment: Alignment.center,
+                      child: Text(
+                        widget.otherUserName.validate().isNotEmpty
+                            ? widget.otherUserName.validate()[0].toUpperCase()
+                            : '?',
+                        style: boldTextStyle(color: Colors.white, size: 16),
+                      ),
+                    ),
               12.width,
               Text(
                 widget.otherUserName,
