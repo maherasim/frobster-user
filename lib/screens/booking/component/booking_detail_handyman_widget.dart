@@ -11,7 +11,6 @@ import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class BookingDetailHandymanWidget extends StatefulWidget {
   final UserData handymanData;
@@ -115,29 +114,6 @@ class BookingDetailHandymanWidgetState
                               .visible(widget.handymanData.isVerifyHandyman == 1),
                         ],
                       ).expand(),
-                      16.width,
-                      GestureDetector(
-                        onTap: () {
-                          String phoneNumber = "";
-                          if (widget.handymanData.contactNumber
-                              .validate()
-                              .contains('+')) {
-                            phoneNumber =
-                                "${widget.handymanData.contactNumber.validate().replaceAll('-', '')}";
-                          } else {
-                            phoneNumber =
-                                "+${widget.handymanData.contactNumber.validate().replaceAll('-', '')}";
-                          }
-                          launchUrl(
-                              Uri.parse(
-                                  '${getSocialMediaLink(LinkProvider.WHATSAPP)}$phoneNumber'),
-                              mode: LaunchMode.externalApplication);
-                        },
-                        child: Image.asset(ic_whatsapp, height: 22),
-                      ).visible(widget.handymanData.contactNumber
-                              .validate()
-                              .isNotEmpty &&
-                          widget.bookingDetail.canCustomerContact),
                     ],
                   ),
                   4.height,
