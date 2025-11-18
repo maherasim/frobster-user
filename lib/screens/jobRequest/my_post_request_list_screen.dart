@@ -22,19 +22,24 @@ class MyPostRequestListScreen extends StatefulWidget {
       _MyPostRequestListScreenState();
 }
 
-class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> {
+class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with SingleTickerProviderStateMixin {
   late Future<List<PostJobData>> future;
   List<PostJobData> postJobList = [];
 
   int page = 1;
   bool isLastPage = false;
   bool isApiCalled = false;
+  late TabController _tabController;
 
   @override
   void initState() {
     super.initState();
     init();
     getLocation();
+    _tabController = TabController(length: 4, vsync: this);
+    _tabController.addListener(() {
+      if (mounted) setState(() {});
+    });
   }
 
   Future<void> init() async {
@@ -63,6 +68,7 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> {
     setStatusBarColor(Colors.transparent,
         statusBarIconBrightness:
             appStore.isDarkMode ? Brightness.light : Brightness.dark);
+    _tabController.dispose();
     super.dispose();
   }
 
@@ -75,34 +81,34 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> {
   Widget build(BuildContext context) {
     return AppScaffold(
       appBarTitle: widget.fromDashboard ? language.lblJob : language.myPostJobList,
-      actions: !widget.fromDashboard ? null : [
-        IconButton(
-          icon: ic_add.iconImage(size: 16),
-          onPressed: () async {
-            bool? res = await CreatePostRequestScreen().launch(context);
-
-            if (res ?? false) {
-              page = 1;
-              init();
-              setState(() {});
-            }
-          },
-        )
+      actions: [
+        // Future: add filters sheet
       ],
+      bottom: TabBar(
+        controller: _tabController,
+        isScrollable: false,
+        tabs: [
+          Tab(text: 'All'),
+          Tab(text: 'Open'),
+          Tab(text: language.inProgress.validate(value: 'In Progress')),
+          Tab(text: language.completed.validate(value: 'Completed')),
+        ],
+      ),
       child: Stack(
         children: [
           SnapHelperWidget<List<PostJobData>>(
             future: future,
             initialData: cachedPostJobList,
             onSuccess: (data) {
+              final filtered = _filterDataByTab(data);
               return AnimatedListView(
-                itemCount: data.length,
+                itemCount: filtered.length,
                 physics: AlwaysScrollableScrollPhysics(),
                 padding: EdgeInsets.only(top: 12, bottom: 70),
                 listAnimationType: ListAnimationType.FadeIn,
                 fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
                 itemBuilder: (_, i) {
-                  PostJobData postJob = data[i];
+                  PostJobData postJob = filtered[i];
 
                   return MyPostRequestItemComponent(
                     data: postJob,
@@ -160,11 +166,8 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> {
               builder: (context) => LoaderWidget().visible(appStore.isLoading))
         ],
       ),
-      bottomNavigationBar: widget.fromDashboard ? null : AppButton(
-        child: Text(language.requestNewJob, style: boldTextStyle(color: white)),
-        color: context.primaryColor,
-        width: context.width(),
-        onTap: () async {
+      floatingActionButton: FloatingActionButton.extended(
+        onPressed: () async {
           bool? res = await CreatePostRequestScreen().launch(context);
 
           if (res ?? false) {
@@ -173,7 +176,36 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> {
             setState(() {});
           }
         },
-      ).paddingAll(16),
+        backgroundColor: context.primaryColor,
+        label: Text(language.requestNewJob),
+        icon: ic_add.iconImage(size: 18, color: white),
+      ),
     );
+  }
+
+  List<PostJobData> _filterDataByTab(List<PostJobData> data) {
+    final index = _tabController.index;
+    if (index == 0) return data;
+    if (index == 1) {
+      // Open
+      return data.where((e) =>
+      e.status == RequestStatus.requested ||
+          e.status == RequestStatus.accepted ||
+          e.status == RequestStatus.pendingAdvance).toList();
+    } else if (index == 2) {
+      // In Progress
+      return data.where((e) =>
+      e.status == RequestStatus.advancePaid ||
+          e.status == RequestStatus.inProcess ||
+          e.status == RequestStatus.inProgress ||
+          e.status == RequestStatus.hold).toList();
+    } else {
+      // Completed
+      return data.where((e) =>
+      e.status == RequestStatus.done ||
+          e.status == RequestStatus.confirmDone ||
+          e.status == RequestStatus.completed ||
+          e.status == RequestStatus.remainingPaid).toList();
+    }
   }
 }

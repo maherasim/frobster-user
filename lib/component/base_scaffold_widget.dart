@@ -8,19 +8,23 @@ import '../utils/constant.dart';
 class AppScaffold extends StatelessWidget {
   final String? appBarTitle;
   final List<Widget>? actions;
+  final PreferredSizeWidget? bottom;
 
   final Widget child;
   final Color? scaffoldBackgroundColor;
   final Widget? bottomNavigationBar;
   final bool showLoader;
+  final Widget? floatingActionButton;
 
   AppScaffold({
     this.appBarTitle,
     required this.child,
     this.actions,
+    this.bottom,
     this.scaffoldBackgroundColor,
     this.bottomNavigationBar,
     this.showLoader = true,
+    this.floatingActionButton,
   });
 
   @override
@@ -35,11 +39,13 @@ class AppScaffold extends StatelessWidget {
               backgroundColor: context.primaryColor,
               leading: context.canPop ? BackWidget() : null,
               actions: actions,
+              bottom: bottom,
             )
           : null,
       backgroundColor: scaffoldBackgroundColor,
       body: Body(child: child, showLoader: showLoader),
       bottomNavigationBar: bottomNavigationBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 }

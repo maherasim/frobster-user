@@ -1138,8 +1138,11 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
 
     await Future.forEach<File>(tempImages, (element) async {
       int i = tempImages.indexOf(element);
-      files.add(await MultipartFile.fromPath(
-          'image[$i]', element.path));
+      final file = await MultipartFile.fromPath('image[$i]', element.path);
+      files.add(file);
+      // Also add a conventional array key to maximize backend compatibility
+      // e.g., Laravel handles both image[0] and image[] as array inputs
+      files.add(await MultipartFile.fromPath('image[]', element.path));
     });
 
     multiPartRequest.files.addAll(files);

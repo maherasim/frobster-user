@@ -190,6 +190,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ],
                   ),
                 ),
+              12.height,
+              _buildProviderHeader(postJobDetail!).paddingBottom(16),
+              _buildStatusProgress(postJobDetail!.status),
               if (postJobDetail!.holdReason.validate().isNotEmpty &&
                   postJobDetail?.status == RequestStatus.hold)
                 Container(
@@ -359,6 +362,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: Column(
             children: [
+              // Primary next-step actions by status
               if (postJobDetail!.status == RequestStatus.requested)
                 AppButton(
                   text: 'Accept',
@@ -409,126 +413,80 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   },
                 ).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.inProcess)
-                AppButton(
-                  text: "Let's Start Work",
-                  textStyle: boldTextStyle(color: white, size: 16),
-                  color: primaryColor,
-                  width: context.width(),
-                  onTap: () async {
-                    confirmationRequestDialog(
-                        context, RequestStatus.inProgress);
-                  },
-                ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.done)
-                AppButton(
-                  text: 'Confirm Done',
-                  textStyle: boldTextStyle(color: white, size: 16),
-                  color: primaryColor,
-                  width: context.width(),
-                  onTap: () async {
-                    confirmationRequestDialog(
-                        context, RequestStatus.confirmDone);
-                  },
-                ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.completed)
-                AppButton(
-                  text: 'Pay remaining (\$${remaining})',
-                  textStyle: boldTextStyle(color: white, size: 16),
-                  color: defaultStatus,
-                  width: context.width(),
-                  onTap: () async {
-                    bool? res = await showInDialog(
-                      context,
-                      contentPadding: EdgeInsets.zero,
-                      hideSoftKeyboard: true,
-                      backgroundColor: context.cardColor,
-                      barrierDismissible: false,
-                      builder: (_) => PaymentDialog(
-                          amount: remaining, bidId: postJobDetail!.id!),
-                    );
-
-                    if (res ?? false) {
-                      init();
-                      setState(() {});
-                    }
-                  },
-                ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.remainingPaid)
                 Row(
                   children: [
+                    Expanded(child: _chatActionButton()),
+                    16.width,
                     Expanded(
                       child: AppButton(
-                        text: 'Chat',
+                        text: "Let's Start Work",
                         textStyle: boldTextStyle(color: white, size: 16),
-                        color: context.primaryColor,
+                        color: primaryColor,
                         width: context.width(),
                         onTap: () async {
-                          final providerId = postJobDetail?.provider?.id;
-                          if (providerId == null) {
-                            toast(language.somethingWentWrong);
-                            return;
-                          }
-                          if (appStore.userId == providerId.toInt()) {
-                            toast(language.lblNotValidUser);
-                            return;
-                          }
-                          String? avatarUrl;
-                          try {
-                            final displayName = postJobDetail?.provider?.displayName.validate() ?? '';
-                            if (displayName.isNotEmpty) {
-                              final matches = await chatSearchUsers(query: displayName, page: 1);
-                              if (matches.isNotEmpty) {
-                                ChatUserItem? exact;
-                                for (final u in matches) {
-                                  if (u.id == providerId.toInt()) {
-                                    exact = u; break;
-                                  }
-                                }
-                                avatarUrl = (exact ?? matches.first).avatarUrl;
-                              }
-                            }
-                          } catch (e) {
-                            // ignore avatar preload errors
-                          }
-                          toast(language.pleaseWaitWhileWeLoadChatDetails + providerId.toString());
-                          try {
-                            final open = await chatOpenWithUser(userId: providerId.toInt());
-                            Fluttertoast.cancel();
-                            ApiChatScreen(
-                              conversationId: open.conversationId,
-                              otherUserId: providerId.toInt(),
-                              otherUserName: postJobDetail?.provider?.displayName.validate() ?? '',
-                              otherUserAvatarUrl: avatarUrl,
-                            ).launch(context);
-                          } catch (e) {
-                            Fluttertoast.cancel();
-                            // Fallback: try searching user by display name and open DM
-                            try {
-                              final displayName = postJobDetail?.provider?.displayName.validate() ?? '';
-                              if (displayName.isNotEmpty) {
-                                final matches = await chatSearchUsers(query: displayName, page: 1);
-                                if (matches.isNotEmpty) {
-                                  final match = matches.first;
-                                  final open2 = await chatOpenWithUser(userId: match.id);
-                                  ApiChatScreen(
-                                    conversationId: open2.conversationId,
-                                    otherUserId: match.id,
-                                    otherUserName: match.displayName,
-                                    otherUserAvatarUrl: match.avatarUrl,
-                                  ).launch(context);
-                                  return;
-                                }
-                              }
-                              await Future.delayed(Duration(milliseconds: 500));
-                              toast(e.toString());
-                            } catch (e2) {
-                              await Future.delayed(Duration(milliseconds: 500));
-                              toast(e2.toString());
-                            }
+                          confirmationRequestDialog(
+                              context, RequestStatus.inProgress);
+                        },
+                      ),
+                    ),
+                  ],
+                ).paddingOnly(bottom: 24),
+              if (postJobDetail!.status == RequestStatus.done)
+                Row(
+                  children: [
+                    Expanded(child: _chatActionButton()),
+                    16.width,
+                    Expanded(
+                      child: AppButton(
+                        text: 'Confirm Done',
+                        textStyle: boldTextStyle(color: white, size: 16),
+                        color: primaryColor,
+                        width: context.width(),
+                        onTap: () async {
+                          confirmationRequestDialog(
+                              context, RequestStatus.confirmDone);
+                        },
+                      ),
+                    ),
+                  ],
+                ).paddingOnly(bottom: 24),
+              if (postJobDetail!.status == RequestStatus.completed)
+                Row(
+                  children: [
+                    Expanded(child: _chatActionButton()),
+                    16.width,
+                    Expanded(
+                      child: AppButton(
+                        text: 'Pay remaining (\$${remaining})',
+                        textStyle: boldTextStyle(color: white, size: 16),
+                        color: defaultStatus,
+                        width: context.width(),
+                        onTap: () async {
+                          bool? res = await showInDialog(
+                            context,
+                            contentPadding: EdgeInsets.zero,
+                            hideSoftKeyboard: true,
+                            backgroundColor: context.cardColor,
+                            barrierDismissible: false,
+                            builder: (_) => PaymentDialog(
+                                amount: remaining, bidId: postJobDetail!.id!),
+                          );
+
+                          if (res ?? false) {
+                            init();
+                            setState(() {});
                           }
                         },
                       ),
                     ),
+                  ],
+                ).paddingOnly(bottom: 24),
+
+              // Conversation access: enabled from Advance Paid and later
+              if (postJobDetail!.status == RequestStatus.remainingPaid)
+                Row(
+                  children: [
+                    Expanded(child: _chatActionButton()),
                     16.width,
                     Expanded(
                       child: AppButton(
@@ -554,6 +512,12 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
+              if (_canShowChat(postJobDetail!.status) &&
+                  postJobDetail!.status != RequestStatus.remainingPaid &&
+                  postJobDetail!.status != RequestStatus.inProcess &&
+                  postJobDetail!.status != RequestStatus.done &&
+                  postJobDetail!.status != RequestStatus.completed)
+                _chatActionButton().paddingOnly(bottom: 24),
             ],
           ),
         ),
@@ -861,5 +825,231 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         ],
       ),
     );
+  }
+
+  Widget _chatActionButton() {
+    return AppButton(
+      text: 'Chat',
+      textStyle: boldTextStyle(color: white, size: 16),
+      color: context.primaryColor,
+      width: context.width(),
+      onTap: () async {
+        final providerId = postJobDetail?.provider?.id;
+        if (providerId == null) {
+          toast(language.somethingWentWrong);
+          return;
+        }
+        if (appStore.userId == providerId.toInt()) {
+          toast(language.lblNotValidUser);
+          return;
+        }
+        String? avatarUrl;
+        try {
+          final displayName = postJobDetail?.provider?.displayName.validate() ?? '';
+          if (displayName.isNotEmpty) {
+            final matches = await chatSearchUsers(query: displayName, page: 1);
+            if (matches.isNotEmpty) {
+              ChatUserItem? exact;
+              for (final u in matches) {
+                if (u.id == providerId.toInt()) {
+                  exact = u; break;
+                }
+              }
+              avatarUrl = (exact ?? matches.first).avatarUrl;
+            }
+          }
+        } catch (e) {
+          // ignore avatar preload errors
+        }
+        toast(language.pleaseWaitWhileWeLoadChatDetails + providerId.toString());
+        try {
+          final open = await chatOpenWithUser(userId: providerId.toInt());
+          Fluttertoast.cancel();
+          ApiChatScreen(
+            conversationId: open.conversationId,
+            otherUserId: providerId.toInt(),
+            otherUserName: postJobDetail?.provider?.displayName.validate() ?? '',
+            otherUserAvatarUrl: avatarUrl,
+          ).launch(context);
+        } catch (e) {
+          Fluttertoast.cancel();
+          try {
+            final displayName = postJobDetail?.provider?.displayName.validate() ?? '';
+            if (displayName.isNotEmpty) {
+              final matches = await chatSearchUsers(query: displayName, page: 1);
+              if (matches.isNotEmpty) {
+                final match = matches.first;
+                final open2 = await chatOpenWithUser(userId: match.id);
+                ApiChatScreen(
+                  conversationId: open2.conversationId,
+                  otherUserId: match.id,
+                  otherUserName: match.displayName,
+                  otherUserAvatarUrl: match.avatarUrl,
+                ).launch(context);
+                return;
+              }
+            }
+            await Future.delayed(Duration(milliseconds: 500));
+            toast(e.toString());
+          } catch (e2) {
+            await Future.delayed(Duration(milliseconds: 500));
+            toast(e2.toString());
+          }
+        }
+      },
+    );
+  }
+
+  Widget _buildProviderHeader(JobRequestDetailResponse data) {
+    final user = data.provider;
+    return Container(
+      padding: EdgeInsets.all(12),
+      decoration: boxDecorationWithRoundedCorners(
+        backgroundColor: context.cardColor,
+        borderRadius: radius(12),
+      ),
+      child: Row(
+        children: [
+          CircleAvatar(
+            radius: 24,
+            backgroundColor: context.primaryColor.withValues(alpha: 0.1),
+            child: Text(
+              (user?.displayName.validate() ?? '-')
+                  .trim()
+                  .split(' ')
+                  .where((p) => p.isNotEmpty)
+                  .map((e) => e[0])
+                  .take(2)
+                  .join()
+                  .toUpperCase(),
+              style: boldTextStyle(color: context.primaryColor),
+            ),
+          ),
+          12.width,
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(user?.displayName.validate() ?? '-', style: boldTextStyle()),
+              4.height,
+              Wrap(
+                spacing: 8,
+                runSpacing: 2,
+                crossAxisAlignment: WrapCrossAlignment.center,
+                children: [
+                  Text('Bid:', style: secondaryTextStyle(size: 12)),
+                  PriceWidget(
+                    price: data.price.validate(),
+                    color: textPrimaryColorGlobal,
+                    size: 14,
+                    isBoldText: true,
+                  ),
+                  if ((data.advancePercent ?? 0) > 0)
+                    Text('• Advance ${data.advancePercent?.toString() ?? "0"}%',
+                        style: secondaryTextStyle(size: 12)),
+                ],
+              ),
+            ],
+          ).expand(),
+          FittedBox(
+            fit: BoxFit.scaleDown,
+            child: Container(
+              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+              decoration: BoxDecoration(
+                color: data.status.bgColor.withValues(alpha: 0.1),
+                borderRadius: radius(20),
+              ),
+              child: Text(data.status.displayName,
+                  style: boldTextStyle(color: data.status.bgColor, size: 12)),
+            ),
+          )
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStatusProgress(RequestStatus status) {
+    final steps = <RequestStatus>[
+      RequestStatus.accepted,
+      RequestStatus.pendingAdvance,
+      RequestStatus.advancePaid,
+      RequestStatus.inProcess,
+      RequestStatus.inProgress,
+      RequestStatus.done,
+      RequestStatus.completed,
+      RequestStatus.remainingPaid,
+    ];
+    final activeIndex = steps.indexOf(status);
+
+    return SizedBox(
+      height: 26,
+      child: ListView.separated(
+        scrollDirection: Axis.horizontal,
+        physics: BouncingScrollPhysics(),
+        padding: EdgeInsets.zero,
+        itemCount: steps.length,
+        separatorBuilder: (_, __) => 12.width,
+        itemBuilder: (context, i) {
+          final bool isActive = i <= activeIndex && activeIndex >= 0;
+          return Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: 64,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: isActive ? context.primaryColor : context.dividerColor,
+                  borderRadius: radius(6),
+                ),
+              ),
+              6.height,
+              SizedBox(
+                width: 64,
+                child: Text(
+                  _labelForStatus(steps[i]),
+                  style: secondaryTextStyle(size: 10),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    ).paddingBottom(16);
+  }
+
+  String _labelForStatus(RequestStatus s) {
+    switch (s) {
+      case RequestStatus.accepted:
+        return 'Accept';
+      case RequestStatus.pendingAdvance:
+        return 'Advance';
+      case RequestStatus.advancePaid:
+        return 'Advance Paid';
+      case RequestStatus.inProcess:
+        return "Let's Start";
+      case RequestStatus.inProgress:
+        return 'Work';
+      case RequestStatus.done:
+        return 'Done';
+      case RequestStatus.completed:
+        return 'Completed';
+      case RequestStatus.remainingPaid:
+        return 'Paid';
+      default:
+        return '';
+    }
+  }
+
+  bool _canShowChat(RequestStatus status) {
+    return status == RequestStatus.advancePaid ||
+        status == RequestStatus.inProcess ||
+        status == RequestStatus.inProgress ||
+        status == RequestStatus.hold ||
+        status == RequestStatus.done ||
+        status == RequestStatus.confirmDone ||
+        status == RequestStatus.completed ||
+        status == RequestStatus.remainingPaid;
   }
 }

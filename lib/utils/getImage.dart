@@ -13,7 +13,7 @@ class GetImage {
 
   Future getImage() async {
     var pickedFile =
-        await ImagePicker().pickImage(source: imageSource, imageQuality: 100);
+        await ImagePicker().pickImage(source: imageSource, imageQuality: 85);
 
     if (pickedFile != null) {
       log('imgFile path: ${pickedFile.path}');
@@ -30,7 +30,7 @@ class GetMultipleImage {
   }
 
   Future getImage() async {
-    var pickedFile = await ImagePicker().pickMultiImage(imageQuality: 100);
+    var pickedFile = await ImagePicker().pickMultiImage(imageQuality: 85);
     path(pickedFile);
   }
 }

@@ -8,7 +8,6 @@ import 'package:booking_system_flutter/model/state_list_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/jobRequest/components/category_sub_cat_drop_down.dart';
 import 'package:booking_system_flutter/utils/common.dart';
-import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -32,6 +31,9 @@ class CreatePostRequestScreen extends StatefulWidget {
 
 class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+
+  int currentStep = 0;
+  final List<String> _steps = const ['Basics', 'Location', 'Schedule', 'Details'];
 
   TextEditingController postTitleCont = TextEditingController();
 
@@ -394,6 +396,9 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    _buildStepper().paddingAll(16),
+                    Text(_stepHint(), style: secondaryTextStyle())
+                        .paddingSymmetric(horizontal: 16),
                     Form(
                       key: formKey,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -402,133 +407,56 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           16.height,
-                          CustomImagePicker(
-                            key: uniqueKey,
-                            isMultipleImages: true,
-                            canEdit: widget.editJob == null,
-                            onRemoveClick: (value) {
-                              showConfirmDialogCustom(
-                                context,
-                                dialogType: DialogType.DELETE,
-                                positiveText: language.lblDelete,
-                                negativeText: language.lblCancel,
-                                onAccept: (p0) {
-                                  imageFiles.removeWhere((element) => element.path == value);
-                                  setState(() {});
-                                },
-                              );
-                            },
-                            selectedImages:  imageFiles.validate().map((e) => e.path.validate()).toList(),
-                            onFileSelected: (List<File> files) async {
-                              imageFiles = files;
-                              setState(() {});
-                            },
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: postTitleCont,
-                            textFieldType: TextFieldType.NAME,
-                            errorThisFieldRequired: language.requiredText,
-                            nextFocus: priceFocus,
-                            decoration: inputDecoration(
-                              context,
-                              labelText: language.postJobTitle,
+                          if (currentStep == 3)
+                            CustomImagePicker(
+                              key: uniqueKey,
+                              isMultipleImages: true,
+                              canEdit: widget.editJob == null,
+                              onRemoveClick: (value) {
+                                showConfirmDialogCustom(
+                                  context,
+                                  dialogType: DialogType.DELETE,
+                                  positiveText: language.lblDelete,
+                                  negativeText: language.lblCancel,
+                                  onAccept: (p0) {
+                                    imageFiles.removeWhere((element) => element.path == value);
+                                    setState(() {});
+                                  },
+                                );
+                              },
+                              selectedImages:  imageFiles.validate().map((e) => e.path.validate()).toList(),
+                              onFileSelected: (List<File> files) async {
+                                imageFiles = files;
+                                setState(() {});
+                              },
                             ),
-                          ),
                           16.height,
-                          Row(
-                            children: [
-                              DropdownButtonFormField<CountryListResponse>(
-                                decoration: inputDecoration(
-                                  context,
-                                  labelText: language.country,
-                                ),
-                                isExpanded: true,
-                                menuMaxHeight: 300,
-                                initialValue: selectedCountry,
-                                dropdownColor: context.cardColor,
-                                validator: (value) {
-                                  if (value == null) return errorThisFieldRequired;
-
-                                  return null;
-                                },
-                                items: countryList.map((CountryListResponse e) {
-                                  return DropdownMenuItem<CountryListResponse>(
-                                    value: e,
-                                    child: Text(
-                                      e.name!,
-                                      style: primaryTextStyle(),
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                    ),
-                                  );
-                                }).toList(),
-                                onChanged: (CountryListResponse? value) async {
-                                  countryId = value!.id!;
-                                  selectedCountry = value;
-                                  selectedState = null;
-                                  selectedCity = null;
-                                  setState(() {});
-
-                                  getStates(value.id!);
-                                },
-                              ).expand(),
-                              8.width.visible(stateList.isNotEmpty),
-                              if (stateList.isNotEmpty) DropdownButtonFormField<StateListResponse>(
-                                decoration: inputDecoration(
-                                  context,
-                                  labelText: language.state,
-                                ),
-                                isExpanded: true,
-                                dropdownColor: context.cardColor,
-                                menuMaxHeight: 300,
-                                validator: (value) {
-                                  if (value == null) return errorThisFieldRequired;
-
-                                  return null;
-                                },
-                                initialValue: selectedState,
-                                items: stateList.map((StateListResponse e) {
-                                  return DropdownMenuItem<StateListResponse>(
-                                    value: e,
-                                    child: Text(e.name!,
-                                        style: primaryTextStyle(),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis),
-                                  );
-                                }).toList(),
-                                onChanged: (StateListResponse? value) async {
-                                  selectedCity = null;
-                                  selectedState = value;
-                                  stateId = value!.id!;
-                                  setState(() {});
-
-                                  getCity(value.id!);
-                                },
-                              ).expand(),
-                            ],
-                          ),
+                          if (currentStep == 0)
+                            AppTextField(
+                              controller: postTitleCont,
+                              textFieldType: TextFieldType.NAME,
+                              errorThisFieldRequired: language.requiredText,
+                              nextFocus: priceFocus,
+                              decoration: inputDecoration(
+                                context,
+                                labelText: language.postJobTitle,
+                              ),
+                            ),
                           16.height,
-                          if (cityList.isNotEmpty) Column(
-                            children: [
-                              DropdownButtonFormField<CityListResponse>(
-
-                                decoration: inputDecoration(
-                                  context,
-                                  labelText: language.city,
-                                ),
-                                isExpanded: true,
-                                menuMaxHeight: 400,
-                                validator: (value) {
-                                  if (value == null) return errorThisFieldRequired;
-
-                                  return null;
-                                },
-                                initialValue: selectedCity,
-                                dropdownColor: context.cardColor,
-                                items: cityList.map(
-                                      (CityListResponse e) {
-                                    return DropdownMenuItem<CityListResponse>(
+                          if (currentStep == 1)
+                            Row(
+                              children: [
+                                DropdownButtonFormField<CountryListResponse>(
+                                  decoration: inputDecoration(
+                                    context,
+                                    labelText: language.country,
+                                  ),
+                                  isExpanded: true,
+                                  menuMaxHeight: 300,
+                                  initialValue: selectedCountry,
+                                  dropdownColor: context.cardColor,
+                                  items: countryList.map((CountryListResponse e) {
+                                    return DropdownMenuItem<CountryListResponse>(
                                       value: e,
                                       child: Text(
                                         e.name!,
@@ -537,110 +465,178 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                         overflow: TextOverflow.ellipsis,
                                       ),
                                     );
-                                  },
-                                ).toList(),
-                                onChanged: (CityListResponse? value) async {
-                                  selectedCity = value;
-                                  cityId = value!.id!;
-                                  setState(() {});
-                                },
-                              ),
-                              16.height,
-                            ],
-                          ),
-                          CategorySubCatDropDown(
-                            categoryId: categoryId == -1 ? null : categoryId,
-                            subCategoryId: subCategoryId == -1 ? null : subCategoryId,
-                            isCategoryValidate: true,
-                            onCategorySelect: (int? val) {
-                              categoryId = val!;
-                              setState(() {});
-                            },
-                            onSubCategorySelect: (int? val) {
-                              subCategoryId = val!;
-                              setState(() {});
-                            },
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: DropdownButtonFormField<PriceType>(
-                                  decoration: inputDecoration(context, labelText: language.priceType
-                                  ),
-                                  isExpanded: true,
-                                  initialValue: selectedPriceType,
-                                  dropdownColor: context.cardColor,
-                                  items: PriceType.values.map((PriceType e) {
-                                    return DropdownMenuItem<PriceType>(
-                                      value: e,
-                                      child: Text(e.displayName,
-                                          style: primaryTextStyle(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    );
                                   }).toList(),
-                                  onChanged: (PriceType? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedPriceType = value;
-                                    setTotalBudget();
+                                  onChanged: (CountryListResponse? value) async {
+                                    if (value == null) return;
+                                    countryId = value.id!;
+                                    selectedCountry = value;
+                                    selectedState = null;
+                                    selectedCity = null;
                                     setState(() {});
+
+                                    getStates(value.id!);
                                   },
-                                ),
-                              ),
-                              8.width,
-                              Expanded(
-                                child: DropdownButtonFormField<JobType>(
+                                ).expand(),
+                                8.width.visible(stateList.isNotEmpty),
+                                if (stateList.isNotEmpty) DropdownButtonFormField<StateListResponse>(
                                   decoration: inputDecoration(
                                     context,
-                                    labelText:  language.jobType,
+                                    labelText: language.state,
                                   ),
                                   isExpanded: true,
-                                  initialValue: selectedJobType,
                                   dropdownColor: context.cardColor,
-                                  items: JobType.values.map((JobType e) {
-                                    return DropdownMenuItem<JobType>(
+                                  menuMaxHeight: 300,
+                                  initialValue: selectedState,
+                                  items: stateList.map((StateListResponse e) {
+                                    return DropdownMenuItem<StateListResponse>(
                                       value: e,
-                                      child: Text(e.displayName,
+                                      child: Text(e.name!,
                                           style: primaryTextStyle(),
                                           maxLines: 1,
                                           overflow: TextOverflow.ellipsis),
                                     );
                                   }).toList(),
-                                  onChanged: (JobType? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedJobType = value;
+                                  onChanged: (StateListResponse? value) async {
+                                    selectedCity = null;
+                                    selectedState = value;
+                                    stateId = value!.id!;
+                                    setState(() {});
+
+                                    getCity(value.id!);
+                                  },
+                                ).expand(),
+                              ],
+                            ),
+                          16.height,
+                          if (currentStep == 1 && cityList.isNotEmpty)
+                            Column(
+                              children: [
+                                DropdownButtonFormField<CityListResponse>(
+                                  decoration: inputDecoration(
+                                    context,
+                                    labelText: language.city,
+                                  ),
+                                  isExpanded: true,
+                                  menuMaxHeight: 400,
+                                  initialValue: selectedCity,
+                                  dropdownColor: context.cardColor,
+                                  items: cityList.map(
+                                        (CityListResponse e) {
+                                      return DropdownMenuItem<CityListResponse>(
+                                        value: e,
+                                        child: Text(
+                                          e.name!,
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
+                                      );
+                                    },
+                                  ).toList(),
+                                  onChanged: (CityListResponse? value) async {
+                                    selectedCity = value;
+                                    cityId = value!.id!;
                                     setState(() {});
                                   },
                                 ),
-                              )
-                            ],
-                          ),
+                                16.height,
+                              ],
+                            ),
+                          if (currentStep == 0)
+                            CategorySubCatDropDown(
+                              categoryId: categoryId == -1 ? null : categoryId,
+                              subCategoryId: subCategoryId == -1 ? null : subCategoryId,
+                              isCategoryValidate: true,
+                              onCategorySelect: (int? val) {
+                                categoryId = val!;
+                                setState(() {});
+                              },
+                              onSubCategorySelect: (int? val) {
+                                subCategoryId = val!;
+                                setState(() {});
+                              },
+                            ),
                           16.height,
-                          AppTextField(
-                            textFieldType: TextFieldType.PHONE,
-                            controller: priceCont,
-                            focus: priceFocus,
-                            errorThisFieldRequired: language.requiredText,
-                            decoration: inputDecoration(context,
-                                labelText: language.price),
-                            keyboardType: TextInputType.numberWithOptions(
-                                decimal: true, signed: true),
-                            onChanged: (value) {
-                              setTotalBudget();
-                            },
-                            validator: (s) {
-                              if (s!.isEmpty)
-                                return errorThisFieldRequired;
+                          if (currentStep == 2)
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: DropdownButtonFormField<PriceType>(
+                                    decoration: inputDecoration(context, labelText: language.priceType),
+                                    isExpanded: true,
+                                    initialValue: selectedPriceType,
+                                    dropdownColor: context.cardColor,
+                                    items: PriceType.values.map((PriceType e) {
+                                      return DropdownMenuItem<PriceType>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (PriceType? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedPriceType = value;
+                                      setTotalBudget();
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                                8.width,
+                                Expanded(
+                                  child: DropdownButtonFormField<JobType>(
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText:  language.jobType,
+                                    ),
+                                    isExpanded: true,
+                                    initialValue: selectedJobType,
+                                    dropdownColor: context.cardColor,
+                                    items: JobType.values.map((JobType e) {
+                                      return DropdownMenuItem<JobType>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (JobType? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedJobType = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                )
+                              ],
+                            ),
+                          16.height,
+                          if (currentStep == 2)
+                            AppTextField(
+                              textFieldType: TextFieldType.PHONE,
+                              controller: priceCont,
+                              focus: priceFocus,
+                              errorThisFieldRequired: language.requiredText,
+                              decoration: inputDecoration(context,
+                                  labelText: language.price),
+                              keyboardType: TextInputType.numberWithOptions(
+                                  decimal: true, signed: true),
+                              onChanged: (value) {
+                                setTotalBudget();
+                              },
+                              validator: (s) {
+                                if (s!.isEmpty)
+                                  return errorThisFieldRequired;
 
-                              if (s.toDouble() <= 0)
-                                return language
-                                    .priceAmountValidationMessage;
-                              return null;
-                            },
-                          ),
+                                if (s.toDouble() <= 0)
+                                  return language
+                                      .priceAmountValidationMessage;
+                                return null;
+                              },
+                            ),
                           // 16.height,
                           // Align(
                           //   alignment: Alignment.topLeft,
@@ -650,413 +646,415 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                           //     style: primaryTextStyle(size: 16),
                           //   ),
                           // ),
-                          16.height,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: AppTextField(
-                                  textFieldType: TextFieldType.OTHER,
-                                  controller: startDateCont,
-                                  readOnly: true,
-                                  onTap: () => _selectDate(context, true,
-                                      initialDate: selStartDate),
-                                  errorThisFieldRequired: language.requiredText,
-                                  decoration: inputDecoration(
-                                    context,
-                                    prefixIcon:
-                                    Icon(Icons.calendar_month_rounded),
-                                    labelText: language.startDate,
-                                  ),
-                                  keyboardType: TextInputType.numberWithOptions(
-                                      decimal: true, signed: true),
-                                  validator: (s) {
-                                    if (selStartDate == null ||
-                                        selStartDate!.isEmpty)
-                                      return errorThisFieldRequired;
+                          if (currentStep == 2)
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: AppTextField(
+                                    textFieldType: TextFieldType.OTHER,
+                                    controller: startDateCont,
+                                    readOnly: true,
+                                    onTap: () => _selectDate(context, true,
+                                        initialDate: selStartDate),
+                                    errorThisFieldRequired: language.requiredText,
+                                    decoration: inputDecoration(
+                                      context,
+                                      prefixIcon:
+                                      Icon(Icons.calendar_month_rounded),
+                                      labelText: language.startDate,
+                                    ),
+                                    keyboardType: TextInputType.numberWithOptions(
+                                        decimal: true, signed: true),
+                                    validator: (s) {
+                                      if (selStartDate == null ||
+                                          selStartDate!.isEmpty)
+                                        return errorThisFieldRequired;
 
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    setTotalBudget();
-                                  },
-                                ),
-                              ),
-                              8.width,
-                              Flexible(
-                                child: AppTextField(
-                                  textFieldType: TextFieldType.OTHER,
-                                  controller: endDateCont,
-                                  readOnly: true,
-                                  onTap: () => _selectDate(context, false, initialDate: selEndDate),
-                                  errorThisFieldRequired: language.requiredText,
-                                  decoration: inputDecoration(
-                                    context,
-                                    prefixIcon:
-                                    Icon(Icons.calendar_month_rounded),
-                                    labelText: language.endDate,
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setTotalBudget();
+                                    },
                                   ),
-                                  keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                  validator: (s) {
-                                    if (selEndDate == null || selEndDate!.isEmpty)
-                                      return errorThisFieldRequired;
+                                ),
+                                8.width,
+                                Flexible(
+                                  child: AppTextField(
+                                    textFieldType: TextFieldType.OTHER,
+                                    controller: endDateCont,
+                                    readOnly: true,
+                                    onTap: () => _selectDate(context, false, initialDate: selEndDate),
+                                    errorThisFieldRequired: language.requiredText,
+                                    decoration: inputDecoration(
+                                      context,
+                                      prefixIcon:
+                                      Icon(Icons.calendar_month_rounded),
+                                      labelText: language.endDate,
+                                    ),
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    validator: (s) {
+                                      if (selEndDate == null || selEndDate!.isEmpty)
+                                        return errorThisFieldRequired;
 
-                                    return null;
-                                  },
-                                  onChanged: (value) {
-                                    setTotalBudget();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Flexible(
-                                child: AppTextField(
-                                  textFieldType: TextFieldType.NUMBER,
-                                  controller: totalDaysCont,
-                                  errorThisFieldRequired: language.requiredText,
-                                  decoration: inputDecoration(
-                                    context,
-                                    prefixIcon: Icon(Icons.timelapse_rounded),
-                                    labelText: language.totalDays,
+                                      return null;
+                                    },
+                                    onChanged: (value) {
+                                      setTotalBudget();
+                                    },
                                   ),
-                                  keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                  validator: (s) {
-                                    if (totalDaysCont.text.isEmpty)
-                                      return errorThisFieldRequired;
-                                    return null;
-                                  },
-                                  onChanged: (_) {
-                                    setTotalBudget();
-                                  },
                                 ),
-                              ),
-                              8.width,
-                              Flexible(
-                                child: AppTextField(
-                                  textFieldType: TextFieldType.NUMBER,
-                                  controller: totalHoursCont,
-                                  errorThisFieldRequired: language.requiredText,
-                                  decoration: inputDecoration(
-                                    context,
-                                    prefixIcon: Icon(Icons.timer_outlined),
-                                    labelText: language.totalHours,
-                                  ),
-                                  keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
-                                  validator: (s) {
-                                    if (totalDaysCont.text.isEmpty)
-                                      return errorThisFieldRequired;
-                                    return null;
-                                  },
-                                  onChanged: (_) {
-                                    setTotalBudget();
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(
-                                child: AppTextField(
-                                  textFieldType: TextFieldType.PHONE,
-                                  controller: totalBudgetCont,
-                                  isValidationRequired: false,
-                                  readOnly: true,
-                                  errorThisFieldRequired: language.requiredText,
-                                  decoration: inputDecoration(context, labelText: language.totalBudget),
-                                  keyboardType: TextInputType.numberWithOptions(
-                                    decimal: true,
-                                    signed: true,
-                                  ),
-                                  validator: (s) {
-                                    if (s!.isEmpty)
-                                      return errorThisFieldRequired;
-
-                                    if (s.toDouble() <= 0)
-                                      return language.priceAmountValidationMessage;
-                                    return null;
-                                  },
-                                ),
-                              ),
-                              8.width,
-                              Expanded(
-                                child: DropdownButtonFormField<JobSchedule>(
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.jobSchedule,
-                                  ),
-                                  isExpanded: true,
-                                  initialValue: selectedJobSchedule,
-                                  dropdownColor: context.cardColor,
-                                  items: JobSchedule.values.map((JobSchedule e) {
-                                    return DropdownMenuItem<JobSchedule>(
-                                      value: e,
-                                      child: Text(e.displayName,
-                                          style: primaryTextStyle(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    );
-                                  }).toList(),
-                                  onChanged: (JobSchedule? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedJobSchedule = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                            ],
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(
-                                child: DropdownButtonFormField<RemoteWorkLevel>(
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.remoteWorkLevel,
-                                  ),
-                                  isExpanded: true,
-                                  initialValue: selectedRemoteWorkLevel,
-                                  dropdownColor: context.cardColor,
-                                  items: RemoteWorkLevel.values.map((RemoteWorkLevel e) {
-                                    return DropdownMenuItem<RemoteWorkLevel>(
-                                      value: e,
-                                      child: Text(e.displayName,
-                                          style: primaryTextStyle(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    );
-                                  }).toList(),
-                                  onChanged: (RemoteWorkLevel? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedRemoteWorkLevel = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-                              8.width,
-                              Expanded(
-                                child: DropdownButtonFormField<CareerLevel>(
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.careerLevel,
-                                  ),
-                                  isExpanded: true,
-                                  initialValue: selectedCareerLevel,
-                                  dropdownColor: context.cardColor,
-                                  items: CareerLevel.values.map((CareerLevel e) {
-                                    return DropdownMenuItem<CareerLevel>(
-                                      value: e,
-                                      child: Text(e.displayName,
-                                          style: primaryTextStyle(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    );
-                                  }).toList(),
-                                  onChanged: (CareerLevel? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedCareerLevel = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-
-                            ],
-                          ),
-                          16.height,
-                          Row(
-                            children: [
-                              Expanded(
-                                child: DropdownButtonFormField<TravelRequirement>(
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.travelRequirements,
-                                  ),
-                                  isExpanded: true,
-                                  initialValue: selectedTravelRequirement,
-                                  dropdownColor: context.cardColor,
-                                  items: TravelRequirement.values.map((TravelRequirement e) {
-                                    return DropdownMenuItem<TravelRequirement>(
-                                      value: e,
-                                      child: Text(e.displayName,
-                                          style: primaryTextStyle(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    );
-                                  }).toList(),
-                                  onChanged: (TravelRequirement? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedTravelRequirement = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              ),
-
-                              8.width,
-                              Expanded(
-                                child:  DropdownButtonFormField<EducationLevel>(
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.educationLevel,
-                                  ),
-                                  isExpanded: true,
-                                  initialValue: selectedEducationLevel,
-                                  dropdownColor: context.cardColor,
-                                  items: EducationLevel.values.map((EducationLevel e) {
-                                    return DropdownMenuItem<EducationLevel>(
-                                      value: e,
-                                      child: Text(e.displayName,
-                                          style: primaryTextStyle(),
-                                          maxLines: 1,
-                                          overflow: TextOverflow.ellipsis),
-                                    );
-                                  }).toList(),
-                                  onChanged: (EducationLevel? value) async {
-                                    hideKeyboard(context);
-                                    if(value == null) return;
-                                    selectedEducationLevel = value;
-                                    setState(() {});
-                                  },
-                                ),
-                              )
-                            ],
-                          ),
-                          16.height,
-                          Align(
-                            alignment: Alignment.topLeft,
-                            child: Text(
-                              language.workingAddress,
-                              textAlign: TextAlign.start,
-                              style: primaryTextStyle(size: 16),
+                              ],
                             ),
-                          ),
                           16.height,
-                          Row(
-                            children: [
-                              Expanded(
-                                child: AppTextField(
-                                  controller: streetAddressCont,
-                                  textFieldType: TextFieldType.NAME,
-                                  isValidationRequired: false,
-                                  maxLines: 1,
-                                  focus: streetAddressFocus,
-                                  nextFocus: poboxAddressFocus,
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.streetAndHouseNr,
+                          if (currentStep == 2)
+                            Row(
+                              children: [
+                                Flexible(
+                                  child: AppTextField(
+                                    textFieldType: TextFieldType.NUMBER,
+                                    controller: totalDaysCont,
+                                    errorThisFieldRequired: language.requiredText,
+                                    decoration: inputDecoration(
+                                      context,
+                                      prefixIcon: Icon(Icons.timelapse_rounded),
+                                      labelText: language.totalDays,
+                                    ),
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    validator: (s) {
+                                      if (totalDaysCont.text.isEmpty)
+                                        return errorThisFieldRequired;
+                                      return null;
+                                    },
+                                    onChanged: (_) {
+                                      setTotalBudget();
+                                    },
                                   ),
                                 ),
-                              ),
-                              16.width,
-                              Expanded(
-                                child: AppTextField(
-                                  controller: poboxAddressCont,
-                                  textFieldType: TextFieldType.NAME,
-                                  isValidationRequired: false,
-                                  maxLines: 1,
-                                  focus: poboxAddressFocus,
-                                  nextFocus: requirementsFocus,
-                                  decoration: inputDecoration(
-                                    context,
-                                    labelText: language.poboxAndCityCountry,
+                                8.width,
+                                Flexible(
+                                  child: AppTextField(
+                                    textFieldType: TextFieldType.NUMBER,
+                                    controller: totalHoursCont,
+                                    errorThisFieldRequired: language.requiredText,
+                                    decoration: inputDecoration(
+                                      context,
+                                      prefixIcon: Icon(Icons.timer_outlined),
+                                      labelText: language.totalHours,
+                                    ),
+                                    keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
+                                    validator: (s) {
+                                      if (totalDaysCont.text.isEmpty)
+                                        return errorThisFieldRequired;
+                                      return null;
+                                    },
+                                    onChanged: (_) {
+                                      setTotalBudget();
+                                    },
                                   ),
                                 ),
-                              ),
-                            ],
-                          ),
-                          16.height,
-                          AppTextField(
-                            controller: descriptionCont,
-                            textFieldType: TextFieldType.MULTILINE,
-                            isValidationRequired: false,
-                            maxLines: 2,
-                            focus: descriptionFocus,
-                            nextFocus: streetAddressFocus,
-                            enableChatGPT: appConfigurationStore.chatGPTStatus,
-                            promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                              hintText: language.writeHere,
-                              fillColor: context.scaffoldBackgroundColor,
-                              filled: true,
-                            ),
-                            testWithoutKeyChatGPT: false,
-                            loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                            decoration: inputDecoration(
-                              context,
-                              labelText: language.postJobDescription,
+                              ],
                             ),
 
-                          ),
                           16.height,
-                          AppTextField(
-                            controller: requirementsCont,
-                            focus: requirementsFocus,
-                            nextFocus: dutiesFocus,
-                            textFieldType: TextFieldType.MULTILINE,
-                            errorThisFieldRequired: language.requiredText,
-                            maxLines: 2,
-                            enableChatGPT: appConfigurationStore.chatGPTStatus,
-                            promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                              hintText: language.writeHere,
-                              fillColor: context.scaffoldBackgroundColor,
-                              filled: true,
+                          if (currentStep == 2)
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AppTextField(
+                                    textFieldType: TextFieldType.PHONE,
+                                    controller: totalBudgetCont,
+                                    isValidationRequired: false,
+                                    readOnly: true,
+                                    errorThisFieldRequired: language.requiredText,
+                                    decoration: inputDecoration(context, labelText: language.totalBudget),
+                                    keyboardType: TextInputType.numberWithOptions(
+                                      decimal: true,
+                                      signed: true,
+                                    ),
+                                  ),
+                                ),
+                                8.width,
+                                Expanded(
+                                  child: DropdownButtonFormField<JobSchedule>(
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.jobSchedule,
+                                    ),
+                                    isExpanded: true,
+                                    initialValue: selectedJobSchedule,
+                                    dropdownColor: context.cardColor,
+                                    items: JobSchedule.values.map((JobSchedule e) {
+                                      return DropdownMenuItem<JobSchedule>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (JobSchedule? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedJobSchedule = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                              ],
                             ),
-                            testWithoutKeyChatGPT: false,
-                            loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                            decoration: inputDecoration(
-                              context,
-                              labelText: language.skillsAndRequirements,
-                            ),
-                          ),
                           16.height,
-                          AppTextField(
-                            controller: dutiesCont,
-                            textFieldType: TextFieldType.MULTILINE,
-                            isValidationRequired: false,
-                            maxLines: 2,
-                            focus: dutiesFocus,
-                            nextFocus: benefitsFocus,
-                            enableChatGPT: appConfigurationStore.chatGPTStatus,
-                            promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                              hintText: language.writeHere,
-                              fillColor: context.scaffoldBackgroundColor,
-                              filled: true,
+                          if (currentStep == 2)
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownButtonFormField<RemoteWorkLevel>(
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.remoteWorkLevel,
+                                    ),
+                                    isExpanded: true,
+                                    initialValue: selectedRemoteWorkLevel,
+                                    dropdownColor: context.cardColor,
+                                    items: RemoteWorkLevel.values.map((RemoteWorkLevel e) {
+                                      return DropdownMenuItem<RemoteWorkLevel>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (RemoteWorkLevel? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedRemoteWorkLevel = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+                                8.width,
+                                Expanded(
+                                  child: DropdownButtonFormField<CareerLevel>(
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.careerLevel,
+                                    ),
+                                    isExpanded: true,
+                                    initialValue: selectedCareerLevel,
+                                    dropdownColor: context.cardColor,
+                                    items: CareerLevel.values.map((CareerLevel e) {
+                                      return DropdownMenuItem<CareerLevel>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (CareerLevel? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedCareerLevel = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+
+                              ],
                             ),
-                            testWithoutKeyChatGPT: false,
-                            loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                            decoration: inputDecoration(
-                              context,
-                              labelText: language.dutiesAndResponsibilities,
-                            ),
-                          ),
                           16.height,
-                          AppTextField(
-                            controller: benefitsCont,
-                            textFieldType: TextFieldType.MULTILINE,
-                            isValidationRequired: false,
-                            maxLines: 2,
-                            focus: benefitsFocus,
-                            enableChatGPT: appConfigurationStore.chatGPTStatus,
-                            promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                              hintText: language.writeHere,
-                              fillColor: context.scaffoldBackgroundColor,
-                              filled: true,
+                          if (currentStep == 2)
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: DropdownButtonFormField<TravelRequirement>(
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.travelRequirements,
+                                    ),
+                                    isExpanded: true,
+                                    initialValue: selectedTravelRequirement,
+                                    dropdownColor: context.cardColor,
+                                    items: TravelRequirement.values.map((TravelRequirement e) {
+                                      return DropdownMenuItem<TravelRequirement>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (TravelRequirement? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedTravelRequirement = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                ),
+
+                                8.width,
+                                Expanded(
+                                  child:  DropdownButtonFormField<EducationLevel>(
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.educationLevel,
+                                    ),
+                                    isExpanded: true,
+                                    initialValue: selectedEducationLevel,
+                                    dropdownColor: context.cardColor,
+                                    items: EducationLevel.values.map((EducationLevel e) {
+                                      return DropdownMenuItem<EducationLevel>(
+                                        value: e,
+                                        child: Text(e.displayName,
+                                            style: primaryTextStyle(),
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis),
+                                      );
+                                    }).toList(),
+                                    onChanged: (EducationLevel? value) async {
+                                      hideKeyboard(context);
+                                      if(value == null) return;
+                                      selectedEducationLevel = value;
+                                      setState(() {});
+                                    },
+                                  ),
+                                )
+                              ],
                             ),
-                            testWithoutKeyChatGPT: false,
-                            loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                            decoration: inputDecoration(
-                              context,
-                              labelText: language.benefits,
+                          16.height,
+                          if (currentStep == 1)
+                            Align(
+                              alignment: Alignment.topLeft,
+                              child: Text(
+                                language.workingAddress,
+                                textAlign: TextAlign.start,
+                                style: primaryTextStyle(size: 16),
+                              ),
                             ),
-                          ),
+                          16.height,
+                          if (currentStep == 1)
+                            Row(
+                              children: [
+                                Expanded(
+                                  child: AppTextField(
+                                    controller: streetAddressCont,
+                                    textFieldType: TextFieldType.NAME,
+                                    isValidationRequired: false,
+                                    maxLines: 1,
+                                    focus: streetAddressFocus,
+                                    nextFocus: poboxAddressFocus,
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.streetAndHouseNr,
+                                    ),
+                                  ),
+                                ),
+                                16.width,
+                                Expanded(
+                                  child: AppTextField(
+                                    controller: poboxAddressCont,
+                                    textFieldType: TextFieldType.NAME,
+                                    isValidationRequired: false,
+                                    maxLines: 1,
+                                    focus: poboxAddressFocus,
+                                    nextFocus: requirementsFocus,
+                                    decoration: inputDecoration(
+                                      context,
+                                      labelText: language.poboxAndCityCountry,
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          16.height,
+                          if (currentStep == 3)
+                            AppTextField(
+                              controller: descriptionCont,
+                              textFieldType: TextFieldType.MULTILINE,
+                              isValidationRequired: false,
+                              maxLines: 2,
+                              focus: descriptionFocus,
+                              nextFocus: streetAddressFocus,
+                              enableChatGPT: appConfigurationStore.chatGPTStatus,
+                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
+                                hintText: language.writeHere,
+                                fillColor: context.scaffoldBackgroundColor,
+                                filled: true,
+                              ),
+                              testWithoutKeyChatGPT: false,
+                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
+                              decoration: inputDecoration(
+                                context,
+                                labelText: language.postJobDescription,
+                              ),
+
+                            ),
+                          16.height,
+                          if (currentStep == 3)
+                            AppTextField(
+                              controller: requirementsCont,
+                              focus: requirementsFocus,
+                              nextFocus: dutiesFocus,
+                              textFieldType: TextFieldType.MULTILINE,
+                              errorThisFieldRequired: language.requiredText,
+                              maxLines: 2,
+                              enableChatGPT: appConfigurationStore.chatGPTStatus,
+                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
+                                hintText: language.writeHere,
+                                fillColor: context.scaffoldBackgroundColor,
+                                filled: true,
+                              ),
+                              testWithoutKeyChatGPT: false,
+                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
+                              decoration: inputDecoration(
+                                context,
+                                labelText: language.skillsAndRequirements,
+                              ),
+                            ),
+                          16.height,
+                          if (currentStep == 3)
+                            AppTextField(
+                              controller: dutiesCont,
+                              textFieldType: TextFieldType.MULTILINE,
+                              isValidationRequired: false,
+                              maxLines: 2,
+                              focus: dutiesFocus,
+                              nextFocus: benefitsFocus,
+                              enableChatGPT: appConfigurationStore.chatGPTStatus,
+                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
+                                hintText: language.writeHere,
+                                fillColor: context.scaffoldBackgroundColor,
+                                filled: true,
+                              ),
+                              testWithoutKeyChatGPT: false,
+                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
+                              decoration: inputDecoration(
+                                context,
+                                labelText: language.dutiesAndResponsibilities,
+                              ),
+                            ),
+                          16.height,
+                          if (currentStep == 3)
+                            AppTextField(
+                              controller: benefitsCont,
+                              textFieldType: TextFieldType.MULTILINE,
+                              isValidationRequired: false,
+                              maxLines: 2,
+                              focus: benefitsFocus,
+                              enableChatGPT: appConfigurationStore.chatGPTStatus,
+                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
+                                hintText: language.writeHere,
+                                fillColor: context.scaffoldBackgroundColor,
+                                filled: true,
+                              ),
+                              testWithoutKeyChatGPT: false,
+                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
+                              decoration: inputDecoration(
+                                context,
+                                labelText: language.benefits,
+                              ),
+                            ),
 
                         ],
                       ).paddingAll(16),
@@ -1172,32 +1170,153 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                 ),
               ],
             ),
-            Positioned(
-              bottom: 16,
-              left: 16,
-              right: 16,
-              child: AppButton(
-                child: Text(language.publish, style: boldTextStyle(color: white)),
-                color: context.primaryColor,
-                width: context.width(),
-                onTap: () {
-                  hideKeyboard(context);
-
-                  if (formKey.currentState!.validate()) {
-                    formKey.currentState!.save();
-
-                    // if (selectedServiceList.isNotEmpty) {
-                    createPostJobClick();
-                    // } else {
-                    //   toast(language.createPostJobWithoutSelectService);
-                    // }
-                  }
-                },
-              ),
-            ),
+            _buildBottomBar(),
           ],
         ),
       ),
     );
+  }
+
+  Positioned _buildBottomBar() {
+    return Positioned(
+      bottom: 16,
+      left: 16,
+      right: 16,
+      child: Row(
+        children: [
+          if (currentStep > 0)
+            Expanded(
+              child: AppButton(
+                color: context.primaryColor.withValues(alpha: 0.15),
+                child: Text('Back', style: boldTextStyle(color: context.primaryColor)),
+                onTap: () {
+                  setState(() {
+                    currentStep -= 1;
+                  });
+                },
+              ),
+            ),
+          if (currentStep > 0) 16.width,
+          Expanded(
+            child: AppButton(
+              color: context.primaryColor,
+              child: Text(currentStep == _steps.length - 1 ? language.publish : 'Next',
+                  style: boldTextStyle(color: white)),
+              onTap: () {
+                hideKeyboard(context);
+                if (currentStep == _steps.length - 1) {
+                  if (_validateAll()) {
+                    createPostJobClick();
+                  }
+                  return;
+                }
+                if (_validateStep(currentStep)) {
+                  setState(() {
+                    currentStep += 1;
+                  });
+                }
+              },
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildStepper() {
+    return Row(
+      children: List.generate(_steps.length, (i) {
+        final bool active = i == currentStep;
+        return Expanded(
+          child: Column(
+            children: [
+              Container(
+                height: 4,
+                decoration: boxDecorationDefault(
+                  color: active ? context.primaryColor : context.dividerColor,
+                  borderRadius: radius(12),
+                ),
+              ),
+              6.height,
+              Text(_steps[i],
+                  style: active ? boldTextStyle(size: 12) : secondaryTextStyle(size: 12),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis),
+            ],
+          ).paddingRight(i == _steps.length - 1 ? 0 : 8),
+        );
+      }),
+    );
+  }
+
+  String _stepHint() {
+    switch (currentStep) {
+      case 0:
+        return 'Add a clear title and choose category.';
+      case 1:
+        return 'Set where the work will happen and your address.';
+      case 2:
+        return 'Choose rate type, dates, and budget. We auto-calc totals.';
+      case 3:
+        return 'Describe the job and attach images if helpful.';
+      default:
+        return '';
+    }
+  }
+
+  bool _validateStep(int step) {
+    if (step == 0) {
+      if (postTitleCont.text.trim().isEmpty) {
+        toast(language.requiredText);
+        return false;
+      }
+      if (categoryId == null || categoryId == -1) {
+        toast('Please select category');
+        return false;
+      }
+      return true;
+    } else if (step == 1) {
+      if (selectedCountry == null) {
+        toast('Please select country');
+        return false;
+      }
+      if (stateList.isNotEmpty && selectedState == null) {
+        toast('Please select state');
+        return false;
+      }
+      if (cityList.isNotEmpty && selectedCity == null) {
+        toast('Please select city');
+        return false;
+      }
+      return true;
+    } else if (step == 2) {
+      if (priceCont.text.trim().isEmpty) {
+        toast(language.requiredText);
+        return false;
+      }
+      if (selStartDate.validate().isEmpty || selEndDate.validate().isEmpty) {
+        toast('Please select start and end dates');
+        return false;
+      }
+      return true;
+    } else {
+      if (requirementsCont.text.trim().isEmpty) {
+        toast(language.requiredText);
+        return false;
+      }
+      return true;
+    }
+  }
+
+  bool _validateAll() {
+    for (int i = 0; i < _steps.length; i++) {
+      if (!_validateStep(i)) {
+        setState(() {
+          currentStep = i;
+        });
+        return false;
+      }
+    }
+    return true;
   }
 }

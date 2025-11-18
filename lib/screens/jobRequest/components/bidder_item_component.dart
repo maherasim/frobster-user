@@ -103,6 +103,33 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                       ],
                     ),
                   ),
+                  if (widget.data.whyChooseMe.validate().isNotEmpty) 8.height,
+                  if (widget.data.whyChooseMe.validate().isNotEmpty)
+                    InkWell(
+                      onTap: () {
+                        showInDialog(
+                          context,
+                          title: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                language.whyChooseMe,
+                                style: primaryTextStyle(),
+                              ),
+                              GestureDetector(
+                                onTap: () => finish(context),
+                                child: Icon(Icons.close),
+                              )
+                            ],
+                          ),
+                          builder: (context) => Text(
+                            widget.data.whyChooseMe.validate(),
+                            style: secondaryTextStyle(size: 12,color: textPrimaryColorGlobal),
+                          ),
+                        );
+                      },
+                      child: Text(language.whyChooseMe, style: primaryTextStyle(color: context.primaryColor, size: 12)),
+                    ),
                 ],
               ).expand(),
             ],
@@ -112,7 +139,7 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
               Expanded(
                 child: AppButton(
                   padding: EdgeInsets.zero,
-                  child: Text("View Job", style: boldTextStyle(color: white, size: 12)),
+                  child: Text("View Proposal", style: boldTextStyle(color: white, size: 12)),
                   color: context.primaryColor,
                   onTap: () async {
                     final id = widget.data.id.validate();
@@ -134,36 +161,10 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
               Expanded(
                 child: AppButton(
                   padding: EdgeInsets.zero,
-                  child: Text(
-                    language.whyChooseMe,
-                    style: boldTextStyle(color: white, size: 12),
-                    maxLines: 1,
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                  child: Text('Hire', style: boldTextStyle(color: white, size: 12)),
                   color: context.primaryColor,
                   onTap: () {
-                    showInDialog(
-                      context,
-                      title: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            language.whyChooseMe,
-                            style: primaryTextStyle(),
-                          ),
-                          GestureDetector(
-                            onTap: () => finish(context),
-                            child: Icon(
-                                Icons.close
-                            ),
-                          )
-                        ],
-                      ),
-                      builder: (context) => Text(
-                        widget.data.whyChooseMe.validate(),
-                        style: secondaryTextStyle(size: 12,color: textPrimaryColorGlobal),
-                      ),
-                    );
+                    _showHireSheet(context);
                   },
                 ),
               ),
@@ -172,5 +173,88 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
         ],
       ),
     );
+  }
+
+  void _showHireSheet(BuildContext context) {
+    num unitPrice = widget.data.price.validate();
+    int quantity = _getQuantityByPriceType(widget.postJobData);
+    num subTotal = unitPrice * quantity;
+    // Optional: could be provided by API on bid detail
+
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: context.cardColor,
+      shape: RoundedRectangleBorder(borderRadius: radiusOnly(topLeft: 20, topRight: 20)),
+      builder: (ctx) {
+        return Padding(
+          padding: EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16 + MediaQuery.of(ctx).viewInsets.bottom),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Text('Hire Provider', style: boldTextStyle(size: 18)).expand(),
+                  IconButton(icon: Icon(Icons.close), onPressed: () => finish(ctx)),
+                ],
+              ),
+              8.height,
+              Row(
+                children: [
+                  Text('Rate (unit)', style: secondaryTextStyle()).expand(),
+                  PriceWidget(price: unitPrice, color: textPrimaryColorGlobal),
+                ],
+              ),
+              8.height,
+              Row(
+                children: [
+                  Text('Quantity', style: secondaryTextStyle()).expand(),
+                  Text(quantity.toString(), style: primaryTextStyle()),
+                ],
+              ),
+              8.height,
+              Row(
+                children: [
+                  Text('Subtotal', style: boldTextStyle()).expand(),
+                  PriceWidget(price: subTotal, color: textPrimaryColorGlobal),
+                ],
+              ),
+              12.height,
+              AppButton(
+                width: context.width(),
+                color: context.primaryColor,
+                child: Text('Hire & Continue', style: boldTextStyle(color: white)),
+                onTap: () async {
+                  final id = widget.data.id.validate();
+                  finish(ctx);
+                  await JobRequestDetailsScreen(
+                    acceptedBidId: id,
+                    callback: () {
+                      widget.callback();
+                      isAccepted = true;
+                      setState(() {});
+                    },
+                  ).launch(context);
+                  if (isAccepted) {
+                    finish(context);
+                  }
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  int _getQuantityByPriceType(PostJobData post) {
+    if (post.priceType == PriceType.fixed) {
+      return 1;
+    } else if (post.priceType == PriceType.hourly) {
+      return post.totalHours?.toInt() ?? 1;
+    } else {
+      return post.totalDays?.toInt() ?? 1;
+    }
   }
 }

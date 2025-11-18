@@ -1024,13 +1024,13 @@ $serviceLink
 }
 
 Future<List<File>> getMultipleImageSource({bool isCamera = true}) async {
-  final pickedImage = await ImagePicker().pickMultiImage();
+  final pickedImage = await ImagePicker().pickMultiImage(imageQuality: 85);
   return pickedImage.map((e) => File(e.path)).toList();
 }
 
 Future<File> getCameraImage({bool isCamera = true}) async {
   final pickedImage = await ImagePicker()
-      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery);
+      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 85);
   return File(pickedImage!.path);
 }
 

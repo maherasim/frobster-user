@@ -77,107 +77,173 @@ class _MyPostRequestItemComponentState
       },
       child: Container(
         decoration: boxDecorationWithRoundedCorners(
-          borderRadius: radius(),
+          borderRadius: radius(16),
           backgroundColor: context.cardColor,
         ),
         width: context.width(),
         margin: EdgeInsets.only(top: 12, bottom: 8, left: 16, right: 16),
-        padding: EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 16),
-        child: Row(
+        child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            CachedImageWidget(
-              url: widget.data.images.isNotEmpty ? widget.data.images.first : "",
-              fit: BoxFit.cover,
-              height: 60,
-              width: 60,
-              circle: false,
-            ).cornerRadiusWithClipRRect(defaultRadius),
-            16.width,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+            // Image with overlays
+            Stack(
               children: [
-                Row(
-                  children: [
-                    Text(
-                        widget.data.title.validate(),
-                      style: boldTextStyle(),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
-                    ).expand(),
-                    Container(
-                      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(
-                        color: widget.data.status.bgColor.withValues(alpha: .1),
-                        borderRadius: radius(8),
+                ClipRRect(
+                  borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                  child: AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: CachedImageWidget(
+                      url: widget.data.images.isNotEmpty ? widget.data.images.first : "",
+                      fit: BoxFit.cover,
+                      height: double.infinity,
+                      width: double.infinity,
+                      circle: false,
+                    ),
+                  ),
+                ),
+                // Top gradient to improve legibility of overlays
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  top: 0,
+                  child: Container(
+                    height: 72,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.only(topLeft: Radius.circular(16), topRight: Radius.circular(16)),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.black.withValues(alpha: 0.35),
+                          Colors.black.withValues(alpha: 0.0),
+                        ],
                       ),
-                      child: Text(
-                        widget.data.status.displayName,
-                        style: boldTextStyle(
-                          color: widget.data.status.bgColor,
-                          size: 12,
+                    ),
+                  ),
+                ),
+                Positioned(
+                  left: 12,
+                  top: 12,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                    decoration: BoxDecoration(
+                      color: Colors.black.withValues(alpha: .55),
+                      borderRadius: radius(20),
+                    ),
+                    child: Text(
+                      widget.data.status.displayName,
+                      style: boldTextStyle(color: white, size: 12),
+                    ),
+                  ),
+                ),
+                Positioned(
+                  right: 12,
+                  bottom: 12,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: context.primaryColor,
+                      borderRadius: radius(20),
+                    ),
+                    child: Row(
+                      children: [
+                        PriceWidget(
+                          price: widget.data.price.validate(),
+                          isHourlyService: widget.data.priceType == PriceType.hourly,
+                          isDailyService: widget.data.priceType == PriceType.daily,
+                          isFixedService: widget.data.priceType == PriceType.fixed,
+                          color: white,
+                          isFreeService: false,
+                          size: 14,
+                        ),
+                        6.width,
+                        Text(
+                          widget.data.priceType?.displayName ?? '',
+                          style: primaryTextStyle(color: white, size: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            // Content
+            Padding(
+              padding: EdgeInsets.only(top: 12, bottom: 12, left: 16, right: 16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    widget.data.title.validate(),
+                    style: boldTextStyle(size: 16),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  6.height,
+                  if(widget.data.cityName.validate().isNotEmpty || widget.data.countryName.validate().isNotEmpty)
+                    Row(
+                      children: [
+                        Icon(Icons.location_on_outlined, size: 14, color: textSecondaryColorGlobal),
+                        4.width,
+                        Expanded(
+                          child: Text(
+                            "${widget.data.cityName ?? ''}${widget.data.countryName.validate().isEmpty ? "" : "${widget.data.cityName.validate().isEmpty ? "" :  " - "}${widget.data.countryName}"}",
+                            style: secondaryTextStyle(size: 12),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                      ],
+                    ),
+                  8.height,
+                  Row(
+                    children: [
+                      Container(
+                        padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                        decoration: BoxDecoration(
+                          color: context.primaryColor.withValues(alpha: 0.08),
+                          borderRadius: radius(20),
+                        ),
+                        child: Row(
+                          children: [
+                            Icon(Icons.work_outline, size: 14, color: context.primaryColor),
+                            6.width,
+                            Text(widget.data.type?.displayName ?? '', style: boldTextStyle(size: 12, color: context.primaryColor)),
+                          ],
                         ),
                       ),
-                    ),
-                  ],
-                ),
-                4.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    PriceWidget(
-                      price: widget.data.price.validate(),
-                      isHourlyService: widget.data.priceType == PriceType.hourly,
-                      isDailyService: widget.data.priceType == PriceType.daily,
-                      isFixedService: widget.data.priceType == PriceType.fixed,
-                      color: textPrimaryColorGlobal,
-                      isFreeService: false,
-                      size: 14,
-                    ),
-                    Text(
-                      "Proposals: ${widget.data.bidCount ?? 0}",
-                      style: secondaryTextStyle(),
-                    ),
-                  ],
-                ),
-                4.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      widget.data.type?.displayName ?? '',
-                      style: boldTextStyle(),
-                    ),
-                    Text(
-                      "Views:${widget.data.totalViews ?? 0}",
-                      style: secondaryTextStyle(),
-                    ),
-                  ],
-                ),
-                4.height,
-                if (widget.data.remoteWorkLevel != null)
-                  Text(
-                    widget.data.remoteWorkLevel!.displayName,
-                    style: secondaryTextStyle(size: 11),
-                    overflow: TextOverflow.ellipsis,
-                    maxLines: 1,
-                  ),
-                4.height,
-                if(widget.data.cityName.validate().isNotEmpty || widget.data.countryName.validate().isNotEmpty) Text(
-                "${widget.data.cityName ?? ''}${widget.data.countryName.validate().isEmpty ? "" : "${widget.data.cityName.validate().isEmpty ? "" :  " - "}${widget.data.countryName}"}",
-                  style: secondaryTextStyle(size: 12),
-                ),
-                4.height,
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Expanded(
-                      child: Text(
-                        formatDate(widget.data.createdAt.validate()),
-                        style: secondaryTextStyle(),
+                      12.width,
+                      Row(
+                        children: [
+                          Icon(Icons.remove_red_eye_outlined, size: 14, color: textSecondaryColorGlobal),
+                          4.width,
+                          Text("Views: ${widget.data.totalViews ?? 0}", style: secondaryTextStyle(size: 12)),
+                        ],
                       ),
-                    ),
-                    Row(
+                      12.width,
+                      Row(
+                        children: [
+                          Icon(Icons.how_to_reg_outlined, size: 14, color: textSecondaryColorGlobal),
+                          4.width,
+                          Text("Proposals: ${widget.data.bidCount ?? 0}", style: secondaryTextStyle(size: 12)),
+                        ],
+                      ),
+                    ],
+                  ),
+                  8.height,
+                  Row(
+                    children: [
+                      Icon(Icons.calendar_today_outlined, size: 14, color: textSecondaryColorGlobal),
+                      4.width,
+                      Text(formatDate(widget.data.createdAt.validate()), style: secondaryTextStyle(size: 12)),
+                    ],
+                  ),
+                  8.height,
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
                         if(widget.data.status == RequestStatus.requested) GestureDetector(
                           child: ic_edit_square.iconImage(size: 16),
@@ -189,31 +255,12 @@ class _MyPostRequestItemComponentState
                             }
                           },
                         ),
-                        // if(widget.data.status == RequestStatus.requested) IconButton(
-                        //   icon: ic_delete.iconImage(size: 16),
-                        //   visualDensity: VisualDensity.compact,
-                        //   onPressed: () {
-                        //     showConfirmDialogCustom(
-                        //       context,
-                        //       dialogType: DialogType.DELETE,
-                        //       title: '${language.deleteMessage}?',
-                        //       positiveText: language.lblYes,
-                        //       negativeText: language.lblNo,
-                        //       onAccept: (p0) {
-                        //         ifNotTester(() {
-                        //           deletePost(widget.data.id.validate());
-                        //         });
-                        //       },
-                        //     );
-                        //   },
-                        // ),
                       ],
-                    )
-                  ],
-                ),
-
-              ],
-            ).expand(),
+                    ),
+                  )
+                ],
+              ),
+            ),
           ],
         ),
       ),
