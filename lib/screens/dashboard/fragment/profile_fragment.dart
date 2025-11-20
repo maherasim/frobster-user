@@ -112,77 +112,76 @@ class ProfileFragmentState extends State<ProfileFragment> {
                 children: [
                   if (appStore.isLoggedIn)
                     Container(
-                      decoration: boxDecorationWithRoundedCorners(
-                        borderRadius: radius(),
-                        backgroundColor: appStore.isDarkMode
-                            ? context.cardColor
-                            : lightPrimaryColor,
-                        border: Border.all(color: primaryColor),
+                      decoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                          colors: [
+                            context.primaryColor,
+                            brandAccentColor,
+                          ],
+                        ),
+                        borderRadius: radius(12),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.08),
+                            blurRadius: 16,
+                            offset: Offset(0, 6),
+                          ),
+                        ],
                       ),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
                           Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              Stack(
-                                alignment: Alignment.bottomCenter,
-                                clipBehavior: Clip.none,
-                                children: [
-                                  CachedImageWidget(
-                                          url: appStore.userProfileImage,
-                                          height: 70,
-                                          width: 70,
-                                          circle: true,
-                                          fit: BoxFit.cover)
-                                      .paddingBottom(6),
-                                  Positioned(
-                                    child: Container(
-                                      alignment: Alignment.center,
-                                      padding: EdgeInsets.symmetric(
-                                          horizontal: 12, vertical: 2),
-                                      decoration: boxDecorationDefault(
-                                        color: primaryColor,
-                                        border: Border.all(
-                                            color: primaryLightColor, width: 2),
-                                        borderRadius: BorderRadius.circular(16),
-                                      ),
-                                      child: Text(language.lblEdit,
-                                          style: secondaryTextStyle(
-                                              color: whiteColor, size: 12)),
-                                    ).onTap(() {
-                                      EditProfileScreen().launch(context);
-                                    }),
-                                  ),
-                                ],
+                              CachedImageWidget(
+                                      url: appStore.userProfileImage,
+                                      height: 70,
+                                      width: 70,
+                                      circle: true,
+                                      fit: BoxFit.cover)
+                                  .paddingOnly(left: 16, top: 16, bottom: 16),
+                              16.width,
+                              Expanded(
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Marquee(
+                                        child: Text(appStore.userFullName,
+                                            style: boldTextStyle(
+                                                color: white, size: 18))),
+                                    4.height,
+                                    Marquee(
+                                        child: Text(appStore.userEmail,
+                                            style: secondaryTextStyle(
+                                                color: white.withOpacity(0.9)))),
+                                  ],
+                                ),
                               ),
-                              24.width,
-                              Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Marquee(
-                                      child: Text(appStore.userFullName,
-                                          style: boldTextStyle(
-                                              color: primaryColor, size: 16))),
-                                  Marquee(
-                                      child: Text(appStore.userEmail,
-                                          style: secondaryTextStyle())),
-                                ],
-                              ).expand(),
+                              IconButton(
+                                icon: Icon(Icons.edit_outlined, color: white),
+                                onPressed: () {
+                                  EditProfileScreen().launch(context);
+                                },
+                              ).paddingRight(4),
                             ],
-                          ).paddingOnly(left: 16, top: 16, bottom: 16),
+                          ),
                           Container(
                             decoration: BoxDecoration(
-                                borderRadius: BorderRadius.vertical(
-                                    bottom: Radius.circular(8)),
-                                color: primaryColor),
+                              color: Colors.white.withOpacity(0.15),
+                              borderRadius: BorderRadius.vertical(
+                                  bottom: Radius.circular(12)),
+                            ),
                             child: Row(
                               children: [
-                                Image.asset(ic_wallet_cartoon, height: 20),
+                                Image.asset(ic_wallet_cartoon, height: 20)
+                                    .withHeight(20),
                                 8.width,
                                 Text(language.walletBalance,
-                                        style: boldTextStyle(color: whiteColor))
+                                        style: boldTextStyle(color: white))
                                     .onTap(() {
                                   if (appConfigurationStore
                                       .onlinePaymentStatus) {
@@ -191,7 +190,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                 }),
                                 Spacer(),
                                 Text(appStore.userWalletAmount.toPriceFormat(),
-                                    style: boldTextStyle(color: whiteColor)),
+                                    style: boldTextStyle(color: white)),
                               ],
                             ).paddingAll(16),
                           ).visible(appConfigurationStore.isEnableUserWallet),
@@ -405,7 +404,14 @@ class ProfileFragmentState extends State<ProfileFragment> {
                     title: Text(language.lblAboutApp.toUpperCase(),
                         style: boldTextStyle(color: primaryColor)),
                     headingDecoration: BoxDecoration(
-                        color: context.primaryColor.withValues(alpha: 0.1),
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            context.primaryColor.withValues(alpha: 0.14),
+                            brandAccentColor.withValues(alpha: 0.10),
+                          ],
+                        ),
                         borderRadius: BorderRadiusDirectional.vertical(
                             top: Radius.circular(16))),
                     divider: Offstage(),
@@ -527,10 +533,24 @@ class ProfileFragmentState extends State<ProfileFragment> {
                     ],
                   ).paddingSymmetric(horizontal: 16),
                   SettingSection(
-                    title: Text(language.lblDangerZone.toUpperCase(),
-                        style: boldTextStyle(color: redColor, size: 14)),
+                    title: Row(
+                      children: [
+                        Icon(Icons.warning_amber_rounded,
+                            color: redColor, size: 18),
+                        6.width,
+                        Text(language.lblDangerZone.toUpperCase(),
+                            style: boldTextStyle(color: redColor, size: 14)),
+                      ],
+                    ),
                     headingDecoration: BoxDecoration(
-                        color: redColor.withValues(alpha: 0.08),
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            redColor.withValues(alpha: 0.10),
+                            redColor.withValues(alpha: 0.04),
+                          ],
+                        ),
                         borderRadius: BorderRadiusDirectional.vertical(
                             top: Radius.circular(16))),
                     divider: Offstage(),
@@ -547,7 +567,8 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             size: SETTING_ICON_SIZE),
                         paddingBeforeTrailing: 4,
                         title: language.lblDeleteAccount,
-                        titleTextStyle: boldTextStyle(size: 12),
+                        titleTextStyle:
+                            boldTextStyle(size: 12, color: redColor),
                         highlightColor: Colors.transparent,
                         splashColor: Colors.transparent,
                         onTap: () {
@@ -588,15 +609,25 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           );
                         },
                       ),
-                      64.height,
-                      TextButton(
-                        child: Text(language.logout,
-                            style:
-                                boldTextStyle(color: primaryColor, size: 16)),
-                        onPressed: () {
-                          logout(context);
-                        },
-                      ).center(),
+                      20.height,
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 16),
+                        child: AppButton(
+                          width: double.infinity,
+                          elevation: 0,
+                          color: Colors.transparent,
+                          text: language.logout,
+                          textStyle: boldTextStyle(color: redColor),
+                          shapeBorder: RoundedRectangleBorder(
+                            side: BorderSide(color: redColor),
+                            borderRadius: radius(12),
+                          ),
+                          onTap: () {
+                            logout(context);
+                          },
+                        ),
+                      ),
+                      12.height,
                     ],
                   )
                   //     .visible(appStore.isLoggedIn)

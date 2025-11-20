@@ -49,24 +49,57 @@ class CategoryComponentState extends State<CategoryComponent> {
             });
           },
         ).paddingSymmetric(horizontal: 16),
-        AnimatedWrap(
-          spacing: 16,
-          runSpacing: 16,
-          itemCount: widget.categoryList.validate().length,
-          itemBuilder: (ctx, i) {
-            CategoryData data = widget.categoryList![i];
-            return GestureDetector(
-              onTap: () {
-                ViewAllServiceScreen(
-                        categoryId: data.id.validate(),
-                        categoryName: data.name,
-                        isFromCategory: true)
-                    .launch(context);
-              },
-              child: CategoryWidget(categoryData: data),
-            );
-          },
-        ).paddingSymmetric(horizontal: 16),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 16),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: Row(
+              children: List.generate(widget.categoryList!.length, (i) {
+                final data = widget.categoryList![i];
+                final isLast = i == widget.categoryList!.length - 1;
+
+                final tile = GestureDetector(
+                  onTap: () {
+                    ViewAllServiceScreen(
+                            categoryId: data.id.validate(),
+                            categoryName: data.name,
+                            isFromCategory: true)
+                        .launch(context);
+                  },
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 12, vertical: 14),
+                    decoration: BoxDecoration(
+                      color: context.cardColor,
+                      borderRadius: radius(14),
+                      border: Border.all(
+                        color: context.dividerColor.withValues(alpha: 0.4),
+                      ),
+                    ),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        // Match Category page tile visual
+                        CategoryWidget(
+                          categoryData: data,
+                        ),
+                        6.height,
+                        Text(
+                          '${(data.services ?? 0)} ${language.services}',
+                          style: secondaryTextStyle(size: 11),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+
+                return Padding(
+                  padding: EdgeInsets.only(right: isLast ? 0 : 16),
+                  child: tile,
+                );
+              }),
+            ),
+          ),
+        ),
       ],
     );
   }

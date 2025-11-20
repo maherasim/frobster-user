@@ -13,7 +13,13 @@ class AppTheme {
         primarySwatch: createMaterialColor(color ?? primaryColor),
         primaryColor: color ?? primaryColor,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: color ?? primaryColor, outlineVariant: borderColor),
+          seedColor: color ?? primaryColor,
+          outlineVariant: borderColor,
+        ).copyWith(
+          primary: color ?? primaryColor,
+          secondary: brandAccentColor,
+          tertiary: brandAccentColor,
+        ),
         scaffoldBackgroundColor: Colors.white,
         fontFamily: GoogleFonts.inter().fontFamily,
         bottomNavigationBarTheme:
@@ -41,7 +47,7 @@ class AppTheme {
         floatingActionButtonTheme: FloatingActionButtonThemeData(
             backgroundColor: color ?? primaryColor),
         appBarTheme: AppBarTheme(
-            backgroundColor: primaryColor,
+            backgroundColor: color ?? primaryColor,
             iconTheme: IconThemeData(color: Colors.white),
             titleTextStyle: secondaryTextStyle(size: 22, color: white),
             systemOverlayStyle: SystemUiOverlayStyle(
@@ -68,9 +74,16 @@ class AppTheme {
         primarySwatch: createMaterialColor(color ?? primaryColor),
         primaryColor: color ?? primaryColor,
         colorScheme: ColorScheme.fromSeed(
-            seedColor: color ?? primaryColor, outlineVariant: borderColor),
+          seedColor: color ?? primaryColor,
+          outlineVariant: borderColor,
+          brightness: Brightness.dark,
+        ).copyWith(
+          primary: color ?? primaryColor,
+          secondary: brandAccentColor,
+          tertiary: brandAccentColor,
+        ),
         appBarTheme: AppBarTheme(
-          backgroundColor: primaryColor,
+          backgroundColor: color ?? primaryColor,
           iconTheme: IconThemeData(color: Colors.white),
           titleTextStyle: secondaryTextStyle(size: 22, color: white),
           systemOverlayStyle:
