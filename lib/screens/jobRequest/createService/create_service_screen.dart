@@ -460,7 +460,7 @@ class _CreateServiceScreenState extends State<CreateServiceScreen> {
                           labelText: language.lblCategory),
                       hint: Text(language.selectCategory,
                           style: secondaryTextStyle()),
-                      value: selectedCategory,
+                      initialValue: selectedCategory,
                       validator: (value) {
                         if (value == null) return errorThisFieldRequired;
 

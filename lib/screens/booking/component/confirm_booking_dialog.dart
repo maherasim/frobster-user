@@ -19,7 +19,6 @@ import '../../../model/booking_amount_model.dart';
 import '../../../utils/app_configuration.dart';
 import '../../../utils/common.dart';
 import '../../../utils/constant.dart';
-import '../../payment/payment_screen.dart';
 import 'booking_confirmation_dialog.dart';
 import 'dart:developer' as dev;
 

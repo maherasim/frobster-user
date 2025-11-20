@@ -291,7 +291,7 @@ class LanguageEn extends BaseLanguage {
   String get lblCall => "Call";
 
   @override
-  String get lblRateHandyman => "Rate Handyman";
+  String get lblRateHandyman => "Rate Worker";
 
   @override
   String get msgForLocationOn =>
@@ -395,7 +395,7 @@ class LanguageEn extends BaseLanguage {
   String get lblTime => "Time";
 
   @override
-  String get textProvider => "Provider";
+  String get textProvider => "Employeer";
 
   @override
   String get lblConfirmBooking => "Confirm Booking";
@@ -428,10 +428,10 @@ class LanguageEn extends BaseLanguage {
   String get lblDate => "Date";
 
   @override
-  String get lblAboutHandyman => "About Handyman";
+  String get lblAboutHandyman => "About Worker";
 
   @override
-  String get lblAboutProvider => "About Provider";
+  String get lblAboutProvider => "About Employeer";
 
   @override
   String get lblNotRatedYet => "You haven't rated yet";
@@ -573,7 +573,7 @@ class LanguageEn extends BaseLanguage {
       "$APP_NAME - On-Demand Home Services App with Complete Solution";
 
   @override
-  String get textHandyman => "Handyman";
+  String get textHandyman => "Worker";
 
   @override
   String get lblChooseFromMap => "Choose From Map";
@@ -746,7 +746,7 @@ class LanguageEn extends BaseLanguage {
   String get lblSignInWithApple => "Sign in with Apple";
 
   @override
-  String get lblWaitingForProviderApproval => "Waiting for Provider Approval";
+  String get lblWaitingForProviderApproval => "Waiting for Employeer Approval";
 
   @override
   String get lblFree => "Free";
@@ -781,7 +781,7 @@ class LanguageEn extends BaseLanguage {
   String get noCategoryFound => "No Category Found";
 
   @override
-  String get noProviderFound => "No Provider Found";
+  String get noProviderFound => "No Employeer Found";
 
   @override
   String get createServiceRequest => "Create Service";
@@ -891,7 +891,7 @@ class LanguageEn extends BaseLanguage {
   String get bidder => 'Bidder List';
 
   @override
-  String get assignedProvider => 'Assigned Provider';
+  String get assignedProvider => 'Assigned Employeer';
 
   @override
   String get myPostDetail => 'My Post Detail';
@@ -916,7 +916,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get noPostJobFoundSubtitle =>
-      'When you post your job, every Provider will notified, and you can choose your desired Provider to get the job done.';
+      'When you post your job, every Employeer will be notified, and you can choose your desired Employeer to get the job done.';
 
   @override
   String get pleaseEnterValidOTP => 'Please enter Valid OTP';
@@ -1086,11 +1086,11 @@ class LanguageEn extends BaseLanguage {
       'Do you want to delete the message?';
 
   @override
-  String get favouriteProvider => 'Favourite Provider';
+  String get favouriteProvider => 'Favourite Employeer';
 
   @override
   String get noProviderFoundMessage =>
-      'Your favourite providers will appear here';
+      'Your favourite Employeers will appear here';
 
   @override
   String get personalInfo => 'Personal Info';
@@ -1322,11 +1322,11 @@ class LanguageEn extends BaseLanguage {
   String get closeApp => 'Close App';
 
   @override
-  String get providerAddedToFavourite => 'Provider added to Favourite list';
+  String get providerAddedToFavourite => 'Employeer added to Favourite list';
 
   @override
   String get providerRemovedFromFavourite =>
-      'Provider removed from Favourite list';
+      'Employeer removed from Favourite list';
 
   @override
   String get provideValidCurrentPasswordMessage =>
@@ -1509,10 +1509,10 @@ class LanguageEn extends BaseLanguage {
   String get coupons => 'Coupons';
 
   @override
-  String get handymanList => 'Handyman List';
+  String get handymanList => 'Worker List';
 
   @override
-  String get noHandymanFound => 'No Handyman Found';
+  String get noHandymanFound => 'No Worker Found';
 
   @override
   String get back => 'Back';
@@ -1521,7 +1521,7 @@ class LanguageEn extends BaseLanguage {
   String get team => 'Team';
 
   @override
-  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Provider';
+  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Employeer';
 
   @override
   String get reason => 'Reason';
@@ -1822,16 +1822,16 @@ class LanguageEn extends BaseLanguage {
   String get canTFindYourServices => "Can't find your services?";
 
   @override
-  String get trackProviderLocation => 'Track Provider Location';
+  String get trackProviderLocation => 'Track Employeer Location';
 
   @override
-  String get trackHandymanLocation => 'Track Handyman Location';
+  String get trackHandymanLocation => 'Track Worker Location';
 
   @override
-  String get handymanLocation => 'Handyman Location';
+  String get handymanLocation => 'Worker Location';
 
   @override
-  String get providerLocation => 'Provider Location';
+  String get providerLocation => 'Employeer Location';
 
   @override
   String get lastUpdatedAt => 'Last updated at:';
@@ -1840,10 +1840,10 @@ class LanguageEn extends BaseLanguage {
   String get track => 'Track';
 
   @override
-  String get handymanReached => 'Handyman Reached? Click to start';
+  String get handymanReached => 'Worker Reached? Click to start';
 
   @override
-  String get providerReached => 'Provider Reached? Click to start';
+  String get providerReached => 'Employeer Reached? Click to start';
 
   @override
   String get addBank => "Add bank";
@@ -2135,10 +2135,10 @@ class LanguageEn extends BaseLanguage {
   String get selectStartDateEndDate => 'Select start date & end date';
 
   @override
-  String get handymanNotFound => 'Handyman Not Found';
+  String get handymanNotFound => 'Worker Not Found';
 
   @override
-  String get providerNotFound => 'Provider Not Found';
+  String get providerNotFound => 'Employeer Not Found';
 
   @override
   String get rateYourExperience => 'Rate Your Experience';
@@ -2163,7 +2163,7 @@ class LanguageEn extends BaseLanguage {
   String get chooseYourDateRange => 'Choose your Date Range';
 
   @override
-  String get asHandyman => 'As Handyman';
+  String get asHandyman => 'As Worker';
 
   @override
   String get passwordLengthShouldBe =>
@@ -2280,7 +2280,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get waitingForProviderToSplitPayment =>
-      'Waiting for provider to split payment';
+      'Waiting for Employeer to split payment';
 
   @override
   String get waitingForCustomerToPayAdvancePercentage =>
@@ -2292,13 +2292,13 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get waitingForProviderToStartWork =>
-      'Waiting for provider to start work';
+      'Waiting for Employeer to start work';
 
   @override
   String get waitingForProviderToResumeWork =>
-      'Waiting for provider to resume work';
+      'Waiting for Employeer to resume work';
 
   @override
   String get waitingForProviderToMarkBidAsCompleted =>
-      'Waiting for provider to mark the bid as completed';
+      'Waiting for Employeer to mark the bid as completed';
 }

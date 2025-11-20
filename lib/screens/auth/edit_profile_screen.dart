@@ -622,7 +622,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       decoration: inputDecoration(context,
                           labelText: 'Select Availability'),
                       isExpanded: true,
-                      value: selectedAvailability,
+                      initialValue: selectedAvailability,
                       dropdownColor: context.cardColor,
                       items: availabilityList.map((String e) {
                         return DropdownMenuItem<String>(
@@ -662,7 +662,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       decoration: inputDecoration(context,
                           labelText: language.selectCountry),
                       isExpanded: true,
-                      value: selectedCountry,
+                      initialValue: selectedCountry,
                       dropdownColor: context.cardColor,
                       items: countryList.map((CountryListResponse e) {
                         return DropdownMenuItem<CountryListResponse>(
@@ -693,7 +693,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                             labelText: language.selectState),
                         isExpanded: true,
                         dropdownColor: context.cardColor,
-                        value: selectedState,
+                        initialValue: selectedState,
                         items: stateList.map((StateListResponse e) {
                           return DropdownMenuItem<StateListResponse>(
                             value: e,
@@ -722,7 +722,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     decoration: inputDecoration(context,
                         labelText: language.selectCity),
                     isExpanded: true,
-                    value: selectedCity,
+                    initialValue: selectedCity,
                     dropdownColor: context.cardColor,
                     items: cityList.map((CityListResponse e) {
                       return DropdownMenuItem<CityListResponse>(

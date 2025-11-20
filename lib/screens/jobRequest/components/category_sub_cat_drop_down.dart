@@ -97,7 +97,7 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
       child: Column(
         children: [
           DropdownButtonFormField<CategoryData>(
-            value: selectedCategory,
+            initialValue: selectedCategory,
             decoration: inputDecoration(
               context,
               labelText: language.lblCategory,
@@ -137,7 +137,7 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
               labelText: getStringValue(),
             ),
             dropdownColor: context.cardColor,
-            value: selectedSubCategory,
+            initialValue: selectedSubCategory,
             validator: widget.isSubCategoryValidate.validate(value: true)
                 ? (value) {
                     if (value == null) return errorThisFieldRequired;

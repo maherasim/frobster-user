@@ -187,7 +187,7 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
                     decoration: inputDecoration(context),
                     isExpanded: true,
                     menuMaxHeight: 300,
-                    value: selectedBank,
+                    initialValue: selectedBank,
                     hint: Text(
                       language.egCentralNationalBank,
                       style: secondaryTextStyle(size: 12),

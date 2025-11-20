@@ -206,7 +206,7 @@ class _AddBankScreenState extends State<AddBankScreen> {
                     DropdownButtonFormField<StaticDataModel>(
                       isExpanded: true,
                       dropdownColor: context.cardColor,
-                      value: blogStatusModel != null
+                      initialValue: blogStatusModel != null
                           ? blogStatusModel
                           : statusListStaticData.first,
                       items: statusListStaticData.map((StaticDataModel data) {

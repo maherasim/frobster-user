@@ -292,7 +292,7 @@ class LanguageAr extends BaseLanguage {
   String get lblCall => "اتصال";
 
   @override
-  String get lblRateHandyman => "مكالمة";
+  String get lblRateHandyman => "قيّم العامل";
 
   @override
   String get msgForLocationOn =>
@@ -395,7 +395,7 @@ class LanguageAr extends BaseLanguage {
   String get lblTime => "الوقت";
 
   @override
-  String get textProvider => "مزود";
+  String get textProvider => "صاحب العمل";
 
   @override
   String get lblConfirmBooking => "تأكيد الحجز";
@@ -428,10 +428,10 @@ class LanguageAr extends BaseLanguage {
   String get lblDate => "تاريخ";
 
   @override
-  String get lblAboutHandyman => "حول العمل اليدوي";
+  String get lblAboutHandyman => "حول العامل";
 
   @override
-  String get lblAboutProvider => "حول مزود";
+  String get lblAboutProvider => "حول صاحب العمل";
 
   @override
   String get lblNotRatedYet => "لم تقيم بعد";
@@ -506,12 +506,12 @@ class LanguageAr extends BaseLanguage {
   String get lblNoRateYet => "حاليا لم تقيم أي خدمات";
 
   @override
-  String get lblMemberSince => "عضو منذ ذلك الحين";
+  String get lblMemberSince => "عضو منdذ ذلك الحين" ;
 
   @override
   String get lblFilterBy => "تصنيف بواسطة";
 
-  @override
+  @override 
   String get lblClearFilter => "حذف التصنيف";
 
   @override
@@ -573,7 +573,7 @@ class LanguageAr extends BaseLanguage {
       "خدمة $APP_NAME - تطبيق خدمات المنزل عند الطلب مع حل كامل";
 
   @override
-  String get textHandyman => "Handyman";
+  String get textHandyman => "عامل";
 
   @override
   String get lblChooseFromMap => "اختر من بين الخريطة";
@@ -631,7 +631,7 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get lblWalkThrough0 =>
-      "خدمة Handyman - تطبيق الخدمات المنزلية عند الطلب مع حل كامل";
+      "خدمة $APP_NAME - تطبيق الخدمات المنزلية عند الطلب مع حل كامل";
 
   @override
   String get lblServiceTotalTime => "إجمالي الخدمة";
@@ -777,7 +777,7 @@ class LanguageAr extends BaseLanguage {
   String get noCategoryFound => "لم يتم العثور على فئة";
 
   @override
-  String get noProviderFound => "لم يتم العثور على مزود";
+  String get noProviderFound => "لم يتم العثور على صاحب العمل";
 
   @override
   String get createServiceRequest => "إنشاء طلب خدمة";
@@ -886,7 +886,7 @@ class LanguageAr extends BaseLanguage {
   String get bidder => 'مزايد';
 
   @override
-  String get assignedProvider => 'مزود مخصص';
+  String get assignedProvider => 'صاحب العمل المخصص';
 
   @override
   String get myPostDetail => 'تفاصيل ما بعد ذلك';
@@ -911,7 +911,7 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get noPostJobFoundSubtitle =>
-      'عندما تنشر وظيفتك ، سيتم إخطار كل مزود ، ويمكنك اختيار مزودك المطلوب لإنجاز المهمة.';
+      'عندما تنشر وظيفتك، سيتم إخطار كل صاحب عمل، ويمكنك اختيار صاحب العمل المطلوب لإنجاز المهمة.';
 
   @override
   String get pleaseEnterValidOTP => 'الرجاء إدخال OTP صالح';
@@ -1078,10 +1078,10 @@ class LanguageAr extends BaseLanguage {
   String get lblConfirmationForDeleteMsg => 'هل تريد حذف الرسالة؟';
 
   @override
-  String get favouriteProvider => 'المزود المفضل';
+  String get favouriteProvider => 'صاحب العمل المفضل';
 
   @override
-  String get noProviderFoundMessage => 'سيظهر مقدمي الخدمات المفضلين لديك هنا';
+  String get noProviderFoundMessage => 'سيظهر أصحاب العمل المفضلون لديك هنا';
 
   @override
   String get personalInfo => 'معلومات شخصية';
@@ -1499,10 +1499,10 @@ class LanguageAr extends BaseLanguage {
   String get coupons => 'كوبونات';
 
   @override
-  String get handymanList => 'قائمة الماشية';
+  String get handymanList => 'قائمة العمال';
 
   @override
-  String get noHandymanFound => 'لم يتم العثور على الماشية';
+  String get noHandymanFound => 'لم يتم العثور على عامل';
 
   @override
   String get back => 'خلف';
@@ -1803,16 +1803,16 @@ class LanguageAr extends BaseLanguage {
   String get canTFindYourServices => 'لا تستطيع العثور على خدماتك؟';
 
   @override
-  String get trackProviderLocation => 'تتبع موقع المزود';
+  String get trackProviderLocation => 'تتبع موقع صاحب العمل';
 
   @override
-  String get trackHandymanLocation => 'تتبع موقع العامل الماهر';
+  String get trackHandymanLocation => 'تتبع موقع العامل';
 
   @override
-  String get handymanLocation => 'موقع العامل الماهر';
+  String get handymanLocation => 'موقع العامل';
 
   @override
-  String get providerLocation => 'موقع المزود';
+  String get providerLocation => 'موقع صاحب العمل';
 
   @override
   String get lastUpdatedAt => 'آخر تحديث في:';
@@ -1821,10 +1821,10 @@ class LanguageAr extends BaseLanguage {
   String get track => 'مسار';
 
   @override
-  String get handymanReached => 'هل وصل العامل الماهر؟ انقر لتبدأ';
+  String get handymanReached => 'هل وصل العامل؟ انقر لتبدأ';
 
   @override
-  String get providerReached => 'هل وصل المزود؟ انقر لتبدأ';
+  String get providerReached => 'هل وصل صاحب العمل؟ انقر لتبدأ';
 
   @override
   String get addBank => "أضف البنك";
@@ -2114,10 +2114,10 @@ class LanguageAr extends BaseLanguage {
   String get selectStartDateEndDate => 'حدد تاريخ البدء وتاريخ الانتهاء';
 
   @override
-  String get handymanNotFound => 'لم يتم العثور على العامل الماهر';
+  String get handymanNotFound => 'لم يتم العثور على عامل';
 
   @override
-  String get providerNotFound => 'لم يتم العثور على الموفر';
+  String get providerNotFound => 'لم يتم العثور على صاحب العمل';
 
   @override
   String get rateYourExperience => 'قيم تجربتك';
@@ -2237,7 +2237,7 @@ class LanguageAr extends BaseLanguage {
   String get waitingForCustomerToConfirm => "في انتظار تأكيد العميل 'دعنا نبدأ العمل'";
 
   @override
-  String get workInProgressWaitingForProvider => "العمل قيد التقدم — في انتظار المزود للتحديث أو الإنجاز";
+  String get workInProgressWaitingForProvider => "العمل قيد التقدم — في انتظار صاحب العمل للتحديث أو الإنجاز";
 
   @override
   String get jobCompletedWaitingForCustomer => "تم إنجاز المهمة — في انتظار العميل لدفع المبلغ المتبقي";
@@ -2249,7 +2249,7 @@ class LanguageAr extends BaseLanguage {
   String get waitingForCustomerToAcceptTheBid => 'في انتظار قبول العميل للعرض';
 
   @override
-  String get waitingForProviderToSplitPayment => 'في انتظار المزود لتقسيم الدفع';
+  String get waitingForProviderToSplitPayment => 'في انتظار صاحب العمل لتقسيم الدفع';
 
   @override
   String get waitingForCustomerToPayAdvancePercentage => 'في انتظار دفع العميل للنسبة المقدمة';
@@ -2258,11 +2258,11 @@ class LanguageAr extends BaseLanguage {
   String get waitingForCustomerToConfirmWorkDone => 'في انتظار تأكيد العميل لإنجاز العمل';
 
   @override
-  String get waitingForProviderToStartWork => 'في انتظار المزود لبدء العمل';
+  String get waitingForProviderToStartWork => 'في انتظار صاحب العمل لبدء العمل';
 
   @override
-  String get waitingForProviderToResumeWork => 'في انتظار المزود لاستئناف العمل';
+  String get waitingForProviderToResumeWork => 'في انتظار صاحب العمل لاستئناف العمل';
 
   @override
-  String get waitingForProviderToMarkBidAsCompleted => 'في انتظار المزود لتمييز العرض كمكتمل';
+  String get waitingForProviderToMarkBidAsCompleted => 'في انتظار صاحب العمل لتمييز العرض كمكتمل';
 }

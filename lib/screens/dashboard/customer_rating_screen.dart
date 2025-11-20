@@ -1,12 +1,10 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
-import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-import '../../component/add_review_dialog.dart';
 import '../../component/cached_image_widget.dart';
 import '../../component/disabled_rating_bar_widget.dart';
 import '../../component/empty_error_state_widget.dart';

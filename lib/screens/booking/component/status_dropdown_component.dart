@@ -67,7 +67,7 @@ class _StatusDropdownComponentState extends State<StatusDropdownComponent> {
             onChanged: (value) {
               widget.onValueChanged.call(value!);
             },
-            value: selectedData,
+            initialValue: selectedData,
             isExpanded: true,
             validator: widget.isValidate
                 ? (c) {
