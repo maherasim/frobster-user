@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../utils/constant.dart';
+import '../utils/colors.dart';
 
 class AppScaffold extends StatelessWidget {
   final String? appBarTitle;
@@ -36,7 +37,12 @@ class AppScaffold extends StatelessWidget {
                   style: boldTextStyle(
                       color: Colors.white, size: APP_BAR_TEXT_SIZE)),
               elevation: 0.0,
-              backgroundColor: context.primaryColor,
+              backgroundColor: Colors.transparent,
+              flexibleSpace: Container(
+                decoration: BoxDecoration(
+                  gradient: appPrimaryGradient,
+                ),
+              ),
               leading: context.canPop ? BackWidget() : null,
               actions: actions,
               bottom: bottom,

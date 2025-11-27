@@ -376,9 +376,10 @@ class ServiceComponentState extends State<ServiceComponent> {
                   right: 8,
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: boxDecorationWithShadow(
-                      backgroundColor: primaryColor,
+                    decoration: BoxDecoration(
+                      gradient: appPrimaryGradient,
                       borderRadius: radius(24),
+                      boxShadow: defaultBoxShadow(shadowColor: Colors.black12),
                       border: Border.all(color: context.cardColor, width: 2),
                     ),
                     child: PriceWidget(

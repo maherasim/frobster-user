@@ -149,6 +149,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       taxes: widget.data.taxes,
       quantity: itemCount,
       selectedPackage: widget.selectedPackage,
+      couponBasePrice: widget.selectedPackage != null
+          ? widget.selectedPackage!.price.validate()
+          : initialPrice.validate(),
     );
 
     if (bookingAmountModel.finalSubTotal.isNegative) {
@@ -280,13 +283,19 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
         }
       },
       child: Scaffold(
-        appBar: appBarWidget(
-          widget.selectedPackage == null
-              ? language.bookTheService
-              : language.bookPackage,
-          textColor: Colors.white,
-          color: context.primaryColor,
-          backWidget: BackWidget(),
+        appBar: AppBar(
+          title: Text(
+              widget.selectedPackage == null
+                  ? language.bookTheService
+                  : language.bookPackage,
+              style:
+                  boldTextStyle(color: Colors.white, size: APP_BAR_TEXT_SIZE)),
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          leading: BackWidget(),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(gradient: appPrimaryGradient),
+          ),
         ),
         body: Body(
           showLoader: true,

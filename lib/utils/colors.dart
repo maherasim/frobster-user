@@ -55,5 +55,14 @@ const jobRequestComponentColor = Color(0xFFE4BB97);
 const dashboard3CardColor = Color(0xFFF6F7F9);
 const cancellationsBgColor = Color(0xFFFFE5E5);
 
-// Brand accent for gradients and highlights (violet to complement blue)
+// Brand accent and gradient
 const brandAccentColor = Color.fromARGB(255, 62, 65, 241);
+
+// Red–Blue primary gradient requested by client
+const Color gradientRed = Color(0xFFE53935); // vivid red
+const Color gradientBlue = Color(0xFF1E88E5); // strong blue
+const LinearGradient appPrimaryGradient = LinearGradient(
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+  colors: <Color>[gradientRed, gradientBlue],
+);

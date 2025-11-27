@@ -11,6 +11,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../component/empty_error_state_widget.dart';
 import '../../../store/filter_store.dart';
+import '../../utils/colors.dart';
 
 class MyBookingsScreen extends StatefulWidget {
   @override
@@ -87,40 +88,13 @@ class _BookingFragmentState extends State<MyBookingsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        'My Bookings',
-        textColor: white,
-        showBack: false,
-        textSize: APP_BAR_TEXT_SIZE,
-        elevation: 3.0,
-        color: context.primaryColor,
-        // actions: [
-        //   IconButton(
-        //     icon: ic_filter.iconImage(color: white, size: 20),
-        //     onPressed: () async {
-        //       BookingFilterScreen(showHandymanFilter: true)
-        //           .launch(context)
-        //           .then((value) {
-        //         if (value != null) {
-        //           page = 1;
-        //           appStore.setLoading(true);
-
-        //           init();
-
-        //           if (bookings.isNotEmpty) {
-        //             scrollController.animateTo(0,
-        //                 duration: 1.seconds, curve: Curves.easeOutQuart);
-        //           } else {
-        //             scrollController = ScrollController();
-        //             keyForList = UniqueKey();
-        //           }
-
-        //           setState(() {});
-        //         }
-        //       });
-        //     },
-        //   ),
-        // ],
+      appBar: AppBar(
+        title: Text('My Bookings',
+            style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE)),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
+        flexibleSpace:
+            Container(decoration: BoxDecoration(gradient: appPrimaryGradient)),
       ),
       body: SizedBox(
         width: context.width(),

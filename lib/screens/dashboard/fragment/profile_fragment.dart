@@ -78,13 +78,12 @@ class ProfileFragmentState extends State<ProfileFragment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        language.profile,
-        textColor: white,
-        textSize: APP_BAR_TEXT_SIZE,
+      appBar: AppBar(
+        title: Text(language.profile,
+            style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE)),
+        backgroundColor: Colors.transparent,
         elevation: 0.0,
-        color: context.primaryColor,
-        showBack: false,
+        leading: null,
         actions: [
           IconButton(
             icon: ic_setting.iconImage(color: white, size: 20),
@@ -93,6 +92,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
             },
           ),
         ],
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: appPrimaryGradient),
+        ),
       ),
       body: Observer(
         builder: (BuildContext context) {
@@ -113,14 +115,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                   if (appStore.isLoggedIn)
                     Container(
                       decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                          colors: [
-                            context.primaryColor,
-                            brandAccentColor,
-                          ],
-                        ),
+                        gradient: appPrimaryGradient,
                         borderRadius: radius(12),
                         boxShadow: [
                           BoxShadow(

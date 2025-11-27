@@ -20,6 +20,7 @@ BookingAmountModel finalCalculations({
   num discount = 0,
   String serviceType = SERVICE_TYPE_FIXED,
   String bookingType = BOOKING_TYPE_SERVICE,
+  num? couponBasePrice, // apply coupon once per booking, based on base unit/pack price
 }) {
   if (quantity == 0) quantity = 1;
   BookingAmountModel data = BookingAmountModel();
@@ -47,9 +48,13 @@ BookingAmountModel finalCalculations({
           .toDouble()
       : 0;
 
+  // Coupon should be applied only once per booking.
+  // If couponBasePrice is provided, compute coupon on that base amount
+  // (e.g., single-day/unit price or package price), not on multiplied totals.
+  final num priceForCoupon =
+      (couponBasePrice ?? data.finalTotalServicePrice).validate();
   data.finalCouponDiscountAmount = appliedCouponData != null
-      ? calculateCouponDiscount(
-          couponData: appliedCouponData, price: data.finalTotalServicePrice)
+      ? calculateCouponDiscount(couponData: appliedCouponData, price: priceForCoupon)
       : 0;
 
   data.finalServiceAddonAmount =

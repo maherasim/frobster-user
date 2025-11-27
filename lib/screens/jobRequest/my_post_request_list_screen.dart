@@ -13,6 +13,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
+import '../../component/gradient_fab.dart';
 
 class MyPostRequestListScreen extends StatefulWidget {
   final bool fromDashboard;
@@ -87,6 +88,9 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
       bottom: TabBar(
         controller: _tabController,
         isScrollable: false,
+        labelStyle: boldTextStyle(size: 13, color: Colors.white),
+        unselectedLabelStyle:
+            secondaryTextStyle(size: 13, color: Colors.white70, weight: FontWeight.w600),
         labelColor: Colors.white,
         unselectedLabelColor: Colors.white70,
         indicatorColor: Colors.white,
@@ -169,7 +173,7 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
               builder: (context) => LoaderWidget().visible(appStore.isLoading))
         ],
       ),
-      floatingActionButton: FloatingActionButton.extended(
+      floatingActionButton: GradientFAB(
         onPressed: () async {
           bool? res = await CreatePostRequestScreen().launch(context);
 
@@ -179,10 +183,8 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
             setState(() {});
           }
         },
-        backgroundColor: context.primaryColor,
-        foregroundColor: Colors.white,
-        label: Text(language.requestNewJob, style: TextStyle(color: Colors.white)),
         icon: ic_add.iconImage(size: 18, color: white),
+        label: language.requestNewJob,
       ),
     );
   }

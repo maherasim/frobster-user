@@ -15,6 +15,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../../component/empty_error_state_widget.dart';
 import '../../../store/filter_store.dart';
 import '../../booking_filter/booking_filter_screen.dart';
+import '../../../utils/colors.dart';
 
 class BookingFragment extends StatefulWidget {
   @override
@@ -91,13 +92,11 @@ class _BookingFragmentState extends State<BookingFragment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        language.booking,
-        textColor: white,
-        showBack: false,
-        textSize: APP_BAR_TEXT_SIZE,
-        elevation: 3.0,
-        color: context.primaryColor,
+      appBar: AppBar(
+        title: Text(language.booking,
+            style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE)),
+        backgroundColor: Colors.transparent,
+        elevation: 0.0,
         actions: [
           IconButton(
             icon: ic_filter.iconImage(color: white, size: 20),
@@ -125,6 +124,9 @@ class _BookingFragmentState extends State<BookingFragment> {
             },
           ),
         ],
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: appPrimaryGradient),
+        ),
       ),
       body: SizedBox(
         width: context.width(),

@@ -13,6 +13,7 @@ import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../../component/gradient_button.dart';
 
 class PaymentDialog extends StatefulWidget {
   final num amount;
@@ -119,10 +120,9 @@ class _PaymentDialogState extends State<PaymentDialog> {
                       textColor: context.iconColor,
                     ).expand(),
                     16.width,
-                    AppButton(
-                      onTap: _handleSubmitClick,
-                      color: context.primaryColor,
-                      text: language.confirm,
+                    GradientButton(
+                      onPressed: _handleSubmitClick,
+                      child: Text(language.confirm),
                     ).expand(),
                   ],
                 ).paddingAll(16),

@@ -21,6 +21,7 @@ import '../../../utils/common.dart';
 import '../../../utils/constant.dart';
 import 'booking_confirmation_dialog.dart';
 import 'dart:developer' as dev;
+import '../../../component/gradient_button.dart';
 
 class ConfirmBookingDialog extends StatefulWidget {
   final ServiceDetailResponse data;
@@ -293,18 +294,21 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
               ),
             ),
             32.height,
-            AppButton(
+            SizedBox(
               width: context.width(),
-              text: language.confirm,
-              textColor: isSelected ? Colors.white : darkGray,
-              color: isSelected ? context.primaryColor : context.dividerColor,
-              onTap: () {
-                if (isSelected) {
-                  bookServices();
-                } else {
-                  toast(language.termsConditionsAccept);
-                }
-              },
+              child: Opacity(
+                opacity: isSelected ? 1 : 0.5,
+                child: GradientButton(
+                  onPressed: () {
+                    if (isSelected) {
+                      bookServices();
+                    } else {
+                      toast(language.termsConditionsAccept);
+                    }
+                  },
+                  child: Text(language.confirm, textAlign: TextAlign.center),
+                ),
+              ),
             ),
             TextButton(
                 onPressed: () {

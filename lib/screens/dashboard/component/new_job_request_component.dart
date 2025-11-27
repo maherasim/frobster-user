@@ -7,6 +7,8 @@ import '../../../utils/colors.dart';
 import '../../auth/sign_in_screen.dart';
 import '../../jobRequest/create_post_request_screen.dart';
 import '../../jobRequest/my_post_request_list_screen.dart';
+import '../../../component/gradient_button.dart';
+import '../../../component/gradient_icon.dart';
 
 enum NewJobBannerStyle { card, gradient, glass }
 
@@ -72,11 +74,11 @@ class NewJobRequestComponent extends StatelessWidget {
                   height: 42,
                   width: 42,
                   decoration: BoxDecoration(
-                    color: context.primaryColor.withValues(alpha: 0.12),
+                    gradient: appPrimaryGradient,
                     shape: BoxShape.circle,
-                    border: Border.all(color: context.primaryColor.withValues(alpha: 0.3)),
+                    border: Border.all(color: Colors.white.withOpacity(0.25)),
                   ),
-                  child: Icon(Icons.post_add_rounded, color: context.primaryColor),
+                  child: Icon(Icons.post_add_rounded, color: Colors.white),
                 ),
                 12.width,
                 Expanded(
@@ -100,11 +102,8 @@ class NewJobRequestComponent extends StatelessWidget {
               ],
             ),
             14.height,
-            AppButton(
-              width: context.width(),
-              elevation: 0,
-              shapeBorder: RoundedRectangleBorder(borderRadius: radius(12)),
-              color: context.primaryColor,
+            GradientButton(
+              onPressed: () => _handleCtaTap(context),
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
@@ -113,8 +112,7 @@ class NewJobRequestComponent extends StatelessWidget {
                   Text(language.newPostJobRequest, style: boldTextStyle(color: Colors.white)),
                 ],
               ),
-              onTap: () => _handleCtaTap(context),
-            ),
+            ).withWidth(context.width()),
           ],
         ),
       ),
@@ -128,11 +126,7 @@ class NewJobRequestComponent extends StatelessWidget {
         width: context.width(),
         padding: EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [context.primaryColor, brandAccentColor],
-          ),
+          gradient: appPrimaryGradient,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(defaultRadius),
             topRight: Radius.circular(defaultRadius),
@@ -215,7 +209,7 @@ class NewJobRequestComponent extends StatelessWidget {
             width: context.width(),
             padding: EdgeInsets.all(16),
             decoration: BoxDecoration(
-              color: context.primaryColor.withValues(alpha: 0.12),
+              color: Colors.white.withOpacity(0.12),
               borderRadius: BorderRadius.only(
                 topLeft: Radius.circular(defaultRadius),
                 topRight: Radius.circular(defaultRadius),
@@ -229,7 +223,7 @@ class NewJobRequestComponent extends StatelessWidget {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.post_add_rounded, color: context.primaryColor),
+                    GradientIcon(child: Icon(Icons.post_add_rounded, color: Colors.white)),
                     8.width,
                     Flexible(
                       child: Text(
@@ -248,11 +242,8 @@ class NewJobRequestComponent extends StatelessWidget {
                   textAlign: TextAlign.center,
                 ),
                 16.height,
-                AppButton(
-                  width: context.width(),
-                  elevation: 0,
-                  shapeBorder: RoundedRectangleBorder(borderRadius: radius(12)),
-                  color: context.primaryColor,
+                GradientButton(
+                  onPressed: () => _handleCtaTap(context),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
@@ -261,8 +252,7 @@ class NewJobRequestComponent extends StatelessWidget {
                       Text(language.newPostJobRequest, style: boldTextStyle(color: Colors.white)),
                     ],
                   ),
-                  onTap: () => _handleCtaTap(context),
-                ),
+                ).withWidth(context.width()),
               ],
             ),
           ),

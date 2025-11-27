@@ -70,17 +70,18 @@ class _CategoryScreenState extends State<CategoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        language.category,
-        textColor: Colors.white,
-        textSize: APP_BAR_TEXT_SIZE,
-        color: primaryColor,
-        systemUiOverlayStyle: SystemUiOverlayStyle(
+      appBar: AppBar(
+        title: Text(language.category,
+            style: boldTextStyle(color: Colors.white, size: APP_BAR_TEXT_SIZE)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        systemOverlayStyle: SystemUiOverlayStyle(
             statusBarIconBrightness:
-                appStore.isDarkMode ? Brightness.light : Brightness.light,
-            statusBarColor: context.primaryColor),
-        showBack: Navigator.canPop(context),
-        backWidget: BackWidget(),
+                appStore.isDarkMode ? Brightness.light : Brightness.light),
+        leading: Navigator.canPop(context) ? BackWidget() : null,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: appPrimaryGradient),
+        ),
       ),
       body: Stack(
         children: [

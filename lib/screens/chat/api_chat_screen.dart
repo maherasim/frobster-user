@@ -234,12 +234,15 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       onTap: () => hideKeyboard(context),
       child: Scaffold(
         appBar: AppBar(
-          backgroundColor: context.primaryColor,
+          backgroundColor: Colors.transparent,
           leadingWidth: context.width(),
           systemOverlayStyle: SystemUiOverlayStyle(
-              statusBarColor: context.primaryColor,
+              statusBarColor: Colors.transparent,
               statusBarBrightness: Brightness.dark,
               statusBarIconBrightness: Brightness.light),
+          flexibleSpace: Container(
+            decoration: BoxDecoration(gradient: appPrimaryGradient),
+          ),
           leading: Row(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [

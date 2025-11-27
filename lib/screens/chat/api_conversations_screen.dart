@@ -76,8 +76,12 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(language.lblChat, style: boldTextStyle(color: white)),
-        backgroundColor: context.primaryColor,
+        backgroundColor: Colors.transparent,
         iconTheme: IconThemeData(color: white),
+        elevation: 0,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: appPrimaryGradient),
+        ),
       ),
       body: RefreshIndicator(
         onRefresh: () => _load(refresh: true),
