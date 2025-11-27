@@ -87,6 +87,9 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
       bottom: TabBar(
         controller: _tabController,
         isScrollable: false,
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.white70,
+        indicatorColor: Colors.white,
         tabs: [
           Tab(text: 'All'),
           Tab(text: 'Open'),
@@ -177,7 +180,8 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
           }
         },
         backgroundColor: context.primaryColor,
-        label: Text(language.requestNewJob),
+        foregroundColor: Colors.white,
+        label: Text(language.requestNewJob, style: TextStyle(color: Colors.white)),
         icon: ic_add.iconImage(size: 18, color: white),
       ),
     );

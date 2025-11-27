@@ -40,6 +40,7 @@ class JobRequestDetailResponse {
   Customer? customer;
   PostRequest? postRequest;
   String? taxPercent;
+  BankTransferStatus? bankTransfer;
 
   JobRequestDetailResponse({
     this.id,
@@ -63,6 +64,7 @@ class JobRequestDetailResponse {
     this.customer,
     this.postRequest,
     this.taxPercent,
+    this.bankTransfer,
   });
 
   factory JobRequestDetailResponse.fromJson(Map<String, dynamic> json) => JobRequestDetailResponse(
@@ -87,6 +89,7 @@ class JobRequestDetailResponse {
     provider: json["provider"] == null ? null : Customer.fromJson(json["provider"]),
     customer: json["customer"] == null ? null : Customer.fromJson(json["customer"]),
     postRequest: json["postrequest"] == null ? null : PostRequest.fromJson(json["postrequest"]),
+    bankTransfer: json["bank_transfer"] == null ? null : BankTransferStatus.fromJson(json["bank_transfer"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -110,8 +113,35 @@ class JobRequestDetailResponse {
     "provider": provider?.toJson(),
     "customer": customer?.toJson(),
     "postrequest": postRequest?.toJson(),
+    "tax_percent": taxPercent,
+    "bank_transfer": bankTransfer?.toJson(),
   };
+}
 
+class BankTransferStatus {
+  int? isBankTransfer; // 1 = bank transfer used
+  int? statusCode;     // 0=pending, 1=approved, 2=rejected
+  String? status;      // backend string, e.g. 'pending'
+  String? txnId;
+  num? amount;
+
+  BankTransferStatus({this.isBankTransfer, this.statusCode, this.status, this.txnId, this.amount});
+
+  factory BankTransferStatus.fromJson(Map<String, dynamic> json) => BankTransferStatus(
+        isBankTransfer: json["is_bank_transfer"],
+        statusCode: json["status_code"],
+        status: json["status"],
+        txnId: json["txn_id"],
+        amount: json["amount"],
+      );
+
+  Map<String, dynamic> toJson() => {
+        "is_bank_transfer": isBankTransfer,
+        "status_code": statusCode,
+        "status": status,
+        "txn_id": txnId,
+        "amount": amount,
+      };
 }
 
 

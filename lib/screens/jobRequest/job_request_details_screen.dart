@@ -166,8 +166,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               return await 2.seconds.delay;
             },
             children: [
-              // Status Info Card
-              if (getStatusInfo(postJobDetail!).isNotEmpty)
+              // Status Info Card (hidden when awaiting bank transfer approval)
+              if (getStatusInfo(postJobDetail!).isNotEmpty && !_isAwaitingBankTransferApproval())
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: boxDecorationWithRoundedCorners(
@@ -190,6 +190,30 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ],
                   ),
                 ),
+              // Bank transfer pending approval banner
+              if (_isAwaitingBankTransferApproval())
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12),
+                  decoration: boxDecorationWithRoundedCorners(
+                    backgroundColor: hold.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.hourglass_bottom, color: hold, size: 20),
+                      8.width,
+                      Expanded(
+                        child: _MarqueeText(
+                          text: language.waitingForPaymentApproval,
+                          textStyle: secondaryTextStyle(color: hold, size: 14),
+                          velocity: 40, // px per second
+                          gap: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).paddingTop(12),
               12.height,
               _buildProviderHeader(postJobDetail!).paddingBottom(16),
               _buildStatusProgress(postJobDetail!.status),
@@ -387,7 +411,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     confirmationRequestDialog(context, RequestStatus.cancel);
                   },
                 ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.pendingAdvance)
+              if (postJobDetail!.status == RequestStatus.pendingAdvance && !_isAwaitingBankTransferApproval())
                 AppButton(
                   text: 'Pay Advance (\$${advance})',
                   textStyle: boldTextStyle(color: white, size: 16),
@@ -412,7 +436,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     }
                   },
                 ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.inProcess)
+              if (postJobDetail!.status == RequestStatus.inProcess && !_isAwaitingBankTransferApproval())
                 Row(
                   children: [
                     Expanded(child: _chatActionButton()),
@@ -431,7 +455,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.done)
+              if (postJobDetail!.status == RequestStatus.done && !_isAwaitingBankTransferApproval())
                 Row(
                   children: [
                     Expanded(child: _chatActionButton()),
@@ -450,7 +474,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.completed)
+              if (postJobDetail!.status == RequestStatus.completed && !_isAwaitingBankTransferApproval())
                 Row(
                   children: [
                     Expanded(child: _chatActionButton()),
@@ -513,6 +537,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   ],
                 ).paddingOnly(bottom: 24),
               if (_canShowChat(postJobDetail!.status) &&
+                  !_isAwaitingBankTransferApproval() &&
                   postJobDetail!.status != RequestStatus.remainingPaid &&
                   postJobDetail!.status != RequestStatus.inProcess &&
                   postJobDetail!.status != RequestStatus.done &&
@@ -1051,5 +1076,117 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         status == RequestStatus.confirmDone ||
         status == RequestStatus.completed ||
         status == RequestStatus.remainingPaid;
+  }
+
+  bool _isAwaitingBankTransferApproval() {
+    final bt = postJobDetail?.bankTransfer;
+    if (bt == null) return false;
+    if ((bt.isBankTransfer ?? 0) != 1) return false;
+    // statusCode: 0 = pending approval
+    return (bt.statusCode ?? -1) == 0;
+  }
+}
+
+class _MarqueeText extends StatefulWidget {
+  final String text;
+  final TextStyle? textStyle;
+  final double velocity; // pixels per second
+  final double gap; // gap between duplicated texts
+
+  const _MarqueeText({
+    required this.text,
+    this.textStyle,
+    this.velocity = 40,
+    this.gap = 30,
+  });
+
+  @override
+  State<_MarqueeText> createState() => _MarqueeTextState();
+}
+
+class _MarqueeTextState extends State<_MarqueeText>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+  double _position = 0;
+  double _textWidth = 0;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController.unbounded(vsync: this)
+      ..addListener(() {
+        setState(() {
+          _position -= widget.velocity / 60; // approx 60fps
+          if (_textWidth > 0 && -_position > _textWidth + widget.gap) {
+            _position += _textWidth + widget.gap;
+          }
+        });
+      });
+    _controller.repeat(period: const Duration(milliseconds: 16));
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return ClipRect(
+      child: LayoutBuilder(
+        builder: (context, constraints) {
+          return Stack(
+            children: [
+              Transform.translate(
+                offset: Offset(_position, 0),
+                child: _measure(
+                  onWidth: (w) => _textWidth = w,
+                  child: Row(
+                    children: [
+                      Text(widget.text, style: widget.textStyle),
+                      SizedBox(width: widget.gap),
+                      Text(widget.text, style: widget.textStyle),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _measure({required Widget child, required void Function(double) onWidth}) {
+    return OverflowBox(
+      maxWidth: double.infinity,
+      child: _SizeReporter(onWidth: onWidth, child: child),
+    );
+  }
+}
+
+class _SizeReporter extends StatefulWidget {
+  final Widget child;
+  final void Function(double) onWidth;
+  const _SizeReporter({required this.child, required this.onWidth});
+
+  @override
+  State<_SizeReporter> createState() => _SizeReporterState();
+}
+
+class _SizeReporterState extends State<_SizeReporter> {
+  final GlobalKey _key = GlobalKey();
+
+  @override
+  Widget build(BuildContext context) {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final ctx = _key.currentContext;
+      if (ctx != null) {
+        final box = ctx.findRenderObject() as RenderBox?;
+        if (box != null) widget.onWidth(box.size.width);
+      }
+    });
+    return KeyedSubtree(key: _key, child: widget.child);
   }
 }

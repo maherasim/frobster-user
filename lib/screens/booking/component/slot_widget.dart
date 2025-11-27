@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:booking_system_flutter/utils/colors.dart';
 
 class SlotWidget extends StatelessWidget {
   final bool isAvailable;
@@ -15,10 +16,11 @@ class SlotWidget extends StatelessWidget {
     required this.isAvailable,
     required this.isSelected,
     required this.value,
-    this.activeColor = Colors.green,
-    this.inActiveColor = Colors.green,
+    Color? activeColor,
+    Color? inActiveColor,
     required this.onTap,
-  });
+  })  : activeColor = activeColor ?? primaryColor,
+        inActiveColor = inActiveColor ?? primaryColor;
 
   Color _getBackgroundColor(BuildContext context) {
     if (isAvailable && isSelected) {

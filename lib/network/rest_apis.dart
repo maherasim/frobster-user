@@ -1245,6 +1245,10 @@ Future<JobRequestDetailResponse?> getPostJobDetailByBid(num bidId) async {
     JobRequestDetailResponse? job;
     if(res["success"] == true) {
       res["data"]["tax_percent"] = res["tax_percent"];
+      // Pass through bank transfer status to model if provided at top-level
+      if (res.containsKey("bank_transfer")) {
+        res["data"]["bank_transfer"] = res["bank_transfer"];
+      }
       print(res["data"]);
       job = JobRequestDetailResponse.fromJson(res["data"]);
     }

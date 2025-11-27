@@ -123,12 +123,23 @@ class StripeServiceNew {
               .initPaymentSheet(
                   paymentSheetParameters: setupPaymentSheetParameters)
               .then((value) async {
-            await Stripe.instance.presentPaymentSheet().then((value) async {
+            try {
+              await Stripe.instance.presentPaymentSheet();
               onComplete.call({
                 'transaction_id': res.id,
               });
               appStore.setLoading(false);
-            });
+            } on StripeException catch (e) {
+              // User closed sheet or Stripe error
+              appStore.setLoading(false);
+              if (e.error.message.validate().isNotEmpty) {
+                toast(e.error.message.validate(), print: true);
+              }
+              throw e;
+            } catch (e) {
+              appStore.setLoading(false);
+              throw errorSomethingWentWrong;
+            }
           }).catchError((e) {
             appStore.setLoading(false);
             throw errorSomethingWentWrong;
@@ -136,6 +147,15 @@ class StripeServiceNew {
         } else if (response.statusCode == 400) {
           appStore.setLoading(false);
           throw errorSomethingWentWrong;
+        } else {
+          // Any other non-2xx status
+          appStore.setLoading(false);
+          try {
+            final body = jsonDecode(response.body);
+            throw body['message'] ?? errorSomethingWentWrong;
+          } catch (_) {
+            throw errorSomethingWentWrong;
+          }
         }
       }).catchError((e) {
         appStore.setLoading(false);

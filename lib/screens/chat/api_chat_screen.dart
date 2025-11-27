@@ -7,7 +7,6 @@ import 'package:booking_system_flutter/model/chat_message_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/chat/widget/chat_item_widget.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
-import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -190,33 +189,42 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   }
 
   Widget _buildChatFieldWidget() {
-    return Row(
-      children: [
-        AppTextField(
-          textFieldType: TextFieldType.OTHER,
-          controller: messageCont,
-          textStyle: primaryTextStyle(),
-          minLines: 1,
-          onFieldSubmitted: (s) => _sendMessage(),
-          focus: messageFocus,
-          cursorHeight: 20,
-          maxLines: 5,
-          cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
-          textCapitalization: TextCapitalization.sentences,
-          keyboardType: TextInputType.multiline,
-          decoration: inputDecoration(context)
-              .copyWith(hintText: language.message, hintStyle: secondaryTextStyle()),
-        ).expand(),
-        8.width,
-        Container(
-          decoration:
-              boxDecorationDefault(borderRadius: radius(80), color: primaryColor),
-          child: IconButton(
-            icon: Icon(Icons.send, color: Colors.white),
-            onPressed: _sendMessage,
-          ),
-        )
-      ],
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: context.cardColor,
+        borderRadius: radius(16),
+        border: Border.all(color: context.dividerColor.withValues(alpha: 0.6)),
+      ),
+      child: Row(
+        children: [
+          AppTextField(
+            textFieldType: TextFieldType.OTHER,
+            controller: messageCont,
+            textStyle: primaryTextStyle(),
+            minLines: 1,
+            onFieldSubmitted: (s) => _sendMessage(),
+            focus: messageFocus,
+            cursorHeight: 20,
+            maxLines: 5,
+            cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
+            textCapitalization: TextCapitalization.sentences,
+            keyboardType: TextInputType.multiline,
+            decoration: const InputDecoration.collapsed(hintText: '').copyWith(
+              hintText: language.message,
+              hintStyle: secondaryTextStyle(),
+            ),
+          ).expand(),
+          8.width,
+          Container(
+            decoration: boxDecorationDefault(borderRadius: radius(80), color: primaryColor),
+            child: IconButton(
+              icon: Icon(Icons.send, color: Colors.white),
+              onPressed: _sendMessage,
+            ),
+          )
+        ],
+      ),
     );
   }
 
@@ -279,6 +287,18 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
           child: Stack(
             fit: StackFit.expand,
             children: [
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      context.primaryColor.withValues(alpha: 0.16),
+                      brandAccentColor.withValues(alpha: 0.12),
+                    ],
+                  ),
+                ),
+              ),
               Column(
                 children: [
                   if (_isLoadingInitial)

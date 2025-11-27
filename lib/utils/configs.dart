@@ -3,7 +3,8 @@ import 'package:flutter/material.dart';
 
 const APP_NAME = 'Frobster User';
 const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
-var defaultPrimaryColor = Color(0xFF0D9488);
+var defaultPrimaryColor = Color.fromARGB(255, 31, 51, 199);
+
 
 // Don't add slash at the end of the url
 

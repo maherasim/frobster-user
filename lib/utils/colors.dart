@@ -55,5 +55,5 @@ const jobRequestComponentColor = Color(0xFFE4BB97);
 const dashboard3CardColor = Color(0xFFF6F7F9);
 const cancellationsBgColor = Color(0xFFFFE5E5);
 
-// Brand accent for gradients and highlights (emerald, non-blue)
-const brandAccentColor = Color(0xFF10B981);
+// Brand accent for gradients and highlights (violet to complement blue)
+const brandAccentColor = Color.fromARGB(255, 62, 65, 241);

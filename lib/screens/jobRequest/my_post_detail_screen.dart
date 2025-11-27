@@ -75,7 +75,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         Text(
           title.validate(),
           textAlign: isLeftAlign ? TextAlign.left : TextAlign.right,
-          style: secondaryTextStyle(),
+          style: secondaryTextStyle(size: 13),
         ),
         8.height,
         if (detailWidget != null)
@@ -101,16 +101,19 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
     return Container(
       padding: EdgeInsets.only(left: 16, right: 16, top: 16),
       width: context.width(),
-      decoration: boxDecorationWithRoundedCorners(
-          backgroundColor: context.cardColor,
-          borderRadius: BorderRadius.all(Radius.circular(16))),
+      decoration: boxDecorationDefault(
+        color: context.cardColor,
+        borderRadius: radius(16),
+        border: Border.all(color: context.dividerColor),
+      ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           titleWidget(
             title: language.postJobTitle,
             detail: data.title.validate(),
-            detailTextStyle: boldTextStyle(),
+            detailTextStyle: secondaryTextStyle(
+                size: 18, weight: FontWeight.w700, color: textPrimaryColorGlobal),
           ),
           Row(
             children: [
@@ -119,7 +122,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   title: "Location",
                   detail:
                       "${data.cityName ?? ''}${data.countryName.validate().isEmpty ? "" : "${data.cityName.validate().isEmpty ? "" : " - "}${data.countryName}"}",
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
               Expanded(
@@ -127,7 +133,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   title: "Job Type",
                   isLeftAlign: false,
                   detail: data.type?.displayName ?? '',
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
             ],
@@ -138,7 +147,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                 child: titleWidget(
                   title: language.startDate,
                   detail: formatDate(data.startDate.validate()),
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
               Expanded(
@@ -146,7 +158,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   title: language.endDate,
                   isLeftAlign: false,
                   detail: formatDate(data.endDate.validate()),
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
             ],
@@ -158,11 +173,15 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   title: "Budget/Price",
                   detail: formatDate(data.startDate.validate()),
                   detailWidget: PriceWidget(
+                    size: 18,
                     price: data.price.validate(),
                     isHourlyService: data.priceType == PriceType.hourly,
                     isDailyService: data.priceType == PriceType.daily,
                   ),
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
               Expanded(
@@ -171,10 +190,14 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   isLeftAlign: false,
                   detail: formatDate(data.startDate.validate()),
                   detailWidget: PriceWidget(
+                    size: 18,
                     price: data.totalBudget.validate(),
                     color: textPrimaryColorGlobal,
                   ),
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
             ],
@@ -185,7 +208,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                 child: titleWidget(
                   title: "Total Days",
                   detail: data.totalDays?.toString() ?? '',
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
               Expanded(
@@ -193,7 +219,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   title: "Total Hours",
                   isLeftAlign: false,
                   detail: data.totalHours?.toString() ?? '',
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
             ],
@@ -204,7 +233,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                 child: titleWidget(
                   title: "Remote Work Level",
                   detail: data.remoteWorkLevel?.displayName ?? '',
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
               Expanded(
@@ -212,7 +244,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   title: "Travel Required",
                   isLeftAlign: false,
                   detail: data.travelRequired?.displayName ?? '',
-                  detailTextStyle: boldTextStyle(),
+                  detailTextStyle: secondaryTextStyle(
+                      size: 16,
+                      weight: FontWeight.w600,
+                      color: textPrimaryColorGlobal),
                 ),
               ),
             ],

@@ -536,150 +536,156 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           }),
                            10.height,
                          ],
-                        if (snap.data!.serviceDetail!.duration
-                            .validate()
-                            .isNotEmpty)
-                          Row(
-                            children: [
-                              Text(language.duration,
-                                  style: secondaryTextStyle()),
-                              8.width,
-                              Text(
-                                "${convertToHourMinute(snap.data!.serviceDetail!.duration.validate())}",
-                                style: secondaryTextStyle(
-                                    weight: FontWeight.bold,
-                                    color: textPrimaryColorGlobal),
-                              )
-                            ],
-                          ),
-                        10.height,
-                        Row(
-                          children: [
-                            PriceWidget(
+                        // Attributes block: consistent fonts, spacing and layout
+                        Builder(builder: (context) {
+                          final labelStyle = secondaryTextStyle(size: 13);
+                          final valueStyle = secondaryTextStyle(
                               size: 14,
-                              price: (snap.data!.serviceDetail!.discount
-                                          .validate() >
-                                      0)
-                                  ? snap.data!.serviceDetail!.getDiscountedPrice
-                                      .validate()
-                                  : snap.data!.serviceDetail!.price.validate(),
-                              isHourlyService:
-                                  snap.data!.serviceDetail!.isHourlyService,
-                              isFixedService:
-                                  snap.data!.serviceDetail!.isFixedService,
-                              isFreeService:
-                                  snap.data!.serviceDetail!.isFreeService,
-                              isDailyService:
-                                  snap.data!.serviceDetail!.isDailyService,
+                              weight: FontWeight.w600,
+                              color: textPrimaryColorGlobal);
+
+                          Widget attributeRow(String label, String value) {
+                            return Row(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(label, style: labelStyle),
+                                8.width,
+                                Flexible(child: Text(value, style: valueStyle)),
+                              ],
+                            );
+                          }
+
+                          return Container(
+                            decoration: boxDecorationDefault(
+                              color: context.cardColor,
+                              borderRadius: radius(16),
+                              border: Border.all(color: context.dividerColor),
                             ),
-                            8.width,
-                            if (snap.data!.serviceDetail!.discount.validate() >
-                                0)
-                              PriceWidget(
-                                size: 12,
-                                price:
-                                    snap.data!.serviceDetail!.price.validate(),
-                                isDiscountedPrice: true,
-                                color: textSecondaryColorGlobal,
-                                isLineThroughEnabled: true,
-                              ),
-                            10.width,
-                            if (snap.data!.serviceDetail!.discount.validate() >
-                                0)
-                              Text(
-                                "${snap.data!.serviceDetail!.discount.validate()}% off", //Todo translate
-                                overflow: TextOverflow.ellipsis,
-                                maxLines: 1,
-                                style: TextStyle(
-                                    color: defaultActivityStatus,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 12),
-                              ).expand(),
-                          ],
-                        ),
-                        10.height,
-                        Row(
-                          children: [
-                            Text('Minimum Orders', style: secondaryTextStyle()),
-                            8.width,
-                            Text(
-                              '${snap.data?.serviceDetail?.minimumOrders ?? 0}',
-                              style: secondaryTextStyle(
-                                  weight: FontWeight.bold,
-                                  color: textPrimaryColorGlobal),
-                            )
-                          ],
-                        ),
-                        10.height,
-                        // Job Type (always show, fallback to N/A)
-                        Row(
-                          children: [
-                            Text('Job type', style: secondaryTextStyle()),
-                            8.width,
-                            Text(
-                              (() {
-                                final v = _formatVisitType(snap.data?.serviceDetail?.visitType.validate() ?? '');
-                                return v.isEmpty ? 'N/A' : v;
-                              })(),
-                              style: secondaryTextStyle(
-                                  weight: FontWeight.bold,
-                                  color: textPrimaryColorGlobal),
-                            )
-                          ],
-                        ),
-                        6.height,
-                        // Remote Work Level (always show, fallback to N/A)
-                        Row(
-                          children: [
-                            Text('Remote work level', style: secondaryTextStyle()),
-                            8.width,
-                            Text(
-                              (() {
-                                final v = _formatRemoteLevel(snap.data?.serviceDetail?.remoteWorkLevel.validate() ?? '');
-                                return v.isEmpty ? 'N/A' : v;
-                              })(),
-                              style: secondaryTextStyle(
-                                  weight: FontWeight.bold,
-                                  color: textPrimaryColorGlobal),
-                            )
-                          ],
-                        ),
-                        6.height,
-                        // Career Level (always show, fallback to N/A)
-                        Row(
-                          children: [
-                            Text('Career level', style: secondaryTextStyle()),
-                            8.width,
-                            Text(
-                              (() {
-                                final v = _titleCase(snap.data?.serviceDetail?.careerLevel.validate() ?? '');
-                                return v.isEmpty ? 'N/A' : v;
-                              })(),
-                              style: secondaryTextStyle(
-                                  weight: FontWeight.bold,
-                                  color: textPrimaryColorGlobal),
-                            )
-                          ],
-                        ),
-                        6.height,
-                        // Travel Required (always show, fallback to N/A)
-                        Row(
-                          children: [
-                            Text('Travel required', style: secondaryTextStyle()),
-                            8.width,
-                            Text(
-                              (() {
-                                final raw = snap.data?.serviceDetail?.travelRequired.validate() ?? '';
-                                final v = _formatTravelRequired(raw);
-                                return raw.trim().isEmpty ? 'N/A' : v;
-                              })(),
-                              style: secondaryTextStyle(
-                                  weight: FontWeight.bold,
-                                  color: textPrimaryColorGlobal),
-                            )
-                          ],
-                        ),
-                        10.height,
+                            padding: EdgeInsets.all(16),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (snap.data!.serviceDetail!.duration
+                                    .validate()
+                                    .isNotEmpty)
+                                  attributeRow(language.duration,
+                                      "${convertToHourMinute(snap.data!.serviceDetail!.duration.validate())}"),
+                                if (snap.data!.serviceDetail!.duration
+                                    .validate()
+                                    .isNotEmpty)
+                                  12.height,
+                                // Price + discount
+                                Row(
+                                  children: [
+                                    PriceWidget(
+                                      size: 16,
+                                      price: (snap.data!
+                                                  .serviceDetail!.discount
+                                                  .validate() >
+                                              0)
+                                          ? snap.data!.serviceDetail!
+                                              .getDiscountedPrice
+                                              .validate()
+                                          : snap.data!.serviceDetail!.price
+                                              .validate(),
+                                      isHourlyService: snap.data!.serviceDetail!
+                                          .isHourlyService,
+                                      isFixedService: snap.data!.serviceDetail!
+                                          .isFixedService,
+                                      isFreeService: snap.data!.serviceDetail!
+                                          .isFreeService,
+                                      isDailyService: snap.data!.serviceDetail!
+                                          .isDailyService,
+                                    ),
+                                    8.width,
+                                    if (snap.data!.serviceDetail!.discount
+                                            .validate() >
+                                        0)
+                                      PriceWidget(
+                                        size: 13,
+                                        price: snap
+                                            .data!.serviceDetail!.price
+                                            .validate(),
+                                        isDiscountedPrice: true,
+                                        color: textSecondaryColorGlobal,
+                                        isLineThroughEnabled: true,
+                                      ),
+                                    10.width,
+                                    if (snap.data!.serviceDetail!.discount
+                                            .validate() >
+                                        0)
+                                      Text(
+                                        "${snap.data!.serviceDetail!.discount.validate()}% off",
+                                        overflow: TextOverflow.ellipsis,
+                                        maxLines: 1,
+                                        style: TextStyle(
+                                            color: defaultActivityStatus,
+                                            fontWeight: FontWeight.w700,
+                                            fontSize: 12),
+                                      ).expand(),
+                                  ],
+                                ),
+                                12.height,
+                                attributeRow('Minimum Orders',
+                                    '${snap.data?.serviceDetail?.minimumOrders ?? 0}'),
+                                12.height,
+                                attributeRow(
+                                  'Job type',
+                                  (() {
+                                    final v = _formatVisitType(snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.visitType
+                                            .validate() ??
+                                        '');
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
+                                12.height,
+                                attributeRow(
+                                  'Remote work level',
+                                  (() {
+                                    final v = _formatRemoteLevel(snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.remoteWorkLevel
+                                            .validate() ??
+                                        '');
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
+                                12.height,
+                                attributeRow(
+                                  'Career level',
+                                  (() {
+                                    final v = _titleCase(snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.careerLevel
+                                            .validate() ??
+                                        '');
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
+                                12.height,
+                                attributeRow(
+                                  'Travel required',
+                                  (() {
+                                    final raw = snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.travelRequired
+                                            .validate() ??
+                                        '';
+                                    final v = _formatTravelRequired(raw);
+                                    return raw.trim().isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
+                              ],
+                            ),
+                          );
+                        }),
+                        16.height,
                         // Description right after attributes
                         Text('Description',
                                 style: boldTextStyle(size: LABEL_TEXT_SIZE)),
