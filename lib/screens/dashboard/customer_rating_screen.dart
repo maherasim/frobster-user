@@ -49,7 +49,7 @@ class _CustomerRatingScreenState extends State<CustomerRatingScreen> {
             loadingWidget: RattingShimmer(),
             onSuccess: (snap) {
               return AnimatedListView(
-                padding: EdgeInsets.fromLTRB(8, 16, 8, 50),
+                padding: EdgeInsets.fromLTRB(8, 16, 8, 50), 
                 slideConfiguration: sliderConfigurationGlobal,
                 listAnimationType: ListAnimationType.FadeIn,
                 fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),

@@ -1,7 +1,7 @@
 import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:flutter/material.dart';
 
-var primaryColor = defaultPrimaryColor;
+var primaryColor = const Color(0xFFE53935);
 // Brand neutrals/tints aligned with teal/emerald palette (non-blue)
 const secondaryPrimaryColor = Color(0xFFECFDF5); // emerald-50
 const lightPrimaryColor = Color(0xFFE6FFFA); // teal-50
@@ -9,7 +9,7 @@ const primaryLightColor = Color(0xFFF0FDFA); // teal-50 slightly different
 
 //Text Color
 const appTextPrimaryColor = Color(0xff1C1F34);
-const appTextSecondaryColor = Color(0xff6C757D);
+const appTextSecondaryColor = Color.fromARGB(255, 233, 236, 238);
 const cardColor = Color(0xFFF6F7F9);
 const borderColor = Color(0xFFEBEBEB);
 
