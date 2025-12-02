@@ -8,7 +8,6 @@ import 'package:booking_system_flutter/screens/dashboard/fragment/booking_fragme
 import 'package:booking_system_flutter/screens/dashboard/fragment/dashboard_fragment.dart';
 import 'package:booking_system_flutter/screens/dashboard/fragment/profile_fragment.dart';
 import 'package:booking_system_flutter/screens/jobRequest/my_post_request_list_screen.dart';
-import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
@@ -141,6 +140,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return DoublePressBackWidget(
       message: language.lblBackPressMsg,
       child: Scaffold(
@@ -177,86 +177,89 @@ class _DashboardScreenState extends State<DashboardScreen> {
             ProfileFragment(),
           ][currentIndex],
         ),
-        bottomNavigationBar: Blur(
-          blur: 30,
-          borderRadius: radius(0),
-          child: NavigationBarTheme(
-            data: NavigationBarThemeData(
-              backgroundColor: context.primaryColor.withValues(alpha: 0.02),
-              indicatorColor: Colors.transparent,
-              labelTextStyle: WidgetStateProperty.all(primaryTextStyle(size: 10)),
-              overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
-                // Remove default blue press/hover overlay
-                if (states.contains(WidgetState.pressed) ||
-                    states.contains(WidgetState.focused) ||
-                    states.contains(WidgetState.hovered)) {
-                  return Colors.transparent;
-                }
-                return null;
+        bottomNavigationBar: NavigationBarTheme(
+          data: NavigationBarThemeData(
+            backgroundColor: context.primaryColor.withValues(alpha: 0.02),
+            indicatorColor: Colors.transparent,
+            labelTextStyle: WidgetStateProperty.all(
+                primaryTextStyle(size: 10, color: cs.onSurface)),
+            iconTheme:
+                WidgetStateProperty.resolveWith<IconThemeData>((states) {
+              if (states.contains(WidgetState.selected)) {
+                return IconThemeData(color: cs.onPrimary);
+              }
+              return IconThemeData(color: cs.onSurfaceVariant);
+            }),
+            overlayColor: WidgetStateProperty.resolveWith<Color?>((states) {
+              // Remove default press/hover overlay
+              if (states.contains(WidgetState.pressed) ||
+                  states.contains(WidgetState.focused) ||
+                  states.contains(WidgetState.hovered)) {
+                return Colors.transparent;
+              }
+              return null;
+            }),
+            surfaceTintColor: Colors.transparent,
+            shadowColor: Colors.transparent,
+          ),
+          child: NavigationBar(
+            selectedIndex: currentIndex,
+            destinations: [
+              NavigationDestination(
+                icon: ic_home.iconImage(color: cs.onSurfaceVariant),
+                selectedIcon: GradientIcon(
+                    child: ic_home.iconImage(color: cs.onPrimary)),
+                label: language.home,
+              ),
+              NavigationDestination(
+                icon: ic_ticket.iconImage(color: cs.onSurfaceVariant),
+                selectedIcon:
+                    GradientIcon(child: ic_ticket.iconImage(color: cs.onPrimary)),
+                label: language.booking,
+              ),
+              NavigationDestination(
+                icon: ic_star.iconImage(color: cs.onSurfaceVariant),
+                selectedIcon: GradientIcon(
+                    child: ic_star_fill.iconImage(color: cs.onPrimary)),
+                label: language.lblJob,
+              ),
+              NavigationDestination(
+                icon: ic_category.iconImage(color: cs.onSurfaceVariant),
+                selectedIcon: GradientIcon(
+                    child: ic_category.iconImage(color: cs.onPrimary)),
+                label: language.category,
+              ),
+              NavigationDestination(
+                icon: ic_chat.iconImage(color: cs.onSurfaceVariant),
+                selectedIcon:
+                    GradientIcon(child: ic_chat.iconImage(color: cs.onPrimary)),
+                label: language.lblChat,
+              ),
+              Observer(builder: (context) {
+                return NavigationDestination(
+                  icon: (appStore.isLoggedIn &&
+                          appStore.userProfileImage.isNotEmpty)
+                      ? IgnorePointer(
+                          ignoring: true,
+                          child:
+                              ImageBorder(src: appStore.userProfileImage, height: 26))
+                      : ic_profile2.iconImage(color: cs.onSurfaceVariant),
+                  selectedIcon: (appStore.isLoggedIn &&
+                          appStore.userProfileImage.isNotEmpty)
+                      ? IgnorePointer(
+                          ignoring: true,
+                          child:
+                              ImageBorder(src: appStore.userProfileImage, height: 26))
+                      : GradientIcon(
+                          child: ic_profile2.iconImage(color: cs.onPrimary)),
+                  label: language.profile,
+                );
               }),
-              surfaceTintColor: Colors.transparent,
-              shadowColor: Colors.transparent,
-            ),
-            child: NavigationBar(
-              selectedIndex: currentIndex,
-              destinations: [
-                NavigationDestination(
-                  icon: ic_home.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: GradientIcon(
-                      child: ic_home.iconImage(color: Colors.white)),
-                  label: language.home,
-                ),
-                NavigationDestination(
-                  icon: ic_ticket.iconImage(color: appTextSecondaryColor),
-                  selectedIcon: GradientIcon(
-                      child: ic_ticket.iconImage(color: Colors.white)),
-                  label: language.booking,
-                ),
-                NavigationDestination(
-                  icon: ic_star.iconImage(color: appTextSecondaryColor),
-                  selectedIcon:
-                      GradientIcon(child: ic_star_fill.iconImage(color: Colors.white)),
-                  label: language.lblJob,
-                ),
-                NavigationDestination(
-                  icon: ic_category.iconImage(color: appTextSecondaryColor),
-                  selectedIcon:
-                      GradientIcon(child: ic_category.iconImage(color: Colors.white)),
-                  label: language.category,
-                ),
-                NavigationDestination(
-                  icon: ic_chat.iconImage(color: appTextSecondaryColor),
-                  selectedIcon:
-                      GradientIcon(child: ic_chat.iconImage(color: Colors.white)),
-                  label: language.lblChat,
-                ),
-                Observer(builder: (context) {
-                  return NavigationDestination(
-                    icon: (appStore.isLoggedIn &&
-                            appStore.userProfileImage.isNotEmpty)
-                        ? IgnorePointer(
-                            ignoring: true,
-                            child: ImageBorder(
-                                src: appStore.userProfileImage, height: 26))
-                        : ic_profile2.iconImage(color: appTextSecondaryColor),
-                    selectedIcon: (appStore.isLoggedIn &&
-                            appStore.userProfileImage.isNotEmpty)
-                        ? IgnorePointer(
-                            ignoring: true,
-                            child: ImageBorder(
-                                src: appStore.userProfileImage, height: 26))
-                        : GradientIcon(
-                            child:
-                                ic_profile2.iconImage(color: Colors.white)),
-                    label: language.profile,
-                  );
-                }),
-              ],
-              onDestinationSelected: (index) {
-                currentIndex = index;
-                setState(() {});
-              },
-            ),
+            ],
+            onDestinationSelected: (index) {
+              currentIndex = index;
+              setState(() {});
+            },
           ),
         ),
         bottomSheet: Observer(builder: (context) {

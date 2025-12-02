@@ -52,7 +52,9 @@ class _SettingScreenState extends State<SettingScreen> {
             items: [
               if (isLoginTypeUser)
                 SettingItemWidget(
-                  leading: ic_lock.iconImage(size: SETTING_ICON_SIZE),
+                  leading: ic_lock.iconImage(
+                      size: SETTING_ICON_SIZE,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
                   title: language.changePassword,
                   trailing: trailing,
                   titleTextStyle: primaryTextStyle(),
@@ -63,7 +65,11 @@ class _SettingScreenState extends State<SettingScreen> {
                   },
                 ),
               SettingItemWidget(
-                leading: ic_language.iconImage(size: 17).paddingOnly(left: 2),
+                leading: ic_language
+                    .iconImage(
+                        size: 17,
+                        color: Theme.of(context).colorScheme.onSurfaceVariant)
+                    .paddingOnly(left: 2),
                 paddingAfterLeading: 16,
                 title: language.language,
                 trailing: trailing,
@@ -75,7 +81,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 },
               ),
               SettingItemWidget(
-                leading: ic_dark_mode.iconImage(size: 22),
+                leading: ic_dark_mode.iconImage(
+                    size: 22,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
                 title: language.appTheme,
                 paddingAfterLeading: 12,
                 trailing: trailing,
@@ -112,7 +120,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 EdgeInsets.only(bottom: 14, right: 14, left: 16, top: 14),
             items: [
               SettingItemWidget(
-                leading: ic_slider_status.iconImage(size: SETTING_ICON_SIZE),
+                leading: ic_slider_status.iconImage(
+                    size: SETTING_ICON_SIZE,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
                 title: language.lblAutoSliderStatus,
                 titleTextStyle: primaryTextStyle(),
                 trailing: Transform.scale(
@@ -127,7 +137,9 @@ class _SettingScreenState extends State<SettingScreen> {
                 ),
               ),
               SettingItemWidget(
-                leading: ic_check_update.iconImage(size: SETTING_ICON_SIZE),
+                leading: ic_check_update.iconImage(
+                    size: SETTING_ICON_SIZE,
+                    color: Theme.of(context).colorScheme.onSurfaceVariant),
                 title: language.lblOptionalUpdateNotify,
                 titleTextStyle: primaryTextStyle(),
                 trailing: Transform.scale(
@@ -143,7 +155,9 @@ class _SettingScreenState extends State<SettingScreen> {
               ),
               if (appStore.isLoggedIn)
                 SettingItemWidget(
-                  leading: ic_notification.iconImage(size: SETTING_ICON_SIZE),
+                  leading: ic_notification.iconImage(
+                      size: SETTING_ICON_SIZE,
+                      color: Theme.of(context).colorScheme.onSurfaceVariant),
                   title: language.pushNotification,
                   titleTextStyle: primaryTextStyle(),
                   trailing: Transform.scale(
@@ -173,8 +187,11 @@ class _SettingScreenState extends State<SettingScreen> {
                 onSuccess: (data) {
                   if (data) {
                     return SettingItemWidget(
-                      leading:
-                          ic_android_12.iconImage(size: SETTING_ICON_SIZE),
+                      leading: ic_android_12.iconImage(
+                          size: SETTING_ICON_SIZE,
+                          color: Theme.of(context)
+                              .colorScheme
+                              .onSurfaceVariant),
                       title: language.lblMaterialTheme,
                       titleTextStyle: primaryTextStyle(),
                       trailing: Transform.scale(

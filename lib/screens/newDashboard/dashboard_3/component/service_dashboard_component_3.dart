@@ -266,9 +266,7 @@ class _ServiceDashboardComponent3State
                         widget.serviceData.providerName.validate(),
                         style: secondaryTextStyle(
                             size: 12,
-                            color: appStore.isDarkMode
-                                ? Colors.white
-                                : appTextSecondaryColor),
+                            color: Theme.of(context).colorScheme.onSurface),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ).expand()

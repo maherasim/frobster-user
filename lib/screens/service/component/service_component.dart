@@ -472,9 +472,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                             widget.serviceData.providerName.validate(),
                             style: secondaryTextStyle(
                                 size: 12,
-                                color: appStore.isDarkMode
-                                    ? Colors.white
-                                    : appTextSecondaryColor),
+                                color: Theme.of(context).colorScheme.onSurface),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
@@ -495,9 +493,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                             providerLabel,
                             style: secondaryTextStyle(
                                 size: 10,
-                                color: appStore.isDarkMode
-                                    ? Colors.white
-                                    : appTextSecondaryColor),
+                                color: Theme.of(context).colorScheme.onSurface),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           );
@@ -509,9 +505,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                               'Services: ${widget.serviceData.completedBookings ?? 0}',
                               style: secondaryTextStyle(
                                   size: 10,
-                                  color: appStore.isDarkMode
-                                      ? Colors.white
-                                      : appTextSecondaryColor),
+                                  color: Theme.of(context).colorScheme.onSurface),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),
@@ -519,9 +513,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                               'Views: ${widget.serviceData.totalViews ?? NumberFormat("#,###").format(randomNumber)}',
                               style: secondaryTextStyle(
                                   size: 10,
-                                  color: appStore.isDarkMode
-                                      ? Colors.white
-                                      : appTextSecondaryColor),
+                                  color: Theme.of(context).colorScheme.onSurface),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                             ),

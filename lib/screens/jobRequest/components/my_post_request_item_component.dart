@@ -149,16 +149,13 @@ class _MyPostRequestItemComponentState
                       children: [
                         PriceWidget(
                           price: widget.data.price.validate(),
-                          isHourlyService: widget.data.priceType == PriceType.hourly,
-                          isDailyService: widget.data.priceType == PriceType.daily,
-                          isFixedService: widget.data.priceType == PriceType.fixed,
                           color: white,
                           isFreeService: false,
                           size: 14,
                         ),
                         6.width,
                         Text(
-                          widget.data.priceType?.displayName ?? '',
+                          '/ ${widget.data.priceType?.displayName ?? ''}',
                           style: primaryTextStyle(color: white, size: 12),
                         ),
                       ],

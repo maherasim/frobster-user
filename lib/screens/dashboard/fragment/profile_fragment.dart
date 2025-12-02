@@ -77,16 +77,17 @@ class ProfileFragmentState extends State<ProfileFragment> {
 
   @override
   Widget build(BuildContext context) {
+    final cs = Theme.of(context).colorScheme;
     return Scaffold(
       appBar: AppBar(
         title: Text(language.profile,
-            style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE)),
+            style: boldTextStyle(color: cs.onPrimary, size: APP_BAR_TEXT_SIZE)),
         backgroundColor: Colors.transparent,
         elevation: 0.0,
         leading: null,
         actions: [
           IconButton(
-            icon: ic_setting.iconImage(color: white, size: 20),
+            icon: ic_setting.iconImage(color: cs.onPrimary, size: 20),
             onPressed: () async {
               SettingScreen().launch(context);
             },
@@ -147,17 +148,17 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                     Marquee(
                                         child: Text(appStore.userFullName,
                                             style: boldTextStyle(
-                                                color: white, size: 18))),
+                                                color: cs.onPrimary, size: 18))),
                                     4.height,
                                     Marquee(
                                         child: Text(appStore.userEmail,
                                             style: secondaryTextStyle(
-                                                color: white.withOpacity(0.9)))),
+                                                color: cs.onPrimary.withOpacity(0.9)))),
                                   ],
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.edit_outlined, color: white),
+                                icon: Icon(Icons.edit_outlined, color: cs.onPrimary),
                                 onPressed: () {
                                   EditProfileScreen().launch(context);
                                 },
@@ -176,7 +177,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                     .withHeight(20),
                                 8.width,
                                 Text(language.walletBalance,
-                                        style: boldTextStyle(color: white))
+                                        style: boldTextStyle(color: cs.onPrimary))
                                     .onTap(() {
                                   if (appConfigurationStore
                                       .onlinePaymentStatus) {
@@ -185,7 +186,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                 }),
                                 Spacer(),
                                 Text(appStore.userWalletAmount.toPriceFormat(),
-                                    style: boldTextStyle(color: white)),
+                                    style: boldTextStyle(color: cs.onPrimary)),
                               ],
                             ).paddingAll(16),
                           ).visible(appConfigurationStore.isEnableUserWallet),
@@ -209,7 +210,8 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           SettingItemWidget(
                             decoration: BoxDecoration(color: context.cardColor),
                             leading: ic_wallet_history.iconImage(
-                                size: SETTING_ICON_SIZE),
+                                size: SETTING_ICON_SIZE,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant),
                             title: language.walletHistory,
                             titleTextStyle: boldTextStyle(size: 12),
                             padding:
@@ -223,7 +225,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         //     appConfigurationStore.isEnableUserWallet)
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_ticket.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_ticket.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: 'My Bookings',
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
@@ -237,7 +241,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             rolesAndPermissionStore.bankList)
                           SettingItemWidget(
                             decoration: BoxDecoration(color: context.cardColor),
-                            leading: ic_card.iconImage(size: SETTING_ICON_SIZE),
+                            leading: ic_card.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                             title: language.lblBankDetails,
                             titleTextStyle: boldTextStyle(size: 12),
                             trailing: trailing,
@@ -250,7 +254,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
 
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_heart.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_heart.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: language.lblFavorite,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -264,8 +268,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         ),
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading:
-                              ic_profile2.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_profile2.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: language.favouriteProvider,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -279,10 +284,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         ),
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: Icon(
-                            Icons.work_outline_rounded,
-                            size: SETTING_ICON_SIZE,
-                          ),
+                          leading: Icon(Icons.work_outline_rounded, size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: 'My Job Requests',
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -296,8 +298,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             rolesAndPermissionStore.blogList)
                           SettingItemWidget(
                             decoration: BoxDecoration(color: context.cardColor),
-                            leading:
-                                ic_document.iconImage(size: SETTING_ICON_SIZE),
+                            leading: ic_document.iconImage(
+                                size: SETTING_ICON_SIZE,
+                                color: Theme.of(context).colorScheme.onSurfaceVariant),
                             title: language.blogs,
                             titleTextStyle: boldTextStyle(size: 12),
                             trailing: trailing,
@@ -310,7 +313,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         // .visible(rolesAndPermissionStore.blogList),
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_star.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_star.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: language.rateUs,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -343,8 +346,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         ),
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading:
-                              ic_my_review.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_my_review.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: cs.onSurfaceVariant),
                           title: language.myReviews,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -366,8 +370,8 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         //     rolesAndPermissionStore.helpDeskList)
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading:
-                              ic_help_desk.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_help_desk.iconImage(
+                              size: SETTING_ICON_SIZE, color: cs.onSurfaceVariant),
                           title: language.helpDesk,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -416,7 +420,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       8.height,
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_about_us.iconImage(size: SETTING_ICON_SIZE),
+                        leading: ic_about_us.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.lblAboutApp,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -426,8 +430,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       ).visible(rolesAndPermissionStore.aboutUs),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading:
-                            ic_shield_done.iconImage(size: SETTING_ICON_SIZE),
+                        leading: ic_shield_done.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.privacyPolicy,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -439,7 +442,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       ).visible(rolesAndPermissionStore.privacyPolicy),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_document.iconImage(size: SETTING_ICON_SIZE),
+                        leading: ic_document.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.termsCondition,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -451,7 +454,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       ).visible(rolesAndPermissionStore.termCondition),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_refund.iconImage(size: SETTING_ICON_SIZE),
+                        leading: ic_refund.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.refundPolicy,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -466,8 +469,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           rolesAndPermissionStore.helpAndSupport)
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_helpAndSupport.iconImage(
-                              size: SETTING_ICON_SIZE),
+                          leading: ic_helpAndSupport.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: language.helpSupport,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
@@ -494,8 +496,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                   borderRadius:
                                       BorderRadiusDirectional.vertical(
                                           bottom: Radius.circular(16))),
-                          leading:
-                              ic_calling.iconImage(size: SETTING_ICON_SIZE),
+                          leading: ic_calling.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context).colorScheme.onSurfaceVariant),
                           title: language.lblHelplineNumber,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding: EdgeInsets.only(
@@ -518,7 +521,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                     bottom: Radius.circular(16)))
                             : BoxDecoration(color: context.cardColor),
                         leading: Icon(MaterialCommunityIcons.logout,
-                            color: context.iconColor, size: SETTING_ICON_SIZE),
+                            color: Theme.of(context).colorScheme.onSurfaceVariant, size: SETTING_ICON_SIZE),
                         title: language.signIn,
                         titleTextStyle: boldTextStyle(size: 12),
                         onTap: () {
