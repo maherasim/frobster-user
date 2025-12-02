@@ -144,7 +144,8 @@ class _PaymentDialogState extends State<PaymentDialog> {
         paymentSetting: currentPaymentMethod!,
         totalAmount: widget.amount,
         onComplete: (p0) {
-          savePay(paymentMethod: PAYMENT_METHOD_STRIPE);
+          // p0['transaction_id'] is the Stripe PaymentIntent id
+          savePay(paymentMethod: PAYMENT_METHOD_STRIPE, paymentIntentId: p0['transaction_id'].toString());
         },
       );
 
@@ -172,15 +173,17 @@ class _PaymentDialogState extends State<PaymentDialog> {
     }
   }
 
-  Future<void> savePay({required String paymentMethod}) async {
+  Future<void> savePay({required String paymentMethod, String? paymentIntentId}) async {
    final request = {
      "type": widget.isAdvance ?  "advance" : "remaining",
      "amount": widget.amount,
+     if (paymentIntentId != null && paymentIntentId.isNotEmpty) "payment_intent_id": paymentIntentId,
    };
    String endpoint = '';
    switch(paymentMethod) {
      case PAYMENT_METHOD_STRIPE:
-       endpoint = 'postjob/stripe/create/${widget.bidId}';
+       // Use confirm endpoint to let server verify PaymentIntent and record payment
+       endpoint = 'postjob/stripe/confirm/${widget.bidId}';
        break;
      case PAYMENT_METHOD_PAYPAL:
        endpoint = 'postjob/paypal/create/${widget.bidId}';
