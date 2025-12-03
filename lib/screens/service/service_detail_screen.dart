@@ -6,6 +6,7 @@ import 'package:booking_system_flutter/component/online_service_icon_widget.dart
 import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
 import 'package:booking_system_flutter/main.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/model/package_data_model.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
@@ -168,14 +169,14 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                     setState(() {});
                   },
                   child: Container(
-                    decoration: boxDecorationDefault(
-                        color: appStore.isDarkMode
-                            ? isSelected
-                                ? primaryColor
-                                : Colors.black
-                            : isSelected
-                                ? primaryColor
-                                : Colors.white),
+                    decoration: isSelected
+                        ? BoxDecoration(
+                            gradient: appPrimaryGradient,
+                            borderRadius: BorderRadius.circular(8),
+                          )
+                        : boxDecorationDefault(
+                            color: appStore.isDarkMode ? Colors.black : Colors.white,
+                          ),
                     child: Padding(
                       padding: const EdgeInsets.symmetric(
                           vertical: 8.0, horizontal: 10),
@@ -189,9 +190,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
                         })(),
                         style: boldTextStyle(
-                            color: isSelected
-                                ? Colors.white
-                                : textPrimaryColorGlobal),
+                            color: isSelected ? Colors.white : textPrimaryColorGlobal),
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
                       ),
@@ -771,17 +770,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                   ],
                 ),
               ),
-              AppButton(
-                onTap: () {
+              GradientButton(
+                onPressed: () {
                   selectedPackage = null;
                   bookNow(snap.data!);
                 },
-                color: context.primaryColor,
-                child: Text(language.lblBookNow,
-                    style: boldTextStyle(color: white)),
-                width: context.width(),
-                textColor: Colors.white,
-              ).paddingSymmetric(horizontal: 16.0, vertical: 10.0)
+                child: Text(language.lblBookNow, style: boldTextStyle(color: white)),
+              ).withWidth(context.width()).paddingSymmetric(horizontal: 16.0, vertical: 10.0)
             ],
           ),
         );

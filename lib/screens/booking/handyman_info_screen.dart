@@ -92,7 +92,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                   // Header with back button
                   Container(
                     margin: EdgeInsets.only(top: context.statusBarHeight),
-                    color: context.primaryColor,
+                    decoration: BoxDecoration(
+                      gradient: appPrimaryGradient,
+                    ),
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
                     child: Row(
                       children: [

@@ -29,6 +29,7 @@ import '../../services/stripe_service_new.dart';
 import '../../utils/configs.dart';
 import '../../utils/model_keys.dart';
 import '../dashboard/dashboard_screen.dart';
+import '../../component/gradient_button.dart';
 
 class PaymentScreen extends StatefulWidget {
   final BookingDetailResponse bookings;
@@ -108,6 +109,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
   }
 
   Future<void> _handleClick() async {
+    // Debug: print currency and formatted total amount when user taps Pay Now
+    try {
+      final String currency = appConfigurationStore.currencyCode;
+      final int dp = appConfigurationStore.priceDecimalPoint;
+      final String formattedTotal = totalAmount.toStringAsFixed(dp);
+      log('Pay Now clicked → currency=$currency, totalAmount=$formattedTotal');
+    } catch (_) {
+      // ignore logging errors
+    }
+
     appStore.setLoading(true);
     if (currentPaymentMethod!.type == PAYMENT_METHOD_COD) {
       savePay(paymentMethod: PAYMENT_METHOD_COD,paymentStatus: SERVICE_PAYMENT_STATUS_PENDING);
@@ -353,7 +364,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER) {
       savePay(
         paymentMethod: PAYMENT_METHOD_BANK_TRANSFER,
-        paymentStatus: widget.isForAdvancePayment? SERVICE_PAYMENT_STATUS_ADVANCE_PAID : SERVICE_PAYMENT_STATUS_PAID,
+        paymentStatus: PENDING_BY_ADMIN,
         txnId: '',
         endPoint: 'save-bank-transfer-payment',
       );
@@ -383,11 +394,14 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (widget.bookings.service != null && widget.bookings.service!.isAdvancePayment && widget.bookings.bookingDetail!.bookingPackage == null) {
       request[AdvancePaymentKey.advancePaidAmount] =  advancePaymentAmount ?? widget.bookings.bookingDetail!.paidAmount;
 
-      if ((widget.bookings.bookingDetail!.paymentStatus == null ||  widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_ADVANCE_PAID || widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_PAID) && (widget.bookings.bookingDetail!.paidAmount == null || widget.bookings.bookingDetail!.paidAmount.validate() <= 0)) {
-        // TODO: check this condition  widget.bookings.bookingPackage?.id == -1
-        request[CommonKeys.paymentStatus] = SERVICE_PAYMENT_STATUS_ADVANCE_PAID;
-      } else if (widget.bookings.bookingDetail!.paymentStatus == SERVICE_PAYMENT_STATUS_ADVANCE_PAID) {
-        request[CommonKeys.paymentStatus] = SERVICE_PAYMENT_STATUS_PAID;
+      // For bank transfer, keep pending_by_admin (do not override to advance_paid/paid)
+      if (paymentMethod != PAYMENT_METHOD_BANK_TRANSFER) {
+        if ((widget.bookings.bookingDetail!.paymentStatus == null ||  widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_ADVANCE_PAID || widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_PAID) && (widget.bookings.bookingDetail!.paidAmount == null || widget.bookings.bookingDetail!.paidAmount.validate() <= 0)) {
+          // TODO: check this condition  widget.bookings.bookingPackage?.id == -1
+          request[CommonKeys.paymentStatus] = SERVICE_PAYMENT_STATUS_ADVANCE_PAID;
+        } else if (widget.bookings.bookingDetail!.paymentStatus == SERVICE_PAYMENT_STATUS_ADVANCE_PAID) {
+          request[CommonKeys.paymentStatus] = SERVICE_PAYMENT_STATUS_PAID;
+        }
       }
     }
     print((widget.bookings.bookingDetail!.paymentStatus == null ||  widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_ADVANCE_PAID || widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_PAID) && (widget.bookings.bookingDetail!.paidAmount == null || widget.bookings.bookingDetail!.paidAmount.validate() <= 0));
@@ -494,8 +508,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
                 WalletBalanceComponent()
                     .paddingSymmetric(vertical: 8, horizontal: 16),
               if (!appStore.isLoading)
-                AppButton(
-                  onTap: () async {
+                GradientButton(
+                  onPressed: () async {
                     if (currentPaymentMethod == null) {
                       return toast(language.chooseAnyOnePayment);
                     }
@@ -560,10 +574,10 @@ class _PaymentScreenState extends State<PaymentScreen> {
                       });
                     }
                   },
-                  text: "${language.lblPayNow} ${widget.isFromBookService ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount}",
-                  color: context.primaryColor,
-                  width: context.width(),
-                ).paddingAll(16),
+                  child: Text(
+                    "${language.lblPayNow} ${widget.isFromBookService ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount.toPriceFormat()}",
+                  ),
+                ).withWidth(context.width()).paddingAll(16),
             ],
           ),
         ],

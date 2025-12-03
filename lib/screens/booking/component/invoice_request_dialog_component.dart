@@ -6,6 +6,7 @@ import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../../../component/gradient_button.dart';
 
 class InvoiceRequestDialogComponent extends StatefulWidget {
   final int? bookingId;
@@ -43,6 +44,7 @@ class _InvoiceRequestDialogComponentState
       Map req = {
         UserKeys.email: emailCont.text.validate(),
         CommonKeys.bookingId: widget.bookingId.validate(),
+        CommonKeys.customerId: appStore.userId,
       };
 
       sentInvoiceOnMail(req).then((res) {
@@ -69,10 +71,10 @@ class _InvoiceRequestDialogComponentState
             Container(
               padding: EdgeInsets.all(16),
               width: context.width(),
-              decoration: boxDecorationDefault(
-                  color: context.primaryColor,
-                  borderRadius: radiusOnly(
-                      topRight: defaultRadius, topLeft: defaultRadius)),
+              decoration: BoxDecoration(
+                gradient: appPrimaryGradient,
+                borderRadius: radiusOnly(topRight: defaultRadius, topLeft: defaultRadius),
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -103,16 +105,12 @@ class _InvoiceRequestDialogComponentState
                   ).visible(!appStore.isLoading, defaultWidget: Loader()),
                 ),
                 30.height,
-                AppButton(
-                  text: language.send,
-                  height: 40,
-                  color: primaryColor,
-                  textStyle: primaryTextStyle(color: white),
-                  width: context.width() - context.navigationBarHeight,
-                  onTap: () {
+                GradientButton(
+                  onPressed: () {
                     sentMail();
                   },
-                ),
+                  child: Text(language.send, style: primaryTextStyle(color: white)),
+                ).withWidth(context.width() - context.navigationBarHeight),
               ],
             ).paddingAll(16),
           ],

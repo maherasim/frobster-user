@@ -169,7 +169,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(language.lblConfirmBooking,
-                    style: boldTextStyle(size: 16)),
+                    style: boldTextStyle(size: 18)),
                 GestureDetector(
                   onTap: () {
                     finish(context);
@@ -337,12 +337,12 @@ Widget serviceDetailsWidget(String title, String value, bool isPrice) {
     children: [
       Text(title,
               style: secondaryTextStyle(
-                  size: 10,
+                  size: 12,
                   color:
                       appStore.isDarkMode ? darkGray : appTextSecondaryColor))
           .expand(flex: 2),
       Text(isPrice ? num.parse(value.toString()).toPriceFormat() : value,
-              style: boldTextStyle(size: 10))
+              style: boldTextStyle(size: 14))
           .expand(flex: 3),
     ],
   ).paddingBottom(6.0);

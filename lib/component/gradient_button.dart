@@ -33,9 +33,11 @@ class GradientButton extends StatelessWidget {
           borderRadius: BorderRadius.circular(borderRadius),
           child: Padding(
             padding: padding,
-            child: DefaultTextStyle.merge(
-              style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
-              child: child,
+            child: Center(
+              child: DefaultTextStyle.merge(
+                style: const TextStyle(color: Colors.white, fontWeight: FontWeight.w700),
+                child: child,
+              ),
             ),
           ),
         ),

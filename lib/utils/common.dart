@@ -532,9 +532,11 @@ String getPaymentStatusFilterText(String? status) {
 String getPaymentStatusText(String? status, String? method) {
   if (status!.isEmpty) {
     return language.lblPending;
-  } else if (status == SERVICE_PAYMENT_STATUS_PAID ||
-      status == PENDING_BY_ADMIN) {
+  } else if (status == SERVICE_PAYMENT_STATUS_PAID) {
     return language.paid;
+  } else if (status == PENDING_BY_ADMIN) {
+    // Show "Pending by Admin" explicitly for bank transfers awaiting approval
+    return '${language.lblPending} ${language.by} Admin';
   } else if (status == SERVICE_PAYMENT_STATUS_ADVANCE_PAID) {
     return language.advancePaid;
   } else if ((status == SERVICE_PAYMENT_STATUS_PENDING ||
@@ -552,7 +554,8 @@ String getPaymentStatusText(String? status, String? method) {
 }
 
 String buildPaymentStatusWithMethod(String status, String method) {
-  return '${getPaymentStatusText(status, method)}${(status == SERVICE_PAYMENT_STATUS_PAID || status == PENDING_BY_ADMIN) ? ' ${language.by} ${method.capitalizeFirstLetter()}' : ''}';
+  // Only append "by <method>" for fully paid
+  return '${getPaymentStatusText(status, method)}${status == SERVICE_PAYMENT_STATUS_PAID ? ' ${language.by} ${method.capitalizeFirstLetter()}' : ''}';
 }
 
 Color getRatingBarColor(int rating, {bool showRedForZeroRating = false}) {

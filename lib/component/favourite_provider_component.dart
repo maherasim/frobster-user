@@ -88,7 +88,14 @@ class _FavouriteProviderComponentState
                 decoration: BoxDecoration(
                   borderRadius: radiusOnly(
                       topLeft: defaultRadius, topRight: defaultRadius),
-                  color: primaryColor.withValues(alpha: 0.2),
+                  gradient: LinearGradient(
+                    begin: Alignment.centerLeft,
+                    end: Alignment.centerRight,
+                    colors: [
+                      gradientRed.withValues(alpha: 0.20),
+                      gradientBlue.withValues(alpha: 0.20),
+                    ],
+                  ),
                 ),
                 child: CachedImageWidget(
                   url: widget.data!.profileImage.validate(),

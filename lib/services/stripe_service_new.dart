@@ -81,9 +81,7 @@ class StripeServiceNew {
 
     request.bodyFields = {
       'amount': '${(totalAmount * 100).toInt()}',
-      'currency': await isIqonicProduct
-          ? STRIPE_CURRENCY_CODE
-          : '${appConfigurationStore.currencyCode}',
+      'currency': '${appConfigurationStore.currencyCode}',
       'description':
           'Name: ${appStore.userFullName} - Email: ${appStore.userEmail}',
     };

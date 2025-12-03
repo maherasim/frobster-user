@@ -34,6 +34,7 @@ import 'package:booking_system_flutter/screens/chat/api_chat_screen.dart';
 import 'package:booking_system_flutter/model/chat_api_models.dart';
 import 'package:booking_system_flutter/screens/service/service_detail_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
@@ -501,12 +502,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                         'Total Price: ',
                         style: secondaryTextStyle(),
                       ),
-                      Marquee(
-                        child: Text(
-                          '€ ${bookingDetail.totalAmount.validate().toStringAsFixed(2)}',
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.left,
-                        ),
+                      PriceWidget(
+                        price: bookingDetail.totalAmount.validate(),
+                        color: textPrimaryColorGlobal,
+                        isBoldText: true,
+                        size: 12,
                       ),
                     ],
                   ),
@@ -1388,8 +1388,24 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
 
       return AppButton(
         child: showPayNow
-            ? Text(language.lblPayNow,
-                style: boldTextStyle(color: Colors.white, size: 16))
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(language.lblPayNow,
+                      style: boldTextStyle(color: Colors.white, size: 16)),
+                  8.width,
+                  PriceWidget(
+                    price: (bookingResponse.bookingDetail!.totalAmount
+                            .validate() -
+                        getAdvancePaymentAmount(
+                            bookingInfo: bookingResponse))
+                        .toDouble(),
+                    color: Colors.white,
+                    isBoldText: true,
+                  ),
+                ],
+              )
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 mainAxisSize: MainAxisSize.min,
@@ -1526,12 +1542,10 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       );
     } else if (!bookingResponse.bookingDetail!.isFreeService &&
         bookingResponse.bookingDetail!.status == BookingStatusKeys.complete &&
+        bookingResponse.bookingDetail!.paymentStatus == SERVICE_PAYMENT_STATUS_PAID &&
         !isSentInvoiceOnEmail) {
-      return AppButton(
-        text: language.requestInvoice,
-        textColor: Colors.white,
-        color: context.primaryColor,
-        onTap: () async {
+      return GradientButton(
+        onPressed: () async {
           bool? res = await showInDialog(
             context,
             contentPadding: EdgeInsets.zero,
@@ -1548,6 +1562,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             setState(() {});
           }
         },
+        child: Text(language.requestInvoice),
       );
     } else if (bookingResponse.bookingDetail!.status ==
             BookingStatusKeys.complete &&
@@ -1637,8 +1652,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       ),
                       8.height,
                       Container(
-                        decoration: boxDecorationDefault(
-                          color: primaryColor,
+                        decoration: BoxDecoration(
+                          gradient: appPrimaryGradient,
                           borderRadius: radiusOnly(topLeft: 8, topRight: 8),
                         ),
                         padding: EdgeInsets.symmetric(
@@ -1646,6 +1661,45 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                             vertical: 8), // Space around content
                         child: bookingIdWidget(),
                       ),
+                      if (snap.data!.bookingDetail!.paymentStatus ==
+                          PENDING_BY_ADMIN)
+                        Container(
+                          width: context.width(),
+                          padding: EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.centerLeft,
+                              end: Alignment.centerRight,
+                              colors: [
+                                gradientRed.withValues(alpha: 0.10),
+                                gradientBlue.withValues(alpha: 0.10),
+                              ],
+                            ),
+                            borderRadius: radius(12),
+                          ),
+                          child: Row(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Container(
+                                decoration: const BoxDecoration(
+                                    gradient: appPrimaryGradient,
+                                    shape: BoxShape.circle),
+                                padding: EdgeInsets.all(8),
+                                child: const Icon(Icons.info_outline,
+                                    color: Colors.white, size: 18),
+                              ),
+                              8.width,
+                              Expanded(
+                                child: Marquee(
+                                  child: Text(
+                                    'Payment submitted via Bank Transfer. Awaiting admin confirmation.',
+                                    style: boldTextStyle(size: 12),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ).paddingTop(12),
                       Container(
                         decoration: BoxDecoration(
                           color: context.cardColor,
@@ -1744,12 +1798,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
 
                       /// Chat buttons after Accept + Advance Paid
                       Builder(builder: (context) {
-                        final status = snap.data!.bookingDetail!.status;
-                        final pay = snap.data!.bookingDetail!.paymentStatus;
-                        final isAccepted = status == BookingStatusKeys.accept;
-                        final isAdvancePaid =
-                            pay == SERVICE_PAYMENT_STATUS_ADVANCE_PAID;
-                        if (!(isAccepted && isAdvancePaid)) return Offstage();
+                        final isAdvanceDone = snap.data!.bookingDetail!.isAdvancePaymentDone;
+                        // Show chat buttons once any advance is recorded (includes bank transfer pending)
+                        if (!isAdvanceDone) return Offstage();
 
                         final provider = snap.data!.providerData;
                         final handymen = snap.data!.handymanData.validate();
@@ -1757,7 +1808,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                         List<Widget> buttons = [];
                         if (provider != null && provider.id != null) {
                           buttons.add(
-                            AppButton(
+                            GradientButton(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1789,9 +1840,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                   ),
                                 ],
                               ),
-                              textColor: white,
-                              color: context.primaryColor,
-                              onTap: () => _openChatWithUser(
+                              onPressed: () => _openChatWithUser(
                                 userId: provider.id!.toInt(),
                                 displayName: provider.displayName.validate(),
                                 profileImageUrl: provider.profileImage.validate(),
@@ -1802,7 +1851,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                         if (handymen.isNotEmpty && handymen.first.id != null) {
                           if (buttons.isNotEmpty) buttons.add(16.width);
                           buttons.add(
-                            AppButton(
+                            GradientButton(
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -1836,9 +1885,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                   ),
                                 ],
                               ),
-                              textColor: white,
-                              color: context.primaryColor,
-                              onTap: () => _openChatWithUser(
+                              onPressed: () => _openChatWithUser(
                                 userId: handymen.first.id!.toInt(),
                                 displayName: handymen.first.displayName.validate(),
                                 profileImageUrl: handymen.first.profileImage.validate(),

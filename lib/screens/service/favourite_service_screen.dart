@@ -14,6 +14,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/empty_error_state_widget.dart';
 import '../../utils/constant.dart';
+import '../../utils/colors.dart';
 
 class FavouriteServiceScreen extends StatefulWidget {
   const FavouriteServiceScreen({Key? key}) : super(key: key);
@@ -45,12 +46,14 @@ class _FavouriteServiceScreenState extends State<FavouriteServiceScreen> {
 
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        language.lblFavorite,
-        color: context.primaryColor,
-        textColor: white,
-        backWidget: BackWidget(),
-        textSize: APP_BAR_TEXT_SIZE,
+      appBar: AppBar(
+        title: Text(language.lblFavorite, style: boldTextStyle(color: Colors.white, size: APP_BAR_TEXT_SIZE)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackWidget(),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: appPrimaryGradient),
+        ),
       ),
       body: Stack(
         children: [

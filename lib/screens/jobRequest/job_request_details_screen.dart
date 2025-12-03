@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/empty_error_state_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/price_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/model/post_job_detail_response.dart';
@@ -170,21 +171,34 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               if (getStatusInfo(postJobDetail!).isNotEmpty && !_isAwaitingBankTransferApproval())
                 Container(
                   padding: EdgeInsets.all(12),
-                  decoration: boxDecorationWithRoundedCorners(
-                    backgroundColor:
-                        context.primaryColor.withValues(alpha: 0.1),
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                      colors: [
+                        gradientRed.withValues(alpha: 0.12),
+                        gradientBlue.withValues(alpha: 0.12),
+                      ],
+                    ),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
                     children: [
-                      Icon(Icons.info_outline,
-                          color: context.primaryColor, size: 20),
+                      // Gradient accent icon
+                      Container(
+                        decoration: const BoxDecoration(
+                          gradient: appPrimaryGradient,
+                          shape: BoxShape.circle,
+                        ),
+                        padding: const EdgeInsets.all(6),
+                        child: const Icon(Icons.info_outline, color: Colors.white, size: 18),
+                      ),
                       8.width,
                       Expanded(
                         child: Text(
                           getStatusInfo(postJobDetail!),
                           style: secondaryTextStyle(
-                              color: context.primaryColor, size: 14),
+                              color: Theme.of(context).colorScheme.onSurface, size: 14),
                         ),
                       ),
                     ],
@@ -346,7 +360,15 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Icon(Icons.flag, color: context.primaryColor, size: 32),
+                    // Gradient status icon
+                    Container(
+                      decoration: const BoxDecoration(
+                        gradient: appPrimaryGradient,
+                        shape: BoxShape.circle,
+                      ),
+                      padding: const EdgeInsets.all(8),
+                      child: const Icon(Icons.flag, color: Colors.white, size: 20),
+                    ),
                     8.height,
                     Text(
                       'Status',
@@ -442,16 +464,12 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     Expanded(child: _chatActionButton()),
                     16.width,
                     Expanded(
-                      child: AppButton(
-                        text: "Let's Start Work",
-                        textStyle: boldTextStyle(color: white, size: 16),
-                        color: primaryColor,
-                        width: context.width(),
-                        onTap: () async {
-                          confirmationRequestDialog(
-                              context, RequestStatus.inProgress);
+                      child: GradientButton(
+                        onPressed: () async {
+                          confirmationRequestDialog(context, RequestStatus.inProgress);
                         },
-                      ),
+                        child: Text("Let's Start Work", style: boldTextStyle(color: white, size: 16)),
+                      ).withWidth(context.width()),
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
@@ -461,16 +479,12 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     Expanded(child: _chatActionButton()),
                     16.width,
                     Expanded(
-                      child: AppButton(
-                        text: 'Confirm Done',
-                        textStyle: boldTextStyle(color: white, size: 16),
-                        color: primaryColor,
-                        width: context.width(),
-                        onTap: () async {
-                          confirmationRequestDialog(
-                              context, RequestStatus.confirmDone);
+                      child: GradientButton(
+                        onPressed: () async {
+                          confirmationRequestDialog(context, RequestStatus.confirmDone);
                         },
-                      ),
+                        child: Text('Confirm Done', style: boldTextStyle(color: white, size: 16)),
+                      ).withWidth(context.width()),
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
@@ -853,12 +867,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   }
 
   Widget _chatActionButton() {
-    return AppButton(
-      text: 'Chat',
-      textStyle: boldTextStyle(color: white, size: 16),
-      color: context.primaryColor,
-      width: context.width(),
-      onTap: () async {
+    return GradientButton(
+      onPressed: () async {
         final providerId = postJobDetail?.provider?.id;
         if (providerId == null) {
           toast(language.somethingWentWrong);
@@ -922,7 +932,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           }
         }
       },
-    );
+      child: Text('Chat', style: boldTextStyle(color: white, size: 16)),
+    ).withWidth(context.width());
   }
 
   Widget _buildProviderHeader(JobRequestDetailResponse data) {
@@ -1023,7 +1034,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 width: 64,
                 height: 4,
                 decoration: BoxDecoration(
-                  color: isActive ? context.primaryColor : context.dividerColor,
+                  gradient: isActive ? appPrimaryGradient : null,
+                  color: isActive ? null : context.dividerColor,
                   borderRadius: radius(6),
                 ),
               ),

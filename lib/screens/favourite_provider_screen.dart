@@ -11,6 +11,7 @@ import '../component/favourite_provider_component.dart';
 import '../network/rest_apis.dart';
 import '../utils/constant.dart';
 import 'shimmer/favourite_provider_shimmer.dart';
+import '../utils/colors.dart';
 
 class FavouriteProviderScreen extends StatefulWidget {
   const FavouriteProviderScreen({Key? key}) : super(key: key);
@@ -45,12 +46,14 @@ class _FavouriteProviderScreenState extends State<FavouriteProviderScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: context.cardColor,
-      appBar: appBarWidget(
-        language.favouriteProvider,
-        textSize: APP_BAR_TEXT_SIZE,
-        color: context.primaryColor,
-        textColor: white,
-        backWidget: BackWidget(),
+      appBar: AppBar(
+        title: Text(language.favouriteProvider, style: boldTextStyle(color: Colors.white, size: APP_BAR_TEXT_SIZE)),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        leading: BackWidget(),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(gradient: appPrimaryGradient),
+        ),
       ),
       body: Stack(
         children: [
