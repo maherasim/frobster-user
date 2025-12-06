@@ -1,6 +1,7 @@
 import 'package:booking_system_flutter/component/base_scaffold_body.dart';
 import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/price_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/package_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
@@ -386,18 +387,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
 
                 Row(
                   children: [
-                    AppButton(
-                      color: context.primaryColor,
-                      text:
-                          // widget.data.serviceDetail!.isAdvancePayment &&
-                          //         !widget.data.serviceDetail!.isFreeService &&
-                          //         widget.data.serviceDetail!.isFixedService
-                          //     ?
-                          language.lblBookNow,
-
-                      // : language.confirm,
-                      textColor: Colors.white,
-                      onTap: () {
+                    GradientButton(
+                      onPressed: () {
                         if (widget.data.serviceDetail!.isOnSiteService &&
                             addressCont.text.isEmpty &&
                             timeSlots.isEmpty) {
@@ -447,6 +438,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                           );
                         }
                       },
+                      child: Text(language.lblBookNow),
                     ).expand(),
                   ],
                 ),

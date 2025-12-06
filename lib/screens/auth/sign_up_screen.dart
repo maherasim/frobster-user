@@ -1,4 +1,5 @@
 import 'package:booking_system_flutter/component/back_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/selected_item_widget.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -373,18 +374,18 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ),
         _buildTcAcceptWidget(),
         8.height,
-        AppButton(
-          text: language.signUp,
-          color: primaryColor,
-          textColor: Colors.white,
+        SizedBox(
           width: context.width() - context.navigationBarHeight,
-          onTap: () {
-            if (widget.isOTPLogin) {
-              registerWithOTP();
-            } else {
-              registerUser();
-            }
-          },
+          child: GradientButton(
+            onPressed: () {
+              if (widget.isOTPLogin) {
+                registerWithOTP();
+              } else {
+                registerUser();
+              }
+            },
+            child: Text(language.signUp),
+          ),
         ),
       ],
     );

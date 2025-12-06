@@ -627,7 +627,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       ),
                       12.height,
                     ],
-                  )
+                  ).visible(appStore.isLoggedIn)
                   //     .visible(appStore.isLoggedIn)
                   //     .paddingOnly(left: 16, right: 16, top: 16),
                   // 30.height.visible(!appStore.isLoggedIn),

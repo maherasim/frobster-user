@@ -1,5 +1,6 @@
 import 'package:booking_system_flutter/component/back_widget.dart';
 import 'package:booking_system_flutter/component/base_scaffold_body.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/screens/auth/forgot_password_screen.dart';
 import 'package:booking_system_flutter/screens/auth/otp_login_screen.dart';
@@ -7,7 +8,6 @@ import 'package:booking_system_flutter/screens/auth/sign_up_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
-import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
@@ -15,10 +15,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 import '../../network/rest_apis.dart';
-import '../../utils/app_configuration.dart';
 
 class SignInScreen extends StatefulWidget {
   final bool? isFromDashboard;
@@ -254,14 +252,12 @@ class _SignInScreenState extends State<SignInScreen> {
           ],
         ),
         24.height,
-        AppButton(
-          text: language.signIn,
-          color: primaryColor,
-          textColor: Colors.white,
+        SizedBox(
           width: context.width() - context.navigationBarHeight,
-          onTap: () {
-            _handleLogin();
-          },
+          child: GradientButton(
+            onPressed: _handleLogin,
+            child: Text(language.signIn),
+          ),
         ),
         16.height,
         Row(
@@ -284,29 +280,7 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ],
         ),
-        TextButton(
-          onPressed: () {
-            if (isAndroid) {
-              if (getStringAsync(PROVIDER_PLAY_STORE_URL).isNotEmpty) {
-                launchUrl(Uri.parse(getStringAsync(PROVIDER_PLAY_STORE_URL)),
-                    mode: LaunchMode.externalApplication);
-              } else {
-                launchUrl(
-                    Uri.parse(
-                        '${getSocialMediaLink(LinkProvider.PLAY_STORE)}$PROVIDER_PACKAGE_NAME'),
-                    mode: LaunchMode.externalApplication);
-              }
-            } else if (isIOS) {
-              if (getStringAsync(PROVIDER_APPSTORE_URL).isNotEmpty) {
-                commonLaunchUrl(getStringAsync(PROVIDER_APPSTORE_URL));
-              } else {
-                commonLaunchUrl(IOS_LINK_FOR_PARTNER);
-              }
-            }
-          },
-          child: Text(language.lblRegisterAsPartner,
-              style: boldTextStyle(color: primaryColor)),
-        )
+        
       ],
     );
   }

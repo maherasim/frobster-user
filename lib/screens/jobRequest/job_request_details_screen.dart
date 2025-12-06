@@ -848,14 +848,18 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           8.height,
           Text(
             title,
-            style: secondaryTextStyle(size: 12),
+            style: secondaryTextStyle(
+              size: 12,
+              color: Theme.of(context).colorScheme.onSurfaceVariant,
+            ),
             textAlign: TextAlign.center,
           ),
           4.height,
           Text(
             value,
             style: boldTextStyle(
-              size: isDate ? 10 : 14,
+              size: isDate ? 12 : 16,
+              color: Theme.of(context).colorScheme.onSurface,
             ),
             textAlign: TextAlign.center,
             maxLines: 2,

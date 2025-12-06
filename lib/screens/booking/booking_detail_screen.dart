@@ -1165,18 +1165,17 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         10.height,
         Row(
           children: [
-            AppButton(
-              onTap: () {
-                TrackLocation(
-                  bookingId: widget.bookingId,
-                  isHandyman: res.providerData!.id != handymanList.first.id,
-                ).launch(context);
-              },
-              padding: EdgeInsets.only(top: 0, left: 8, right: 8),
+            SizedBox(
               height: 42,
-              color: Color(0xFF39A81D),
-              textColor: white,
-              text: language.track,
+              child: GradientButton(
+                onPressed: () {
+                  TrackLocation(
+                    bookingId: widget.bookingId,
+                    isHandyman: res.providerData!.id != handymanList.first.id,
+                  ).launch(context);
+                },
+                child: Text(language.track),
+              ),
             ).expand(),
             16.width,
             Container(
@@ -1386,7 +1385,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
               SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
           bookingResponse.bookingDetail!.status == BookingStatusKeys.complete;
 
-      return AppButton(
+      return GradientButton(
         child: showPayNow
             ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -1421,8 +1420,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   ),
                 ],
               ),
-        color: Colors.green,
-        onTap: () {
+        onPressed: () {
           if (bookingResponse.bookingDetail!.paymentStatus ==
                   SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
               bookingResponse.bookingDetail!.status ==
@@ -1440,11 +1438,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.pending) {
-      return AppButton(
-        text: language.lblCancelBooking,
-        textColor: Colors.white,
-        color: primaryColor,
-        onTap: () {
+      return GradientButton(
+        onPressed: () {
           _handleCancelClick(
             status: bookingResponse,
             isDurationMode: checkTimeDifference(
@@ -1453,29 +1448,26 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             ),
           );
         },
+        child: Text(language.lblCancelBooking),
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.onGoing) {
-      return AppButton(
-        text: language.lblStart,
-        textColor: Colors.white,
-        color: Colors.green,
-        onTap: () {
+      return GradientButton(
+        onPressed: () {
           _handleStartClick(status: bookingResponse);
         },
+        child: Text(language.lblStart),
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.inProgress) {
       return Row(
         children: [
           if (!bookingResponse.service!.isOnlineService.validate())
-            AppButton(
-              text: language.lblHold,
-              textColor: Colors.white,
-              color: hold,
-              onTap: () {
+            GradientButton(
+              onPressed: () {
                 _handleHoldClick(status: bookingResponse);
               },
+              child: Text(language.lblHold),
             ).expand(),
         ],
       ).paddingOnly(bottom: 16);
@@ -1483,13 +1475,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         BookingStatusKeys.hold) {
       return Row(
         children: [
-          AppButton(
-            text: language.lblResume,
-            textColor: Colors.white,
-            color: primaryColor,
-            onTap: () {
+          GradientButton(
+            onPressed: () {
               _handleResumeClick(status: bookingResponse);
             },
+            child: Text(language.lblResume),
           ).expand(),
           // 16.width,
           // AppButton(
@@ -1508,13 +1498,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       ).paddingOnly(bottom: 16);
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.doneByProvider) {
-      return AppButton(
-        text: language.lblConfirmJobDone,
-        textColor: Colors.white,
-        color: primaryColor,
-        onTap: () {
+      return GradientButton(
+        onPressed: () {
           _handleDoneClick(status: bookingResponse);
         },
+        child: Text(language.lblConfirmJobDone),
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.pendingApproval) {
@@ -1531,14 +1519,12 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             bookingResponse.bookingDetail!.paymentMethod ==
                 PAYMENT_METHOD_COD) &&
         bookingResponse.bookingDetail!.paymentId == null) {
-      return AppButton(
-        text: language.lblPayNow,
-        textColor: Colors.white,
-        color: Colors.green,
-        onTap: () {
+      return GradientButton(
+        onPressed: () {
           PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
               .launch(context);
         },
+        child: Text(language.lblPayNow),
       );
     } else if (!bookingResponse.bookingDetail!.isFreeService &&
         bookingResponse.bookingDetail!.status == BookingStatusKeys.complete &&

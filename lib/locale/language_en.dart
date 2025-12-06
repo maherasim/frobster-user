@@ -395,7 +395,7 @@ class LanguageEn extends BaseLanguage {
   String get lblTime => "Time";
 
   @override
-  String get textProvider => "Employeer";
+  String get textProvider => "Employer";
 
   @override
   String get lblConfirmBooking => "Confirm Booking";
@@ -431,7 +431,7 @@ class LanguageEn extends BaseLanguage {
   String get lblAboutHandyman => "About Worker";
 
   @override
-  String get lblAboutProvider => "About Employeer";
+  String get lblAboutProvider => "About Employer";
 
   @override
   String get lblNotRatedYet => "You haven't rated yet";
@@ -746,7 +746,7 @@ class LanguageEn extends BaseLanguage {
   String get lblSignInWithApple => "Sign in with Apple";
 
   @override
-  String get lblWaitingForProviderApproval => "Waiting for Employeer Approval";
+  String get lblWaitingForProviderApproval => "Waiting for Employer Approval";
 
   @override
   String get lblFree => "Free";
@@ -781,7 +781,7 @@ class LanguageEn extends BaseLanguage {
   String get noCategoryFound => "No Category Found";
 
   @override
-  String get noProviderFound => "No Employeer Found";
+  String get noProviderFound => "No Employer Found";
 
   @override
   String get createServiceRequest => "Create Service";
@@ -891,7 +891,7 @@ class LanguageEn extends BaseLanguage {
   String get bidder => 'Bidder List';
 
   @override
-  String get assignedProvider => 'Assigned Employeer';
+  String get assignedProvider => 'Assigned Employer';
 
   @override
   String get myPostDetail => 'My Post Detail';
@@ -916,7 +916,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get noPostJobFoundSubtitle =>
-      'When you post your job, every Employeer will be notified, and you can choose your desired Employeer to get the job done.';
+      'When you post your job, every Employer will be notified, and you can choose your desired Employer to get the job done.';
 
   @override
   String get pleaseEnterValidOTP => 'Please enter Valid OTP';
@@ -1086,11 +1086,11 @@ class LanguageEn extends BaseLanguage {
       'Do you want to delete the message?';
 
   @override
-  String get favouriteProvider => 'Favourite Employeer';
+  String get favouriteProvider => 'Favourite Employer';
 
   @override
   String get noProviderFoundMessage =>
-      'Your favourite Employeers will appear here';
+      'Your favourite Employers will appear here';
 
   @override
   String get personalInfo => 'Personal Info';
@@ -1322,11 +1322,11 @@ class LanguageEn extends BaseLanguage {
   String get closeApp => 'Close App';
 
   @override
-  String get providerAddedToFavourite => 'Employeer added to Favourite list';
+  String get providerAddedToFavourite => 'Employer added to Favourite list';
 
   @override
   String get providerRemovedFromFavourite =>
-      'Employeer removed from Favourite list';
+      'Employer removed from Favourite list';
 
   @override
   String get provideValidCurrentPasswordMessage =>
@@ -1521,7 +1521,7 @@ class LanguageEn extends BaseLanguage {
   String get team => 'Team';
 
   @override
-  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Employeer';
+  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Employer';
 
   @override
   String get reason => 'Reason';
@@ -1822,7 +1822,7 @@ class LanguageEn extends BaseLanguage {
   String get canTFindYourServices => "Can't find your services?";
 
   @override
-  String get trackProviderLocation => 'Track Employeer Location';
+  String get trackProviderLocation => 'Track Employer Location';
 
   @override
   String get trackHandymanLocation => 'Track Worker Location';
@@ -1831,7 +1831,7 @@ class LanguageEn extends BaseLanguage {
   String get handymanLocation => 'Worker Location';
 
   @override
-  String get providerLocation => 'Employeer Location';
+  String get providerLocation => 'Employer Location';
 
   @override
   String get lastUpdatedAt => 'Last updated at:';
@@ -1843,7 +1843,7 @@ class LanguageEn extends BaseLanguage {
   String get handymanReached => 'Worker Reached? Click to start';
 
   @override
-  String get providerReached => 'Employeer Reached? Click to start';
+  String get providerReached => 'Employer Reached? Click to start';
 
   @override
   String get addBank => "Add bank";
@@ -2138,7 +2138,7 @@ class LanguageEn extends BaseLanguage {
   String get handymanNotFound => 'Worker Not Found';
 
   @override
-  String get providerNotFound => 'Employeer Not Found';
+  String get providerNotFound => 'Employer Not Found';
 
   @override
   String get rateYourExperience => 'Rate Your Experience';
@@ -2280,7 +2280,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get waitingForProviderToSplitPayment =>
-      'Waiting for Employeer to split payment';
+      'Waiting for Employer to split payment';
 
   @override
   String get waitingForCustomerToPayAdvancePercentage =>
@@ -2292,13 +2292,13 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get waitingForProviderToStartWork =>
-      'Waiting for Employeer to start work';
+      'Waiting for Employer to start work';
 
   @override
   String get waitingForProviderToResumeWork =>
-      'Waiting for Employeer to resume work';
+      'Waiting for Employer to resume work';
 
   @override
   String get waitingForProviderToMarkBidAsCompleted =>
-      'Waiting for Employeer to mark the bid as completed';
+      'Waiting for Employer to mark the bid as completed';
 }

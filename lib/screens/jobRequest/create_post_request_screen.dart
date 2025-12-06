@@ -8,6 +8,7 @@ import 'package:booking_system_flutter/model/state_list_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/jobRequest/components/category_sub_cat_drop_down.dart';
 import 'package:booking_system_flutter/utils/common.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
@@ -621,7 +622,9 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                               focus: priceFocus,
                               errorThisFieldRequired: language.requiredText,
                               decoration: inputDecoration(context,
-                                  labelText: language.price),
+                                  labelText: language.price).copyWith(
+                                prefix: Text('${appConfigurationStore.currencySymbol} '),
+                              ),
                               keyboardType: TextInputType.numberWithOptions(
                                   decimal: true, signed: true),
                               onChanged: (value) {
@@ -637,6 +640,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                 return null;
                               },
                             ),
+                          16.height,
                           // 16.height,
                           // Align(
                           //   alignment: Alignment.topLeft,
@@ -766,7 +770,9 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     isValidationRequired: false,
                                     readOnly: true,
                                     errorThisFieldRequired: language.requiredText,
-                                    decoration: inputDecoration(context, labelText: language.totalBudget),
+                                    decoration: inputDecoration(context, labelText: language.totalBudget).copyWith(
+                                      prefix: Text('${appConfigurationStore.currencySymbol} '),
+                                    ),
                                     keyboardType: TextInputType.numberWithOptions(
                                       decimal: true,
                                       signed: true,
@@ -1198,11 +1204,8 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
             ),
           if (currentStep > 0) 16.width,
           Expanded(
-            child: AppButton(
-              color: context.primaryColor,
-              child: Text(currentStep == _steps.length - 1 ? language.publish : 'Next',
-                  style: boldTextStyle(color: white)),
-              onTap: () {
+            child: GradientButton(
+              onPressed: () {
                 hideKeyboard(context);
                 if (currentStep == _steps.length - 1) {
                   if (_validateAll()) {
@@ -1216,6 +1219,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                   });
                 }
               },
+              child: Text(currentStep == _steps.length - 1 ? language.publish : 'Next'),
             ),
           ),
         ],

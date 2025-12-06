@@ -29,9 +29,9 @@ import 'package:booking_system_flutter/model/user_wallet_history.dart';
 import 'package:booking_system_flutter/model/verify_transaction_response.dart';
 import 'package:booking_system_flutter/network/network_utils.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
-import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/configs.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -219,12 +219,8 @@ Future<void> logout(BuildContext context) async {
                 },
               ).expand(),
               16.width,
-              AppButton(
-                child:
-                    Text(language.lblYes, style: boldTextStyle(color: white)),
-                color: primaryColor,
-                elevation: 0,
-                onTap: () async {
+              GradientButton(
+                onPressed: () async {
                   finish(context);
 
                   if (await isNetworkAvailable()) {
@@ -249,6 +245,7 @@ Future<void> logout(BuildContext context) async {
                     toast(errorInternetNotAvailable);
                   }
                 },
+                child: Text(language.lblYes, style: boldTextStyle(color: white)),
               ).expand(),
             ],
           ),

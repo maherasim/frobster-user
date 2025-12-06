@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -67,10 +68,12 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
             Container(
               padding: EdgeInsets.all(16),
               width: context.width(),
-              decoration: boxDecorationDefault(
-                color: context.primaryColor,
-                borderRadius:
-                    radiusOnly(topRight: defaultRadius, topLeft: defaultRadius),
+              decoration: BoxDecoration(
+                gradient: appPrimaryGradient,
+                borderRadius: radiusOnly(
+                  topRight: defaultRadius,
+                  topLeft: defaultRadius,
+                ),
               ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -106,14 +109,14 @@ class ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                   ).visible(!appStore.isLoading, defaultWidget: Loader()),
                 ),
                 16.height,
-                AppButton(
-                  text: language.resetPassword,
-                  color: primaryColor,
-                  textColor: Colors.white,
+                SizedBox(
                   width: context.width() - context.navigationBarHeight,
-                  onTap: () {
-                    forgotPwd();
-                  },
+                  child: GradientButton(
+                    onPressed: () {
+                      forgotPwd();
+                    },
+                    child: Text(language.resetPassword),
+                  ),
                 ),
               ],
             ).paddingAll(16),
