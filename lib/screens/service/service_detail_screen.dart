@@ -292,7 +292,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
               ),
               child: Text('${value.day.capitalizeFirstLetter()}',
                   style: secondaryTextStyle(
-                      size: LABEL_TEXT_SIZE, color: primaryColor)),
+                      size: LABEL_TEXT_SIZE, color: gradientRed)),
             );
           }),
         ),
@@ -448,7 +448,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                     textAlign: TextAlign.center,
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
-                                        color: primaryColor,
+                                        color: gradientRed,
                                         fontWeight: FontWeight.bold,
                                         fontSize: 12),
                                   ),

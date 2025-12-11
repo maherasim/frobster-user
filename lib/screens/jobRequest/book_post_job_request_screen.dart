@@ -1,6 +1,7 @@
 import 'package:booking_system_flutter/app_theme.dart';
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/post_job_detail_response.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
@@ -13,6 +14,7 @@ import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:booking_system_flutter/utils/permissions.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
+import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -165,7 +167,7 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Image.asset(ic_confirm_check,
-                      height: 100, width: 100, color: context.primaryColor),
+                      height: 100, width: 100, color: gradientRed),
                   24.height,
                   Text(language.lblConfirmBooking,
                       style: boldTextStyle(size: 20)),
@@ -186,11 +188,8 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
                         textColor: textPrimaryColorGlobal,
                       ).expand(),
                       16.width,
-                      AppButton(
-                        text: language.confirm,
-                        textColor: Colors.white,
-                        color: context.primaryColor,
-                        onTap: () {
+                      GradientButton(
+                        onPressed: () {
                           hideKeyboard(context);
 
                           if (formKey.currentState!.validate()) {
@@ -198,6 +197,7 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
                             bookServices();
                           }
                         },
+                        child: Text(language.confirm, style: boldTextStyle(color: white)),
                       ).expand(),
                     ],
                   )
@@ -343,7 +343,7 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
                           TextButton(
                             child: Text(language.lblChooseFromMap,
                                 style: boldTextStyle(
-                                    color: context.primaryColor, size: 13)),
+                                    color: gradientRed, size: 13)),
                             onPressed: () {
                               _handleSetLocationClick();
                             },
@@ -352,23 +352,21 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
                             onPressed: _handleCurrentLocationClick,
                             child: Text(language.lblUseCurrentLocation,
                                 style: boldTextStyle(
-                                    color: context.primaryColor, size: 13)),
+                                    color: gradientRed, size: 13)),
                           ).flexible(),
                         ],
                       ),
                       16.height,
-                      AppButton(
-                        child: Text(language.lblBookNow,
-                            style: boldTextStyle(color: white)), //
-                        color: context.primaryColor,
-                        width: context.width(),
-                        onTap: () {
+                      GradientButton(
+                        onPressed: () {
                           if (formKey.currentState!.validate()) {
                             formKey.currentState!.save();
                             bookTheServiceClick();
                           }
                         },
-                      )
+                        child: Text(language.lblBookNow,
+                            style: boldTextStyle(color: white)),
+                      ).withWidth(context.width())
                     ],
                   ),
                 ),

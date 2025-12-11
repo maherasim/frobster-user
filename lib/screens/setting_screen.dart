@@ -33,13 +33,13 @@ class _SettingScreenState extends State<SettingScreen> {
           // GENERAL
           SettingSection(
             title: Text(language.lblGENERAL,
-                style: boldTextStyle(color: context.primaryColor)),
+                style: boldTextStyle(color: gradientRed)),
             headingDecoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  context.primaryColor.withValues(alpha: 0.14),
+                  gradientRed.withValues(alpha: 0.14),
                   brandAccentColor.withValues(alpha: 0.10),
                 ],
               ),
@@ -102,13 +102,13 @@ class _SettingScreenState extends State<SettingScreen> {
           // PREFERENCES
           SettingSection(
             title:
-                Text('PREFERENCES', style: boldTextStyle(color: context.primaryColor)),
+                Text('PREFERENCES', style: boldTextStyle(color: gradientRed)),
             headingDecoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
                 end: Alignment.centerRight,
                 colors: [
-                  context.primaryColor.withValues(alpha: 0.14),
+                  gradientRed.withValues(alpha: 0.14),
                   brandAccentColor.withValues(alpha: 0.10),
                 ],
               ),
@@ -207,7 +207,7 @@ class _SettingScreenState extends State<SettingScreen> {
                                 RestartAppWidget.init(context);
                               },
                               title: language.lblAndroid12Support,
-                              primaryColor: context.primaryColor,
+                              primaryColor: gradientRed,
                               positiveText: language.lblYes,
                               negativeText: language.lblCancel,
                             );

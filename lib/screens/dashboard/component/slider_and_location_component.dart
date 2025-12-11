@@ -128,7 +128,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                   clipBehavior: Clip.none,
                   children: [
                     ic_notification
-                        .iconImage(size: 24, color: primaryColor)
+                        .iconImage(size: 24, color: gradientRed)
                         .center(),
                     Observer(builder: (context) {
                       return Positioned(
@@ -210,7 +210,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                           ic_active_location.iconImage(
                               size: 24,
                               color: appStore.isCurrentLocation
-                                  ? primaryColor
+                                  ? gradientRed
                                   : grey),
                         ],
                       ),
@@ -232,7 +232,7 @@ class _SliderLocationComponentState extends State<SliderLocationComponent> {
                 child: Container(
                   padding: EdgeInsets.all(16),
                   decoration: commonDecoration,
-                  child: ic_search.iconImage(color: primaryColor),
+                  child: ic_search.iconImage(color: gradientRed),
                 ),
               ),
             ],

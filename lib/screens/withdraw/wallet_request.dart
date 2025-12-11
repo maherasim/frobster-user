@@ -10,6 +10,7 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'dart:developer' as dev;
 import '../../../component/base_scaffold_widget.dart';
+import '../../../component/gradient_button.dart';
 import '../../../component/loader_widget.dart';
 import '../../../component/price_widget.dart';
 import '../../../model/bank_list_response.dart';
@@ -130,7 +131,7 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
                           style: secondaryTextStyle(size: 12)),
                       PriceWidget(
                           price: widget.availableBalance.validate(),
-                          color: context.primaryColor,
+                          color: gradientRed,
                           isBoldText: true),
                     ],
                   ),
@@ -178,7 +179,7 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
                         },
                         child: Text(language.addBank,
                             style:
-                                boldTextStyle(size: 12, color: primaryColor)),
+                                boldTextStyle(size: 12, color: gradientRed)),
                       ),
                     ],
                   ),
@@ -213,18 +214,14 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
                     },
                   ),
                   40.height,
-                  AppButton(
-                    text: language.withdraw,
-                    height: 40,
-                    color: primaryColor,
-                    textStyle: boldTextStyle(color: white),
-                    width: context.width() - context.navigationBarHeight,
-                    onTap: () {
+                  GradientButton(
+                    onPressed: () {
                       if (formKey.currentState!.validate()) {
                         withdrawMoney();
                       }
                     },
-                  ),
+                    child: Text(language.withdraw, style: boldTextStyle(color: white)),
+                  ).withWidth(context.width() - context.navigationBarHeight),
                 ],
               ).paddingSymmetric(horizontal: 16, vertical: 16),
             ),

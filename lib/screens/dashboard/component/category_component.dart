@@ -41,7 +41,7 @@ class CategoryComponentState extends State<CategoryComponent> {
               widget.isNewDashboard ? language.lblCategory : language.category,
           list: widget.categoryList!,
           trailingTextStyle: widget.isNewDashboard
-              ? boldTextStyle(color: primaryColor, size: 12)
+              ? boldTextStyle(color: gradientRed, size: 12)
               : null,
           onTap: () {
             CategoryScreen().launch(context).then((value) {

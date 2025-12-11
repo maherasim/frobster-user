@@ -221,8 +221,8 @@ class _SignInScreenState extends State<SignInScreen> {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             RoundedCheckBox(
-              borderColor: context.primaryColor,
-              checkedColor: context.primaryColor,
+              borderColor: gradientRed,
+              checkedColor: gradientRed,
               isChecked: isRemember,
               text: language.rememberMe,
               textStyle: secondaryTextStyle(),
@@ -245,7 +245,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Text(
                 language.forgotPassword,
                 style: boldTextStyle(
-                    color: primaryColor, fontStyle: FontStyle.italic),
+                    color: gradientRed, fontStyle: FontStyle.italic),
                 textAlign: TextAlign.right,
               ),
             ).flexible(),
@@ -272,7 +272,7 @@ class _SignInScreenState extends State<SignInScreen> {
               child: Text(
                 language.signUp,
                 style: boldTextStyle(
-                  color: primaryColor,
+                  color: gradientRed,
                   decoration: TextDecoration.underline,
                   fontStyle: FontStyle.italic,
                 ),
@@ -315,7 +315,7 @@ class _SignInScreenState extends State<SignInScreen> {
                   Container(
                     padding: EdgeInsets.all(12),
                     decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: primaryColor.withValues(alpha: 0.1),
+                      backgroundColor: gradientRed.withValues(alpha: 0.1),
                       boxShape: BoxShape.circle,
                     ),
                     child: GoogleLogoWidget(size: 16),
@@ -341,11 +341,11 @@ class _SignInScreenState extends State<SignInScreen> {
                   Container(
                     padding: EdgeInsets.all(8),
                     decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: primaryColor.withValues(alpha: 0.1),
+                      backgroundColor: gradientRed.withValues(alpha: 0.1),
                       boxShape: BoxShape.circle,
                     ),
                     child: ic_calling
-                        .iconImage(size: 18, color: primaryColor)
+                        .iconImage(size: 18, color: gradientRed)
                         .paddingAll(4),
                   ),
                   Text(language.lblSignInWithOTP,
@@ -370,7 +370,7 @@ class _SignInScreenState extends State<SignInScreen> {
                     Container(
                       padding: EdgeInsets.all(8),
                       decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: primaryColor.withValues(alpha: 0.1),
+                        backgroundColor: gradientRed.withValues(alpha: 0.1),
                         boxShape: BoxShape.circle,
                       ),
                       child: Icon(Icons.apple),
@@ -406,7 +406,7 @@ class _SignInScreenState extends State<SignInScreen> {
       setStatusBarColor(Colors.transparent,
           statusBarIconBrightness: Brightness.light);
     } else {
-      setStatusBarColor(primaryColor,
+      setStatusBarColor(gradientRed,
           statusBarIconBrightness: Brightness.light);
     }
     super.dispose();

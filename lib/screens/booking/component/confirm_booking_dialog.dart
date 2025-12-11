@@ -251,7 +251,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
               child: CheckboxListTile(
                 checkboxShape: RoundedRectangleBorder(borderRadius: radius(4)),
                 autofocus: false,
-                activeColor: context.primaryColor,
+                activeColor: gradientRed,
                 checkColor:
                     appStore.isDarkMode ? context.iconColor : context.cardColor,
                 value: isSelected,
@@ -267,7 +267,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
                             size: 14, fontFamily: fontFamilySecondaryGlobal)),
                     TextSpan(
                       text: language.lblTermsOfService,
-                      style: boldTextStyle(color: primaryColor, size: 14),
+                      style: boldTextStyle(color: gradientRed, size: 14),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           checkIfLink(
@@ -279,7 +279,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
                         text: ' ${language.and} ', style: secondaryTextStyle()),
                     TextSpan(
                       text: language.privacyPolicy,
-                      style: boldTextStyle(color: primaryColor, size: 14),
+                      style: boldTextStyle(color: gradientRed, size: 14),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
                           checkIfLink(
@@ -317,9 +317,9 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
                 child: Text(language.lblCancel,
                     style: boldTextStyle(
                         size: 14,
-                        color: primaryColor,
+                        color: gradientRed,
                         decoration: TextDecoration.underline,
-                        decorationColor: primaryColor)))
+                        decorationColor: gradientRed)))
           ],
         ).visible(
           !appStore.isLoading,

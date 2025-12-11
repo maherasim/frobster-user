@@ -14,6 +14,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../component/app_common_dialog.dart';
 import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
+import '../../component/gradient_button.dart';
 import '../../main.dart';
 import '../../model/payment_gateway_response.dart';
 import '../../network/rest_apis.dart';
@@ -373,7 +374,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                       children: [
                         Text(language.balance,
                                 style:
-                                    boldTextStyle(color: context.primaryColor))
+                                    boldTextStyle(color: gradientRed))
                             .expand(),
                         Observer(
                             builder: (context) => PriceWidget(
@@ -456,7 +457,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                                         color:
                                             defaultAmounts[index].toString() ==
                                                     walletAmountCont.text
-                                                ? context.primaryColor
+                                                ? gradientRed
                                                 : Colors.white12),
                                   ),
                                   child: Text(
@@ -467,7 +468,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                                         color:
                                             defaultAmounts[index].toString() ==
                                                     walletAmountCont.text
-                                                ? context.primaryColor
+                                                ? gradientRed
                                                 : Colors.white),
                                   ),
                                 ).onTap(() {
@@ -518,7 +519,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                                           vertical: 8, horizontal: 8),
                                       decoration: boxDecorationDefault(
                                         borderRadius: radius(8),
-                                        border: Border.all(color: primaryColor),
+                                        border: Border.all(color: gradientRed),
                                       ),
                                       alignment: Alignment.center,
                                       child: icon.isNotEmpty
@@ -550,7 +551,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                                           ? EdgeInsets.all(2)
                                           : EdgeInsets.zero,
                                       decoration: boxDecorationDefault(
-                                          color: context.primaryColor),
+                                          color: gradientRed),
                                       child: currentPaymentMethod == value
                                           ? Icon(Icons.done,
                                           size: 16, color: Colors.white)
@@ -613,17 +614,13 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
             bottom: 16,
             left: 16,
             right: 16,
-            child: AppButton(
-              width: context.width(),
-              height: 16,
-              color: context.primaryColor,
-              text: language.proceedToTopUp,
-              textStyle: boldTextStyle(color: white),
-              onTap: () async {
+            child: GradientButton(
+              onPressed: () async {
                 hideKeyboard(context);
                 _handleClick();
               },
-            ),
+              child: Text(language.proceedToTopUp, style: boldTextStyle(color: white)),
+            ).withWidth(context.width()),
           ),
         ],
       ),

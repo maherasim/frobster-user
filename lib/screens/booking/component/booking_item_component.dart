@@ -218,14 +218,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                             margin: EdgeInsets.only(left: 4),
                             decoration: BoxDecoration(
                               color:
-                                  context.primaryColor.withValues(alpha: 0.1),
+                                  gradientRed.withValues(alpha: 0.1),
                               borderRadius: radius(16),
-                              border: Border.all(color: context.primaryColor),
+                              border: Border.all(color: gradientRed),
                             ),
                             child: Text(
                               '#${widget.bookingData.id.validate()}',
                               style: boldTextStyle(
-                                  color: context.primaryColor, size: 12),
+                                  color: gradientRed, size: 12),
                             ),
                           ).flexible(),
                           5.width,
@@ -273,14 +273,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                               margin: EdgeInsets.only(left: 4),
                               decoration: BoxDecoration(
                                 color:
-                                    context.primaryColor.withValues(alpha: 0.1),
-                                border: Border.all(color: context.primaryColor),
+                                    gradientRed.withValues(alpha: 0.1),
+                                border: Border.all(color: gradientRed),
                                 borderRadius: radius(16),
                               ),
                               child: Text(
                                 language.postJob,
                                 style: boldTextStyle(
-                                    color: context.primaryColor, size: 12),
+                                    color: gradientRed, size: 12),
                               ),
                             ),
                           if (widget.bookingData.isPackageBooking)
@@ -290,14 +290,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                               margin: EdgeInsets.only(left: 4),
                               decoration: BoxDecoration(
                                 color:
-                                    context.primaryColor.withValues(alpha: 0.1),
-                                border: Border.all(color: context.primaryColor),
+                                    gradientRed.withValues(alpha: 0.1),
+                                border: Border.all(color: gradientRed),
                                 borderRadius: radius(16),
                               ),
                               child: Text(
                                 language.package,
                                 style: boldTextStyle(
-                                    color: context.primaryColor, size: 12),
+                                    color: gradientRed, size: 12),
                               ),
                             ),
                         ],
@@ -333,7 +333,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                 if (widget.bookingData.bookingPackage != null)
                   PriceWidget(
                       price: widget.bookingData.amount.validate(),
-                      color: primaryColor,
+                      color: gradientRed,
                       isHourlyService: widget.bookingData.isHourlyService,
                       isFixedService: widget.bookingData.isFixedService,
                       isFreeService: widget.bookingData.isFreeService,
@@ -354,7 +354,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                     SERVICE_TYPE_FREE,
                                 price:
                                     widget.bookingData.amount.validate(),
-                                color: primaryColor,
+                                color: gradientRed,
                                 isHourlyService:
                                     widget.bookingData.isHourlyService,
                                 isFixedService:

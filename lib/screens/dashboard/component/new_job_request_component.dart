@@ -182,9 +182,9 @@ class NewJobRequestComponent extends StatelessWidget {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  Icon(Icons.add_circle_outline_rounded, color: context.primaryColor),
+                  Icon(Icons.add_circle_outline_rounded, color: gradientRed),
                   8.width,
-                  Text(language.newPostJobRequest, style: boldTextStyle(color: context.primaryColor)),
+                  Text(language.newPostJobRequest, style: boldTextStyle(color: gradientRed)),
                 ],
               ),
               onTap: () => _handleCtaTap(context),

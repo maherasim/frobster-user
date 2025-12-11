@@ -192,9 +192,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       child: Text(
                         language.btnRate,
                         style: TextStyle(
-                          color: primaryColor,
+                          color: gradientRed,
                           decoration: TextDecoration.underline,
-                          decorationColor: primaryColor,
+                          decorationColor: gradientRed,
                           fontWeight: FontWeight.bold,
                         ),
                       ),
@@ -348,7 +348,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   if (bookingDetail.bookingPackage != null)
                     PriceWidget(
                       price: bookingDetail.totalAmount.validate(),
-                      color: primaryColor,
+                      color: gradientRed,
                       isHourlyService: bookingDetail.isHourlyService,
                       isFixedService: bookingDetail.isFixedService,
                       isFreeService: bookingDetail.isFreeService,
@@ -363,7 +363,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                           isFreeService:
                               bookingDetail.type == SERVICE_TYPE_FREE,
                           price: bookingDetail.amount.validate(),
-                          color: primaryColor,
+                          color: gradientRed,
                           isHourlyService: bookingDetail.isHourlyService,
                         ),
                         if (bookingDetail.discount.validate() != 0)
@@ -388,7 +388,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   trimLength: 65,
                   bookingDetail.description.validate(),
                   style: secondaryTextStyle(),
-                  colorClickableText: context.primaryColor,
+                  colorClickableText: gradientRed,
                 )
               ],
             ),
@@ -595,7 +595,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: primaryColor, // Adjust color as needed
+                    color: gradientRed, // Adjust color as needed
                   ),
                 ),
               ),
@@ -669,7 +669,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                         canCustomerContact: canCustomerContact)
                     .launch(context)
                     .then((value) {
-                  setStatusBarColor(context.primaryColor);
+                  setStatusBarColor(gradientRed);
                 });
               },
               child: Text(
@@ -677,7 +677,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: primaryColor, // Adjust color as needed
+                  color: gradientRed, // Adjust color as needed
                 ),
               ),
             ),
@@ -748,7 +748,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     Text('${language.paymentMethod}: ',
                         style: secondaryTextStyle()),
                     Text(language.wallet,
-                        style: boldTextStyle(size: 12, color: primaryColor)),
+                        style: boldTextStyle(size: 12, color: gradientRed)),
                   ],
                 ),
                 8.height,
@@ -811,7 +811,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                           16.width,
                           PriceWidget(
                               price: snap.bookingDetail!.refundAmount!,
-                              color: primaryColor,
+                              color: gradientRed,
                               isBoldText: true),
                         ],
                       ),
@@ -1287,14 +1287,14 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                       color: textSecondaryColorGlobal)),
                               Text('${data.subCategoryName}',
                                   style: boldTextStyle(
-                                      size: 12, color: context.primaryColor)),
+                                      size: 12, color: gradientRed)),
                             ],
                           ),
                         )
                       else
                         Text('${data.categoryName}',
                             style: boldTextStyle(
-                                size: 12, color: context.primaryColor)),
+                                size: 12, color: gradientRed)),
                       4.height,
                       PriceWidget(
                         price: data.price.validate(),
@@ -1737,7 +1737,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                   child: Text(
                                     language.viewStatus,
                                     style: boldTextStyle(
-                                        color: primaryColor, size: 14),
+                                        color: gradientRed, size: 14),
                                   ),
                                 ),
                               ),
@@ -1905,7 +1905,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                 _handleAddonDoneClick(
                                     status: snap.data!, serviceAddon: p0);
                               },
-                              primaryColor: context.primaryColor,
+                              primaryColor: gradientRed,
                               positiveText: language.lblYes,
                               negativeText: language.lblNo,
                               title: language.confirmationRequestTxt,

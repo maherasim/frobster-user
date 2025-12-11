@@ -27,7 +27,7 @@ class _WalletCardState extends State<WalletCard> {
       height: 130,
       width: context.width(),
       decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10), color: primaryColor),
+          borderRadius: BorderRadius.circular(10), gradient: appPrimaryGradient),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -46,7 +46,7 @@ class _WalletCardState extends State<WalletCard> {
                     child: PriceWidget(
                         price: widget.availableBalance.validate(),
                         size: 26,
-                        color: context.primaryColor,
+                        color: gradientRed,
                         isBoldText: true),
                   ),
                 ],

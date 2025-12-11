@@ -20,6 +20,7 @@ import '../../model/city_list_model.dart';
 import '../../model/country_list_model.dart';
 import '../../model/get_my_post_job_list_response.dart';
 import '../../utils/configs.dart';
+import '../../utils/colors.dart';
 import '../../utils/getImage.dart';
 
 class CreatePostRequestScreen extends StatefulWidget {
@@ -1192,14 +1193,23 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         children: [
           if (currentStep > 0)
             Expanded(
-              child: AppButton(
-                color: context.primaryColor.withValues(alpha: 0.15),
-                child: Text('Back', style: boldTextStyle(color: context.primaryColor)),
-                onTap: () {
-                  setState(() {
-                    currentStep -= 1;
-                  });
-                },
+              child: Material(
+                color: gradientRed.withValues(alpha: 0.15),
+                borderRadius: BorderRadius.circular(12),
+                child: InkWell(
+                  onTap: () {
+                    setState(() {
+                      currentStep -= 1;
+                    });
+                  },
+                  borderRadius: BorderRadius.circular(12),
+                  child: Container(
+                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                    child: Center(
+                      child: Text('Back', style: boldTextStyle(color: gradientRed)),
+                    ),
+                  ),
+                ),
               ),
             ),
           if (currentStep > 0) 16.width,
@@ -1237,7 +1247,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
               Container(
                 height: 4,
                 decoration: boxDecorationDefault(
-                  color: active ? context.primaryColor : context.dividerColor,
+                  color: active ? gradientRed : context.dividerColor,
                   borderRadius: radius(12),
                 ),
               ),

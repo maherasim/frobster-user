@@ -481,7 +481,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                       return RadioListTile<PaymentSetting>(
                         dense: true,
-                        activeColor: primaryColor,
+                        activeColor: gradientRed,
                         value: value,
                         controlAffinity: ListTileControlAffinity.trailing,
                         groupValue: currentPaymentMethod,
@@ -530,7 +530,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             context,
                             dialogType: DialogType.CONFIRMATION,
                             title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
-                            primaryColor: primaryColor,
+                            primaryColor: gradientRed,
                             positiveText: language.lblYes,
                             negativeText: language.lblCancel,
                             onAccept: (p0) {
@@ -548,7 +548,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               positiveText: language.lblYes,
                               negativeText: language.lblNo,
                               cancelable: false,
-                              primaryColor: context.primaryColor,
+                              primaryColor: gradientRed,
                               onAccept: (p0) {
                                 pop();
                                 push(UserWalletBalanceScreen());

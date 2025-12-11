@@ -14,7 +14,7 @@ class CustomerRatingsComponent extends StatelessWidget {
       padding: EdgeInsets.symmetric(vertical: 32, horizontal: 16),
       width: context.width(),
       decoration:
-          boxDecorationDefault(color: primaryColor, borderRadius: radius(0)),
+          boxDecorationDefault(color: gradientRed, borderRadius: radius(0)),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,

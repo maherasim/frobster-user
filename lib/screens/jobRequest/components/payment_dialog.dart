@@ -78,7 +78,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
 
                         return RadioListTile<PaymentSetting>(
                           dense: true,
-                          activeColor: primaryColor,
+                          activeColor: gradientRed,
                           value: value,
                           controlAffinity: ListTileControlAffinity.trailing,
                           groupValue: currentPaymentMethod,

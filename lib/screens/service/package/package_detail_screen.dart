@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../component/base_scaffold_widget.dart';
+import '../../../component/gradient_button.dart';
 import '../../../utils/colors.dart';
 
 class PackageDetailScreen extends StatefulWidget {
@@ -220,16 +221,12 @@ class _PackageDetailScreenState extends State<PackageDetailScreen> {
               ),
             ),
           ),
-          AppButton(
-            onTap: () {
+          GradientButton(
+            onPressed: () {
               widget.callBack?.call(widget.packageData);
             },
-            color: context.primaryColor,
-            child:
-                Text(language.lblBookNow, style: boldTextStyle(color: white)),
-            width: context.width(),
-            textColor: Colors.white,
-          ).paddingSymmetric(horizontal: 16.0, vertical: 10.0)
+            child: Text(language.lblBookNow, style: boldTextStyle(color: white)),
+          ).withWidth(context.width()).paddingSymmetric(horizontal: 16.0, vertical: 10.0)
         ],
       ),
     );

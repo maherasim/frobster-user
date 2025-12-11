@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../component/empty_error_state_widget.dart';
+import '../../../utils/colors.dart';
 import '../../service/view_all_service_screen.dart';
 
 class FeaturedServiceListComponent extends StatelessWidget {
@@ -23,7 +24,7 @@ class FeaturedServiceListComponent extends StatelessWidget {
       decoration: BoxDecoration(
         color: appStore.isDarkMode
             ? context.cardColor
-            : context.primaryColor.withValues(alpha: 0.1),
+            : gradientRed.withValues(alpha: 0.1),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -215,9 +215,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                     height: 120,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: primaryColor.withValues(alpha: 0.1),
+                      color: gradientRed.withValues(alpha: 0.1),
                     ),
-                    child: Icon(Icons.person, size: 80, color: primaryColor),
+                    child: Icon(Icons.person, size: 80, color: gradientRed),
                   ),
                   16.height,
                   Text(
@@ -332,13 +332,13 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
           Container(
             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
             decoration: boxDecorationWithRoundedCorners(
-              backgroundColor: primaryColor.withValues(alpha: 0.1),
+              backgroundColor: gradientRed.withValues(alpha: 0.1),
               borderRadius: radius(12),
             ),
             child: Text(
               userData.designation.validate(),
               style: secondaryTextStyle(
-                color: primaryColor,
+                color: gradientRed,
                 weight: FontWeight.bold,
                 size: 12,
               ),
@@ -419,7 +419,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
               decoration: boxDecorationWithRoundedCorners(
                 backgroundColor: appStore.isDarkMode
                     ? cardDarkColor
-                    : primaryColor.withValues(alpha: 0.1),
+                    : gradientRed.withValues(alpha: 0.1),
                 borderRadius: radius(8),
               ),
               child: Text(
@@ -454,7 +454,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
               decoration: boxDecorationWithRoundedCorners(
                 backgroundColor: appStore.isDarkMode
                     ? cardDarkColor
-                    : primaryColor.withValues(alpha: 0.1),
+                    : gradientRed.withValues(alpha: 0.1),
                 borderRadius: radius(8),
               ),
               child: Row(

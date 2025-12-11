@@ -43,7 +43,7 @@ class _BookingFragmentState extends State<BookingFragment> {
 
     afterBuildCreated(() {
       if (appStore.isLoggedIn) {
-        setStatusBarColor(context.primaryColor);
+        setStatusBarColor(gradientRed);
       }
     });
 

@@ -226,7 +226,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           padding: EdgeInsets.all(16),
           child: ic_profile2.iconImage(color: Colors.white),
           decoration:
-              boxDecorationDefault(shape: BoxShape.circle, color: primaryColor),
+              boxDecorationDefault(shape: BoxShape.circle, color: gradientRed),
         ),
         16.height,
         Text(language.lblHelloUser, style: boldTextStyle(size: 22)).center(),
@@ -406,7 +406,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 text: '${language.lblAgree} ', style: secondaryTextStyle()),
             TextSpan(
               text: language.lblTermsOfService,
-              style: boldTextStyle(color: primaryColor, size: 14),
+              style: boldTextStyle(color: gradientRed, size: 14),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   checkIfLink(context, appConfigurationStore.termConditions,
@@ -416,7 +416,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             TextSpan(text: ' & ', style: secondaryTextStyle()),
             TextSpan(
               text: language.privacyPolicy,
-              style: boldTextStyle(color: primaryColor, size: 14),
+              style: boldTextStyle(color: gradientRed, size: 14),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   checkIfLink(context, appConfigurationStore.privacyPolicy,
@@ -440,7 +440,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 style: secondaryTextStyle()),
             TextSpan(
               text: language.signIn,
-              style: boldTextStyle(color: primaryColor, size: 14),
+              style: boldTextStyle(color: gradientRed, size: 14),
               recognizer: TapGestureRecognizer()
                 ..onTap = () {
                   finish(context);

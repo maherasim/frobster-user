@@ -488,7 +488,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           children: [
             TextButton(
               child: Text(language.lblChooseFromMap,
-                  style: boldTextStyle(color: primaryColor, size: 13)),
+                  style: boldTextStyle(color: gradientRed, size: 13)),
               onPressed: () {
                 _handleSetLocationClick();
               },
@@ -496,7 +496,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
             TextButton(
               onPressed: _handleCurrentLocationClick,
               child: Text(language.lblUseCurrentLocation,
-                  style: boldTextStyle(color: primaryColor, size: 13),
+                  style: boldTextStyle(color: gradientRed, size: 13),
                   textAlign: TextAlign.right),
             ).flexible(),
           ],
@@ -627,7 +627,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       appliedCouponData != null
                           ? language.lblRemoveCoupon
                           : language.applyCoupon,
-                      style: primaryTextStyle(color: context.primaryColor),
+                      style: primaryTextStyle(color: gradientRed),
                     ),
                   )
                 ],
@@ -771,7 +771,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                 Text(
                                   " (${appliedCouponData!.code})",
                                   style: boldTextStyle(
-                                      color: primaryColor, size: 14),
+                                      color: gradientRed, size: 14),
                                 ).onTap(() {
                                   applyCoupon(
                                       isApplied: appliedCouponData!.code
@@ -854,13 +854,13 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                                 Text(
                                   " (${(bookingAmountModel.finalTotalTax / bookingAmountModel.finalSubTotal * 100).toInt()}%)",
                                   style: boldTextStyle(
-                                      color: primaryColor, size: 14),
+                                      color: gradientRed, size: 14),
                                 ).expand()
                               ],
                             ).expand(),
                             if (widget.data.taxes.validate().isNotEmpty)
                               Icon(Icons.info_outline_rounded,
-                                      size: 20, color: context.primaryColor)
+                                      size: 20, color: gradientRed)
                                   .onTap(
                                 () {
                                   showModalBottomSheet(
@@ -897,7 +897,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             .expand(),
                         PriceWidget(
                           price: bookingAmountModel.finalGrandTotalAmount,
-                          color: primaryColor,
+                          color: gradientRed,
                         )
                       ],
                     ),
@@ -926,7 +926,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                             ],
                           ).expand(),
                           PriceWidget(
-                              price: advancePaymentAmount, color: primaryColor),
+                              price: advancePaymentAmount, color: gradientRed),
                         ],
                       ),
                     ],
@@ -957,7 +957,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                         ).expand(),
                         8.width,
                         PriceWidget(
-                            price: getRemainingAmount, color: primaryColor),
+                            price: getRemainingAmount, color: gradientRed),
                       ],
                     ),
                   ],
@@ -993,7 +993,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   selectServiceSlot();
                 },
                 child: DottedBorderWidget(
-                  color: context.primaryColor,
+                  color: gradientRed,
                   radius: defaultRadius,
                   child: Container(
                     padding: EdgeInsets.all(8),

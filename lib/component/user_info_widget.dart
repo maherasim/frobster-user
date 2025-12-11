@@ -37,7 +37,7 @@ class UserInfoWidget extends StatefulWidget {
 class _UserInfoWidgetState extends State<UserInfoWidget> {
   @override
   void initState() {
-    setStatusBarColor(primaryColor);
+    setStatusBarColor(gradientRed);
     getCountry(widget.data.countryId.validate());
     super.initState();
   }
@@ -275,7 +275,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                 widget.data.designation.validate(),
                 textAlign: TextAlign.center,
                 style: secondaryTextStyle(
-                    color: primaryColor, weight: FontWeight.bold),
+                    color: gradientRed, weight: FontWeight.bold),
               )
             ],
           ).paddingSymmetric(horizontal: 16),
@@ -366,7 +366,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                   String reason = widget.data.whyChooseMeObj.reason[index];
                   return TextIcon(
                     prefix: Icon(Icons.check_circle_outline,
-                        size: 16, color: primaryColor),
+                        size: 16, color: gradientRed),
                     text: reason.validate(),
                     textStyle: secondaryTextStyle(),
                     useMarquee: true,

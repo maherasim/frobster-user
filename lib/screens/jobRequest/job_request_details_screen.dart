@@ -265,7 +265,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 children: [
                   _buildInfoCard(
                     icon: Icons.h_mobiledata,
-                    iconColor: context.primaryColor,
+                    iconColor: gradientRed,
                     title: 'Title',
                     value: postJobDetail!.postRequest?.title?.validate() ?? '',
                   ),
@@ -410,19 +410,16 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
             children: [
               // Primary next-step actions by status
               if (postJobDetail!.status == RequestStatus.requested)
-                AppButton(
-                  text: 'Accept',
-                  textStyle: boldTextStyle(color: white, size: 16),
-                  color: primaryColor,
-                  width: context.width(),
-                  onTap: () async {
+                GradientButton(
+                  onPressed: () async {
                     await confirmationRequestDialog(
                         context, RequestStatus.accepted);
                     if (postJobDetail?.status == RequestStatus.accepted) {
                       widget.callback?.call();
                     }
                   },
-                ).paddingOnly(bottom: 24),
+                  child: Text('Accept', style: boldTextStyle(color: white, size: 16)),
+                ).withWidth(context.width()).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.accepted)
                 AppButton(
                   text: 'Cancel',
@@ -571,7 +568,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       title: language.confirmationRequestTxt,
       primaryColor: status == BookingStatusKeys.rejected
           ? Colors.redAccent
-          : primaryColor,
+          : gradientRed,
       positiveText: language.lblYes,
       negativeText: language.lblNo,
       onAccept: (context) async {
@@ -715,7 +712,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             Text('Tax', style: secondaryTextStyle(size: 14)),
                             Text('(${postJobDetail?.taxPercent ?? '0%'})',
                                     style: boldTextStyle(
-                                        color: primaryColor, size: 14))
+                                        color: gradientRed, size: 14))
                                 .expand()
                           ],
                         ).expand(),
@@ -739,7 +736,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   16.width,
                   PriceWidget(
                     price: subTotal,
-                    color: primaryColor,
+                    color: gradientRed,
                   ).flexible(flex: 3),
                 ],
               ),
@@ -952,7 +949,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         children: [
           CircleAvatar(
             radius: 24,
-            backgroundColor: context.primaryColor.withValues(alpha: 0.1),
+            backgroundColor: gradientRed.withValues(alpha: 0.1),
             child: Text(
               (user?.displayName.validate() ?? '-')
                   .trim()
@@ -962,7 +959,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   .take(2)
                   .join()
                   .toUpperCase(),
-              style: boldTextStyle(color: context.primaryColor),
+              style: boldTextStyle(color: gradientRed),
             ),
           ),
           12.width,

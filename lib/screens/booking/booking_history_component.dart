@@ -75,11 +75,11 @@ class BookingHistoryComponentState extends State<BookingHistoryComponent> {
                   Row(
                     children: [
                       Text('${language.lblID}:',
-                          style: boldTextStyle(color: primaryColor)),
+                          style: boldTextStyle(color: gradientRed)),
                       4.width,
                       Text(
                           ' #' + widget.data[0].bookingId.validate().toString(),
-                          style: boldTextStyle(color: primaryColor)),
+                          style: boldTextStyle(color: gradientRed)),
                     ],
                   )
               ],

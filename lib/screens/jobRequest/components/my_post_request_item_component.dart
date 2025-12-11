@@ -10,6 +10,7 @@ import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../main.dart';
 import '../../../network/rest_apis.dart';
+import '../../../utils/colors.dart';
 import '../../../utils/images.dart';
 
 class MyPostRequestItemComponent extends StatefulWidget {
@@ -142,7 +143,7 @@ class _MyPostRequestItemComponentState
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: context.primaryColor,
+                      color: gradientRed,
                       borderRadius: radius(20),
                     ),
                     child: Row(
@@ -199,14 +200,14 @@ class _MyPostRequestItemComponentState
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                         decoration: BoxDecoration(
-                          color: context.primaryColor.withValues(alpha: 0.08),
+                          color: gradientRed.withValues(alpha: 0.08),
                           borderRadius: radius(20),
                         ),
                         child: Row(
                           children: [
-                            Icon(Icons.work_outline, size: 14, color: context.primaryColor),
+                            Icon(Icons.work_outline, size: 14, color: gradientRed),
                             6.width,
-                            Text(widget.data.type?.displayName ?? '', style: boldTextStyle(size: 12, color: context.primaryColor)),
+                            Text(widget.data.type?.displayName ?? '', style: boldTextStyle(size: 12, color: gradientRed)),
                           ],
                         ),
                       ),

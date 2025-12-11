@@ -179,9 +179,9 @@ class _FavouriteProviderComponentState
                             padding: EdgeInsets.all(8),
                             decoration: boxDecorationWithRoundedCorners(
                               boxShape: BoxShape.circle,
-                              backgroundColor: primaryColor.withValues(alpha:0.1),
+                              backgroundColor: gradientRed.withValues(alpha:0.1),
                             ),
-                            child: Image.asset(ic_calling, color: primaryColor, height: 14, width: 14),
+                            child: Image.asset(ic_calling, color: gradientRed, height: 14, width: 14),
                           ),
                         ),
                       if (widget.data!.email.validate().isNotEmpty)
@@ -193,9 +193,9 @@ class _FavouriteProviderComponentState
                             padding: EdgeInsets.all(8),
                             decoration: boxDecorationWithRoundedCorners(
                               boxShape: BoxShape.circle,
-                              backgroundColor: primaryColor.withValues(alpha:0.1),
+                              backgroundColor: gradientRed.withValues(alpha:0.1),
                             ),
-                            child: ic_message.iconImage(size: 14, color: primaryColor),
+                            child: ic_message.iconImage(size: 14, color: gradientRed),
                           ),
                         ),
                     ],

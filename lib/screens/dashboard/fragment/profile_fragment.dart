@@ -196,9 +196,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                   Observer(builder: (context) {
                     return SettingSection(
                       title: Text(language.lblGENERAL,
-                          style: boldTextStyle(color: primaryColor)),
+                          style: boldTextStyle(color: gradientRed)),
                       headingDecoration: BoxDecoration(
-                          color: context.primaryColor.withValues(alpha: 0.1),
+                          color: gradientRed.withValues(alpha: 0.1),
                           borderRadius: BorderRadiusDirectional.vertical(
                               top: Radius.circular(16))),
                       divider: Offstage(),
@@ -401,13 +401,13 @@ class ProfileFragmentState extends State<ProfileFragment> {
                   }),
                   SettingSection(
                     title: Text(language.lblAboutApp.toUpperCase(),
-                        style: boldTextStyle(color: primaryColor)),
+                        style: boldTextStyle(color: gradientRed)),
                     headingDecoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.centerLeft,
                           end: Alignment.centerRight,
                           colors: [
-                            context.primaryColor.withValues(alpha: 0.14),
+                            gradientRed.withValues(alpha: 0.14),
                             brandAccentColor.withValues(alpha: 0.10),
                           ],
                         ),
