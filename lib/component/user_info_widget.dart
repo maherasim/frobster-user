@@ -11,6 +11,8 @@ import '../main.dart';
 import '../model/country_list_model.dart';
 import '../network/rest_apis.dart';
 import '../utils/common.dart';
+import '../utils/app_configuration.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'cached_image_widget.dart';
 import 'disabled_rating_bar_widget.dart';
 import 'social_icons_list.dart';
@@ -322,6 +324,30 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
               size: 22,
               spacing: 5,
               mainAxisAlignment: MainAxisAlignment.start,
+              onFacebookTap: () {
+                final url = getStringAsync(FACEBOOK_URL);
+                if (url.isNotEmpty) {
+                  commonLaunchUrl(url, launchMode: LaunchMode.externalApplication);
+                }
+              },
+              onInstagramTap: () {
+                final url = getStringAsync(INSTAGRAM_URL);
+                if (url.isNotEmpty) {
+                  commonLaunchUrl(url, launchMode: LaunchMode.externalApplication);
+                }
+              },
+              onTwitterTap: () {
+                final url = getStringAsync(TWITTER_URL);
+                if (url.isNotEmpty) {
+                  commonLaunchUrl(url, launchMode: LaunchMode.externalApplication);
+                }
+              },
+              onLinkedInTap: () {
+                final url = getStringAsync(LINKEDIN_URL);
+                if (url.isNotEmpty) {
+                  commonLaunchUrl(url, launchMode: LaunchMode.externalApplication);
+                }
+              },
             ).paddingSymmetric(horizontal: 16),
           ],
           if (widget.data.whyChooseMeObj.reason.isNotEmpty) ...[

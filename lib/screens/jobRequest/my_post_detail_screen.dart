@@ -6,6 +6,7 @@ import 'package:booking_system_flutter/component/disabled_rating_bar_widget.dart
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
+import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/model/post_job_detail_response.dart';
@@ -75,7 +76,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         Text(
           title.validate(),
           textAlign: isLeftAlign ? TextAlign.left : TextAlign.right,
-          style: secondaryTextStyle(size: 13),
+          style: boldTextStyle(size: LABEL_TEXT_SIZE),
         ),
         8.height,
         if (detailWidget != null)
@@ -84,7 +85,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           ReadMoreText(
             plainText,
             style: detailTextStyle,
-            colorClickableText: context.primaryColor,
+            colorClickableText: gradientRed,
           )
         else
           Text(
@@ -100,8 +101,8 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
   Widget postJobDetailWidget({required PostJobData data}) {
     // Standardize detail text styling for a consistent look across rows
     final TextStyle detailStyle = secondaryTextStyle(
-      size: 16,
-      weight: FontWeight.w600,
+      size: 12,
+      weight: FontWeight.w500,
       color: textPrimaryColorGlobal,
     );
 
@@ -119,8 +120,8 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           titleWidget(
             title: language.postJobTitle,
             detail: data.title.validate(),
-            detailTextStyle: secondaryTextStyle(
-                size: 18, weight: FontWeight.w700, color: textPrimaryColorGlobal),
+            detailTextStyle: boldTextStyle(
+                size: 16, color: textPrimaryColorGlobal),
           ),
           Row(
             children: [
@@ -253,28 +254,28 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
             titleWidget(
               title: language.postJobDescription,
               detail: data.description.validate(),
-              detailTextStyle: primaryTextStyle(),
+              detailTextStyle: secondaryTextStyle(size: 12),
               isReadMore: true,
             ),
           if (data.requirement.validate().isNotEmpty)
             titleWidget(
               title: "Skills & Requirement",
               detail: data.requirement.validate(),
-              detailTextStyle: primaryTextStyle(),
+              detailTextStyle: secondaryTextStyle(size: 12),
               isReadMore: true,
             ),
           if (data.duties.validate().isNotEmpty)
             titleWidget(
               title: "Duties & Responsibilities",
               detail: data.duties.validate(),
-              detailTextStyle: primaryTextStyle(),
+              detailTextStyle: secondaryTextStyle(size: 12),
               isReadMore: true,
             ),
           if (data.benefits.validate().isNotEmpty)
             titleWidget(
               title: "Benefits",
               detail: data.benefits.validate(),
-              detailTextStyle: primaryTextStyle(),
+              detailTextStyle: secondaryTextStyle(size: 12),
               isReadMore: true,
             ),
         ],

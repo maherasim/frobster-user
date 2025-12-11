@@ -7,6 +7,8 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../../component/disabled_rating_bar_widget.dart';
 import '../../../component/price_widget.dart';
+import '../../../component/gradient_button.dart';
+import '../../../utils/colors.dart';
 
 class BidderItemComponent extends StatefulWidget {
   final BidderData data;
@@ -128,7 +130,7 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                           ),
                         );
                       },
-                      child: Text(language.whyChooseMe, style: primaryTextStyle(color: context.primaryColor, size: 12)),
+                      child: Text(language.whyChooseMe, style: primaryTextStyle(color: gradientRed, size: 12)),
                     ),
                 ],
               ).expand(),
@@ -137,11 +139,10 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
           Row(
             children: [
               Expanded(
-                child: AppButton(
-                  padding: EdgeInsets.zero,
-                  child: Text("View Proposal", style: boldTextStyle(color: white, size: 12)),
-                  color: context.primaryColor,
-                  onTap: () async {
+                child: GradientButton(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  borderRadius: 8,
+                  onPressed: () async {
                     final id = widget.data.id.validate();
                     await JobRequestDetailsScreen(
                         acceptedBidId: id,
@@ -155,17 +156,18 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                       finish(context);
                     }
                   },
+                  child: Text("View Proposal", style: boldTextStyle(color: white, size: 12)),
                 ),
               ),
               16.width,
               Expanded(
-                child: AppButton(
-                  padding: EdgeInsets.zero,
-                  child: Text('Hire', style: boldTextStyle(color: white, size: 12)),
-                  color: context.primaryColor,
-                  onTap: () {
+                child: GradientButton(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+                  borderRadius: 8,
+                  onPressed: () {
                     _showHireSheet(context);
                   },
+                  child: Text('Hire', style: boldTextStyle(color: white, size: 12)),
                 ),
               ),
             ],
@@ -221,11 +223,10 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                 ],
               ),
               12.height,
-              AppButton(
-                width: context.width(),
-                color: context.primaryColor,
-                child: Text('Hire & Continue', style: boldTextStyle(color: white)),
-                onTap: () async {
+              GradientButton(
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                borderRadius: 8,
+                onPressed: () async {
                   final id = widget.data.id.validate();
                   finish(ctx);
                   await JobRequestDetailsScreen(
@@ -240,7 +241,8 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                     finish(context);
                   }
                 },
-              ),
+                child: Text('Hire & Continue', style: boldTextStyle(color: white)),
+              ).withWidth(context.width()),
             ],
           ),
         );
