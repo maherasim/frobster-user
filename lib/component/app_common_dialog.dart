@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import '../utils/colors.dart';
 
 class AppCommonDialog extends StatelessWidget {
   final String title;
@@ -16,10 +17,12 @@ class AppCommonDialog extends StatelessWidget {
           Container(
             padding: EdgeInsets.fromLTRB(16, 12, 8, 12),
             width: context.width(),
-            decoration: boxDecorationDefault(
-              color: context.primaryColor,
-              borderRadius:
-                  radiusOnly(topRight: defaultRadius, topLeft: defaultRadius),
+            decoration: BoxDecoration(
+              gradient: appPrimaryGradient,
+              borderRadius: BorderRadius.only(
+                topRight: Radius.circular(defaultRadius),
+                topLeft: Radius.circular(defaultRadius),
+              ),
             ),
             child: Row(
               children: [

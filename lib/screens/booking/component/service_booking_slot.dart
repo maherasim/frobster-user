@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
@@ -63,17 +64,13 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
     );
 
     if (pickedTime != null) {
-      final now = DateTime.now();
+      // Use selected date if available, otherwise use today
+      final baseDate = selDate ?? DateTime.now();
       final selectedDateTime = DateTime(
-          now.year, now.month, now.day, pickedTime.hour, pickedTime.minute);
+          baseDate.year, baseDate.month, baseDate.day, pickedTime.hour, pickedTime.minute);
 
       setState(() {
         if (isStartTime) {
-          // Prevent setting start time after end time
-          if (selEndTime != null && selectedDateTime.isAfter(selEndTime!)) {
-            toast('Start time must be before end time');
-            return;
-          }
           selStartTime = selectedDateTime;
           startTimeCont.text = selStartTime!.formatDateTime(formate: 'HH:mm');
           if (widget.isFixedService) {
@@ -85,23 +82,59 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
             endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
           }
         } else {
-          // Prevent setting end time before start time
-          if (selStartTime != null &&
-              selectedDateTime.isBefore(selStartTime!)) {
-            toast('End time must be after start time');
-            return;
+          // Allow end time to be less than start time (overnight booking)
+          // In 24-hour system, if end time < start time, it means next day
+          // Check if end time is before start time - if so, add 1 day
+          int startTimeMinutes = selStartTime != null 
+              ? selStartTime!.hour * 60 + selStartTime!.minute 
+              : 0;
+          int endTimeMinutes = pickedTime.hour * 60 + pickedTime.minute;
+          
+          DateTime endDateTime;
+          if (selStartTime != null && endTimeMinutes < startTimeMinutes) {
+            // Overnight booking: end time is next day
+            endDateTime = selectedDateTime.add(Duration(days: 1));
+          } else {
+            endDateTime = selectedDateTime;
           }
-
-          selEndTime = selectedDateTime;
+          
+          selEndTime = endDateTime;
           endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
         }
 
         if (selStartTime != null && selEndTime != null) {
+          // Calculate duration - this will correctly handle overnight bookings
+          // since selEndTime will be on the next day if end time < start time
           final duration = selEndTime!.difference(selStartTime!);
+          
           totalHours = duration.inHours;
-          int customDays = (totalHours / 8).ceil();
-          totalDays = customDays;
-          totalDaysCont.text = '$customDays Days';
+          // If there are remaining minutes, round up to next hour
+          if (duration.inMinutes % 60 > 0) {
+            totalHours += 1;
+          }
+          
+          // Calculate days based on service type
+          if (widget.isHourlyService) {
+            // For hourly services: calculate actual calendar days
+            // Count the number of calendar days the booking spans
+            DateTime startDate = DateTime(selStartTime!.year, selStartTime!.month, selStartTime!.day);
+            DateTime endDate = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day);
+            
+            // Calculate difference in calendar days
+            int daysDifference = endDate.difference(startDate).inDays;
+            
+            // If booking spans multiple calendar days, add 1 (to include both start and end days)
+            // If same day, it's 1 day
+            totalDays = daysDifference + 1;
+          } else if (widget.isDailyService) {
+            // For daily services: calculate based on 8-hour blocks
+            totalDays = (totalHours / 8).ceil();
+          } else {
+            // For fixed services: calculate based on 8-hour blocks or actual days
+            totalDays = (totalHours / 8).ceil();
+          }
+          
+          totalDaysCont.text = '$totalDays Days';
           totalHoursCont.text = '$totalHours Hours';
         }
       });
@@ -265,22 +298,24 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                       },
                     ).expand(),
                     16.width,
-                    AppButton(
-                        text: language.lblApply,
-                        color: context.primaryColor,
-                        textColor: white,
-                        onTap: () {
-                          final timeSlotModel = TimeSlotModel(
-                            startTime: selStartTime!
-                                .formatDateTime(formate: 'HH:mm:ss'),
-                            selectedDate: selDate!,
-                            endTime:
-                                selEndTime!.formatDateTime(formate: 'HH:mm:ss'),
-                            totalDays: totalDays,
-                            totalHours: totalHours,
-                          );
-                          widget.onApplyClick(timeSlotModel);
-                        }).expand(),
+                    GradientButton(
+                      onPressed: () {
+                        final timeSlotModel = TimeSlotModel(
+                          startTime: selStartTime!
+                              .formatDateTime(formate: 'HH:mm:ss'),
+                          selectedDate: selDate!,
+                          endTime:
+                              selEndTime!.formatDateTime(formate: 'HH:mm:ss'),
+                          totalDays: totalDays,
+                          totalHours: totalHours,
+                        );
+                        widget.onApplyClick(timeSlotModel);
+                      },
+                      child: Text(
+                        language.lblApply,
+                        style: boldTextStyle(color: white),
+                      ),
+                    ).expand(),
                   ],
                 ).paddingOnly(bottom: 8),
               ],

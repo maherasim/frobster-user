@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_detail_model.dart';
@@ -65,18 +66,21 @@ class _BookingCancelledDialogState extends State<BookingCancelledDialog> {
                               fontStyle: FontStyle.italic)),
                     ),
                     24.height,
-                    AppButton(
-                      color: primaryColor,
-                      height: 40,
-                      text: language.lblOk,
-                      textStyle: boldTextStyle(
-                          color: Colors.white,
-                          weight: FontWeight.w600,
-                          size: 12),
+                    SizedBox(
                       width: context.width() - context.navigationBarHeight,
-                      onTap: () {
-                        finish(context, true);
-                      },
+                      child: GradientButton(
+                        onPressed: () {
+                          finish(context, true);
+                        },
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          language.lblOk,
+                          style: boldTextStyle(
+                              color: Colors.white,
+                              weight: FontWeight.w600,
+                              size: 12),
+                        ),
+                      ),
                     ),
                     8.height,
                   ],

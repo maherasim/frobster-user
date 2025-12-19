@@ -1460,17 +1460,14 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.inProgress) {
-      return Row(
-        children: [
-          if (!bookingResponse.service!.isOnlineService.validate())
-            GradientButton(
-              onPressed: () {
-                _handleHoldClick(status: bookingResponse);
-              },
-              child: Text(language.lblHold),
-            ).expand(),
-        ],
-      ).paddingOnly(bottom: 16);
+      return AppButton(
+        text: language.lblHold,
+        color: hold,
+        textColor: Colors.white,
+        onTap: () {
+          _handleHoldClick(status: bookingResponse);
+        },
+      );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.hold) {
       return Row(
@@ -1997,19 +1994,41 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     bool isAnyServiceAddonUnCompleted = status.bookingDetail!.serviceaddon
         .validate()
         .any((element) => element.status.getBoolInt() == false);
-    showConfirmDialogCustom(
+    showInDialog(
       context,
-      negativeText: language.lblNo,
-      dialogType: DialogType.CONFIRMATION,
-      primaryColor: context.primaryColor,
-      title: isAnyServiceAddonUnCompleted
-          ? language.confirmation
-          : language.lblEndServicesMsg,
-      subTitle: isAnyServiceAddonUnCompleted
-          ? language.pleaseNoteThatAllServiceMarkedCompleted
-          : null,
-      positiveText: language.lblYes,
-      onAccept: (c) async {
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: context.scaffoldBackgroundColor,
+      builder: (context) {
+        return AppCommonDialog(
+          title: isAnyServiceAddonUnCompleted
+              ? language.confirmation
+              : language.lblEndServicesMsg,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              if (isAnyServiceAddonUnCompleted) ...[
+                24.height,
+                Text(
+                  language.pleaseNoteThatAllServiceMarkedCompleted,
+                  style: secondaryTextStyle(),
+                  textAlign: TextAlign.center,
+                ).paddingSymmetric(horizontal: 16),
+              ],
+              24.height,
+              Row(
+                children: [
+                  AppButton(
+                    text: language.lblNo,
+                    color: context.scaffoldBackgroundColor,
+                    textColor: context.iconColor,
+                    onTap: () {
+                      finish(context);
+                    },
+                  ).expand(),
+                  16.width,
+                  GradientButton(
+                    onPressed: () async {
+                      finish(context);
         final startAt = status.bookingDetail!.startAt == null
             ? null
             : DateTime.parse(status.bookingDetail!.startAt!);
@@ -2098,6 +2117,17 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           appStore.setLoading(false);
           toast(e.toString(), print: true);
         });
+                    },
+                    child: Text(
+                      language.lblYes,
+                      style: boldTextStyle(color: Colors.white),
+                    ),
+                  ).expand(),
+                ],
+              ).paddingAll(16),
+            ],
+          ),
+        );
       },
     );
   }

@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_data_model.dart';
@@ -297,11 +298,12 @@ class _BookingSlotsComponentState extends State<BookingSlotsComponent> {
                       },
                     ).expand(),
                     16.width,
-                    AppButton(
-                      text: language.lblApply,
-                      color: context.primaryColor,
-                      textColor: white,
-                      onTap: _handleNextButtonClick,
+                    GradientButton(
+                      onPressed: _handleNextButtonClick,
+                      child: Text(
+                        language.lblApply,
+                        style: boldTextStyle(color: white),
+                      ),
                     ).expand(),
                   ],
                 ).paddingOnly(bottom: 8),

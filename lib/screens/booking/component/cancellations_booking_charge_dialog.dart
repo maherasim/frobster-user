@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -159,18 +160,18 @@ class _CancellationsBookingChargeDialogState
                           },
                         ).expand(),
                         12.width,
-                        AppButton(
-                          color: primaryColor,
-                          height: 40,
-                          text: language.lblCancelBooking,
-                          textStyle: boldTextStyle(
-                              color: Colors.white,
-                              weight: FontWeight.w600,
-                              size: 12),
-                          width: context.width() - context.navigationBarHeight,
-                          onTap: () {
+                        GradientButton(
+                          onPressed: () {
                             _handleClick();
                           },
+                          padding: EdgeInsets.symmetric(vertical: 12),
+                          child: Text(
+                            language.lblCancelBooking,
+                            style: boldTextStyle(
+                                color: Colors.white,
+                                weight: FontWeight.w600,
+                                size: 12),
+                          ),
                         ).expand(),
                       ],
                     ),

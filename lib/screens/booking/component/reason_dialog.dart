@@ -1,8 +1,8 @@
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_detail_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
-import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
@@ -67,15 +67,18 @@ class _ReasonDialogState extends State<ReasonDialog> {
                     ),
                   ),
                   24.height,
-                  AppButton(
-                    color: primaryColor,
-                    height: 40,
-                    text: language.btnSubmit,
-                    textStyle: boldTextStyle(color: Colors.white),
+                  SizedBox(
                     width: context.width() - context.navigationBarHeight,
-                    onTap: () {
-                      _handleClick();
-                    },
+                    child: GradientButton(
+                      onPressed: () {
+                        _handleClick();
+                      },
+                      padding: EdgeInsets.symmetric(vertical: 12),
+                      child: Text(
+                        language.btnSubmit,
+                        style: boldTextStyle(color: Colors.white),
+                      ),
+                    ),
                   ),
                   8.height,
                 ],

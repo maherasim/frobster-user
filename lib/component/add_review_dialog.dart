@@ -1,3 +1,5 @@
+import 'package:booking_system_flutter/component/app_common_dialog.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
@@ -140,9 +142,12 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
               Container(
                 width: context.width(),
                 padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
-                decoration: boxDecorationDefault(
-                  color: primaryColor,
-                  borderRadius: radiusOnly(topRight: 8, topLeft: 8),
+                decoration: BoxDecoration(
+                  gradient: appPrimaryGradient,
+                  borderRadius: BorderRadius.only(
+                    topRight: Radius.circular(8),
+                    topLeft: Radius.circular(8),
+                  ),
                 ),
                 child: Row(
                   children: [
@@ -227,29 +232,58 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                           color: context.cardColor,
                           onTap: () {
                             if (isHandymanUpdate) {
-                              showConfirmDialogCustom(
+                              showInDialog(
                                 context,
-                                primaryColor: context.primaryColor,
-                                title: language.lblDeleteRatingMsg,
-                                positiveText: language.lblYes,
-                                negativeText: language.lblCancel,
-                                onAccept: (c) async {
-                                  appStore.setLoading(true);
+                                contentPadding: EdgeInsets.zero,
+                                backgroundColor: context.scaffoldBackgroundColor,
+                                builder: (context) {
+                                  return AppCommonDialog(
+                                    title: language.lblDeleteRatingMsg,
+                                    child: Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      children: [
+                                        24.height,
+                                        Row(
+                                          children: [
+                                            AppButton(
+                                              text: language.lblCancel,
+                                              color: context.scaffoldBackgroundColor,
+                                              textColor: context.iconColor,
+                                              onTap: () {
+                                                finish(context);
+                                              },
+                                            ).expand(),
+                                            16.width,
+                                            GradientButton(
+                                              onPressed: () async {
+                                                finish(context);
+                                                appStore.setLoading(true);
 
-                                  await deleteHandymanReview(
-                                          id: widget.customerReview!.id
-                                              .validate()
-                                              .toInt())
-                                      .then((value) {
-                                    toast(value.message);
-                                    finish(context, true);
-                                  }).catchError((e) {
-                                    toast(e.toString());
-                                  });
+                                                await deleteHandymanReview(
+                                                        id: widget.customerReview!.id
+                                                            .validate()
+                                                            .toInt())
+                                                    .then((value) {
+                                                  toast(value.message);
+                                                  finish(context, true);
+                                                }).catchError((e) {
+                                                  toast(e.toString());
+                                                });
 
-                                  setState(() {});
+                                                setState(() {});
 
-                                  appStore.setLoading(false);
+                                                appStore.setLoading(false);
+                                              },
+                                              child: Text(
+                                                language.lblYes,
+                                                style: boldTextStyle(color: Colors.white),
+                                              ),
+                                            ).expand(),
+                                          ],
+                                        ).paddingAll(16),
+                                      ],
+                                    ),
+                                  );
                                 },
                               );
                             } else {
@@ -258,17 +292,18 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                           },
                         ).expand(),
                       if (isHandymanUpdate) 16.width,
-                      AppButton(
-                        textColor: Colors.white,
-                        text: language.btnSubmit,
-                        color: context.primaryColor,
-                        onTap: () {
+                      GradientButton(
+                        onPressed: () {
                           if (selectedRating == 0) {
                             toast(language.lblSelectRating);
                           } else {
                             submit();
                           }
                         },
+                        child: Text(
+                          language.btnSubmit,
+                          style: boldTextStyle(color: Colors.white),
+                        ),
                       ).expand(),
                     ],
                   )

@@ -13,6 +13,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../component/app_common_dialog.dart';
 import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
+import '../../component/gradient_button.dart';
 import '../../component/wallet_balance_component.dart';
 import '../../model/payment_gateway_response.dart';
 import '../../network/rest_apis.dart';
@@ -29,7 +30,6 @@ import '../../services/stripe_service_new.dart';
 import '../../utils/configs.dart';
 import '../../utils/model_keys.dart';
 import '../dashboard/dashboard_screen.dart';
-import '../../component/gradient_button.dart';
 
 class PaymentScreen extends StatefulWidget {
   final BookingDetailResponse bookings;
@@ -526,15 +526,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
 
                         appStore.setLoading(false);
                         if (walletBalance >= totalAmount) {
-                          showConfirmDialogCustom(
+                          showInDialog(
                             context,
-                            dialogType: DialogType.CONFIRMATION,
-                            title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
-                            primaryColor: gradientRed,
-                            positiveText: language.lblYes,
-                            negativeText: language.lblCancel,
-                            onAccept: (p0) {
-                              _handleClick();
+                            contentPadding: EdgeInsets.zero,
+                            backgroundColor: context.scaffoldBackgroundColor,
+                            builder: (context) {
+                              return AppCommonDialog(
+                                title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
+                                child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    24.height,
+                                    Row(
+                                      children: [
+                                        AppButton(
+                                          text: language.lblCancel,
+                                          color: context.scaffoldBackgroundColor,
+                                          textColor: context.iconColor,
+                                          onTap: () {
+                                            finish(context);
+                                          },
+                                        ).expand(),
+                                        16.width,
+                                        GradientButton(
+                                          onPressed: () {
+                                            finish(context);
+                                            _handleClick();
+                                          },
+                                          child: Text(
+                                            language.lblYes,
+                                            style: boldTextStyle(color: Colors.white),
+                                          ),
+                                        ).expand(),
+                                      ],
+                                    ).paddingAll(16),
+                                  ],
+                                ),
+                              );
                             },
                           );
                         } else {
@@ -560,15 +588,43 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           }
                         }
                       } else {
-                        showConfirmDialogCustom(
+                        showInDialog(
                           context,
-                          dialogType: DialogType.CONFIRMATION,
-                          title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
-                          primaryColor: primaryColor,
-                          positiveText: language.lblYes,
-                          negativeText: language.lblCancel,
-                          onAccept: (p0) {
-                            _handleClick();
+                          contentPadding: EdgeInsets.zero,
+                          backgroundColor: context.scaffoldBackgroundColor,
+                          builder: (context) {
+                            return AppCommonDialog(
+                              title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
+                              child: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  24.height,
+                                  Row(
+                                    children: [
+                                      AppButton(
+                                        text: language.lblCancel,
+                                        color: context.scaffoldBackgroundColor,
+                                        textColor: context.iconColor,
+                                        onTap: () {
+                                          finish(context);
+                                        },
+                                      ).expand(),
+                                      16.width,
+                                      GradientButton(
+                                        onPressed: () {
+                                          finish(context);
+                                          _handleClick();
+                                        },
+                                        child: Text(
+                                          language.lblYes,
+                                          style: boldTextStyle(color: Colors.white),
+                                        ),
+                                      ).expand(),
+                                    ],
+                                  ).paddingAll(16),
+                                ],
+                              ),
+                            );
                           },
                         );
                       }
