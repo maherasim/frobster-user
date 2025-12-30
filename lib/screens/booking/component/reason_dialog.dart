@@ -71,8 +71,8 @@ class _ReasonDialogState extends State<ReasonDialog> {
                     width: context.width() - context.navigationBarHeight,
                     child: GradientButton(
                       onPressed: () {
-                        _handleClick();
-                      },
+                      _handleClick();
+                    },
                       padding: EdgeInsets.symmetric(vertical: 12),
                       child: Text(
                         language.btnSubmit,

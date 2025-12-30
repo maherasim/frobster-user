@@ -1,26 +1,25 @@
-import 'dart:ui' as ui;
-import 'package:http/http.dart' as http;
-import 'package:booking_system_flutter/component/back_widget.dart';
+import 'package:booking_system_flutter/component/loader_widget.dart';
+import 'package:booking_system_flutter/component/user_info_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/provider_info_response.dart';
+import 'package:booking_system_flutter/model/service_data_model.dart';
+import 'package:booking_system_flutter/model/service_detail_response.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
-import 'package:booking_system_flutter/model/country_list_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/review/components/review_widget.dart';
 import 'package:booking_system_flutter/screens/review/rating_view_all_screen.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
-import 'package:booking_system_flutter/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
-import '../../component/loader_widget.dart';
-import '../../component/disabled_rating_bar_widget.dart';
 import '../../utils/colors.dart';
-import '../../utils/common.dart';
+import 'component/handyman_staff_members_component.dart';
+import 'component/provider_service_component.dart';
+import '../service/view_all_service_screen.dart';
 
 // NOTE: This screen is READ-ONLY. No edit/update functionality should be added.
 // CustomImagePicker or any upload components should NEVER be used here.
@@ -36,8 +35,6 @@ class HandymanInfoScreen extends StatefulWidget {
 
 class HandymanInfoScreenState extends State<HandymanInfoScreen> {
   Future<ProviderInfoResponse>? future;
-  CountryListResponse? country;
-
   int page = 1;
 
   @override
@@ -49,25 +46,6 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
   Future<void> init() async {
     future = getProviderDetail(widget.handymanId.validate(),
         userId: appStore.userId.validate());
-    // Load country data
-    if (future != null) {
-      future!.then((data) {
-        if (data.userData?.countryId != null) {
-          getCountry(data.userData!.countryId.validate());
-        }
-      });
-    }
-  }
-
-  Future<void> getCountry(int countryId) async {
-    await getCountryList().then((value) async {
-      if (value.any((element) => element.id == countryId)) {
-        country = value.firstWhere((element) => element.id == countryId);
-        setState(() {});
-      }
-    }).catchError((e) {
-      // Ignore country loading errors
-    });
   }
 
   @override
@@ -75,103 +53,429 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
     if (mounted) super.setState(fn);
   }
 
+  Widget servicesWidget(
+      {required List<ServiceData> list,
+      int? handymanId,
+      UserData? handymanData}) {
+    int totalServices = list.length;
+    return Column(
+      children: [
+        ViewAllLabel(
+          label: '${language.service} (${totalServices})',
+          list: list,
+          onTap: () {
+            ViewAllServiceScreen(providerId: handymanId)
+                .launch(context, pageRouteAnimation: PageRouteAnimation.Fade);
+          },
+        ),
+        if (list.isEmpty)
+          NoDataWidget(
+              title: language.lblNoServicesFound,
+              imageWidget: EmptyStateWidget()),
+        if (list.isNotEmpty)
+          AnimatedWrap(
+            spacing: 16,
+            runSpacing: 16,
+            itemCount: list.length,
+            listAnimationType: ListAnimationType.FadeIn,
+            fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
+            scaleConfiguration: ScaleConfiguration(
+                duration: 300.milliseconds, delay: 50.milliseconds),
+            itemBuilder: (_, index) => ProviderServiceComponent(
+              serviceData: list[index],
+              isFromProviderInfo: true,
+              serviceDetailResponse: ServiceDetailResponse(),
+              providerData: handymanData,
+            ),
+          ).paddingOnly(bottom: 50)
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
-    return AppScaffold(
-      child: Stack(
-        children: [
-          SnapHelperWidget<ProviderInfoResponse>(
+    return WillPopScope(
+      onWillPop: () {
+        finish(context);
+        return Future.value(true);
+      },
+      child: AppScaffold(
+        appBarTitle: language.lblAboutHandyman,
+        showLoader: false,
+        child: Scaffold(
+          body: SnapHelperWidget<ProviderInfoResponse>(
             future: future,
             onSuccess: (data) {
-              final userData = data.userData!;
-              return AnimatedScrollView(
-                listAnimationType: ListAnimationType.FadeIn,
-                physics: AlwaysScrollableScrollPhysics(),
-                crossAxisAlignment: CrossAxisAlignment.start,
+              // Clean skills - remove brackets, quotes, double commas
+              final List<String> skills = data.userData?.skills != null
+                  ? data.userData!.skillsArray
+                      .map((e) => e
+                          .replaceAll(RegExp(r'[\[\]"]'), '') // Remove brackets and quotes
+                          .replaceAll(RegExp(r',+'), ',') // Remove double commas
+                          .trim())
+                      .where((e) => e.isNotEmpty)
+                      .toList()
+                  : [];
+              final List<String> mobilityList = data.userData?.mobility != null
+                  ? data.userData!.mobility!
+                      .split(',')
+                      .map((e) => e
+                          .replaceAll(RegExp(r'[\[\]"]'), '')
+                          .replaceAll(RegExp(r',+'), ',')
+                          .trim())
+                      .where((e) => e.isNotEmpty)
+                      .toList()
+                  : [];
+              final List<String> experienceList =
+                  data.userData?.experience != null
+                      ? data.userData!.experience!
+                          .split(',')
+                          .map((e) => e
+                              .replaceAll(RegExp(r'[\[\]"]'), '')
+                              .replaceAll(RegExp(r',+'), ',')
+                              .trim())
+                          .where((e) => e.isNotEmpty)
+                          .toList()
+                      : [];
+              final List<String> certifications =
+                  data.userData?.certification != null
+                      ? data.userData!.certification!
+                          .split(',')
+                          .map((e) => e
+                              .replaceAll(RegExp(r'[\[\]"]'), '')
+                              .replaceAll(RegExp(r',+'), ',')
+                              .trim())
+                          .where((e) => e.isNotEmpty)
+                          .toList()
+                      : [];
+
+              return Stack(
                 children: [
-                  // Header with back button
-                  Container(
-                    margin: EdgeInsets.only(top: context.statusBarHeight),
-                    decoration: BoxDecoration(
-                      gradient: appPrimaryGradient,
-                    ),
-                    padding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    child: Row(
-                      children: [
-                        BackWidget(),
-                        16.width,
-                        Text(
-                          language.lblAboutHandyman,
-                          style: boldTextStyle(color: Colors.white, size: 18),
-                        ),
-                      ],
-                    ),
+                  AnimatedScrollView(
+                    listAnimationType: ListAnimationType.FadeIn,
+                    physics: AlwaysScrollableScrollPhysics(),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      UserInfoWidget(
+                        data: data.userData!,
+                        isOnTapEnabled: true,
+                        onUpdate: () {},
+                      ),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          15.height,
+                          Text(
+                            language.personalInfo,
+                            style: boldTextStyle(size: 18),
+                          ).paddingSymmetric(horizontal: 16),
+                          if (data
+                              .userData!.knownLanguagesArray.isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(language.knownLanguages,
+                                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                    .paddingSymmetric(horizontal: 16),
+                                8.height,
+                                Wrap(
+                                  children: data.userData!.knownLanguagesArray
+                                      .map((e) {
+                                    return Container(
+                                      decoration:
+                                          boxDecorationWithRoundedCorners(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(20)),
+                                        backgroundColor: appStore.isDarkMode
+                                            ? cardDarkColor
+                                            : primaryColor.withValues(
+                                                alpha: 0.1),
+                                      ),
+                                      padding: EdgeInsets.symmetric(
+                                          horizontal: 16, vertical: 8),
+                                      margin:
+                                          EdgeInsets.only(right: 8, bottom: 8),
+                                      child: Text(e,
+                                          style: secondaryTextStyle(
+                                              size: 12, weight: FontWeight.bold)),
+                                    );
+                                  }).toList(),
+                                ).paddingSymmetric(
+                                  horizontal: 16,
+                                ),
+                              ],
+                            ),
+                          ],
+                          if (skills.isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(language.essentialSkills,
+                                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                    .paddingSymmetric(horizontal: 16),
+                                8.height,
+                                Wrap(
+                                  children: skills.map((e) {
+                                    return e.isNotEmpty
+                                        ? Container(
+                                            decoration:
+                                                boxDecorationWithRoundedCorners(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              backgroundColor:
+                                                  appStore.isDarkMode
+                                                      ? cardDarkColor
+                                                      : primaryColor.withValues(
+                                                          alpha: 0.1),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 8),
+                                            margin: EdgeInsets.only(
+                                                right: 8, bottom: 8),
+                                            child: Text(e,
+                                                style: secondaryTextStyle(
+                                                    size: 12, weight: FontWeight.bold)),
+                                          )
+                                        : SizedBox.shrink();
+                                  }).toList(),
+                                ).paddingSymmetric(horizontal: 16),
+                              ],
+                            ),
+                          ],
+                          if (experienceList.isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Experiences', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                    .paddingSymmetric(horizontal: 16),
+                                8.height,
+                                Wrap(
+                                  children: experienceList.map((e) {
+                                    return e.isNotEmpty
+                                        ? Container(
+                                            decoration:
+                                                boxDecorationWithRoundedCorners(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              backgroundColor:
+                                                  appStore.isDarkMode
+                                                      ? cardDarkColor
+                                                      : primaryColor.withValues(
+                                                          alpha: 0.1),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 8),
+                                            margin: EdgeInsets.only(
+                                                right: 8, bottom: 8),
+                                            child: Text(e,
+                                                style: secondaryTextStyle(
+                                                    size: 12, weight: FontWeight.bold)),
+                                          )
+                                        : SizedBox.shrink();
+                                  }).toList(),
+                                ).paddingSymmetric(horizontal: 16),
+                              ],
+                            ),
+                          ],
+                          if (data.userData?.availability != null) ...[
+                            15.height,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(data.userData!.availability.validate(),
+                                    style: secondaryTextStyle(size: 12)),
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          if (mobilityList.isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Mobility', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                    .paddingSymmetric(horizontal: 16),
+                                8.height,
+                                Wrap(
+                                  children: mobilityList.map((e) {
+                                    return e.isNotEmpty
+                                        ? Container(
+                                            decoration:
+                                                boxDecorationWithRoundedCorners(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              backgroundColor:
+                                                  appStore.isDarkMode
+                                                      ? cardDarkColor
+                                                      : primaryColor.withValues(
+                                                          alpha: 0.1),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 8),
+                                            margin: EdgeInsets.only(
+                                                right: 8, bottom: 8),
+                                            child: Text(e,
+                                                style: secondaryTextStyle(
+                                                    size: 12, weight: FontWeight.bold)),
+                                          )
+                                        : SizedBox.shrink();
+                                  }).toList(),
+                                ).paddingSymmetric(horizontal: 16),
+                              ],
+                            ),
+                          ],
+                          if (certifications.isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Certification', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                    .paddingSymmetric(horizontal: 16),
+                                8.height,
+                                Wrap(
+                                  children: certifications.map((e) {
+                                    return e.isNotEmpty
+                                        ? Container(
+                                            decoration:
+                                                boxDecorationWithRoundedCorners(
+                                              borderRadius: BorderRadius.all(
+                                                  Radius.circular(20)),
+                                              backgroundColor:
+                                                  appStore.isDarkMode
+                                                      ? cardDarkColor
+                                                      : primaryColor.withValues(
+                                                          alpha: 0.1),
+                                            ),
+                                            padding: EdgeInsets.symmetric(
+                                                horizontal: 16, vertical: 8),
+                                            margin: EdgeInsets.only(
+                                                right: 8, bottom: 8),
+                                            child: Text(e,
+                                                style: secondaryTextStyle(
+                                                    size: 12, weight: FontWeight.bold)),
+                                          )
+                                        : SizedBox.shrink();
+                                  }).toList(),
+                                ).paddingSymmetric(horizontal: 16),
+                              ],
+                            ),
+                          ],
+                          if (data.userData?.education != null) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                5.height,
+                                Text(data.userData!.education.validate(),
+                                    style: secondaryTextStyle(size: 12)),
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          if (data.userData?.totalBooking != null) ...[
+                            15.height,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Bookings:',
+                                  style: boldTextStyle(size: LABEL_TEXT_SIZE),
+                                ),
+                                8.width,
+                                Container(
+                                  decoration: boxDecorationWithRoundedCorners(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    backgroundColor: appStore.isDarkMode
+                                        ? cardDarkColor
+                                        : primaryColor.withValues(alpha: 0.1),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text(
+                                    '${data.userData?.totalBooking.validate()}',
+                                    style: secondaryTextStyle(
+                                        size: 12, weight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          if (data.userData?.totalBooking != null) ...[
+                            15.height,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Completed Jobs:',
+                                  style: boldTextStyle(size: LABEL_TEXT_SIZE),
+                                ),
+                                8.width,
+                                Container(
+                                  decoration: boxDecorationWithRoundedCorners(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    backgroundColor: appStore.isDarkMode
+                                        ? cardDarkColor
+                                        : primaryColor.withValues(alpha: 0.1),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text(
+                                    '0',
+                                    style: secondaryTextStyle(
+                                        size: 12, weight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          15.height,
+                          HandymanStaffMembersComponent(
+                            handymanList: data.handymanStaffList.validate(),
+                          ),
+                          if (data.userData!.aboutMe != null &&
+                              data.userData!.aboutMe.validate().isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('About Me', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                5.height,
+                                Text(data.userData!.aboutMe.validate(),
+                                    style: secondaryTextStyle(size: 12)),
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          32.height,
+                          if (data.serviceList != null && data.serviceList!.isNotEmpty)
+                            servicesWidget(
+                              list: data.serviceList!.take(6).toList(),
+                              handymanId: widget.handymanId.validate(),
+                              handymanData: data.userData,
+                            ).paddingSymmetric(horizontal: 16),
+                          32.height,
+                          _buildReviewsSection(data),
+                        ],
+                      ),
+                    ],
+                    onSwipeRefresh: () async {
+                      page = 1;
+                      init();
+                      setState(() {});
+                      return await 2.seconds.delay;
+                    },
                   ),
-                  
-                  // Profile Image Header
-                  _buildProfileHeader(userData),
-                  
-                  // Main Content Card
-                  Container(
-                    margin: EdgeInsets.all(16),
-                    padding: EdgeInsets.all(20),
-                    decoration: boxDecorationWithRoundedCorners(
-                      borderRadius: radius(defaultRadius),
-                      backgroundColor: context.cardColor,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.05),
-                          blurRadius: 10,
-                          offset: Offset(0, 2),
-                        ),
-                      ],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Name and Badges
-                        _buildNameSection(userData),
-                        16.height,
-                        
-                        // Rating
-                        if (userData.handymanRating != null)
-                          _buildRatingSection(userData),
-                        
-                        // Location and Member Since
-                        if (userData.cityName != null || country != null) ...[
-                          16.height,
-                          _buildLocationSection(userData),
-                        ],
-                        
-                        8.height,
-                        _buildMemberSinceSection(userData),
-                        
-                        // Known Languages
-                        if (userData.knownLanguagesArray.isNotEmpty) ...[
-                          24.height,
-                          _buildLanguagesSection(userData),
-                        ],
-                        
-                        // Skills
-                        if (userData.skillsArray.isNotEmpty) ...[
-                          24.height,
-                          _buildSkillsSection(userData),
-                        ],
-                        
-                        // Description
-                        if (userData.description.validate().isNotEmpty) ...[
-                          24.height,
-                          _buildDescriptionSection(userData),
-                        ],
-                      ],
-                    ),
-                  ),
-                  
-                  // Reviews Section
-                  _buildReviewsSection(data),
+                  Observer(
+                      builder: (context) =>
+                          LoaderWidget().visible(appStore.isLoading))
                 ],
               );
             },
+            loadingWidget: LoaderWidget(),
             errorBuilder: (error) {
               return NoDataWidget(
                 title: error,
@@ -185,313 +489,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                 },
               );
             },
-            loadingWidget: LoaderWidget(),
           ),
-          Observer(builder: (_) => LoaderWidget().visible(appStore.isLoading)),
-        ],
+        ),
       ),
-    );
-  }
-
-  Widget _buildProfileHeader(UserData userData) {
-    return SizedBox(
-      height: 280,
-      child: Stack(
-        children: [
-          // Profile Image - Using low-level dart:ui to avoid triggering image picker
-          _LowLevelImageWidget(
-            imageUrl: userData.profileImage.validate(),
-            height: 280,
-            width: context.width(),
-            placeholder: Container(
-              height: 280,
-              width: context.width(),
-              color: context.cardColor,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Container(
-                    width: 120,
-                    height: 120,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: gradientRed.withValues(alpha: 0.1),
-                    ),
-                    child: Icon(Icons.person, size: 80, color: gradientRed),
-                  ),
-                  16.height,
-                  Text(
-                    userData.displayName.validate(),
-                    style: boldTextStyle(size: 20),
-                    textAlign: TextAlign.center,
-                  ),
-                ],
-              ),
-            ),
-          ),
-          
-          // Rating Badge
-          Positioned(
-            left: 16,
-            top: 16,
-            child: Container(
-              decoration: BoxDecoration(
-                color: context.cardColor,
-                borderRadius: BorderRadius.circular(20),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.2),
-                    blurRadius: 8,
-                    offset: Offset(0, 2),
-                  ),
-                ],
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.star, color: ratingBarColor, size: 16),
-                  4.width,
-                  Text(
-                    userData.handymanRating.validate().toStringAsFixed(1),
-                    style: boldTextStyle(size: 14),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildNameSection(UserData userData) {
-    return Row(
-      crossAxisAlignment: CrossAxisAlignment.center,
-      children: [
-        // Verified/Not Verified Icon
-        if (userData.verifiedStickerIcon.validate().isNotEmpty)
-          Image.network(
-            userData.verifiedStickerIcon.validate(),
-            width: 24,
-            height: 24,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => Image.asset(
-              'assets/icons/verified_badge.jpg',
-              width: 24,
-              height: 24,
-            ),
-          )
-        else
-          Image.asset(
-            'assets/icons/verified_badge.jpg',
-            width: 24,
-            height: 24,
-          ),
-        8.width,
-        
-        // Name
-        Expanded(
-          child: Text(
-            userData.displayName.validate(),
-            style: boldTextStyle(size: 22),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-        
-        // Verified Checkmark
-        if ((userData.isVerifyProvider == 1) || (userData.isVerifyHandyman == 1))
-          Image.asset(ic_verified, height: 20, color: Colors.green),
-        
-        8.width,
-        
-        // Membership Icon
-        if (userData.membershipIcon.validate().isNotEmpty)
-          Image.network(
-            userData.membershipIcon.validate(),
-            width: 24,
-            height: 24,
-            fit: BoxFit.contain,
-            errorBuilder: (context, error, stackTrace) => Image.asset(
-              'assets/icons/free-membership.jpg',
-              width: 24,
-              height: 24,
-            ),
-          )
-        else
-          Image.asset(
-            'assets/icons/free-membership.jpg',
-            width: 24,
-            height: 24,
-          ),
-        
-        // Designation
-        if (userData.designation.validate().isNotEmpty) ...[
-          12.width,
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-            decoration: boxDecorationWithRoundedCorners(
-              backgroundColor: gradientRed.withValues(alpha: 0.1),
-              borderRadius: radius(12),
-            ),
-            child: Text(
-              userData.designation.validate(),
-              style: secondaryTextStyle(
-                color: gradientRed,
-                weight: FontWeight.bold,
-                size: 12,
-              ),
-            ),
-          ),
-        ],
-      ],
-    );
-  }
-
-  Widget _buildRatingSection(UserData userData) {
-    return Row(
-      children: [
-        DisabledRatingBarWidget(
-          rating: userData.handymanRating.validate(),
-          size: 18,
-        ),
-        8.width,
-        Text(
-          '${userData.handymanRating.validate().toStringAsFixed(1)}',
-          style: secondaryTextStyle(size: 14, weight: FontWeight.bold),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLocationSection(UserData userData) {
-    final location = userData.cityName != null && country != null
-        ? '${userData.cityName.validate()} - ${country?.name.validate()}'
-        : userData.cityName ?? country?.name ?? '';
-    
-    if (location.isEmpty) return SizedBox.shrink();
-    
-    return Row(
-      children: [
-        Icon(Icons.location_on, size: 18, color: context.iconColor),
-        8.width,
-        Expanded(
-          child: Text(
-            location,
-            style: secondaryTextStyle(size: 14),
-            maxLines: 2,
-            overflow: TextOverflow.ellipsis,
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildMemberSinceSection(UserData userData) {
-    return Row(
-      children: [
-        Icon(Icons.calendar_today, size: 16, color: context.iconColor),
-        8.width,
-        Text(
-          '${language.lblMemberSince} ${formatDate(userData.createdAt.validate())}',
-          style: secondaryTextStyle(size: 13),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildLanguagesSection(UserData userData) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          language.knownLanguages,
-          style: boldTextStyle(size: 16),
-        ),
-        12.height,
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: userData.knownLanguagesArray.map((language) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: boxDecorationWithRoundedCorners(
-                backgroundColor: appStore.isDarkMode
-                    ? cardDarkColor
-                    : gradientRed.withValues(alpha: 0.1),
-                borderRadius: radius(8),
-              ),
-              child: Text(
-                language,
-                style: secondaryTextStyle(
-                  weight: FontWeight.w600,
-                  size: 13,
-                ),
-              ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildSkillsSection(UserData userData) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          language.essentialSkills,
-          style: boldTextStyle(size: 16),
-        ),
-        12.height,
-        Wrap(
-          spacing: 8,
-          runSpacing: 8,
-          children: userData.skillsArray.map((skill) {
-            return Container(
-              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-              decoration: boxDecorationWithRoundedCorners(
-                backgroundColor: appStore.isDarkMode
-                    ? cardDarkColor
-                    : gradientRed.withValues(alpha: 0.1),
-                borderRadius: radius(8),
-              ),
-              child: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Icon(Icons.check_circle, size: 16, color: primaryColor),
-                  6.width,
-                  Text(
-                    skill,
-                    style: secondaryTextStyle(
-                      weight: FontWeight.w600,
-                      size: 13,
-                    ),
-                  ),
-                ],
-              ),
-            );
-          }).toList(),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildDescriptionSection(UserData userData) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(
-          language.lblAboutHandyman,
-          style: boldTextStyle(size: 16),
-        ),
-        12.height,
-        Text(
-          userData.description.validate(),
-          style: secondaryTextStyle(size: 14, height: 1.5),
-        ),
-      ],
     );
   }
 
@@ -556,132 +556,3 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
   }
 }
 
-// Low-level image widget using dart:ui to completely bypass Flutter's image widgets
-class _LowLevelImageWidget extends StatefulWidget {
-  final String imageUrl;
-  final double height;
-  final double width;
-  final Widget placeholder;
-
-  const _LowLevelImageWidget({
-    required this.imageUrl,
-    required this.height,
-    required this.width,
-    required this.placeholder,
-  });
-
-  @override
-  State<_LowLevelImageWidget> createState() => _LowLevelImageWidgetState();
-}
-
-class _LowLevelImageWidgetState extends State<_LowLevelImageWidget> {
-  ui.Image? _uiImage;
-  bool _isLoading = false;
-  bool _hasError = false;
-
-  @override
-  void initState() {
-    super.initState();
-    if (widget.imageUrl.isNotEmpty) {
-      _loadImage();
-    }
-  }
-
-  Future<void> _loadImage() async {
-    if (widget.imageUrl.isEmpty) return;
-    
-    setState(() {
-      _isLoading = true;
-      _hasError = false;
-    });
-
-    try {
-      final response = await http.get(Uri.parse(widget.imageUrl));
-      if (response.statusCode == 200) {
-        final codec = await ui.instantiateImageCodec(response.bodyBytes);
-        final frame = await codec.getNextFrame();
-        
-        if (mounted) {
-          setState(() {
-            _uiImage = frame.image;
-            _isLoading = false;
-            _hasError = false;
-          });
-        }
-      } else {
-        if (mounted) {
-          setState(() {
-            _isLoading = false;
-            _hasError = true;
-          });
-        }
-      }
-    } catch (e) {
-      if (mounted) {
-        setState(() {
-          _isLoading = false;
-          _hasError = true;
-        });
-      }
-    }
-  }
-
-  @override
-  void dispose() {
-    _uiImage?.dispose();
-    super.dispose();
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    if (widget.imageUrl.isEmpty || _hasError) {
-      return widget.placeholder;
-    }
-
-    if (_isLoading) {
-      return Container(
-        height: widget.height,
-        width: widget.width,
-        color: context.cardColor,
-        child: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
-    }
-
-    if (_uiImage != null) {
-      return CustomPaint(
-        size: Size(widget.width, widget.height),
-        painter: _ImagePainter(_uiImage!),
-      );
-    }
-
-    return widget.placeholder;
-  }
-}
-
-// Custom painter to draw the ui.Image
-class _ImagePainter extends CustomPainter {
-  final ui.Image image;
-
-  _ImagePainter(this.image);
-
-  @override
-  void paint(Canvas canvas, Size size) {
-    final paint = Paint();
-    final srcRect = Rect.fromLTWH(0, 0, image.width.toDouble(), image.height.toDouble());
-    final dstRect = Rect.fromLTWH(0, 0, size.width, size.height);
-    
-    canvas.drawImageRect(
-      image,
-      srcRect,
-      dstRect,
-      paint,
-    );
-  }
-
-  @override
-  bool shouldRepaint(_ImagePainter oldDelegate) {
-    return oldDelegate.image != image;
-  }
-}

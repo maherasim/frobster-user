@@ -389,12 +389,9 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   children: [
                     GradientButton(
                       onPressed: () {
-                        if (widget.data.serviceDetail!.isOnSiteService &&
-                            addressCont.text.isEmpty &&
-                            timeSlots.isEmpty) {
+                        if (addressCont.text.isEmpty && timeSlots.isEmpty) {
                           toast(language.pleaseEnterAddressAnd);
-                        } else if (widget.data.serviceDetail!.isOnSiteService &&
-                            addressCont.text.isEmpty) {
+                        } else if (addressCont.text.isEmpty) {
                           toast(language.pleaseEnterYourAddress);
                         } else if (timeSlots.isEmpty) {
                           toast(language.pleaseSelectBookingDate);
@@ -463,7 +460,17 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
           controller: addressCont,
           maxLines: 3,
           minLines: 3,
+          isValidationRequired: true,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return language.pleaseEnterYourAddress;
+            }
+            return null;
+          },
           onFieldSubmitted: (s) {
+            widget.data.serviceDetail!.address = s;
+          },
+          onChanged: (s) {
             widget.data.serviceDetail!.address = s;
           },
           decoration: inputDecoration(
@@ -508,17 +515,8 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   Widget addressAndDescriptionWidget(BuildContext context) {
     return Column(
       children: [
-        if (widget.data.serviceDetail!.isOnSiteService)
-          addressFieldWidget()
-        else if ((widget.selectedPackage != null &&
-            !widget.selectedPackage!.isAllServiceOnline))
-          addressFieldWidget()
-        else if ((widget.selectedPackage != null &&
-                widget.selectedPackage!.isAllServiceOnline) &&
-            widget.data.serviceDetail!.isOnlineService)
-          Text(language.noteAddressIsNot, style: secondaryTextStyle())
-              .paddingTop(16),
-        16.height.visible(!widget.data.serviceDetail!.isOnSiteService),
+        // Always show address field for all service types
+        addressFieldWidget(),
       ],
     );
   }
@@ -595,41 +593,46 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               decoration: boxDecorationDefault(color: context.cardColor),
               child: Row(
                 children: [
-                  Wrap(
-                    spacing: 8,
-                    crossAxisAlignment: WrapCrossAlignment.center,
-                    children: [
-                      ic_coupon_prefix.iconImage(color: Colors.green, size: 20),
-                      Text(language.lblCoupon, style: primaryTextStyle()),
-                    ],
-                  ).expand(),
-                  16.width,
-                  TextButton(
-                    onPressed: () {
-                      if (appliedCouponData != null) {
-                        showConfirmDialogCustom(
-                          context,
-                          dialogType: DialogType.DELETE,
-                          title: language.doYouWantTo,
-                          positiveText: language.lblDelete,
-                          negativeText: language.lblCancel,
-                          onAccept: (p0) {
-                            appliedCouponData = null;
-                            setPrice();
-                            setState(() {});
-                          },
-                        );
-                      } else {
-                        applyCoupon();
-                      }
-                    },
-                    child: Text(
-                      appliedCouponData != null
-                          ? language.lblRemoveCoupon
-                          : language.applyCoupon,
-                      style: primaryTextStyle(color: gradientRed),
+                  Flexible(
+                    child: Wrap(
+                      spacing: 8,
+                      crossAxisAlignment: WrapCrossAlignment.center,
+                      children: [
+                        ic_coupon_prefix.iconImage(color: Colors.green, size: 20),
+                        Text(language.lblCoupon, style: primaryTextStyle()),
+                      ],
                     ),
-                  )
+                  ),
+                  16.width,
+                  Flexible(
+                    child: TextButton(
+                      onPressed: () {
+                        if (appliedCouponData != null) {
+                          showConfirmDialogCustom(
+                            context,
+                            dialogType: DialogType.DELETE,
+                            title: language.doYouWantTo,
+                            positiveText: language.lblDelete,
+                            negativeText: language.lblCancel,
+                            onAccept: (p0) {
+                              appliedCouponData = null;
+                              setPrice();
+                              setState(() {});
+                            },
+                          );
+                        } else {
+                          applyCoupon();
+                        }
+                      },
+                      child: Text(
+                        appliedCouponData != null
+                            ? language.lblRemoveCoupon
+                            : language.applyCoupon,
+                        style: primaryTextStyle(color: gradientRed),
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
@@ -764,22 +767,27 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                       if (appliedCouponData != null)
                         Row(
                           children: [
-                            Row(
-                              children: [
-                                Text(language.lblCoupon,
-                                    style: secondaryTextStyle(size: 14)),
-                                Text(
-                                  " (${appliedCouponData!.code})",
-                                  style: boldTextStyle(
-                                      color: gradientRed, size: 14),
-                                ).onTap(() {
-                                  applyCoupon(
-                                      isApplied: appliedCouponData!.code
-                                          .validate()
-                                          .isNotEmpty);
-                                }).expand(),
-                              ],
-                            ).expand(),
+                            Flexible(
+                              child: Row(
+                                children: [
+                                  Text(language.lblCoupon,
+                                      style: secondaryTextStyle(size: 14)),
+                                  Flexible(
+                                    child: Text(
+                                      " (${appliedCouponData!.code})",
+                                      style: boldTextStyle(
+                                          color: gradientRed, size: 14),
+                                      overflow: TextOverflow.ellipsis,
+                                    ).onTap(() {
+                                      applyCoupon(
+                                          isApplied: appliedCouponData!.code
+                                              .validate()
+                                              .isNotEmpty);
+                                    }),
+                                  ),
+                                ],
+                              ),
+                            ),
                             PriceWidget(
                               price:
                                   bookingAmountModel.finalCouponDiscountAmount,

@@ -238,7 +238,7 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                                 backgroundColor: context.scaffoldBackgroundColor,
                                 builder: (context) {
                                   return AppCommonDialog(
-                                    title: language.lblDeleteRatingMsg,
+                                title: language.lblDeleteRatingMsg,
                                     child: Column(
                                       mainAxisSize: MainAxisSize.min,
                                       children: [
@@ -257,22 +257,22 @@ class _AddReviewDialogState extends State<AddReviewDialog> {
                                             GradientButton(
                                               onPressed: () async {
                                                 finish(context);
-                                                appStore.setLoading(true);
+                                  appStore.setLoading(true);
 
-                                                await deleteHandymanReview(
-                                                        id: widget.customerReview!.id
-                                                            .validate()
-                                                            .toInt())
-                                                    .then((value) {
-                                                  toast(value.message);
-                                                  finish(context, true);
-                                                }).catchError((e) {
-                                                  toast(e.toString());
-                                                });
+                                  await deleteHandymanReview(
+                                          id: widget.customerReview!.id
+                                              .validate()
+                                              .toInt())
+                                      .then((value) {
+                                    toast(value.message);
+                                    finish(context, true);
+                                  }).catchError((e) {
+                                    toast(e.toString());
+                                  });
 
-                                                setState(() {});
+                                  setState(() {});
 
-                                                appStore.setLoading(false);
+                                  appStore.setLoading(false);
                                               },
                                               child: Text(
                                                 language.lblYes,

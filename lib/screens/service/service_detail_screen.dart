@@ -535,153 +535,144 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           }),
                            10.height,
                          ],
+                        // Price display
+                        Row(
+                          children: [
+                            PriceWidget(
+                              size: 16,
+                              price: (snap.data!.serviceDetail!.discount.validate() > 0)
+                                  ? snap.data!.serviceDetail!.getDiscountedPrice.validate()
+                                  : snap.data!.serviceDetail!.price.validate(),
+                              isHourlyService: snap.data!.serviceDetail!.isHourlyService,
+                              isFixedService: snap.data!.serviceDetail!.isFixedService,
+                              isFreeService: snap.data!.serviceDetail!.isFreeService,
+                              isDailyService: snap.data!.serviceDetail!.isDailyService,
+                            ),
+                            if (snap.data!.serviceDetail!.discount.validate() > 0) ...[
+                              8.width,
+                              PriceWidget(
+                                size: 13,
+                                price: snap.data!.serviceDetail!.price.validate(),
+                                isDiscountedPrice: true,
+                                color: textSecondaryColorGlobal,
+                                isLineThroughEnabled: true,
+                              ),
+                            ],
+                          ],
+                        ),
+                        12.height,
                         // Attributes block: consistent fonts, spacing and layout
                         Builder(builder: (context) {
                           final labelStyle = secondaryTextStyle(size: 13);
                           final valueStyle = secondaryTextStyle(
                               size: 14,
-                              weight: FontWeight.w600,
+                              weight: FontWeight.normal,
                               color: textPrimaryColorGlobal);
 
-                          Widget attributeRow(String label, String value) {
+                          Widget attributeRow(String label, String value, {Color? valueColor}) {
                             return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(label, style: labelStyle),
-                                8.width,
-                                Flexible(child: Text(value, style: valueStyle)),
+                                Flexible(
+                                  child: Text(
+                                    label,
+                                    style: labelStyle,
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                                Flexible(
+                                  child: Text(
+                                    value,
+                                    style: valueStyle.copyWith(color: valueColor ?? textPrimaryColorGlobal),
+                                    textAlign: TextAlign.right,
+                                  ),
+                                ),
                               ],
                             );
                           }
 
-                          return Container(
-                            decoration: boxDecorationDefault(
-                              color: context.cardColor,
-                              borderRadius: radius(16),
-                              border: Border.all(color: context.dividerColor),
-                            ),
-                            padding: EdgeInsets.all(16),
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                if (snap.data!.serviceDetail!.duration
-                                    .validate()
-                                    .isNotEmpty)
-                                  attributeRow(language.duration,
-                                      "${convertToHourMinute(snap.data!.serviceDetail!.duration.validate())}"),
-                                if (snap.data!.serviceDetail!.duration
-                                    .validate()
-                                    .isNotEmpty)
-                                  12.height,
-                                // Price + discount
-                                Row(
-                                  children: [
-                                    PriceWidget(
-                                      size: 16,
-                                      price: (snap.data!
-                                                  .serviceDetail!.discount
-                                                  .validate() >
-                                              0)
-                                          ? snap.data!.serviceDetail!
-                                              .getDiscountedPrice
-                                              .validate()
-                                          : snap.data!.serviceDetail!.price
-                                              .validate(),
-                                      isHourlyService: snap.data!.serviceDetail!
-                                          .isHourlyService,
-                                      isFixedService: snap.data!.serviceDetail!
-                                          .isFixedService,
-                                      isFreeService: snap.data!.serviceDetail!
-                                          .isFreeService,
-                                      isDailyService: snap.data!.serviceDetail!
-                                          .isDailyService,
-                                    ),
-                                    8.width,
-                                    if (snap.data!.serviceDetail!.discount
-                                            .validate() >
-                                        0)
-                                      PriceWidget(
-                                        size: 13,
-                                        price: snap
-                                            .data!.serviceDetail!.price
-                                            .validate(),
-                                        isDiscountedPrice: true,
-                                        color: textSecondaryColorGlobal,
-                                        isLineThroughEnabled: true,
-                                      ),
-                                    10.width,
-                                    if (snap.data!.serviceDetail!.discount
-                                            .validate() >
-                                        0)
-                                      Text(
-                                        "${snap.data!.serviceDetail!.discount.validate()}% off",
-                                        overflow: TextOverflow.ellipsis,
-                                        maxLines: 1,
-                                        style: TextStyle(
-                                            color: defaultActivityStatus,
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 12),
-                                      ).expand(),
-                                  ],
-                                ),
-                                12.height,
-                                attributeRow('Minimum Orders',
-                                    '${snap.data?.serviceDetail?.minimumOrders ?? 0}'),
-                                12.height,
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              if (snap.data!.serviceDetail!.duration
+                                  .validate()
+                                  .isNotEmpty)
+                                attributeRow(language.duration,
+                                    "${convertToHourMinute(snap.data!.serviceDetail!.duration.validate())}"),
+                              if (snap.data!.serviceDetail!.duration
+                                  .validate()
+                                  .isNotEmpty)
+                                10.height,
+                              // Discount row
+                              if (snap.data!.serviceDetail!.discount
+                                      .validate() >
+                                  0)
                                 attributeRow(
-                                  'Job type',
-                                  (() {
-                                    final v = _formatVisitType(snap
-                                            .data
-                                            ?.serviceDetail
-                                            ?.visitType
-                                            .validate() ??
-                                        '');
-                                    return v.isEmpty ? 'N/A' : v;
-                                  })(),
+                                  'Discount',
+                                  "${snap.data!.serviceDetail!.discount.validate()}%",
+                                  valueColor: defaultActivityStatus, // green color
                                 ),
-                                12.height,
-                                attributeRow(
-                                  'Remote work level',
-                                  (() {
-                                    final v = _formatRemoteLevel(snap
-                                            .data
-                                            ?.serviceDetail
-                                            ?.remoteWorkLevel
-                                            .validate() ??
-                                        '');
-                                    return v.isEmpty ? 'N/A' : v;
-                                  })(),
-                                ),
-                                12.height,
-                                attributeRow(
-                                  'Career level',
-                                  (() {
-                                    final v = _titleCase(snap
-                                            .data
-                                            ?.serviceDetail
-                                            ?.careerLevel
-                                            .validate() ??
-                                        '');
-                                    return v.isEmpty ? 'N/A' : v;
-                                  })(),
-                                ),
-                                12.height,
-                                attributeRow(
-                                  'Travel required',
-                                  (() {
-                                    final raw = snap
-                                            .data
-                                            ?.serviceDetail
-                                            ?.travelRequired
-                                            .validate() ??
-                                        '';
-                                    final v = _formatTravelRequired(raw);
-                                    return raw.trim().isEmpty ? 'N/A' : v;
-                                  })(),
-                                ),
-                              ],
-                            ),
+                              if (snap.data!.serviceDetail!.discount
+                                      .validate() >
+                                  0)
+                                10.height,
+                              attributeRow('Minimum Orders',
+                                  '${snap.data?.serviceDetail?.minimumOrders ?? 0}'),
+                              10.height,
+                              attributeRow(
+                                'Job type',
+                                (() {
+                                  final v = _formatVisitType(snap
+                                          .data
+                                          ?.serviceDetail
+                                          ?.visitType
+                                          .validate() ??
+                                      '');
+                                  return v.isEmpty ? 'N/A' : v;
+                                })(),
+                              ),
+                              10.height,
+                              attributeRow(
+                                'Remote work level',
+                                (() {
+                                  final v = _formatRemoteLevel(snap
+                                          .data
+                                          ?.serviceDetail
+                                          ?.remoteWorkLevel
+                                          .validate() ??
+                                      '');
+                                  return v.isEmpty ? 'N/A' : v;
+                                })(),
+                              ),
+                              10.height,
+                              attributeRow(
+                                'Career level',
+                                (() {
+                                  final v = _titleCase(snap
+                                          .data
+                                          ?.serviceDetail
+                                          ?.careerLevel
+                                          .validate() ??
+                                      '');
+                                  return v.isEmpty ? 'N/A' : v;
+                                })(),
+                              ),
+                              10.height,
+                              attributeRow(
+                                'Travel required',
+                                (() {
+                                  final raw = snap
+                                          .data
+                                          ?.serviceDetail
+                                          ?.travelRequired
+                                          .validate() ??
+                                      '';
+                                  final v = _formatTravelRequired(raw);
+                                  return raw.trim().isEmpty ? 'N/A' : v;
+                                })(),
+                              ),
+                            ],
                           );
                         }),
                         16.height,

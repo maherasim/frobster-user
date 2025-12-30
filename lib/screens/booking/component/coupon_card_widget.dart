@@ -27,11 +27,11 @@ class CouponCardWidget extends StatelessWidget {
         Container(
           alignment: Alignment.center,
           width: context.width(),
-          height: context.height() * 0.22,
-          padding: EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-          decoration: boxDecorationDefault(
-            color: context.primaryColor,
-            borderRadius: radius(0),
+          height: context.height() * 0.16,
+          padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+          decoration: BoxDecoration(
+            gradient: appPrimaryGradient,
+            borderRadius: BorderRadius.circular(0),
           ),
           child: Row(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -47,9 +47,9 @@ class CouponCardWidget extends StatelessWidget {
                               price: data.discount.validate(),
                               decimalPoint: 0,
                               color: hold,
-                              size: 34),
+                              size: 26),
                           Text("${language.lblDiscount.toUpperCase()}",
-                              style: boldTextStyle(color: white, size: 16)),
+                              style: boldTextStyle(color: white, size: 12)),
                         ],
                       )
                     : Column(
@@ -57,9 +57,9 @@ class CouponCardWidget extends StatelessWidget {
                         children: [
                           Text("${data.discount.validate()}%",
                               textAlign: TextAlign.center,
-                              style: boldTextStyle(color: hold, size: 34)),
+                              style: boldTextStyle(color: hold, size: 26)),
                           Text("${language.lblDiscount.toUpperCase()}",
-                              style: boldTextStyle(color: white, size: 16)),
+                              style: boldTextStyle(color: white, size: 12)),
                         ],
                       ),
               ).paddingRight(4).expand(flex: 1),
@@ -68,15 +68,15 @@ class CouponCardWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text("${data.code.validate()}",
-                      style: boldTextStyle(color: white)),
-                  8.height,
+                      style: boldTextStyle(color: white, size: 14)),
+                  6.height,
                   Text.rich(
                     TextSpan(
                       children: [
                         TextSpan(
                           text: '${language.useThisCodeToGet} ',
                           style: primaryTextStyle(
-                              color: white, size: 12, weight: FontWeight.w500),
+                              color: white, size: 11, weight: FontWeight.w500),
                         ),
                         TextSpan(
                           text: calculateCouponDiscount(
@@ -84,31 +84,31 @@ class CouponCardWidget extends StatelessWidget {
                                   price: servicePrice.validate())
                               .toPriceFormat(),
                           style: primaryTextStyle(
-                              color: hold, size: 12, weight: FontWeight.w600),
+                              color: hold, size: 11, weight: FontWeight.w600),
                         ),
                         TextSpan(
                           text: ' ${language.off}',
                           style: primaryTextStyle(
-                              color: white, size: 12, weight: FontWeight.w500),
+                              color: white, size: 11, weight: FontWeight.w500),
                         ),
                       ],
                     ),
                   ),
-                  8.height,
+                  6.height,
                   data.isApplied
                       ? Row(
                           children: [
                             Icon(Icons.check_circle_outline,
-                                size: 16, color: completed),
-                            6.width,
+                                size: 14, color: completed),
+                            4.width,
                             Text(language.applied,
-                                style: boldTextStyle(color: white)),
-                            8.width,
+                                style: boldTextStyle(color: white, size: 12)),
+                            4.width,
                           ],
-                        ).paddingBottom(8)
+                        ).paddingBottom(4)
                       : AppButton(
                           padding: EdgeInsets.zero,
-                          width: context.width() * 0.35,
+                          width: context.width() * 0.30,
                           child: TextIcon(
                             text: data.isApplied
                                 ? language.applied
@@ -134,7 +134,7 @@ class CouponCardWidget extends StatelessWidget {
                     "${language.lblExpiryDate} ${DateFormat(getStringAsync(DATE_FORMAT)).format(DateTime.parse(data.expireDate.validate()))}",
                     style: primaryTextStyle(
                       color: hold,
-                      size: 12,
+                      size: 10,
                       fontStyle: FontStyle.italic,
                       weight: FontWeight.w700,
                     ),
@@ -172,7 +172,7 @@ class CouponCardWidget extends StatelessWidget {
           top: -sideDotsSize * 1.8,
           child: SizedBox(
             width: context.width(),
-            height: context.height() * 0.22 + (sideDotsSize * 2 * 1.8),
+            height: context.height() * 0.16 + (sideDotsSize * 2 * 1.8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -216,7 +216,7 @@ class CouponCardWidget extends StatelessWidget {
 
   int countOfSideCuts(BuildContext context) {
     num dotCount = 0;
-    dotCount = (context.height() * 0.22) / sideDotsSize;
+    dotCount = (context.height() * 0.16) / sideDotsSize;
     return dotCount.round();
   }
 }

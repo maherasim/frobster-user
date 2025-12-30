@@ -532,7 +532,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                             backgroundColor: context.scaffoldBackgroundColor,
                             builder: (context) {
                               return AppCommonDialog(
-                                title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
+                            title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
                                 child: Column(
                                   mainAxisSize: MainAxisSize.min,
                                   children: [
@@ -551,7 +551,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                         GradientButton(
                                           onPressed: () {
                                             finish(context);
-                                            _handleClick();
+                              _handleClick();
                                           },
                                           child: Text(
                                             language.lblYes,
@@ -594,7 +594,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                           backgroundColor: context.scaffoldBackgroundColor,
                           builder: (context) {
                             return AppCommonDialog(
-                              title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
+                          title: "${language.lblPayWith} ${currentPaymentMethod!.title.validate()}?",
                               child: Column(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
@@ -613,7 +613,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                                       GradientButton(
                                         onPressed: () {
                                           finish(context);
-                                          _handleClick();
+                            _handleClick();
                                         },
                                         child: Text(
                                           language.lblYes,

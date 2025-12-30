@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../component/cached_image_widget.dart';
 import '../../../component/price_widget.dart';
 import '../../../component/view_all_label_component.dart';
 import '../../../main.dart';
@@ -86,28 +87,49 @@ class _AddonComponentState extends State<AddonComponent> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              if (addon.serviceAddonImage.validate().isNotEmpty)
+                CachedImageWidget(
+                  url: addon.serviceAddonImage.validate(),
+                  height: imageHeight,
+                  width: imageHeight,
+                  fit: BoxFit.cover,
+                  radius: defaultRadius,
+                ),
+              if (addon.serviceAddonImage.validate().isNotEmpty) 16.width,
               Expanded(
-                child: Marquee(
-                  directionMarguee:
-                      DirectionMarguee.oneDirection, // Scrolling text
-                  child: Text(
-                    addon.name.validate(),
-                    style: boldTextStyle(),
-                    overflow: TextOverflow.ellipsis,
-                  ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: Marquee(
+                            directionMarguee:
+                                DirectionMarguee.oneDirection, // Scrolling text
+                            child: Text(
+                              addon.name.validate(),
+                              style: boldTextStyle(),
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ),
+                        ),
+                        8.width,
+                        if (!widget.isFromBookingDetails) buildAddButton(addon),
+                      ],
+                    ),
+                    10.height,
+                    PriceWidget(
+                      price: addon.price.validate(),
+                      hourlyTextColor: Colors.white,
+                      size: 12,
+                    ),
+                  ],
                 ),
               ),
-              8.width,
-              if (!widget.isFromBookingDetails) buildAddButton(addon),
             ],
-          ),
-          10.height,
-          PriceWidget(
-            price: addon.price.validate(),
-            hourlyTextColor: Colors.white,
-            size: 12,
           ),
         ],
       ),
@@ -155,6 +177,16 @@ class _AddonComponentState extends State<AddonComponent> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          if (data.serviceAddonImage.validate().isNotEmpty) ...[
+            CachedImageWidget(
+              url: data.serviceAddonImage.validate(),
+              height: imageHeight,
+              width: double.infinity,
+              fit: BoxFit.cover,
+              radius: defaultRadius,
+            ),
+            12.height,
+          ],
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [

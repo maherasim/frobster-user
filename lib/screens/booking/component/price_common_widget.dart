@@ -538,22 +538,22 @@ class PriceCommonWidget extends StatelessWidget {
                 // Divider(height: 8, color: context.dividerColor),
                 // 8.height,
 
-                /// Hourly Service Detail
-                if (bookingDetail.isHourlyService &&
-                    bookingDetail.status == BookingStatusKeys.complete)
-                  Align(
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        16.height,
-                        Text(
-                          "${language.lblOnBase} ${calculateTimer(bookingDetail.durationDiff.validate().toInt())} ${getMinHour(durationDiff: bookingDetail.durationDiff.validate())}",
-                          style: secondaryTextStyle(),
-                          textAlign: TextAlign.right,
-                        ),
-                      ],
-                    ),
-                  ),
+                /// Hourly Service Detail - Muted/Removed
+                // if (bookingDetail.isHourlyService &&
+                //     bookingDetail.status == BookingStatusKeys.complete)
+                //   Align(
+                //     alignment: Alignment.center,
+                //     child: Column(
+                //       children: [
+                //         16.height,
+                //         Text(
+                //           "${language.lblOnBase} ${calculateTimer(bookingDetail.durationDiff.validate().toInt())} ${getMinHour(durationDiff: bookingDetail.durationDiff.validate())}",
+                //           style: secondaryTextStyle(),
+                //           textAlign: TextAlign.right,
+                //         ),
+                //       ],
+                //     ),
+                //   ),
               ],
             ),
           )

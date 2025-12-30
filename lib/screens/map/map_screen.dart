@@ -1,5 +1,6 @@
 import 'package:booking_system_flutter/component/back_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/services/location_service.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
@@ -135,13 +136,17 @@ class MapScreenState extends State<MapScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: _scaffoldKey,
-      appBar: appBarWidget(
-        language.chooseYourLocation,
-        backWidget: BackWidget(),
-        color: primaryColor,
+      appBar: AppBar(
+        title: Text(language.chooseYourLocation,
+            style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE)),
         elevation: 0,
-        textColor: white,
-        textSize: APP_BAR_TEXT_SIZE,
+        backgroundColor: Colors.transparent,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: appPrimaryGradient,
+          ),
+        ),
+        leading: BackWidget(),
       ),
       body: Stack(
         children: <Widget>[
@@ -164,29 +169,51 @@ class MapScreenState extends State<MapScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
                 ClipOval(
-                  child: Material(
-                    color: context.primaryColor.withValues(alpha: 0.2),
-                    child: InkWell(
-                      splashColor: context.primaryColor.withValues(alpha: 0.8),
-                      child: SizedBox(
-                          width: 50, height: 50, child: Icon(Icons.add)),
-                      onTap: () {
-                        mapController.animateCamera(CameraUpdate.zoomIn());
-                      },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          gradientRed.withValues(alpha: 0.2),
+                          gradientBlue.withValues(alpha: 0.2),
+                        ],
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: gradientRed.withValues(alpha: 0.8),
+                        child: SizedBox(
+                            width: 50, height: 50, child: Icon(Icons.add)),
+                        onTap: () {
+                          mapController.animateCamera(CameraUpdate.zoomIn());
+                        },
+                      ),
                     ),
                   ),
                 ),
                 SizedBox(height: 20),
                 ClipOval(
-                  child: Material(
-                    color: context.primaryColor.withValues(alpha: 0.2),
-                    child: InkWell(
-                      splashColor: context.primaryColor.withValues(alpha: 0.8),
-                      child: SizedBox(
-                          width: 50, height: 50, child: Icon(Icons.remove)),
-                      onTap: () {
-                        mapController.animateCamera(CameraUpdate.zoomOut());
-                      },
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          gradientRed.withValues(alpha: 0.2),
+                          gradientBlue.withValues(alpha: 0.2),
+                        ],
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        splashColor: gradientRed.withValues(alpha: 0.8),
+                        child: SizedBox(
+                            width: 50, height: 50, child: Icon(Icons.remove)),
+                        onTap: () {
+                          mapController.animateCamera(CameraUpdate.zoomOut());
+                        },
+                      ),
                     ),
                   ),
                 ),
@@ -201,10 +228,20 @@ class MapScreenState extends State<MapScreen> {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ClipOval(
-                  child: Material(
-                    color: context.primaryColor
-                        .withValues(alpha: 0.2), // button color
-                    child: Icon(Icons.my_location, size: 25).paddingAll(10),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          gradientRed.withValues(alpha: 0.2),
+                          gradientBlue.withValues(alpha: 0.2),
+                        ],
+                      ),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: Icon(Icons.my_location, size: 25).paddingAll(10),
+                    ),
                   ),
                 ).paddingRight(8).onTap(() async {
                   appStore.setLoading(true);
@@ -245,19 +282,21 @@ class MapScreenState extends State<MapScreen> {
                   ],
                 ),
                 8.height,
-                AppButton(
+                SizedBox(
                   width: context.width(),
-                  height: 16,
-                  color: primaryColor.withValues(alpha: 0.8),
-                  text: language.setAddress.toUpperCase(),
-                  textStyle: boldTextStyle(color: white, size: 12),
-                  onTap: () {
-                    if (destinationAddressController.text.isNotEmpty) {
-                      finish(context, destinationAddressController.text);
-                    } else {
-                      toast(language.lblPickAddress);
-                    }
-                  },
+                  child: GradientButton(
+                    onPressed: () {
+                      if (destinationAddressController.text.isNotEmpty) {
+                        finish(context, destinationAddressController.text);
+                      } else {
+                        toast(language.lblPickAddress);
+                      }
+                    },
+                    child: Text(
+                      language.setAddress.toUpperCase(),
+                      style: boldTextStyle(color: white, size: 12),
+                    ),
+                  ),
                 ),
                 8.height,
               ],

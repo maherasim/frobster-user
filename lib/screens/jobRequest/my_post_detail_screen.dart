@@ -143,7 +143,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                 Text(
                   value,
                   style: secondaryTextStyle(
-                    size: 12,
+      size: 12,
                     color: textSecondaryColorGlobal,
                   ),
                 ),
@@ -295,17 +295,17 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                     size: 28,
                   ),
                   12.width,
-                  Expanded(
+              Expanded(
                     child: Text(
                       data.title.validate(),
                       style: boldTextStyle(
                         size: 22,
                         color: textPrimaryColorGlobal,
-                      ),
+                ),
                       maxLines: 3,
                       overflow: TextOverflow.ellipsis,
                     ),
-                  ),
+                ),
                 ],
               ),
             ],
@@ -341,10 +341,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                 label: "Job Type",
                 value: data.type?.displayName ?? 'N/A',
                 iconColor: Colors.blue,
-              ),
+                ),
               Row(
                 children: [
-                  Expanded(
+              Expanded(
                     child: _infoCard(
                       icon: Icons.calendar_today_outlined,
                       label: language.startDate,
@@ -359,7 +359,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                       label: language.endDate,
                       value: formatDate(data.endDate.validate()),
                       iconColor: Colors.purple,
-                    ),
+                  ),
                   ),
                 ],
               ),
@@ -405,26 +405,26 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                   color: textSecondaryColorGlobal,
                 ),
                 iconColor: Colors.teal,
-              ),
-              Row(
-                children: [
-                  Expanded(
+          ),
+          Row(
+            children: [
+              Expanded(
                     child: _infoCard(
                       icon: Icons.calendar_view_week_outlined,
                       label: "Total Days",
                       value: data.totalDays?.toString() ?? '0',
                       iconColor: Colors.indigo,
-                    ),
-                  ),
+                ),
+              ),
                   12.width,
-                  Expanded(
+              Expanded(
                     child: _infoCard(
                       icon: Icons.access_time_outlined,
                       label: "Total Hours",
                       value: data.totalHours?.toString() ?? '0',
                       iconColor: Colors.cyan,
                     ),
-                  ),
+                ),
                 ],
               ),
             ],
@@ -468,17 +468,17 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                       label: "Career Level",
                       value: data.careerLevel?.displayName ?? 'N/A',
                       iconColor: Colors.pink,
-                    ),
-                  ),
+                ),
+              ),
                   12.width,
-                  Expanded(
+              Expanded(
                     child: _infoCard(
                       icon: Icons.school_outlined,
                       label: "Education Level",
                       value: data.educationLevel?.displayName ?? 'N/A',
                       iconColor: Colors.amber,
                     ),
-                  ),
+                ),
                 ],
               ),
             ],
@@ -490,7 +490,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           16.height,
           _sectionCard(
             icon: Icons.description_outlined,
-            title: language.postJobDescription,
+              title: language.postJobDescription,
             content: data.description.validate(),
             iconColor: Colors.blue,
             backgroundColor: Colors.blue.withOpacity(0.05),
@@ -512,7 +512,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         if (data.duties.validate().isNotEmpty) ...[
           _sectionCard(
             icon: Icons.checklist_outlined,
-            title: "Duties & Responsibilities",
+              title: "Duties & Responsibilities",
             content: data.duties.validate(),
             iconColor: Colors.purple,
             backgroundColor: Colors.purple.withOpacity(0.05),
@@ -531,7 +531,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
               border: Border.all(
                 color: Colors.green.withOpacity(0.3),
                 width: 2,
-              ),
+            ),
             ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -587,9 +587,9 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
                           ),
                           colorClickableText: Colors.green.shade700,
                         ),
-                      ),
-                    ],
-                  ),
+            ),
+        ],
+      ),
                 ),
               ],
             ),

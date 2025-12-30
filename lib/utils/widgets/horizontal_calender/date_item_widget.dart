@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -60,7 +61,8 @@ class DateItemWidget extends StatelessWidget {
       height: height,
       padding: EdgeInsets.only(left: padding / 2, right: padding / 2),
       decoration: BoxDecoration(
-          color: _getContainerColorByState(dateItemState),
+          color: dateItemState != DateItemState.SELECTED ? _getContainerColorByState(dateItemState) : null,
+          gradient: dateItemState == DateItemState.SELECTED ? appPrimaryGradient : null,
           border: Border.all(color: context.dividerColor),
           borderRadius: radius()),
       alignment: Alignment.center,
@@ -94,8 +96,6 @@ class DateItemWidget extends StatelessWidget {
                     fontSize: this.monthFontSize,
                     fontWeight: _getTextWeightByState(dateItemState)),
               );
-            default:
-              return Container();
           }
         }),
       ),

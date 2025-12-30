@@ -70,7 +70,12 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
       locale: Locale(appStore.selectedLanguageCode),
       builder: (_, child) {
         return Theme(
-          data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme(),
+          data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme().copyWith(
+            colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
+              primary: gradientRed,
+              onPrimary: Colors.white,
+            ),
+          ),
           child: child!,
         );
       },
@@ -83,7 +88,12 @@ class _BookPostJobRequestScreenState extends State<BookPostJobRequestScreen> {
             return Theme(
               data: appStore.isDarkMode
                   ? ThemeData.dark()
-                  : AppTheme.lightTheme(),
+                  : AppTheme.lightTheme().copyWith(
+                    colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
+                      primary: gradientRed,
+                      onPrimary: Colors.white,
+                    ),
+                  ),
               child: MediaQuery(
                 data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
                 child: child!,

@@ -1,8 +1,10 @@
+import 'package:booking_system_flutter/app_theme.dart';
 import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
 import 'package:booking_system_flutter/model/time_slots_model.dart';
+import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/extensions/date_formatter.dart';
@@ -56,9 +58,17 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
       context: context,
       initialTime: initialTime,
       builder: (BuildContext context, Widget? child) {
-        return MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
+        return Theme(
+          data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme().copyWith(
+            colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
+              primary: gradientRed,
+              onPrimary: Colors.white,
+            ),
+          ),
+          child: MediaQuery(
+            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+            child: child!,
+          ),
         );
       },
     );
@@ -149,6 +159,17 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
       initialDate: initialDate,
       firstDate: DateTime.now(),
       lastDate: DateTime.now().add(Duration(days: 365)),
+      builder: (_, child) {
+        return Theme(
+          data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme().copyWith(
+            colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
+              primary: gradientRed,
+              onPrimary: Colors.white,
+            ),
+          ),
+          child: child!,
+        );
+      },
     );
 
     if (pickedDate != null) {
@@ -300,16 +321,16 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                     16.width,
                     GradientButton(
                       onPressed: () {
-                        final timeSlotModel = TimeSlotModel(
-                          startTime: selStartTime!
-                              .formatDateTime(formate: 'HH:mm:ss'),
-                          selectedDate: selDate!,
-                          endTime:
-                              selEndTime!.formatDateTime(formate: 'HH:mm:ss'),
-                          totalDays: totalDays,
-                          totalHours: totalHours,
-                        );
-                        widget.onApplyClick(timeSlotModel);
+                          final timeSlotModel = TimeSlotModel(
+                            startTime: selStartTime!
+                                .formatDateTime(formate: 'HH:mm:ss'),
+                            selectedDate: selDate!,
+                            endTime:
+                                selEndTime!.formatDateTime(formate: 'HH:mm:ss'),
+                            totalDays: totalDays,
+                            totalHours: totalHours,
+                          );
+                          widget.onApplyClick(timeSlotModel);
                       },
                       child: Text(
                         language.lblApply,

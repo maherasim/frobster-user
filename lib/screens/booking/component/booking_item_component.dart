@@ -6,6 +6,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/booking_data_model.dart';
 import 'package:booking_system_flutter/screens/booking/component/edit_booking_service_dialog.dart';
 import 'package:booking_system_flutter/screens/booking/handyman_info_screen.dart';
+import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
@@ -68,20 +69,23 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
   }
 
   void _maybeFetchProviderLocation() async {
-    // Only fetch when no handyman is assigned (provider shown) and we don't have it yet
-    if ((widget.bookingData.handyman?.isEmpty ?? true) &&
-        _providerCityCountryLabel == null &&
+    // Always fetch provider's city/country from provider detail API
+    // (bookingData.cityName/countryName are for service location, not provider location)
+    // API: user-detail?id=$id&login_user_id=$userId
+    if (_providerCityCountryLabel == null &&
         widget.bookingData.providerId != null) {
       try {
         final res = await getProviderDetail(
             widget.bookingData.providerId!.validate(),
             userId: appStore.userId.validate());
-        final city = res.userData?.cityName.validate() ?? '';
-        final country = res.userData?.countryName.validate() ?? '';
+        final providerCity = res.userData?.cityName.validate() ?? '';
+        final providerCountry = res.userData?.countryName.validate() ?? '';
+        log('Provider Location - ID: ${widget.bookingData.providerId}, City: $providerCity, Country: $providerCountry');
         final label =
-            "$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country";
+            "$providerCity${(providerCity.isNotEmpty && providerCountry.isNotEmpty) ? ' - ' : ''}$providerCountry";
         if (mounted) setState(() => _providerCityCountryLabel = label);
       } catch (e) {
+        log('Error fetching provider location: $e');
         // Ignore fetching errors to keep list smooth
       }
     }
@@ -158,6 +162,110 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
             date: bookingDetail.date.validate(),
             slotTime: bookingDetail.bookingSlot.validate()),
         isTime: true);
+  }
+
+  Widget _buildProviderCard() {
+    return GestureDetector(
+      behavior: HitTestBehavior.opaque,
+      onTap: () {
+        ProviderInfoScreen(
+          providerId: widget.bookingData.providerId.validate(),
+        ).launch(context);
+      },
+      child: Padding(
+        padding: EdgeInsets.all(8),
+        child: Row(
+          children: [
+            Container(
+              decoration: BoxDecoration(
+                border: Border.all(
+                    color: context.dividerColor, width: 1),
+                shape: BoxShape.circle,
+              ),
+              child: CachedImageWidget(
+                url: widget.bookingData.providerImage.validate(),
+                circle: true,
+                height: 40,
+                width: 40,
+                fit: BoxFit.cover,
+              ),
+            ),
+            16.width,
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Row(
+                  children: [
+                    // Verified/Not Verified Icon (dynamic from API)
+                    if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
+                      CachedImageWidget(
+                        url: widget.bookingData.verifiedStickerIcon.validate(),
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.contain,
+                      )
+                    else
+                      Image.asset(
+                        'assets/icons/verified_badge.jpg',
+                        width: 20,
+                        height: 20,
+                      ),
+                    SizedBox(width: 6),
+                    // Membership Icon (dynamic from API)
+                    if (widget.bookingData.membershipIcon.validate().isNotEmpty)
+                      CachedImageWidget(
+                        url: widget.bookingData.membershipIcon.validate(),
+                        width: 20,
+                        height: 20,
+                        fit: BoxFit.contain,
+                      )
+                    else
+                      Image.asset(
+                        'assets/icons/free-membership.jpg',
+                        width: 20,
+                        height: 20,
+                      ),
+                  ],
+                ),
+                5.height,
+                Row(
+                  children: [
+                    Marquee(
+                      child: Text(
+                        widget.bookingData.providerName.validate(),
+                        style: boldTextStyle(size: 14),
+                      ),
+                    ).flexible(),
+                    4.width,
+                    ImageIcon(
+                      AssetImage(ic_verified),
+                      size: 14,
+                      color: Colors.green,
+                    ).visible(
+                      widget.bookingData.providerIsVerified.validate() == 1,
+                    ),
+                  ],
+                ),
+                Text(
+                  language.textProvider,
+                  style: secondaryTextStyle(size: 12),
+                ),
+                // City - Country label (provider's location, fetched from API)
+                Text(
+                  (_providerCityCountryLabel?.isNotEmpty ?? false)
+                      ? _providerCityCountryLabel!
+                      : 'N/A',
+                  style: secondaryTextStyle(size: 10),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ],
+            ).expand(),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
@@ -578,14 +686,23 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                       dashLength: 8,
                     ).paddingAll(8),
 
-                    // Handyman/Provider card - clickable to view details (read-only)
+                    // Provider card - always show
+                    _buildProviderCard(),
+                    
+                    // Handyman/Worker card - show if handyman exists and is different from provider
                     if (widget.bookingData.handyman!.isNotEmpty &&
-                        !widget.bookingData.isProviderAndHandymanSame)
+                        !widget.bookingData.isProviderAndHandymanSame) ...[
+                      // Dotted line separator between provider and handyman
+                      DottedLine(
+                        dashColor: appStore.isDarkMode
+                            ? lightGray.withValues(alpha: 0.4)
+                            : lightGray,
+                        dashGapLength: 5,
+                        dashLength: 8,
+                      ).paddingAll(8),
                       GestureDetector(
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
-                          // Open handyman info screen (read-only, no edit functionality)
-                          // Prevent any edit/update screens from opening
                           HandymanInfoScreen(
                             handymanId: widget.bookingData.handyman!.first
                                 .handyman!.id.validate(),
@@ -595,7 +712,6 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                           padding: EdgeInsets.all(8),
                           child: Row(
                             children: [
-                              // Use CachedImageWidget directly instead of ImageBorder to avoid its click handler
                               Container(
                                 decoration: BoxDecoration(
                                   border: Border.all(
@@ -702,118 +818,13 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                       overflow: TextOverflow.ellipsis,
                                     );
                                   }),
-                                  if (widget.bookingData.handyman!.first.handyman!
-                                      .designation
-                                      .validate()
-                                      .isNotEmpty)
-                                    Text(
-                                      widget.bookingData.handyman!.first.handyman!
-                                          .designation
-                                          .validate(),
-                                      style: secondaryTextStyle(size: 10),
-                                    ),
                                 ],
                               ).expand(),
                             ],
                           ),
                         ),
-                      )
-                    else
-                      // Provider card (not clickable, just display)
-                      Padding(
-                        padding: EdgeInsets.all(8),
-                        child: Row(
-                          children: [
-                            // Use CachedImageWidget directly instead of ImageBorder to avoid its click handler
-                            Container(
-                              decoration: BoxDecoration(
-                                border: Border.all(
-                                    color: context.dividerColor, width: 1),
-                                shape: BoxShape.circle,
-                              ),
-                              child: CachedImageWidget(
-                                url: widget.bookingData.providerImage.validate(),
-                                circle: true,
-                                height: 40,
-                                width: 40,
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                            16.width,
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                Row(
-                                  children: [
-                                    // Verified/Not Verified Icon (dynamic from API)
-                                    if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
-                                      CachedImageWidget(
-                                        url: widget.bookingData.verifiedStickerIcon.validate(),
-                                        width: 20,
-                                        height: 20,
-                                        fit: BoxFit.contain,
-                                      )
-                                    else
-                                      Image.asset(
-                                        'assets/icons/verified_badge.jpg',
-                                        width: 20,
-                                        height: 20,
-                                      ),
-                                    SizedBox(width: 6),
-                                    // Membership Icon (dynamic from API)
-                                    if (widget.bookingData.membershipIcon.validate().isNotEmpty)
-                                      CachedImageWidget(
-                                        url: widget.bookingData.membershipIcon.validate(),
-                                        width: 20,
-                                        height: 20,
-                                        fit: BoxFit.contain,
-                                      )
-                                    else
-                                      Image.asset(
-                                        'assets/icons/free-membership.jpg',
-                                        width: 20,
-                                        height: 20,
-                                      ),
-                                  ],
-                                ),
-                                5.height,
-                                Row(
-                                  children: [
-                                    Marquee(
-                                      child: Text(
-                                        widget.bookingData.providerName.validate(),
-                                        style: boldTextStyle(size: 14),
-                                      ),
-                                    ).flexible(),
-                                    4.width,
-                                    ImageIcon(
-                                      AssetImage(ic_verified),
-                                      size: 14,
-                                      color: Colors.green,
-                                    ).visible(
-                                      widget.bookingData.providerIsVerified.validate() == 1,
-                                    ),
-                                  ],
-                                ),
-                                Text(
-                                  language.textProvider,
-                                  style: secondaryTextStyle(size: 12),
-                                ),
-                                // City - Country label
-                                Text(
-                                  (_providerCityCountryLabel?.isNotEmpty ?? false)
-                                      ? _providerCityCountryLabel!
-                                      : 'N/A',
-                                  style: secondaryTextStyle(size: 10),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
-                                ),
-                              ],
-                            ).expand(),
-                          ],
-                        ),
                       ),
+                    ],
                   ],
                 ),
               ],

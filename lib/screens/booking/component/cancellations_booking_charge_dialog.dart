@@ -168,9 +168,9 @@ class _CancellationsBookingChargeDialogState
                           child: Text(
                             language.lblCancelBooking,
                             style: boldTextStyle(
-                                color: Colors.white,
-                                weight: FontWeight.w600,
-                                size: 12),
+                              color: Colors.white,
+                              weight: FontWeight.w600,
+                              size: 12),
                           ),
                         ).expand(),
                       ],

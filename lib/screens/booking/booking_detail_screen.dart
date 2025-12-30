@@ -111,7 +111,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   Widget _buildReasonWidget({required BookingDetailResponse snap}) {
     if (((snap.bookingDetail!.status == BookingStatusKeys.cancelled ||
             snap.bookingDetail!.status == BookingStatusKeys.rejected ||
-            snap.bookingDetail!.status == BookingStatusKeys.failed) &&
+            snap.bookingDetail!.status == BookingStatusKeys.failed ||
+            snap.bookingDetail!.status == BookingStatusKeys.hold) &&
         ((snap.bookingDetail!.reason != null &&
             snap.bookingDetail!.reason!.isNotEmpty))))
       return Container(
@@ -991,7 +992,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   Widget customerReviewWidget(
       {required List<RatingData> ratingList,
       required RatingData? customerReview,
-      required BookingData bookingDetail}) {
+      required BookingData bookingDetail,
+      required BookingDetailResponse bookingDetailResponse}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1001,58 +1003,102 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             children: [
               24.height,
               if (customerReview != null)
-                Row(
-                  children: [
-                    16.height,
-                    Text(language.myReviews,
-                            style: boldTextStyle(size: LABEL_TEXT_SIZE))
-                        .expand(),
-                    ic_edit_square.iconImage(size: 16).paddingAll(8).onTap(() {
-                      showInDialog(
-                        context,
-                        contentPadding: EdgeInsets.zero,
-                        builder: (p0) {
-                          return AddReviewDialog(
-                              customerReview: customerReview);
-                        },
-                      ).then((value) {
-                        if (value ?? false) {
-                          init();
-                          setState(() {});
-                        }
-                      }).catchError((e) {
-                        toast(e.toString());
-                      });
-                    }),
-                    // ic_delete
-                    //     .iconImage(size: 16)
-                    //     .paddingAll(8)
-                    //     .onTap(() {
-                    //   showConfirmDialogCustom(
-                    //     context,
-                    //     title: language.lblDeleteReview,
-                    //     subTitle: language.lblConfirmReviewSubTitle,
-                    //     positiveText: language.lblYes,
-                    //     negativeText: language.lblNo,
-                    //     dialogType: DialogType.DELETE,
-                    //     onAccept: (p0) async {
-                    //       appStore.setLoading(true);
-                    //       await deleteReview(id: customerReview.id.validate())
-                    //           .then((value) {
-                    //         toast(value.message);
-                    //       }).catchError((e) {
-                    //         toast(e.toString());
-                    //       });
-                    //       init();
-                    //       setState(() {});
-                    //     },
-                    //   );
-                    //   return;
-                    // }),
-                  ],
-                ),
+                Text(language.myReviews,
+                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                    .paddingSymmetric(horizontal: 16),
               16.height,
               if (customerReview != null) ReviewWidget(data: customerReview),
+              // Handyman Rating Button - Show if handyman exists, is different from provider, and no review exists yet
+              if (bookingDetailResponse.handymanData.validate().isNotEmpty &&
+                  bookingDetailResponse.providerData != null &&
+                  bookingDetailResponse.handymanData!.first.id.validate() != 
+                      bookingDetailResponse.providerData!.id.validate() &&
+                  bookingDetailResponse.handymanData!.first.handymanReview == null) ...[
+                24.height,
+                Container(
+                  padding: EdgeInsets.all(16),
+                  decoration: boxDecorationWithRoundedCorners(
+                    backgroundColor: context.cardColor,
+                    borderRadius: radius(),
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: 50,
+                        height: 50,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          border: Border.all(
+                            color: context.dividerColor,
+                            width: 1,
+                          ),
+                        ),
+                        child: ClipOval(
+                          child: CachedImageWidget(
+                            url: bookingDetailResponse.handymanData!.first.profileImage.validate(),
+                            height: 50,
+                            width: 50,
+                            fit: BoxFit.cover,
+                            circle: true,
+                          ),
+                        ),
+                      ),
+                      16.width,
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              language.lblRateHandyman,
+                              style: boldTextStyle(size: LABEL_TEXT_SIZE),
+                            ),
+                            4.height,
+                            Text(
+                              bookingDetailResponse.handymanData!.first.displayName.validate(),
+                              style: secondaryTextStyle(size: 12),
+                              maxLines: 1,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          final handymanData = bookingDetailResponse.handymanData!.first;
+                          showInDialog(
+                            context,
+                            contentPadding: EdgeInsets.zero,
+                            builder: (p0) {
+                              return AddReviewDialog(
+                                serviceId: bookingDetail.serviceId.validate(),
+                                bookingId: bookingDetail.id.validate(),
+                                handymanId: handymanData.id.validate(),
+                              );
+                            },
+                          ).then((value) {
+                            if (value ?? false) {
+                              init();
+                              setState(() {});
+                            }
+                          }).catchError((e) {
+                            toast(e.toString());
+                          });
+                        },
+                        child: Text(
+                          language.btnRate,
+                          style: TextStyle(
+                            color: gradientRed,
+                            decoration: TextDecoration.underline,
+                            decorationColor: gradientRed,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 14,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ),
         16.height,
@@ -1465,8 +1511,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         color: hold,
         textColor: Colors.white,
         onTap: () {
-          _handleHoldClick(status: bookingResponse);
-        },
+                _handleHoldClick(status: bookingResponse);
+              },
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.hold) {
@@ -1896,16 +1942,43 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                           serviceAddon:
                               snap.data!.bookingDetail!.serviceaddon.validate(),
                           onDoneClick: (p0) {
-                            showConfirmDialogCustom(
+                            showInDialog(
                               context,
-                              onAccept: (_) {
-                                _handleAddonDoneClick(
-                                    status: snap.data!, serviceAddon: p0);
+                              contentPadding: EdgeInsets.zero,
+                              backgroundColor: context.scaffoldBackgroundColor,
+                              builder: (context) {
+                                return AppCommonDialog(
+                                  title: language.confirmationRequestTxt,
+                                  child: Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      24.height,
+                                      Row(
+                                        children: [
+                                          AppButton(
+                                            text: language.lblNo,
+                                            color: context.scaffoldBackgroundColor,
+                                            textColor: context.iconColor,
+                                            onTap: () {
+                                              finish(context);
+                                            },
+                                          ).expand(),
+                                          16.width,
+                                          GradientButton(
+                                            onPressed: () {
+                                              finish(context);
+                                              _handleAddonDoneClick(
+                                                  status: snap.data!, serviceAddon: p0);
+                                            },
+                                            child: Text(language.lblYes),
+                                          ).expand(),
+                                        ],
+                                      ).paddingSymmetric(horizontal: 16),
+                                      16.height,
+                                    ],
+                                  ),
+                                );
                               },
-                              primaryColor: gradientRed,
-                              positiveText: language.lblYes,
-                              negativeText: language.lblNo,
-                              title: language.confirmationRequestTxt,
                             );
                           },
                         ),
@@ -1937,7 +2010,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       customerReviewWidget(
                           ratingList: snap.data!.ratingData.validate(),
                           customerReview: snap.data!.customerReview,
-                          bookingDetail: snap.data!.bookingDetail!),
+                          bookingDetail: snap.data!.bookingDetail!,
+                          bookingDetailResponse: snap.data!),
                     ],
                   ),
                 ),
@@ -2000,9 +2074,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       backgroundColor: context.scaffoldBackgroundColor,
       builder: (context) {
         return AppCommonDialog(
-          title: isAnyServiceAddonUnCompleted
-              ? language.confirmation
-              : language.lblEndServicesMsg,
+      title: isAnyServiceAddonUnCompleted
+          ? language.confirmation
+          : language.lblEndServicesMsg,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -2170,60 +2244,112 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   }
 
   void _handleStartClick({required BookingDetailResponse status}) {
-    showConfirmDialogCustom(
+    showInDialog(
       context,
-      title: language.confirmationRequestTxt,
-      dialogType: DialogType.CONFIRMATION,
-      primaryColor: context.primaryColor,
-      negativeText: language.lblNo,
-      positiveText: language.lblYes,
-      onAccept: (c) {
-        startClick(status: status);
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: context.scaffoldBackgroundColor,
+      builder: (context) {
+        return AppCommonDialog(
+          title: language.confirmationRequestTxt,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              24.height,
+              Row(
+                children: [
+                  AppButton(
+                    text: language.lblNo,
+                    color: context.scaffoldBackgroundColor,
+                    textColor: context.iconColor,
+                    onTap: () {
+                      finish(context);
+                    },
+                  ).expand(),
+                  16.width,
+                  GradientButton(
+                    onPressed: () {
+                      finish(context);
+                      startClick(status: status);
+                    },
+                    child: Text(language.lblYes),
+                  ).expand(),
+                ],
+              ).paddingSymmetric(horizontal: 16),
+              16.height,
+            ],
+          ),
+        );
       },
     );
   }
 
   void _handleResumeClick({required BookingDetailResponse status}) {
-    showConfirmDialogCustom(
+    showInDialog(
       context,
-      dialogType: DialogType.CONFIRMATION,
-      primaryColor: context.primaryColor,
-      negativeText: language.lblNo,
-      positiveText: language.lblYes,
-      title: language.lblConFirmResumeService,
-      onAccept: (c) async {
-        Map request = {
-          CommonKeys.id: status.bookingDetail!.id.validate(),
-          BookingUpdateKeys.startAt: formatBookingDate(
-            DateTime.now().toString(),
-            format: BOOKING_SAVE_FORMAT,
-            isLanguageNeeded: false,
+      contentPadding: EdgeInsets.zero,
+      backgroundColor: context.scaffoldBackgroundColor,
+      builder: (context) {
+        return AppCommonDialog(
+          title: language.lblConFirmResumeService,
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              24.height,
+              Row(
+                children: [
+                  AppButton(
+                    text: language.lblNo,
+                    color: context.scaffoldBackgroundColor,
+                    textColor: context.iconColor,
+                    onTap: () {
+                      finish(context);
+                    },
+                  ).expand(),
+                  16.width,
+                  GradientButton(
+                    onPressed: () async {
+                      finish(context);
+                      Map request = {
+                        CommonKeys.id: status.bookingDetail!.id.validate(),
+                        BookingUpdateKeys.startAt: formatBookingDate(
+                          DateTime.now().toString(),
+                          format: BOOKING_SAVE_FORMAT,
+                          isLanguageNeeded: false,
+                        ),
+                        BookingUpdateKeys.endAt: '',
+                        BookingUpdateKeys.durationDiff:
+                            status.bookingDetail!.durationDiff.toInt(),
+                        BookingUpdateKeys.reason: "",
+                        CommonKeys.status: BookingStatusKeys.inProgress,
+                        BookingUpdateKeys.paymentStatus:
+                            status.bookingDetail!.isAdvancePaymentDone
+                                ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
+                                : status.bookingDetail!.paymentStatus.validate(),
+                      };
+
+                      appStore.setLoading(true);
+
+                      await updateBooking(request).then((res) async {
+                        toast(res.message!);
+                        commonStartTimer(
+                            isHourlyService: status.bookingDetail!.isHourlyService,
+                            status: BookingStatusKeys.inProgress,
+                            timeInSec: status.bookingDetail!.durationDiff.validate().toInt());
+                        init();
+                        setState(() {});
+                      }).catchError((e) {
+                        appStore.setLoading(false);
+                        toast(e.toString(), print: true);
+                      });
+                    },
+                    child: Text(language.lblYes),
+                  ).expand(),
+                ],
+              ).paddingSymmetric(horizontal: 16),
+              16.height,
+            ],
           ),
-          BookingUpdateKeys.endAt: '',
-          BookingUpdateKeys.durationDiff:
-              status.bookingDetail!.durationDiff.toInt(),
-          BookingUpdateKeys.reason: "",
-          CommonKeys.status: BookingStatusKeys.inProgress,
-          BookingUpdateKeys.paymentStatus:
-              status.bookingDetail!.isAdvancePaymentDone
-                  ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
-                  : status.bookingDetail!.paymentStatus.validate(),
-        };
-
-        appStore.setLoading(true);
-
-        await updateBooking(request).then((res) async {
-          toast(res.message!);
-          commonStartTimer(
-              isHourlyService: status.bookingDetail!.isHourlyService,
-              status: BookingStatusKeys.inProgress,
-              timeInSec: status.bookingDetail!.durationDiff.validate().toInt());
-          init();
-          setState(() {});
-        }).catchError((e) {
-          appStore.setLoading(false);
-          toast(e.toString(), print: true);
-        });
+        );
       },
     );
   }

@@ -76,9 +76,9 @@ class _BookingCancelledDialogState extends State<BookingCancelledDialog> {
                         child: Text(
                           language.lblOk,
                           style: boldTextStyle(
-                              color: Colors.white,
-                              weight: FontWeight.w600,
-                              size: 12),
+                          color: Colors.white,
+                          weight: FontWeight.w600,
+                          size: 12),
                         ),
                       ),
                     ),
