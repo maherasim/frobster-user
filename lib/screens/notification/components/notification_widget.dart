@@ -4,6 +4,7 @@ import 'package:booking_system_flutter/utils/images.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+import '../../../main.dart';
 import '../../../utils/common.dart';
 
 class NotificationWidget extends StatelessWidget {
@@ -25,6 +26,50 @@ class NotificationWidget extends StatelessWidget {
       return context.scaffoldBackgroundColor;
     } else {
       return context.cardColor;
+    }
+  }
+
+  String _formatNotificationTime(String? createdAt) {
+    if (createdAt == null || createdAt.isEmpty) {
+      return '';
+    }
+
+    try {
+      DateTime notificationDate = DateTime.parse(createdAt);
+      DateTime now = DateTime.now();
+      Duration difference = now.difference(notificationDate);
+
+      // If less than 1 minute ago
+      if (difference.inMinutes < 1) {
+        return 'Just now';
+      }
+      // If less than 1 hour ago
+      else if (difference.inMinutes < 60) {
+        return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
+      }
+      // If less than 24 hours ago
+      else if (difference.inHours < 24) {
+        return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+      }
+      // If yesterday
+      else if (difference.inDays == 1) {
+        return language.yesterday;
+      }
+      // If less than 7 days ago
+      else if (difference.inDays < 7) {
+        return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+      }
+      // Otherwise show formatted date
+      else {
+        return formatDate(createdAt, showDateWithTime: false);
+      }
+    } catch (e) {
+      // If parsing fails, try to format as is or return empty
+      try {
+        return formatDate(createdAt, showDateWithTime: false);
+      } catch (e2) {
+        return createdAt;
+      }
     }
   }
 
@@ -56,17 +101,22 @@ class NotificationWidget extends StatelessWidget {
               Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text('${data.data!.type.validate().split('_').join(' ').capitalizeFirstLetter()}',
-                          style: boldTextStyle(size: 12))
-                      .expand(),
-                  Text(data.createdAt.validate(), style: secondaryTextStyle()),
+                  Text(
+                    data.data?.type.validate().isNotEmpty == true
+                        ? data.data!.type.validate().split('_').join(' ').capitalizeFirstLetter()
+                        : 'Notification',
+                    style: boldTextStyle(size: 12),
+                  ).expand(),
+                  Text(_formatNotificationTime(data.createdAt), style: secondaryTextStyle()),
                 ],
               ),
               4.height,
-              Text(parseHtmlString(data.data!.message.validate()),
-                  style: secondaryTextStyle(),
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis),
+              Text(
+                parseHtmlString(data.data?.message.validate() ?? ''),
+                style: secondaryTextStyle(),
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ).expand(),
         ],

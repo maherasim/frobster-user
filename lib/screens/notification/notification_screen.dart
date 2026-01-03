@@ -4,6 +4,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/notification_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/booking/booking_detail_screen.dart';
+import 'package:booking_system_flutter/screens/jobRequest/my_post_detail_screen.dart';
 import 'package:booking_system_flutter/screens/notification/components/notification_widget.dart';
 import 'package:booking_system_flutter/screens/wallet/user_wallet_balance_screen.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
@@ -91,23 +92,38 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
               return GestureDetector(
                 onTap: () async {
-                  if (data.data!.notificationType.validate().contains(WALLET)) {
+                  if (data.data == null) return;
+                  
+                  final notificationType = data.data!.notificationType.validate();
+                  final type = data.data!.type.validate();
+                  
+                  if (notificationType.contains(WALLET)) {
                     if (appConfigurationStore.onlinePaymentStatus) {
                       UserWalletBalanceScreen().launch(context);
                     }
-                  } else if (data.data!.notificationType
-                          .validate()
-                          .contains(BOOKING) ||
-                      data.data!.notificationType
-                          .validate()
-                          .contains(PAYMENT_MESSAGE_STATUS)) {
+                  } else if (notificationType.contains(BOOKING) ||
+                      notificationType.contains(PAYMENT_MESSAGE_STATUS)) {
                     await BookingDetailScreen(
                             bookingId: data.data!.id.validate())
                         .launch(context);
                     init();
                     setState(() {});
+                  } else if (notificationType.contains(NOTIFICATION_TYPE_POST_JOB) ||
+                      type.contains('provider_send_bid') ||
+                      type.contains('post_job') ||
+                      type.contains('job_request')) {
+                    // Handle job request notifications
+                    if (data.data!.id != null) {
+                      await MyPostDetailScreen(
+                              postRequestId: data.data!.id.validate(),
+                              callback: () {})
+                          .launch(context);
+                      init();
+                      setState(() {});
+                    }
                   } else {
-                    //
+                    // Handle other notification types (service booking, etc.)
+                    // They will still be displayed, just no navigation on tap
                   }
                 },
                 child: NotificationWidget(data: data),
