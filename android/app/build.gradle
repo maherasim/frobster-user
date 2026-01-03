@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.iqonic.servicebooking"
+    namespace = "com.frobster.user"
     compileSdk = 36
     ndkVersion = "28.2.13676358"
 
