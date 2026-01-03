@@ -1133,14 +1133,16 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
     List<File> tempImages = imageFiles!.where((element) => !element.path.contains("https")).toList();
     List<MultipartFile> files = [];
 
-    await Future.forEach<File>(tempImages, (element) async {
-      int i = tempImages.indexOf(element);
-      final file = await MultipartFile.fromPath('image[$i]', element.path);
-      files.add(file);
-      // Also add a conventional array key to maximize backend compatibility
-      // e.g., Laravel handles both image[0] and image[] as array inputs
-      files.add(await MultipartFile.fromPath('image[]', element.path));
-    });
+    // Process images with error handling
+    for (int i = 0; i < tempImages.length; i++) {
+      try {
+        final file = await MultipartFile.fromPath('image[$i]', tempImages[i].path);
+        files.add(file);
+      } catch (e) {
+        log('Error creating multipart file for image $i: $e');
+        // Continue with other images even if one fails
+      }
+    }
 
     multiPartRequest.files.addAll(files);
   }
@@ -1151,19 +1153,37 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
 
   appStore.setLoading(true);
 
-  await sendMultiPartRequest(multiPartRequest, onSuccess: (temp) async {
-    appStore.setLoading(false);
+  // Set longer timeout for large image uploads (10 minutes)
+  await sendMultiPartRequest(
+    multiPartRequest, 
+    timeout: Duration(minutes: 10),
+    onSuccess: (temp) async {
+      appStore.setLoading(false);
 
-    final json = jsonDecode(temp);
-    log("Response: $json");
+      try {
+        final json = jsonDecode(temp);
+        log("Response: $json");
 
-    finish(getContext, true);
-  }, onError: (error) {
-    toast(error.toString(), print: true);
+        finish(getContext, true);
+      } catch (e) {
+        log('Error parsing response: $e');
+        appStore.setLoading(false);
+        toast(language.somethingWentWrong);
+      }
+    }, 
+    onError: (error) {
+      log('Upload error: $error');
+      toast(error.toString(), print: true);
+      appStore.setLoading(false);
+    }
+  ).catchError((e) {
+    log('Upload exception: $e');
     appStore.setLoading(false);
-  }).catchError((e) {
-    appStore.setLoading(false);
-    toast(e.toString());
+    if (e.toString().contains('TimeoutException') || e.toString().contains('timeout')) {
+      toast('Upload timeout. Please try again with smaller images or check your internet connection.');
+    } else {
+      toast(e.toString());
+    }
   });
 }
 

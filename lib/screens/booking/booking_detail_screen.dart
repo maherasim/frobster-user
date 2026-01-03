@@ -1003,8 +1003,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             children: [
               24.height,
               if (customerReview != null)
-                Text(language.myReviews,
-                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                    Text(language.myReviews,
+                            style: boldTextStyle(size: LABEL_TEXT_SIZE))
                     .paddingSymmetric(horizontal: 16),
               16.height,
               if (customerReview != null) ReviewWidget(data: customerReview),
@@ -1065,24 +1065,24 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       GestureDetector(
                         onTap: () {
                           final handymanData = bookingDetailResponse.handymanData!.first;
-                          showInDialog(
-                            context,
-                            contentPadding: EdgeInsets.zero,
-                            builder: (p0) {
-                              return AddReviewDialog(
+                      showInDialog(
+                        context,
+                        contentPadding: EdgeInsets.zero,
+                        builder: (p0) {
+                          return AddReviewDialog(
                                 serviceId: bookingDetail.serviceId.validate(),
                                 bookingId: bookingDetail.id.validate(),
                                 handymanId: handymanData.id.validate(),
                               );
-                            },
-                          ).then((value) {
-                            if (value ?? false) {
-                              init();
-                              setState(() {});
-                            }
-                          }).catchError((e) {
-                            toast(e.toString());
-                          });
+                        },
+                      ).then((value) {
+                        if (value ?? false) {
+                          init();
+                          setState(() {});
+                        }
+                      }).catchError((e) {
+                        toast(e.toString());
+                      });
                         },
                         child: Text(
                           language.btnRate,
@@ -1095,8 +1095,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                  ],
+                ),
                 ),
               ],
             ],
@@ -1967,9 +1967,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                           GradientButton(
                                             onPressed: () {
                                               finish(context);
-                                              _handleAddonDoneClick(
-                                                  status: snap.data!, serviceAddon: p0);
-                                            },
+                                _handleAddonDoneClick(
+                                    status: snap.data!, serviceAddon: p0);
+                              },
                                             child: Text(language.lblYes),
                                           ).expand(),
                                         ],
@@ -2250,7 +2250,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       backgroundColor: context.scaffoldBackgroundColor,
       builder: (context) {
         return AppCommonDialog(
-          title: language.confirmationRequestTxt,
+      title: language.confirmationRequestTxt,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -2269,7 +2269,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   GradientButton(
                     onPressed: () {
                       finish(context);
-                      startClick(status: status);
+        startClick(status: status);
                     },
                     child: Text(language.lblYes),
                   ).expand(),
@@ -2290,7 +2290,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       backgroundColor: context.scaffoldBackgroundColor,
       builder: (context) {
         return AppCommonDialog(
-          title: language.lblConFirmResumeService,
+      title: language.lblConFirmResumeService,
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -2309,38 +2309,38 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   GradientButton(
                     onPressed: () async {
                       finish(context);
-                      Map request = {
-                        CommonKeys.id: status.bookingDetail!.id.validate(),
-                        BookingUpdateKeys.startAt: formatBookingDate(
-                          DateTime.now().toString(),
-                          format: BOOKING_SAVE_FORMAT,
-                          isLanguageNeeded: false,
-                        ),
-                        BookingUpdateKeys.endAt: '',
-                        BookingUpdateKeys.durationDiff:
-                            status.bookingDetail!.durationDiff.toInt(),
-                        BookingUpdateKeys.reason: "",
-                        CommonKeys.status: BookingStatusKeys.inProgress,
-                        BookingUpdateKeys.paymentStatus:
-                            status.bookingDetail!.isAdvancePaymentDone
-                                ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
-                                : status.bookingDetail!.paymentStatus.validate(),
-                      };
+        Map request = {
+          CommonKeys.id: status.bookingDetail!.id.validate(),
+          BookingUpdateKeys.startAt: formatBookingDate(
+            DateTime.now().toString(),
+            format: BOOKING_SAVE_FORMAT,
+            isLanguageNeeded: false,
+          ),
+          BookingUpdateKeys.endAt: '',
+          BookingUpdateKeys.durationDiff:
+              status.bookingDetail!.durationDiff.toInt(),
+          BookingUpdateKeys.reason: "",
+          CommonKeys.status: BookingStatusKeys.inProgress,
+          BookingUpdateKeys.paymentStatus:
+              status.bookingDetail!.isAdvancePaymentDone
+                  ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
+                  : status.bookingDetail!.paymentStatus.validate(),
+        };
 
-                      appStore.setLoading(true);
+        appStore.setLoading(true);
 
-                      await updateBooking(request).then((res) async {
-                        toast(res.message!);
-                        commonStartTimer(
-                            isHourlyService: status.bookingDetail!.isHourlyService,
-                            status: BookingStatusKeys.inProgress,
-                            timeInSec: status.bookingDetail!.durationDiff.validate().toInt());
-                        init();
-                        setState(() {});
-                      }).catchError((e) {
-                        appStore.setLoading(false);
-                        toast(e.toString(), print: true);
-                      });
+        await updateBooking(request).then((res) async {
+          toast(res.message!);
+          commonStartTimer(
+              isHourlyService: status.bookingDetail!.isHourlyService,
+              status: BookingStatusKeys.inProgress,
+              timeInSec: status.bookingDetail!.durationDiff.validate().toInt());
+          init();
+          setState(() {});
+        }).catchError((e) {
+          appStore.setLoading(false);
+          toast(e.toString(), print: true);
+        });
                     },
                     child: Text(language.lblYes),
                   ).expand(),

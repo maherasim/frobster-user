@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 
@@ -181,10 +182,21 @@ Future<MultipartRequest> getMultiPartRequest(String endPoint,
 }
 
 Future<void> sendMultiPartRequest(MultipartRequest multiPartRequest,
-    {Function(dynamic)? onSuccess, Function(dynamic)? onError}) async {
+    {Function(dynamic)? onSuccess, Function(dynamic)? onError, Duration? timeout}) async {
   try {
-    http.Response response =
-        await http.Response.fromStream(await multiPartRequest.send());
+    // Set default timeout of 5 minutes for large file uploads
+    final uploadTimeout = timeout ?? Duration(minutes: 5);
+    
+    http.StreamedResponse streamedResponse;
+    try {
+      streamedResponse = await multiPartRequest.send().timeout(uploadTimeout);
+    } on TimeoutException catch (e) {
+      log('Upload timeout: $e');
+      onError?.call('Upload timeout. Please try again with smaller images or check your internet connection.');
+      return;
+    }
+    
+    http.Response response = await http.Response.fromStream(streamedResponse);
     apiPrint(
       url: multiPartRequest.url.toString(),
       headers: jsonEncode(multiPartRequest.headers),

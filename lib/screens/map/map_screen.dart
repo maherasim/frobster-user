@@ -179,15 +179,15 @@ class MapScreenState extends State<MapScreen> {
                       ),
                       shape: BoxShape.circle,
                     ),
-                    child: Material(
+                  child: Material(
                       color: Colors.transparent,
-                      child: InkWell(
+                    child: InkWell(
                         splashColor: gradientRed.withValues(alpha: 0.8),
-                        child: SizedBox(
-                            width: 50, height: 50, child: Icon(Icons.add)),
-                        onTap: () {
-                          mapController.animateCamera(CameraUpdate.zoomIn());
-                        },
+                      child: SizedBox(
+                          width: 50, height: 50, child: Icon(Icons.add)),
+                      onTap: () {
+                        mapController.animateCamera(CameraUpdate.zoomIn());
+                      },
                       ),
                     ),
                   ),
@@ -204,15 +204,15 @@ class MapScreenState extends State<MapScreen> {
                       ),
                       shape: BoxShape.circle,
                     ),
-                    child: Material(
+                  child: Material(
                       color: Colors.transparent,
-                      child: InkWell(
+                    child: InkWell(
                         splashColor: gradientRed.withValues(alpha: 0.8),
-                        child: SizedBox(
-                            width: 50, height: 50, child: Icon(Icons.remove)),
-                        onTap: () {
-                          mapController.animateCamera(CameraUpdate.zoomOut());
-                        },
+                      child: SizedBox(
+                          width: 50, height: 50, child: Icon(Icons.remove)),
+                      onTap: () {
+                        mapController.animateCamera(CameraUpdate.zoomOut());
+                      },
                       ),
                     ),
                   ),
@@ -238,9 +238,9 @@ class MapScreenState extends State<MapScreen> {
                       ),
                       shape: BoxShape.circle,
                     ),
-                    child: Material(
+                  child: Material(
                       color: Colors.transparent,
-                      child: Icon(Icons.my_location, size: 25).paddingAll(10),
+                    child: Icon(Icons.my_location, size: 25).paddingAll(10),
                     ),
                   ),
                 ).paddingRight(8).onTap(() async {
@@ -286,12 +286,12 @@ class MapScreenState extends State<MapScreen> {
                   width: context.width(),
                   child: GradientButton(
                     onPressed: () {
-                      if (destinationAddressController.text.isNotEmpty) {
-                        finish(context, destinationAddressController.text);
-                      } else {
-                        toast(language.lblPickAddress);
-                      }
-                    },
+                    if (destinationAddressController.text.isNotEmpty) {
+                      finish(context, destinationAddressController.text);
+                    } else {
+                      toast(language.lblPickAddress);
+                    }
+                  },
                     child: Text(
                       language.setAddress.toUpperCase(),
                       style: boldTextStyle(color: white, size: 12),

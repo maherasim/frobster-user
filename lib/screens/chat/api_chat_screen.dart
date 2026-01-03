@@ -11,7 +11,6 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 
 import '../../component/cached_image_widget.dart';
 
@@ -43,6 +42,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   bool _isLoadingInitial = true;
   bool _isLoadingMore = false;
   bool _reachedHistoryEnd = false;
+  bool _isSending = false;
 
   int get _lastMessageId => _apiMessages.isEmpty ? 0 : _apiMessages.last.id;
   int get _firstMessageId => _apiMessages.isEmpty ? 0 : _apiMessages.first.id;
@@ -138,20 +138,26 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   }
 
   Future<void> _sendMessage() async {
+    // Prevent double-sending
+    if (_isSending) return;
+    
     final text = messageCont.text.trim();
     if (text.isEmpty) {
       messageFocus.requestFocus();
       return;
     }
 
-    if (appStore.isLoading) return;
-    appStore.setLoading(true);
+    _isSending = true;
+    
+    // Clear message immediately for instant feedback (like WhatsApp)
+    messageCont.clear();
+    
     try {
+      // Send message in background - no blocking loader for better UX
       final res = await chatSendMessage(
         conversationId: widget.conversationId,
         message: text,
       );
-      messageCont.clear();
       await _fetchNew();
       if (res.flagged) {
         final reason = res.piiTypes.join('/');
@@ -159,8 +165,15 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       }
     } catch (e) {
       toast(e.toString());
+      // Restore message text if sending failed
+      messageCont.text = text;
     } finally {
-      appStore.setLoading(false);
+      // Reset sending flag after a short delay
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (mounted) {
+          _isSending = false;
+        }
+      });
     }
   }
 
@@ -203,7 +216,11 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
             controller: messageCont,
             textStyle: primaryTextStyle(),
             minLines: 1,
-            onFieldSubmitted: (s) => _sendMessage(),
+            onFieldSubmitted: (s) {
+              if (!_isSending) {
+                _sendMessage();
+              }
+            },
             focus: messageFocus,
             cursorHeight: 20,
             maxLines: 5,
@@ -220,7 +237,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
             decoration: boxDecorationDefault(borderRadius: radius(80), color: primaryColor),
             child: IconButton(
               icon: Icon(Icons.send, color: Colors.white),
-              onPressed: _sendMessage,
+              onPressed: _isSending ? null : _sendMessage,
             ),
           )
         ],
@@ -331,8 +348,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
                 right: 16,
                 child: _buildChatFieldWidget(),
               ),
-              Observer(builder: (context) =>
-                  LoaderWidget().visible(appStore.isLoading)),
+              // Removed blocking loader - messages appear instantly like WhatsApp
             ],
           ),
         ),

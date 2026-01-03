@@ -99,32 +99,32 @@ class _AddonComponentState extends State<AddonComponent> {
                 ),
               if (addon.serviceAddonImage.validate().isNotEmpty) 16.width,
               Expanded(
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Marquee(
-                            directionMarguee:
-                                DirectionMarguee.oneDirection, // Scrolling text
-                            child: Text(
-                              addon.name.validate(),
-                              style: boldTextStyle(),
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                          ),
-                        ),
-                        8.width,
-                        if (!widget.isFromBookingDetails) buildAddButton(addon),
-                      ],
-                    ),
-                    10.height,
-                    PriceWidget(
-                      price: addon.price.validate(),
-                      hourlyTextColor: Colors.white,
-                      size: 12,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Marquee(
+                  directionMarguee:
+                      DirectionMarguee.oneDirection, // Scrolling text
+                  child: Text(
+                    addon.name.validate(),
+                    style: boldTextStyle(),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ),
+              8.width,
+              if (!widget.isFromBookingDetails) buildAddButton(addon),
+            ],
+          ),
+          10.height,
+          PriceWidget(
+            price: addon.price.validate(),
+            hourlyTextColor: Colors.white,
+            size: 12,
                     ),
                   ],
                 ),

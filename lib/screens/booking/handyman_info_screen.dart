@@ -152,10 +152,10 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
               return Stack(
                 children: [
                   AnimatedScrollView(
-                    listAnimationType: ListAnimationType.FadeIn,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                listAnimationType: ListAnimationType.FadeIn,
+                physics: AlwaysScrollableScrollPhysics(),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
                       UserInfoWidget(
                         data: data.userData!,
                         isOnTapEnabled: true,
@@ -163,9 +163,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                      children: [
                           15.height,
-                          Text(
+                        Text(
                             language.personalInfo,
                             style: boldTextStyle(size: 18),
                           ).paddingSymmetric(horizontal: 16),
@@ -203,9 +203,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                   }).toList(),
                                 ).paddingSymmetric(
                                   horizontal: 16,
-                                ),
-                              ],
-                            ),
+                        ),
+                      ],
+                    ),
                           ],
                           if (skills.isNotEmpty) ...[
                             15.height,
@@ -288,14 +288,14 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                 Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 Text(data.userData!.availability.validate(),
                                     style: secondaryTextStyle(size: 12)),
-                              ],
+                      ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
                           if (mobilityList.isNotEmpty) ...[
                             15.height,
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                                 Text('Mobility', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
@@ -334,7 +334,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               children: [
                                 Text('Certification', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
-                                8.height,
+                        8.height,
                                 Wrap(
                                   children: certifications.map((e) {
                                     return e.isNotEmpty
@@ -447,7 +447,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                 5.height,
                                 Text(data.userData!.aboutMe.validate(),
                                     style: secondaryTextStyle(size: 12)),
-                              ],
+                      ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
                           32.height,
@@ -458,7 +458,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               handymanData: data.userData,
                             ).paddingSymmetric(horizontal: 16),
                           32.height,
-                          _buildReviewsSection(data),
+                  _buildReviewsSection(data),
                         ],
                       ),
                     ],
@@ -489,9 +489,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                 },
               );
             },
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 

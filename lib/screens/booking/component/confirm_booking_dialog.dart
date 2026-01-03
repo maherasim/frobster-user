@@ -97,7 +97,7 @@ class _ConfirmBookingDialogState extends State<ConfirmBookingDialog> {
       CommonKeys.providerId: widget.data.provider?.id.validate().toString(),
       BookingServiceKeys.description:  widget.data.serviceDetail?.bookingDescription.validate().toString(),
       BookService.quantity: '${widget.quantity}',
-      BookService.bookingAddressId: widget.data.serviceDetail!.bookingAddressId != -1 ? widget.data.serviceDetail!.bookingAddressId : null,
+      BookService.bookingAddressId: null, // Always null - Available At is for viewing only
       BookingServiceKeys.bookingPackage: widget.selectedPackage != null ? selectedPackage : null,
       BookingServiceKeys.serviceAddonId:  serviceAddonStore.selectedServiceAddon.map((e) => e.id).toList(),
     };

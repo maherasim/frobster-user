@@ -57,8 +57,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   Future<ServiceDetailResponse>? future;
 
-  int selectedAddressId = 0;
-  int selectedBookingAddressId = -1;
   BookingPackage? selectedPackage;
 
   @override
@@ -155,45 +153,28 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                 ServiceAddressMapping value =
                     data.serviceAddressMapping![index];
                 if (value.providerAddressMapping == null) return Offstage();
-                bool isSelected = selectedAddressId == index;
-                if (selectedBookingAddressId == -1) {
-                  selectedBookingAddressId = data
-                      .serviceAddressMapping!.first.providerAddressId
-                      .validate();
-                }
-                return GestureDetector(
-                  onTap: () {
-                    selectedAddressId = index;
-                    selectedBookingAddressId =
-                        value.providerAddressId.validate();
-                    setState(() {});
-                  },
-                  child: Container(
-                    decoration: isSelected
-                        ? BoxDecoration(
-                            gradient: appPrimaryGradient,
-                            borderRadius: BorderRadius.circular(8),
-                          )
-                        : boxDecorationDefault(
-                            color: appStore.isDarkMode ? Colors.black : Colors.white,
-                          ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 10),
-                      child: Text(
-                        (() {
-                          final addr = value.providerAddressMapping?.address.validate() ?? '';
-                          if (addr.trim().isNotEmpty) return addr;
-                          final city = value.cityName.validate();
-                          final country = value.countryName.validate();
-                          if (city.isEmpty && country.isEmpty) return 'N/A';
-                          return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
-                        })(),
-                        style: boldTextStyle(
-                            color: isSelected ? Colors.white : textPrimaryColorGlobal),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
+                // Display only - no selection functionality
+                return Container(
+                  decoration: BoxDecoration(
+                    gradient: appPrimaryGradient,
+                    borderRadius: BorderRadius.circular(8),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 8.0, horizontal: 10),
+                    child: Text(
+                      (() {
+                        final addr = value.providerAddressMapping?.address.validate() ?? '';
+                        if (addr.trim().isNotEmpty) return addr;
+                        final city = value.cityName.validate();
+                        final country = value.countryName.validate();
+                        if (city.isEmpty && country.isEmpty) return 'N/A';
+                        return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
+                      })(),
+                      style: boldTextStyle(
+                          color: Colors.white),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 );
@@ -367,8 +348,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   void bookNow(ServiceDetailResponse serviceDetailResponse) {
     doIfLoggedIn(context, () {
-      serviceDetailResponse.serviceDetail!.bookingAddressId =
-          selectedBookingAddressId;
+      // Always set bookingAddressId to -1 (will be null in payload)
+      serviceDetailResponse.serviceDetail!.bookingAddressId = -1;
       BookServiceScreen(
               data: serviceDetailResponse, selectedPackage: selectedPackage)
           .launch(context)
@@ -593,86 +574,86 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           }
 
                           return Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              if (snap.data!.serviceDetail!.duration
-                                  .validate()
-                                  .isNotEmpty)
-                                attributeRow(language.duration,
-                                    "${convertToHourMinute(snap.data!.serviceDetail!.duration.validate())}"),
-                              if (snap.data!.serviceDetail!.duration
-                                  .validate()
-                                  .isNotEmpty)
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                if (snap.data!.serviceDetail!.duration
+                                    .validate()
+                                    .isNotEmpty)
+                                  attributeRow(language.duration,
+                                      "${convertToHourMinute(snap.data!.serviceDetail!.duration.validate())}"),
+                                if (snap.data!.serviceDetail!.duration
+                                    .validate()
+                                    .isNotEmpty)
                                 10.height,
                               // Discount row
-                              if (snap.data!.serviceDetail!.discount
-                                      .validate() >
-                                  0)
+                                    if (snap.data!.serviceDetail!.discount
+                                            .validate() >
+                                        0)
                                 attributeRow(
                                   'Discount',
                                   "${snap.data!.serviceDetail!.discount.validate()}%",
                                   valueColor: defaultActivityStatus, // green color
                                 ),
-                              if (snap.data!.serviceDetail!.discount
-                                      .validate() >
-                                  0)
+                                    if (snap.data!.serviceDetail!.discount
+                                            .validate() >
+                                        0)
                                 10.height,
-                              attributeRow('Minimum Orders',
-                                  '${snap.data?.serviceDetail?.minimumOrders ?? 0}'),
+                                attributeRow('Minimum Orders',
+                                    '${snap.data?.serviceDetail?.minimumOrders ?? 0}'),
                               10.height,
-                              attributeRow(
-                                'Job type',
-                                (() {
-                                  final v = _formatVisitType(snap
-                                          .data
-                                          ?.serviceDetail
-                                          ?.visitType
-                                          .validate() ??
-                                      '');
-                                  return v.isEmpty ? 'N/A' : v;
-                                })(),
-                              ),
+                                attributeRow(
+                                  'Job type',
+                                  (() {
+                                    final v = _formatVisitType(snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.visitType
+                                            .validate() ??
+                                        '');
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
                               10.height,
-                              attributeRow(
-                                'Remote work level',
-                                (() {
-                                  final v = _formatRemoteLevel(snap
-                                          .data
-                                          ?.serviceDetail
-                                          ?.remoteWorkLevel
-                                          .validate() ??
-                                      '');
-                                  return v.isEmpty ? 'N/A' : v;
-                                })(),
-                              ),
+                                attributeRow(
+                                  'Remote work level',
+                                  (() {
+                                    final v = _formatRemoteLevel(snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.remoteWorkLevel
+                                            .validate() ??
+                                        '');
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
                               10.height,
-                              attributeRow(
-                                'Career level',
-                                (() {
-                                  final v = _titleCase(snap
-                                          .data
-                                          ?.serviceDetail
-                                          ?.careerLevel
-                                          .validate() ??
-                                      '');
-                                  return v.isEmpty ? 'N/A' : v;
-                                })(),
-                              ),
+                                attributeRow(
+                                  'Career level',
+                                  (() {
+                                    final v = _titleCase(snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.careerLevel
+                                            .validate() ??
+                                        '');
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
                               10.height,
-                              attributeRow(
-                                'Travel required',
-                                (() {
-                                  final raw = snap
-                                          .data
-                                          ?.serviceDetail
-                                          ?.travelRequired
-                                          .validate() ??
-                                      '';
-                                  final v = _formatTravelRequired(raw);
-                                  return raw.trim().isEmpty ? 'N/A' : v;
-                                })(),
-                              ),
-                            ],
+                                attributeRow(
+                                  'Travel required',
+                                  (() {
+                                    final raw = snap
+                                            .data
+                                            ?.serviceDetail
+                                            ?.travelRequired
+                                            .validate() ??
+                                        '';
+                                    final v = _formatTravelRequired(raw);
+                                    return raw.trim().isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
+                              ],
                           );
                         }),
                         16.height,

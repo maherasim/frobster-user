@@ -16,7 +16,6 @@ import 'package:file_picker/file_picker.dart';
 import 'package:firebase_pagination/firebase_pagination.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -49,6 +48,8 @@ class _UserChatScreenState extends State<UserChatScreen>
   StreamSubscription? _streamSubscription;
 
   int isReceiverOnline = 0;
+  
+  bool _isSending = false;
 
   bool get isReceiverUserOnline => isReceiverOnline == 1;
 
@@ -116,7 +117,9 @@ class _UserChatScreenState extends State<UserChatScreen>
           textStyle: primaryTextStyle(),
           minLines: 1,
           onFieldSubmitted: (s) {
-            sendMessages();
+            if (!_isSending) {
+              sendMessages();
+            }
           },
           focus: messageFocus,
           cursorHeight: 20,
@@ -155,7 +158,7 @@ class _UserChatScreenState extends State<UserChatScreen>
               borderRadius: radius(80), color: primaryColor),
           child: IconButton(
             icon: Icon(Icons.send, color: Colors.white),
-            onPressed: () {
+            onPressed: _isSending ? null : () {
               sendMessages();
             },
           ),
@@ -171,7 +174,9 @@ class _UserChatScreenState extends State<UserChatScreen>
     bool isFile = false,
     List<String> attachmentFiles = const [],
   }) async {
-    if (appStore.isLoading) return;
+    // Prevent double-sending
+    if (_isSending) return;
+    
     // If Message TextField is Empty.
     if (messageCont.text.trim().isEmpty && !isFile) {
       messageFocus.requestFocus();
@@ -179,6 +184,8 @@ class _UserChatScreenState extends State<UserChatScreen>
     } else if (isFile && attachmentFiles.isEmpty) {
       return;
     }
+    
+    _isSending = true;
 
     // Making Request for sending data to firebase
     ChatMessageModel data = ChatMessageModel();
@@ -193,6 +200,8 @@ class _UserChatScreenState extends State<UserChatScreen>
     data.messageType = isFile ? MessageType.Files.name : MessageType.TEXT.name;
     data.attachmentfiles = attachmentFiles;
     log('ChatMessageModel Data : ${data.toJson()}');
+    
+    // Clear message immediately for instant feedback (like WhatsApp)
     messageCont.clear();
 
     if (!(await userService.isReceiverInContacts(
@@ -214,52 +223,64 @@ class _UserChatScreenState extends State<UserChatScreen>
         log("=======*=======*=======*=======*=======* User $isReceiverOnline =======*=======*=======*=======*=======");
       });
     }
-    log('-------addMessage----');
-    await chatServices.addMessage(data).then((value) async {
-      log("--Message Successfully Added--");
-      // todo : remove this
-      isReceiverOnline = 0;
-      if (isReceiverOnline != 1) {
-        /// Send Notification
-        NotificationService()
-            .sendPushNotifications(
-          appStore.userFullName,
-          data.message.validate(),
-          image: data.attachmentfiles == null || data.attachmentfiles!.isEmpty
-              ? null
-              : data.attachmentfiles!.first,
-          receiverUser: widget.receiverUser,
-          senderUserData: senderUser,
-        )
+    try {
+      log('-------addMessage----');
+      // Send message in background - no blocking loader for better UX
+      chatServices.addMessage(data).then((value) async {
+        log("--Message Successfully Added--");
+        // todo : remove this
+        isReceiverOnline = 0;
+        if (isReceiverOnline != 1) {
+          /// Send Notification
+          NotificationService()
+              .sendPushNotifications(
+            appStore.userFullName,
+            data.message.validate(),
+            image: data.attachmentfiles == null || data.attachmentfiles!.isEmpty
+                ? null
+                : data.attachmentfiles!.first,
+            receiverUser: widget.receiverUser,
+            senderUserData: senderUser,
+          )
+              .catchError((e) {
+            log("Notification Error ${e.toString()}");
+          });
+        }
+
+        /// Save receiverId to Sender Doc.
+        userService
+            .saveToContacts(
+                senderId: appStore.uid,
+                receiverId: widget.receiverUser.uid.validate())
+            .then((value) => log("---ReceiverId to Sender Doc.---"))
             .catchError((e) {
-          log("Notification Error ${e.toString()}");
+          log(e.toString());
         });
-      }
 
-      /// Save receiverId to Sender Doc.
-      userService
-          .saveToContacts(
-              senderId: appStore.uid,
-              receiverId: widget.receiverUser.uid.validate())
-          .then((value) => log("---ReceiverId to Sender Doc.---"))
-          .catchError((e) {
+        /// Save senderId to Receiver Doc.
+        userService
+            .saveToContacts(
+                senderId: widget.receiverUser.uid.validate(),
+                receiverId: appStore.uid)
+            .then((value) => log("---SenderId to Receiver Doc.---"))
+            .catchError((e) {
+          log(e.toString());
+        });
+
+        /// ENd
+      }).catchError((e) {
         log(e.toString());
+        // Show error toast if message fails to send
+        toast(language.somethingWentWrong);
       });
-
-      /// Save senderId to Receiver Doc.
-      userService
-          .saveToContacts(
-              senderId: widget.receiverUser.uid.validate(),
-              receiverId: appStore.uid)
-          .then((value) => log("---SenderId to Receiver Doc.---"))
-          .catchError((e) {
-        log(e.toString());
+    } finally {
+      // Reset sending flag after a short delay to allow message to appear
+      Future.delayed(Duration(milliseconds: 300), () {
+        if (mounted) {
+          _isSending = false;
+        }
       });
-
-      /// ENd
-    }).catchError((e) {
-      log(e.toString());
-    });
+    }
   }
 
   //endregion
@@ -459,9 +480,7 @@ class _UserChatScreenState extends State<UserChatScreen>
                   right: 16,
                   child: _buildChatFieldWidget(),
                 ),
-              Observer(
-                  builder: (context) =>
-                      LoaderWidget().visible(appStore.isLoading)),
+              // Removed blocking loader - messages appear instantly like WhatsApp
             ],
           ),
         ),

@@ -66,8 +66,8 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
             ),
           ),
           child: MediaQuery(
-            data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-            child: child!,
+          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
+          child: child!,
           ),
         );
       },
