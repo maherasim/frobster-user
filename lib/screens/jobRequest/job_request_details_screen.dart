@@ -14,6 +14,7 @@ import 'package:booking_system_flutter/screens/jobRequest/components/payment_dia
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
@@ -394,6 +395,18 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   ],
                 ),
               ),
+
+              // Description Section - Simple and Clear (like service detail screen)
+              if (postJobDetail!.postRequest?.description.validate().isNotEmpty ?? false) ...[
+                24.height,
+                Text('Description',
+                    style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                16.height,
+                HtmlWidget(
+                  postJobDetail!.postRequest!.description.validate(),
+                  textStyle: secondaryTextStyle(),
+                ),
+              ],
 
               // Price Breakdown Card
               _buildPriceBreakdown(postJobDetail!),

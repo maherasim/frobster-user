@@ -231,6 +231,7 @@ class PostRequest {
   City? city;
   City? country;
   List<PostBidList> postBidList;
+  String? description;
 
   PostRequest({
     this.id,
@@ -255,6 +256,7 @@ class PostRequest {
     this.city,
     this.country,
     required this.postBidList,
+    this.description,
   });
 
   factory PostRequest.fromJson(Map<String, dynamic> json) => PostRequest(
@@ -280,6 +282,7 @@ class PostRequest {
     city: json["city"] == null ? null : City.fromJson(json["city"]),
     country: json["country"] == null ? null : City.fromJson(json["country"]),
     postBidList: json["post_bid_list"] == null ? [] : List<PostBidList>.from(json["post_bid_list"]!.map((x) => PostBidList.fromJson(x))),
+    description: json["description"],
   );
 
   Map<String, dynamic> toJson() => {
@@ -305,6 +308,7 @@ class PostRequest {
     "city": city?.toJson(),
     "country": country?.toJson(),
     "post_bid_list": List<dynamic>.from(postBidList.map((x) => x.toJson())),
+    "description": description,
   };
 }
 

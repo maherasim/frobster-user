@@ -4,7 +4,6 @@ import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/disabled_rating_bar_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
-import 'package:booking_system_flutter/component/price_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -17,6 +16,8 @@ import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart
 import 'package:booking_system_flutter/screens/jobRequest/components/bidder_item_component.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
@@ -98,501 +99,126 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
     );
   }
 
-  // Modern Info Card Widget
-  Widget _infoCard({
-    required IconData icon,
-    required String label,
-    required String value,
-    Color? iconColor,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.only(bottom: 12),
-      decoration: boxDecorationDefault(
-        color: context.cardColor,
-        borderRadius: radius(12),
-        border: Border.all(color: context.dividerColor.withOpacity(0.5)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: boxDecorationDefault(
-              color: (iconColor ?? context.primaryColor).withOpacity(0.1),
-              borderRadius: radius(10),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor ?? context.primaryColor,
-              size: 20,
-            ),
-          ),
-          16.width,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: boldTextStyle(
-                    size: 14,
-                    color: textPrimaryColorGlobal,
-                  ),
-                ),
-                6.height,
-                Text(
-                  value,
-                  style: secondaryTextStyle(
-      size: 12,
-                    color: textSecondaryColorGlobal,
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Price Card Widget
-  Widget _priceCard({
-    required IconData icon,
-    required String label,
-    required Widget priceWidget,
-    Color? iconColor,
-  }) {
-    return Container(
-      padding: EdgeInsets.all(16),
-      margin: EdgeInsets.only(bottom: 12),
-      decoration: boxDecorationDefault(
-        color: context.cardColor,
-        borderRadius: radius(12),
-        border: Border.all(color: context.dividerColor.withOpacity(0.5)),
-      ),
-      child: Row(
-        children: [
-          Container(
-            padding: EdgeInsets.all(10),
-            decoration: boxDecorationDefault(
-              color: (iconColor ?? Colors.green).withOpacity(0.1),
-              borderRadius: radius(10),
-            ),
-            child: Icon(
-              icon,
-              color: iconColor ?? Colors.green,
-              size: 20,
-            ),
-          ),
-          16.width,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  label,
-                  style: boldTextStyle(
-                    size: 14,
-                    color: textPrimaryColorGlobal,
-                  ),
-                ),
-                6.height,
-                priceWidget,
-              ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  // Section Card Widget for Rich Content
-  Widget _sectionCard({
-    required IconData icon,
-    required String title,
-    required String content,
-    Color? iconColor,
-    Color? backgroundColor,
-  }) {
-    return Container(
-      width: context.width(),
-      margin: EdgeInsets.only(bottom: 16),
-      padding: EdgeInsets.all(20),
-      decoration: boxDecorationDefault(
-        color: backgroundColor ?? context.cardColor,
-        borderRadius: radius(16),
-        border: Border.all(
-          color: (iconColor ?? context.primaryColor).withOpacity(0.2),
-          width: 1.5,
-        ),
-      ),
-      child: Column(
+  Widget postJobDetailWidget({required PostJobData data}) {
+    // Simple attribute row helper - no cards, no icons, just label: value
+    Widget attributeRow(String label, String value, {Color? valueColor}) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Row(
-            children: [
-              Container(
-                padding: EdgeInsets.all(12),
-                decoration: boxDecorationDefault(
-                  color: (iconColor ?? context.primaryColor).withOpacity(0.15),
-                  borderRadius: radius(12),
-                ),
-                child: Icon(
-                  icon,
-                  color: iconColor ?? context.primaryColor,
-                  size: 24,
-                ),
-              ),
-              12.width,
-              Expanded(
-                child: Text(
-                  title,
-                  style: boldTextStyle(
-                    size: 18,
-                    color: textPrimaryColorGlobal,
-                  ),
-                ),
-              ),
-            ],
+          Flexible(
+            child: Text(
+              label,
+              style: boldTextStyle(size: 18).copyWith(height: 1.2),
+              textAlign: TextAlign.left,
+            ),
           ),
-          16.height,
-          Divider(color: context.dividerColor),
-          12.height,
-          ReadMoreText(
-            parseHtmlString(content),
-            style: secondaryTextStyle(size: 14, height: 1.6),
-            colorClickableText: iconColor ?? context.primaryColor,
+          Flexible(
+            child: Text(
+              value,
+              style: secondaryTextStyle(
+                size: 12,
+                weight: FontWeight.normal,
+                color: valueColor ?? textPrimaryColorGlobal,
+              ).copyWith(height: 1.2),
+              textAlign: TextAlign.right,
+            ),
           ),
         ],
-      ),
-    );
-  }
+      );
+    }
 
-  Widget postJobDetailWidget({required PostJobData data}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        // Job Title Header Card
-        Container(
-          width: context.width(),
-          padding: EdgeInsets.all(20),
-          decoration: boxDecorationDefault(
-            color: context.primaryColor.withOpacity(0.1),
-            borderRadius: radius(16),
-            border: Border.all(
-              color: context.primaryColor.withOpacity(0.3),
-              width: 1.5,
-            ),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  Icon(
-                    Icons.work_outline,
-                    color: context.primaryColor,
-                    size: 28,
-                  ),
-                  12.width,
-              Expanded(
-                    child: Text(
-                      data.title.validate(),
-                      style: boldTextStyle(
-                        size: 22,
-                        color: textPrimaryColorGlobal,
-                ),
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                    ),
-                ),
-                ],
-              ),
-            ],
-          ),
+        // Job Title - Simple text, no card, no icon
+        Text(
+          data.title.validate(),
+          style: boldTextStyle(size: 22, color: textPrimaryColorGlobal),
+          maxLines: 3,
+          overflow: TextOverflow.ellipsis,
         ),
-        20.height,
+        24.height,
 
-        // Quick Info Grid
-        Container(
-          padding: EdgeInsets.all(16),
-          decoration: boxDecorationDefault(
-            color: context.cardColor,
-            borderRadius: radius(16),
-            border: Border.all(color: context.dividerColor),
+        // Location - Simple text
+        if (data.cityName.validate().isNotEmpty || data.countryName.validate().isNotEmpty)
+          Text(
+            "${data.cityName ?? ''}${data.countryName.validate().isEmpty ? "" : "${data.cityName.validate().isEmpty ? "" : " - "}${data.countryName}"}",
+            style: secondaryTextStyle(size: 12, color: gradientRed),
           ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Job Details",
-                style: boldTextStyle(size: 18, color: textPrimaryColorGlobal),
-              ),
-              16.height,
-              _infoCard(
-                icon: Icons.location_on_outlined,
-                label: "Location",
-                value:
-                    "${data.cityName ?? ''}${data.countryName.validate().isEmpty ? "" : "${data.cityName.validate().isEmpty ? "" : " - "}${data.countryName}"}",
-                iconColor: Colors.red,
-              ),
-              _infoCard(
-                icon: Icons.business_center_outlined,
-                label: "Job Type",
-                value: data.type?.displayName ?? 'N/A',
-                iconColor: Colors.blue,
-                ),
-              Row(
-                children: [
-              Expanded(
-                    child: _infoCard(
-                      icon: Icons.calendar_today_outlined,
-                      label: language.startDate,
-                      value: formatDate(data.startDate.validate()),
-                      iconColor: Colors.orange,
-                    ),
-                  ),
-                  12.width,
-                  Expanded(
-                    child: _infoCard(
-                      icon: Icons.event_outlined,
-                      label: language.endDate,
-                      value: formatDate(data.endDate.validate()),
-                      iconColor: Colors.purple,
-                  ),
-                  ),
-                ],
-              ),
-            ],
-          ),
+        24.height,
+
+        // Simple attribute rows - no cards, no icons
+        attributeRow("Job Type", data.type?.displayName ?? 'N/A'),
+        10.height,
+        attributeRow(language.startDate, formatDate(data.startDate.validate())),
+        10.height,
+        attributeRow(language.endDate, formatDate(data.endDate.validate())),
+        10.height,
+        attributeRow(
+          "Budget/Price",
+          (data.price.validate()).toPriceFormat(),
         ),
-        16.height,
+        10.height,
+        attributeRow("Total Budget", (data.totalBudget.validate()).toPriceFormat()),
+        10.height,
+        attributeRow("Total Days", data.totalDays?.toString() ?? '0'),
+        10.height,
+        attributeRow("Total Hours", data.totalHours?.toString() ?? '0'),
+        10.height,
+        attributeRow("Remote Work Level", data.remoteWorkLevel?.displayName ?? 'N/A'),
+        10.height,
+        attributeRow("Travel Required", data.travelRequired?.displayName ?? 'N/A'),
+        10.height,
+        attributeRow("Career Level", data.careerLevel?.displayName ?? 'N/A'),
+        10.height,
+        attributeRow("Education Level", data.educationLevel?.displayName ?? 'N/A'),
 
-        // Budget Section
-        Container(
-          padding: EdgeInsets.all(16),
-          decoration: boxDecorationDefault(
-            color: context.cardColor,
-            borderRadius: radius(16),
-            border: Border.all(color: context.dividerColor),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Budget & Duration",
-                style: boldTextStyle(size: 18, color: textPrimaryColorGlobal),
-              ),
-              16.height,
-              _priceCard(
-                icon: Icons.attach_money,
-                label: "Budget/Price",
-                priceWidget: PriceWidget(
-                  size: 14,
-                  price: data.price.validate(),
-                  color: textSecondaryColorGlobal,
-                  isHourlyService: data.priceType == PriceType.hourly,
-                  isDailyService: data.priceType == PriceType.daily,
-                ),
-                iconColor: Colors.green,
-              ),
-              _priceCard(
-                icon: Icons.account_balance_wallet_outlined,
-                label: "Total Budget",
-                priceWidget: PriceWidget(
-                  size: 14,
-                  price: data.totalBudget.validate(),
-                  color: textSecondaryColorGlobal,
-                ),
-                iconColor: Colors.teal,
-          ),
-          Row(
-            children: [
-              Expanded(
-                    child: _infoCard(
-                      icon: Icons.calendar_view_week_outlined,
-                      label: "Total Days",
-                      value: data.totalDays?.toString() ?? '0',
-                      iconColor: Colors.indigo,
-                ),
-              ),
-                  12.width,
-              Expanded(
-                    child: _infoCard(
-                      icon: Icons.access_time_outlined,
-                      label: "Total Hours",
-                      value: data.totalHours?.toString() ?? '0',
-                      iconColor: Colors.cyan,
-                    ),
-                ),
-                ],
-              ),
-            ],
-          ),
-        ),
-        16.height,
-
-        // Work Details Section
-        Container(
-          padding: EdgeInsets.all(16),
-          decoration: boxDecorationDefault(
-            color: context.cardColor,
-            borderRadius: radius(16),
-            border: Border.all(color: context.dividerColor),
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                "Work Details",
-                style: boldTextStyle(size: 18, color: textPrimaryColorGlobal),
-              ),
-              16.height,
-              _infoCard(
-                icon: Icons.home_work_outlined,
-                label: "Remote Work Level",
-                value: data.remoteWorkLevel?.displayName ?? 'N/A',
-                iconColor: Colors.deepOrange,
-              ),
-              _infoCard(
-                icon: Icons.flight_takeoff_outlined,
-                label: "Travel Required",
-                value: data.travelRequired?.displayName ?? 'N/A',
-                iconColor: Colors.blueGrey,
-              ),
-              Row(
-                children: [
-                  Expanded(
-                    child: _infoCard(
-                      icon: Icons.trending_up_outlined,
-                      label: "Career Level",
-                      value: data.careerLevel?.displayName ?? 'N/A',
-                      iconColor: Colors.pink,
-                ),
-              ),
-                  12.width,
-              Expanded(
-                    child: _infoCard(
-                      icon: Icons.school_outlined,
-                      label: "Education Level",
-                      value: data.educationLevel?.displayName ?? 'N/A',
-                      iconColor: Colors.amber,
-                    ),
-                ),
-                ],
-              ),
-            ],
-          ),
-        ),
-
-        // Description Section
+        // Description Section - Simple and Clean (like service detail screen)
         if (data.description.validate().isNotEmpty) ...[
+          24.height,
+          Text('Description',
+              style: boldTextStyle(size: 18)),
           16.height,
-          _sectionCard(
-            icon: Icons.description_outlined,
-              title: language.postJobDescription,
-            content: data.description.validate(),
-            iconColor: Colors.blue,
-            backgroundColor: Colors.blue.withOpacity(0.05),
+          HtmlWidget(
+            data.description.validate(),
+            textStyle: secondaryTextStyle(),
           ),
         ],
 
-        // Skills & Requirements Section
+        // Skills & Requirements Section - Simple and Clean
         if (data.requirement.validate().isNotEmpty) ...[
-          _sectionCard(
-            icon: Icons.stars_outlined,
-            title: "Skills & Requirements",
-            content: data.requirement.validate(),
-            iconColor: Colors.orange,
-            backgroundColor: Colors.orange.withOpacity(0.05),
+          24.height,
+          Text('Skills & Requirements',
+              style: boldTextStyle(size: 18)),
+          16.height,
+          HtmlWidget(
+            data.requirement.validate(),
+            textStyle: secondaryTextStyle(),
           ),
         ],
 
-        // Duties & Responsibilities Section
+        // Duties & Responsibilities Section - Simple and Clean
         if (data.duties.validate().isNotEmpty) ...[
-          _sectionCard(
-            icon: Icons.checklist_outlined,
-              title: "Duties & Responsibilities",
-            content: data.duties.validate(),
-            iconColor: Colors.purple,
-            backgroundColor: Colors.purple.withOpacity(0.05),
+          24.height,
+          Text('Duties & Responsibilities',
+              style: boldTextStyle(size: 18)),
+          16.height,
+          HtmlWidget(
+            data.duties.validate(),
+            textStyle: secondaryTextStyle(),
           ),
         ],
 
-        // Benefits Section - Special Design
+        // Benefits Section - Simple and Clean
         if (data.benefits.validate().isNotEmpty) ...[
-          Container(
-            width: context.width(),
-            margin: EdgeInsets.only(bottom: 16),
-            padding: EdgeInsets.all(20),
-            decoration: boxDecorationDefault(
-              color: Colors.green.withOpacity(0.08),
-              borderRadius: radius(16),
-              border: Border.all(
-                color: Colors.green.withOpacity(0.3),
-                width: 2,
-            ),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(12),
-                      decoration: boxDecorationDefault(
-                        color: Colors.green.withOpacity(0.2),
-                        borderRadius: radius(12),
-                      ),
-                      child: Icon(
-                        Icons.card_giftcard,
-                        color: Colors.green.shade700,
-                        size: 28,
-                      ),
-                    ),
-                    12.width,
-                    Expanded(
-                      child: Text(
-                        "Benefits",
-                        style: boldTextStyle(
-                          size: 20,
-                          color: Colors.green.shade700,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                16.height,
-                Container(
-                  padding: EdgeInsets.all(16),
-                  decoration: boxDecorationDefault(
-                    color: Colors.green.withOpacity(0.05),
-                    borderRadius: radius(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(
-                        Icons.celebration,
-                        color: Colors.green.shade600,
-                        size: 20,
-                      ),
-                      8.width,
-                      Expanded(
-                        child: ReadMoreText(
-                          parseHtmlString(data.benefits.validate()),
-                          style: secondaryTextStyle(
-                            size: 14,
-                            height: 1.6,
-                            color: textPrimaryColorGlobal,
-                          ),
-                          colorClickableText: Colors.green.shade700,
-                        ),
-            ),
-        ],
-      ),
-                ),
-              ],
-            ),
+          24.height,
+          Text('Benefits',
+              style: boldTextStyle(size: 18)),
+          16.height,
+          HtmlWidget(
+            data.benefits.validate(),
+            textStyle: secondaryTextStyle(),
           ),
         ],
       ],
