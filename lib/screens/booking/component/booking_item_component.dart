@@ -508,7 +508,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Location (City - Country) Section
+                // Address Section
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
@@ -517,21 +517,16 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                       style: secondaryTextStyle(),
                     ).expand(flex: 2),
                     8.width,
-                    Builder(builder: (context) {
-                      final city = widget.bookingData.cityName.validate();
-                      final country = widget.bookingData.countryName.validate();
-                      final label = (city.isEmpty && country.isEmpty)
-                          ? 'N/A'
-                          : "${city}${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}${country}";
-                      return Marquee(
-                        child: Text(
-                          label,
-                          maxLines: 2,
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.left,
-                        ),
-                      ).expand(flex: 5);
-                    }),
+                    Marquee(
+                      child: Text(
+                        widget.bookingData.address.validate().isNotEmpty
+                            ? widget.bookingData.address.validate()
+                            : 'N/A',
+                        maxLines: 2,
+                        style: boldTextStyle(size: 12),
+                        textAlign: TextAlign.left,
+                      ),
+                    ).expand(flex: 5),
                   ],
                 ).paddingAll(8),
 

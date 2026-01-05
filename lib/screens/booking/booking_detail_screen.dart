@@ -840,6 +840,12 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   Widget extraChargesWidget(
       {required List<ExtraChargesModel> extraChargesList}) {
     if (extraChargesList.isEmpty) return Offstage();
+    
+    // Calculate total extra charges
+    double totalExtraCharges = extraChargesList.fold(0.0, (sum, item) {
+      return sum + (item.price.validate() * item.qty.validate());
+    });
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -851,42 +857,65 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           decoration: boxDecorationWithRoundedCorners(
               backgroundColor: context.cardColor, borderRadius: radius()),
           padding: EdgeInsets.all(16),
-          child: ListView.separated(
-            itemCount: extraChargesList.length,
-            shrinkWrap: true,
-            padding: EdgeInsets.zero,
-            physics: NeverScrollableScrollPhysics(),
-            separatorBuilder: (context, index) => 8.height,
-            itemBuilder: (_, i) {
-              ExtraChargesModel data = extraChargesList[i];
+          child: Column(
+            children: [
+              ListView.separated(
+                itemCount: extraChargesList.length,
+                shrinkWrap: true,
+                padding: EdgeInsets.zero,
+                physics: NeverScrollableScrollPhysics(),
+                separatorBuilder: (context, index) => 8.height,
+                itemBuilder: (_, i) {
+                  ExtraChargesModel data = extraChargesList[i];
 
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(data.title.validate(),
-                              style: secondaryTextStyle(size: 14))
-                          .expand(),
-                      16.width,
                       Row(
                         children: [
-                          Text('${data.qty} * ${data.price.validate()} = ',
-                              style: secondaryTextStyle()),
-                          4.width,
-                          PriceWidget(
-                              price:
-                                  '${data.price.validate() * data.qty.validate()}'
-                                      .toDouble(),
-                              color: textPrimaryColorGlobal,
-                              isBoldText: true),
+                          Text(data.title.validate(),
+                                  style: secondaryTextStyle(size: 14))
+                              .expand(),
+                          16.width,
+                          Row(
+                            children: [
+                              Text('${data.qty} * ${data.price.validate()} = ',
+                                  style: secondaryTextStyle()),
+                              4.width,
+                              PriceWidget(
+                                  price:
+                                      '${data.price.validate() * data.qty.validate()}'
+                                          .toDouble(),
+                                  color: textPrimaryColorGlobal,
+                                  isBoldText: true),
+                            ],
+                          ),
                         ],
                       ),
                     ],
-                  ),
-                ],
-              );
-            },
+                  );
+                },
+              ),
+              // Total Extra Charges - Always show if there are items
+              if (extraChargesList.isNotEmpty && totalExtraCharges >= 0) ...[
+                16.height,
+                Divider(color: textSecondaryColorGlobal.withOpacity(0.3)),
+                16.height,
+                Row(
+                  children: [
+                    Text(
+                      language.lblTotalExtraCharges,
+                      style: boldTextStyle(size: 14),
+                    ).expand(),
+                    PriceWidget(
+                      price: totalExtraCharges,
+                      color: textPrimaryColorGlobal,
+                      isBoldText: true,
+                    ),
+                  ],
+                ),
+              ],
+            ],
           ),
         ),
       ],
@@ -994,6 +1023,13 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       required RatingData? customerReview,
       required BookingData bookingDetail,
       required BookingDetailResponse bookingDetailResponse}) {
+    // Filter out customer's own review from ratingList to avoid duplication
+    // If customerReview exists, exclude it from the general reviews list
+    // This prevents the same review from appearing in both "My Reviews" and "Review (count)" sections
+    final List<RatingData> filteredRatingList = customerReview != null
+        ? ratingList.where((review) => review.id != customerReview.id).toList()
+        : ratingList;
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
@@ -1102,13 +1138,13 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             ],
           ),
         16.height,
-        if (ratingList.isNotEmpty)
+        if (filteredRatingList.isNotEmpty)
           ViewAllLabel(
-            label: '${language.review} (${bookingDetail.totalReview})',
-            list: ratingList,
+            label: '${language.review} (${filteredRatingList.length})',
+            list: filteredRatingList,
             onTap: () {
               RatingViewAllScreen(
-                      ratingData: ratingList,
+                      ratingData: filteredRatingList,
                       serviceId: bookingDetail.serviceId)
                   .launch(context);
             },
@@ -1117,9 +1153,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         ListView.builder(
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
-          itemCount: ratingList.length,
+          itemCount: filteredRatingList.length,
           itemBuilder: (context, index) =>
-              ReviewWidget(data: ratingList[index]),
+              ReviewWidget(data: filteredRatingList[index]),
         ),
       ],
     );
@@ -1181,23 +1217,26 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   mapController = controller;
                   setState(() {});
                 },
-                markers: Set<Marker>.from(
-                  [
-                    if (providerLocation != null)
+                markers: () {
+                  if (providerLocation == null) return <Marker>{};
+                  
+                  final lat = providerLocation!.data.latitude;
+                  final lng = providerLocation!.data.longitude;
+                  
+                  // Only show marker if coordinates are valid (not 0,0 and within valid range)
+                  if (lat != 0.0 && lng != 0.0 && 
+                      lat >= -90 && lat <= 90 && 
+                      lng >= -180 && lng <= 180) {
+                    return <Marker>{
                       Marker(
                         markerId: MarkerId('Location'),
-                        position: LatLng(
-                          double.parse(
-                              providerLocation?.data.latitude.toString() ??
-                                  "0.0"),
-                          double.parse(
-                              providerLocation?.data.longitude.toString() ??
-                                  "0.0"),
-                        ),
+                        position: LatLng(lat.toDouble(), lng.toDouble()),
                         icon: customIcon ?? BitmapDescriptor.defaultMarker,
                       ),
-                  ],
-                ),
+                    };
+                  }
+                  return <Marker>{};
+                }(),
               ),
               Positioned(
                 left: 10,
@@ -2418,20 +2457,35 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     setState(() {});
     getProviderLocation(widget.bookingId).then((value) {
       providerLocation = value;
-      _currentPosition = LatLng(
-        double.parse(providerLocation?.data.latitude.toString() ?? "0.0"),
-        double.parse(providerLocation?.data.longitude.toString() ?? "0.0"),
-      );
-      _initialLocation = _currentPosition!;
-      mapController?.animateCamera(CameraUpdate.newCameraPosition(
-        CameraPosition(
-          target: _currentPosition!,
-          zoom: 15.0,
-        ),
-      ));
+      
+      // Validate coordinates before using them
+      final lat = providerLocation!.data.latitude;
+      final lng = providerLocation!.data.longitude;
+      
+      // Check if coordinates are valid (not 0,0 and within valid range)
+      if (lat != 0.0 && lng != 0.0 && 
+          lat >= -90 && lat <= 90 && 
+          lng >= -180 && lng <= 180) {
+        _currentPosition = LatLng(lat.toDouble(), lng.toDouble());
+        _initialLocation = _currentPosition!;
+        
+        // Update map camera position
+        mapController?.animateCamera(CameraUpdate.newCameraPosition(
+          CameraPosition(
+            target: _currentPosition!,
+            zoom: 15.0,
+          ),
+        ));
+      } else {
+        // Invalid coordinates - show error message
+        log('Invalid location coordinates: lat=$lat, lng=$lng');
+        toast(language.somethingWentWrong);
+      }
       setState(() {});
     }).catchError((error) {
-      log(error.toString());
+      log('Error fetching provider location: ${error.toString()}');
+      toast('${language.somethingWentWrong}: ${error.toString()}');
+      // Keep existing location if available, don't clear it
     }).whenComplete(() {
       isLocationLoader = false;
       setState(() {});

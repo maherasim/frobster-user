@@ -113,8 +113,8 @@ class NotificationWidget extends StatelessWidget {
               4.height,
               Text(
                 parseHtmlString(data.data?.message.validate() ?? ''),
-                style: secondaryTextStyle(),
-                maxLines: 3,
+                  style: secondaryTextStyle(),
+                  maxLines: 3,
                 overflow: TextOverflow.ellipsis,
               ),
             ],

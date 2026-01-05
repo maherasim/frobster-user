@@ -19,6 +19,7 @@ class ServiceData {
   int? isFeatured;
   int? bookingAddressId;
   int? completedBookings;
+  int? providerTotalServices;
   num? price;
   num? discount;
   num? totalViews;
@@ -139,6 +140,7 @@ class ServiceData {
     this.dateTimeVal = const [],
     this.bookingAddressId,
     this.completedBookings,
+    this.providerTotalServices,
     this.servicePackage,
     this.isEnableAdvancePayment,
     this.advancePaymentPercentage,
@@ -175,6 +177,11 @@ class ServiceData {
       description: json['description'],
       isFeatured: json['is_featured'],
       completedBookings: json['completed_booking_count'],
+      providerTotalServices: json['provider_total_services'] != null 
+          ? (json['provider_total_services'] is int 
+              ? json['provider_total_services'] 
+              : (json['provider_total_services'] as num?)?.toInt())
+          : null,
       providerName: json['provider_name'],
       cityName: json['city_name'],
       countryName: json['country_name'],
@@ -182,7 +189,17 @@ class ServiceData {
       serviceCountryName: json['service_country_name'],
       categoryName: json['category_name'],
       attachments: json['attchments'] != null
-          ? List<String>.from(json['attchments'])
+          ? (json['attchments'] is List)
+              ? (json['attchments'] as List).map((item) {
+                  if (item is String) {
+                    return item;
+                  } else if (item is Map && item['url'] != null) {
+                    return item['url'].toString();
+                  } else {
+                    return item.toString();
+                  }
+                }).toList().cast<String>()
+              : null
           : null,
       totalViews: json['total_views'],
       totalReview: json['total_review'],
@@ -260,6 +277,8 @@ class ServiceData {
     data['id'] = this.id;
     data['is_featured'] = this.isFeatured;
     data['completed_booking_count'] = this.completedBookings;
+    if (this.providerTotalServices != null)
+      data['provider_total_services'] = this.providerTotalServices;
     data['name'] = this.name;
     data['price'] = this.price;
     data['is_slot'] = this.isSlot;

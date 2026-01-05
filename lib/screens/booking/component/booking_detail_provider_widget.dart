@@ -209,7 +209,7 @@ class BookingDetailProviderWidgetState
                   Row(
                     children: [
                       Text(
-                        'Services : ${widget.providerData.totalBooking.validate()}',
+                        'Services : ${widget.providerData.totalServices.validate()}',
                         style: primaryTextStyle(size: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

@@ -156,25 +156,25 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                 // Display only - no selection functionality
                 return Container(
                   decoration: BoxDecoration(
-                    gradient: appPrimaryGradient,
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(
-                        vertical: 8.0, horizontal: 10),
-                    child: Text(
-                      (() {
-                        final addr = value.providerAddressMapping?.address.validate() ?? '';
-                        if (addr.trim().isNotEmpty) return addr;
-                        final city = value.cityName.validate();
-                        final country = value.countryName.validate();
-                        if (city.isEmpty && country.isEmpty) return 'N/A';
-                        return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
-                      })(),
-                      style: boldTextStyle(
+                            gradient: appPrimaryGradient,
+                            borderRadius: BorderRadius.circular(8),
+                          ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                          vertical: 8.0, horizontal: 10),
+                      child: Text(
+                        (() {
+                          final addr = value.providerAddressMapping?.address.validate() ?? '';
+                          if (addr.trim().isNotEmpty) return addr;
+                          final city = value.cityName.validate();
+                          final country = value.countryName.validate();
+                          if (city.isEmpty && country.isEmpty) return 'N/A';
+                          return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
+                        })(),
+                        style: boldTextStyle(
                           color: Colors.white),
-                      maxLines: 2,
-                      overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
                     ),
                   ),
                 );

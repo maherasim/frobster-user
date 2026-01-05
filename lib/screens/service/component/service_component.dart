@@ -242,13 +242,25 @@ class ServiceComponentState extends State<ServiceComponent> {
     final double cardWidth = widget.width ?? double.infinity;
     // Removed free-form address parsing as we now rely on mapped city/country
 
-    // Prefer city/country coming directly from the service payload if present.
+    // Use city/country from service address mapping or fallback to direct service fields
+    // Never use address field - only city and country
     final ServiceAddressMapping? firstMapping =
         (widget.serviceData.serviceAddressMapping?.isNotEmpty ?? false)
             ? widget.serviceData.serviceAddressMapping!.first
             : null;
-    final String mappedCity = firstMapping?.cityName.validate() ?? '';
-    final String mappedCountry = firstMapping?.countryName.validate() ?? '';
+    String mappedCity = firstMapping?.cityName.validate() ?? '';
+    String mappedCountry = firstMapping?.countryName.validate() ?? '';
+    
+    // Fallback to direct service city/country if mapping is empty
+    if (mappedCity.isEmpty && mappedCountry.isEmpty) {
+      mappedCity = widget.serviceData.serviceCityName.validate().isNotEmpty
+          ? widget.serviceData.serviceCityName.validate()
+          : widget.serviceData.cityName.validate();
+      mappedCountry = widget.serviceData.serviceCountryName.validate().isNotEmpty
+          ? widget.serviceData.serviceCountryName.validate()
+          : widget.serviceData.countryName.validate();
+    }
+    
     final String cityCountry = (mappedCity.isEmpty && mappedCountry.isEmpty)
         ? 'N/A'
         : (mappedCity.isNotEmpty && mappedCountry.isNotEmpty
@@ -502,7 +514,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Services: ${widget.serviceData.completedBookings ?? 0}',
+                              'Services: ${widget.serviceData.providerTotalServices ?? 0}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),

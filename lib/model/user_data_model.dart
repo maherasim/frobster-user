@@ -12,6 +12,7 @@ class UserData {
   int? providerId;
   int? status;
   int? totalBooking;
+  int? totalServices;
   String? mobility;
   String? experience;
   String? availability;
@@ -170,6 +171,7 @@ class UserData {
     this.verificationId,
     this.otpCode,
     this.totalBooking,
+    this.totalServices,
     this.emailVerified,
     this.handymanImage,
     this.isVerifyHandyman,
@@ -237,6 +239,7 @@ class UserData {
       designation: json['designation'],
       otpCode: json['otpCode'],
       totalBooking: json['total_services_booked'],
+      totalServices: json['total_services'],
       emailVerified: json['is_email_verified'],
       handymanImage: json['handyman_image'],
       isVerifyHandyman: json['is_verified'],
@@ -307,6 +310,8 @@ class UserData {
     if (this.isFavourite != null) data['is_favourite'] = this.isFavourite;
     if (this.totalBooking != null)
       data['total_services_booked'] = this.totalBooking;
+    if (this.totalServices != null)
+      data['total_services'] = this.totalServices;
     if (this.emailVerified != null)
       data['is_email_verified'] = this.emailVerified;
     if (this.handymanImage != null) data['handyman_image'] = this.handymanImage;

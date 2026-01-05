@@ -28,25 +28,64 @@ class DashboardResponse {
   });
 
   factory DashboardResponse.fromJson(Map<String, dynamic> json) {
+    // Parse providers first to create a map for enriching services
+    List<UserData>? providers = json['provider'] != null
+        ? (json['provider'] as List).map((i) => UserData.fromJson(i)).toList()
+        : null;
+    
+    // Create a map of provider_id -> total_services for quick lookup
+    Map<int, int> providerTotalServicesMap = {};
+    if (providers != null) {
+      for (var provider in providers) {
+        if (provider.id != null && provider.totalServices != null) {
+          providerTotalServicesMap[provider.id!] = provider.totalServices!;
+        }
+      }
+    }
+    
+    // Helper function to enrich service with provider total services
+    ServiceData enrichService(ServiceData service) {
+      if (service.providerId != null && providerTotalServicesMap.containsKey(service.providerId)) {
+        service.providerTotalServices = providerTotalServicesMap[service.providerId];
+      }
+      return service;
+    }
+    
+    // Parse services and enrich them
+    List<ServiceData>? services = json['service'] != null
+        ? (json['service'] is Map && json['service']['data'] != null)
+            ? (json['service']['data'] as List)
+                .map((i) => enrichService(ServiceData.fromJson(i)))
+                .toList()
+            : (json['service'] is List)
+                ? (json['service'] as List)
+                    .map((i) => enrichService(ServiceData.fromJson(i)))
+                    .toList()
+                : null
+        : null;
+    
+    // Parse featured services and enrich them
+    List<ServiceData>? featuredServices = json['featured_service'] != null
+        ? (json['featured_service'] is Map && json['featured_service']['data'] != null)
+            ? (json['featured_service']['data'] as List)
+                .map((i) => enrichService(ServiceData.fromJson(i)))
+                .toList()
+            : (json['featured_service'] is List)
+                ? (json['featured_service'] as List)
+                    .map((i) => enrichService(ServiceData.fromJson(i)))
+                    .toList()
+                : null
+        : null;
+    
     return DashboardResponse(
       category: json['category'] != null
           ? (json['category'] as List)
               .map((i) => CategoryData.fromJson(i))
               .toList()
           : null,
-      provider: json['provider'] != null
-          ? (json['provider'] as List).map((i) => UserData.fromJson(i)).toList()
-          : null,
-      service: json['service'] != null
-          ? (json['service'] as List)
-              .map((i) => ServiceData.fromJson(i))
-              .toList()
-          : null,
-      featuredServices: json['featured_service'] != null
-          ? (json['featured_service'] as List)
-              .map((i) => ServiceData.fromJson(i))
-              .toList()
-          : null,
+      provider: providers,
+      service: services,
+      featuredServices: featuredServices,
       slider: json['slider'] != null
           ? (json['slider'] as List)
               .map((i) => SliderModel.fromJson(i))

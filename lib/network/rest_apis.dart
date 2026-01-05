@@ -1137,7 +1137,7 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
     for (int i = 0; i < tempImages.length; i++) {
       try {
         final file = await MultipartFile.fromPath('image[$i]', tempImages[i].path);
-        files.add(file);
+      files.add(file);
       } catch (e) {
         log('Error creating multipart file for image $i: $e');
         // Continue with other images even if one fails
@@ -1158,13 +1158,13 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
     multiPartRequest, 
     timeout: Duration(minutes: 10),
     onSuccess: (temp) async {
-      appStore.setLoading(false);
+    appStore.setLoading(false);
 
       try {
-        final json = jsonDecode(temp);
-        log("Response: $json");
+    final json = jsonDecode(temp);
+    log("Response: $json");
 
-        finish(getContext, true);
+    finish(getContext, true);
       } catch (e) {
         log('Error parsing response: $e');
         appStore.setLoading(false);
@@ -1173,8 +1173,8 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
     }, 
     onError: (error) {
       log('Upload error: $error');
-      toast(error.toString(), print: true);
-      appStore.setLoading(false);
+    toast(error.toString(), print: true);
+    appStore.setLoading(false);
     }
   ).catchError((e) {
     log('Upload exception: $e');
@@ -1182,7 +1182,7 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
     if (e.toString().contains('TimeoutException') || e.toString().contains('timeout')) {
       toast('Upload timeout. Please try again with smaller images or check your internet connection.');
     } else {
-      toast(e.toString());
+    toast(e.toString());
     }
   });
 }

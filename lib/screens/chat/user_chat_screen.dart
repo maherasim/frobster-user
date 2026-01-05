@@ -118,7 +118,7 @@ class _UserChatScreenState extends State<UserChatScreen>
           minLines: 1,
           onFieldSubmitted: (s) {
             if (!_isSending) {
-              sendMessages();
+            sendMessages();
             }
           },
           focus: messageFocus,
@@ -224,52 +224,52 @@ class _UserChatScreenState extends State<UserChatScreen>
       });
     }
     try {
-      log('-------addMessage----');
+    log('-------addMessage----');
       // Send message in background - no blocking loader for better UX
       chatServices.addMessage(data).then((value) async {
-        log("--Message Successfully Added--");
-        // todo : remove this
-        isReceiverOnline = 0;
-        if (isReceiverOnline != 1) {
-          /// Send Notification
-          NotificationService()
-              .sendPushNotifications(
-            appStore.userFullName,
-            data.message.validate(),
-            image: data.attachmentfiles == null || data.attachmentfiles!.isEmpty
-                ? null
-                : data.attachmentfiles!.first,
-            receiverUser: widget.receiverUser,
-            senderUserData: senderUser,
-          )
-              .catchError((e) {
-            log("Notification Error ${e.toString()}");
-          });
-        }
-
-        /// Save receiverId to Sender Doc.
-        userService
-            .saveToContacts(
-                senderId: appStore.uid,
-                receiverId: widget.receiverUser.uid.validate())
-            .then((value) => log("---ReceiverId to Sender Doc.---"))
+      log("--Message Successfully Added--");
+      // todo : remove this
+      isReceiverOnline = 0;
+      if (isReceiverOnline != 1) {
+        /// Send Notification
+        NotificationService()
+            .sendPushNotifications(
+          appStore.userFullName,
+          data.message.validate(),
+          image: data.attachmentfiles == null || data.attachmentfiles!.isEmpty
+              ? null
+              : data.attachmentfiles!.first,
+          receiverUser: widget.receiverUser,
+          senderUserData: senderUser,
+        )
             .catchError((e) {
-          log(e.toString());
+          log("Notification Error ${e.toString()}");
         });
+      }
 
-        /// Save senderId to Receiver Doc.
-        userService
-            .saveToContacts(
-                senderId: widget.receiverUser.uid.validate(),
-                receiverId: appStore.uid)
-            .then((value) => log("---SenderId to Receiver Doc.---"))
-            .catchError((e) {
-          log(e.toString());
-        });
-
-        /// ENd
-      }).catchError((e) {
+      /// Save receiverId to Sender Doc.
+      userService
+          .saveToContacts(
+              senderId: appStore.uid,
+              receiverId: widget.receiverUser.uid.validate())
+          .then((value) => log("---ReceiverId to Sender Doc.---"))
+          .catchError((e) {
         log(e.toString());
+      });
+
+      /// Save senderId to Receiver Doc.
+      userService
+          .saveToContacts(
+              senderId: widget.receiverUser.uid.validate(),
+              receiverId: appStore.uid)
+          .then((value) => log("---SenderId to Receiver Doc.---"))
+          .catchError((e) {
+        log(e.toString());
+      });
+
+      /// ENd
+    }).catchError((e) {
+      log(e.toString());
         // Show error toast if message fails to send
         toast(language.somethingWentWrong);
       });
@@ -279,7 +279,7 @@ class _UserChatScreenState extends State<UserChatScreen>
         if (mounted) {
           _isSending = false;
         }
-      });
+    });
     }
   }
 
