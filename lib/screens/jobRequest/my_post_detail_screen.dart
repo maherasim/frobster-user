@@ -117,7 +117,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
             child: Text(
               value,
               style: secondaryTextStyle(
-                size: 12,
+                size: 14,
                 weight: FontWeight.normal,
                 color: valueColor ?? textPrimaryColorGlobal,
               ).copyWith(height: 1.2),
@@ -144,7 +144,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         if (data.cityName.validate().isNotEmpty || data.countryName.validate().isNotEmpty)
           Text(
             "${data.cityName ?? ''}${data.countryName.validate().isEmpty ? "" : "${data.cityName.validate().isEmpty ? "" : " - "}${data.countryName}"}",
-            style: secondaryTextStyle(size: 12, color: gradientRed),
+            style: secondaryTextStyle(size: 14, color: gradientRed),
           ),
         24.height,
 

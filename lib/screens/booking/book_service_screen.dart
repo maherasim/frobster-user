@@ -70,6 +70,16 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
   void initState() {
     super.initState();
     initialPrice = widget.data.serviceDetail?.price;
+    
+    // Initialize addons from service detail if available
+    if (widget.data.serviceaddon.validate().isNotEmpty) {
+      // Only initialize if store is empty (to preserve any pre-selected addons)
+      if (serviceAddonStore.selectedServiceAddon.isEmpty) {
+        // The AddonComponent will handle displaying available addons
+        // We don't pre-populate selectedServiceAddon, let user select
+      }
+    }
+    
     init();
 
     if (widget.selectedPackage != null &&
@@ -348,13 +358,11 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                   ),
                 ),
 
-                /// Only active status package display
-                if (serviceAddonStore.selectedServiceAddon
-                    .validate()
-                    .isNotEmpty)
+                /// Show addon component if addons are available
+                if (widget.data.serviceaddon.validate().isNotEmpty)
                   AddonComponent(
                     isFromBookingLastStep: true,
-                    serviceAddon: serviceAddonStore.selectedServiceAddon,
+                    serviceAddon: widget.data.serviceaddon.validate(),
                     onSelectionChange: (v) {
                       serviceAddonStore.setSelectedServiceAddon(v);
                       setPrice();

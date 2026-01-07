@@ -518,14 +518,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                     ).expand(flex: 2),
                     8.width,
                     Marquee(
-                      child: Text(
+                        child: Text(
                         widget.bookingData.address.validate().isNotEmpty
                             ? widget.bookingData.address.validate()
                             : 'N/A',
-                        maxLines: 2,
-                        style: boldTextStyle(size: 12),
-                        textAlign: TextAlign.left,
-                      ),
+                          maxLines: 2,
+                          style: boldTextStyle(size: 12),
+                          textAlign: TextAlign.left,
+                        ),
                     ).expand(flex: 5),
                   ],
                 ).paddingAll(8),

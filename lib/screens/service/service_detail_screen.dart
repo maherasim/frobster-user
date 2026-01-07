@@ -32,7 +32,6 @@ import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../utils/images.dart';
-import 'addons/service_addons_component.dart';
 
 ServiceAddonStore serviceAddonStore = ServiceAddonStore();
 
@@ -657,6 +656,57 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           );
                         }),
                         16.height,
+                        // Views and Total Booking - Simple display
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'Views',
+                                style: secondaryTextStyle(size: 13),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                '${snap.data!.serviceDetail!.totalViews?.toString() ?? '0'}',
+                                style: secondaryTextStyle(
+                                  size: 14,
+                                  weight: FontWeight.normal,
+                                  color: textPrimaryColorGlobal,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        ),
+                        10.height,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Flexible(
+                              child: Text(
+                                'Total Booking',
+                                style: secondaryTextStyle(size: 13),
+                                textAlign: TextAlign.left,
+                              ),
+                            ),
+                            Flexible(
+                              child: Text(
+                                '${snap.data!.serviceDetail!.totalBookingCount?.toString() ?? '0'}',
+                                style: secondaryTextStyle(
+                                  size: 14,
+                                  weight: FontWeight.normal,
+                                  color: textPrimaryColorGlobal,
+                                ),
+                                textAlign: TextAlign.right,
+                              ),
+                            ),
+                          ],
+                        ),
+                        16.height,
                         // Description right after attributes
                         Text('Description',
                                 style: boldTextStyle(size: LABEL_TEXT_SIZE)),
@@ -718,13 +768,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             selectedPackage = null;
                           }
                           bookNow(snap.data!);
-                        },
-                      ),
-                    if (snap.data!.serviceaddon.validate().isNotEmpty)
-                      AddonComponent(
-                        serviceAddon: snap.data!.serviceaddon.validate(),
-                        onSelectionChange: (v) {
-                          serviceAddonStore.setSelectedServiceAddon(v);
                         },
                       ),
                     serviceFaqWidget(data: snap.data!.serviceFaq.validate())

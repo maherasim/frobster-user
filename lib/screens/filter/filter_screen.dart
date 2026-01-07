@@ -1,4 +1,5 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/category_model.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
@@ -17,6 +18,7 @@ import '../../utils/model_keys.dart';
 import 'component/filter_city_component.dart';
 import 'component/filter_country_component.dart';
 import 'component/filter_state_component.dart';
+
 import 'component/filter_rating_component.dart';
 import 'component/filter_subcategory_component.dart';
 
@@ -338,11 +340,8 @@ class _FilterScreenState extends State<FilterScreen> {
                       },
                     ).expand(),
                   16.width,
-                  AppButton(
-                    text: language.lblApply,
-                    textColor: Colors.white,
-                    color: context.primaryColor,
-                    onTap: () {
+                  GradientButton(
+                    onPressed: () {
                       filterStore.categoryId = [];
                       filterStore.selectedSubCategoryId = 0;
 
@@ -393,6 +392,7 @@ class _FilterScreenState extends State<FilterScreen> {
 
                       finish(context, true);
                     },
+                    child: Text(language.lblApply, style: boldTextStyle(color: Colors.white, size: 16)),
                   ).expand(),
                 ],
               ),

@@ -19,6 +19,7 @@ class ServiceData {
   int? isFeatured;
   int? bookingAddressId;
   int? completedBookings;
+  int? totalBookingCount;
   int? providerTotalServices;
   num? price;
   num? discount;
@@ -140,6 +141,7 @@ class ServiceData {
     this.dateTimeVal = const [],
     this.bookingAddressId,
     this.completedBookings,
+    this.totalBookingCount,
     this.providerTotalServices,
     this.servicePackage,
     this.isEnableAdvancePayment,
@@ -177,6 +179,11 @@ class ServiceData {
       description: json['description'],
       isFeatured: json['is_featured'],
       completedBookings: json['completed_booking_count'],
+      totalBookingCount: json['total_booking_count'] != null 
+          ? (json['total_booking_count'] is int 
+              ? json['total_booking_count'] 
+              : (json['total_booking_count'] as num?)?.toInt())
+          : null,
       providerTotalServices: json['provider_total_services'] != null 
           ? (json['provider_total_services'] is int 
               ? json['provider_total_services'] 
@@ -277,6 +284,8 @@ class ServiceData {
     data['id'] = this.id;
     data['is_featured'] = this.isFeatured;
     data['completed_booking_count'] = this.completedBookings;
+    if (this.totalBookingCount != null)
+      data['total_booking_count'] = this.totalBookingCount;
     if (this.providerTotalServices != null)
       data['provider_total_services'] = this.providerTotalServices;
     data['name'] = this.name;

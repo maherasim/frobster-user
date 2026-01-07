@@ -64,11 +64,14 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
   }
 
   void init() async {
-    fetchAllServiceData();
-
+    // Initialize subCategory to null (show all services initially)
+    subCategory = null;
+    
     if (widget.categoryId != null) {
       fetchCategoryList();
     }
+    
+    fetchAllServiceData();
   }
 
   void fetchCategoryList() async {
@@ -78,13 +81,36 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
   }
 
   void fetchAllServiceData() async {
+    // Always prioritize widget.categoryId (single category) to avoid comma-separated values
+    // Only use filterStore.categoryId if widget.categoryId is not available
+    String categoryIdParam = '';
+    String subCategoryParam = '';
+    
+    // When a specific subcategory is selected (not null, not -1)
+    if (subCategory != null && subCategory != -1) {
+      subCategoryParam = subCategory.validate().toString();
+      // Send parent categoryId when available (single value from widget, not filterStore)
+      if (widget.categoryId != null) {
+        categoryIdParam = widget.categoryId.validate().toString();
+      }
+    } else {
+      // View All: send categoryId only (no subcategory filter)
+      // Prefer widget.categoryId (single value) over filterStore (may have multiple)
+      categoryIdParam = widget.categoryId != null
+          ? widget.categoryId.validate().toString()
+          : (filterStore.categoryId.isNotEmpty 
+              ? filterStore.categoryId.join(',') 
+              : '');
+    }
+    
+    // Debug: Print to verify values
+    print('🔍 fetchAllServiceData - subCategory: $subCategory, subCategoryParam: $subCategoryParam, categoryIdParam: $categoryIdParam');
+    
     futureService = searchServiceAPI(
       page: page,
       list: serviceList,
-      categoryId: widget.categoryId != null
-          ? widget.categoryId.validate().toString()
-          : filterStore.categoryId.join(','),
-      subCategory: subCategory != null ? subCategory.validate().toString() : '',
+      categoryId: categoryIdParam,
+      subCategory: subCategoryParam,
       providerId: widget.providerId != null
           ? widget.providerId.toString()
           : filterStore.providerId.join(","),
@@ -147,19 +173,57 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                   builder: (_) {
                     bool isSelected =
                         filterStore.selectedSubCategoryId == index;
-                    return GestureDetector(
-                      onTap: () {
-                        filterStore.setSelectedSubCategory(catId: index);
+                    return Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          print('🖱️ TAP DETECTED - index: $index');
+                          print('📊 Data info - data.id: ${data.id}, data.name: ${data.name}');
+                          
+                          filterStore.setSelectedSubCategory(catId: index);
 
-                        subCategory = data.id;
-                        page = 1;
+                          // If index is 0, it's "View All" (id: -1) - set to -1 to show all subcategories
+                          // Otherwise, set the selected subcategory ID for filtering
+                          int? selectedSubCategoryId;
+                          if (index == 0 || (data.id != null && data.id == -1)) {
+                            selectedSubCategoryId = -1; // Explicitly set to -1 for "View All"
+                            print('📌 Setting to View All (-1)');
+                          } else if (data.id != null) {
+                            selectedSubCategoryId = data.id; // Set specific subcategory ID
+                            print('📌 Setting to subcategory ID: ${data.id}');
+                          } else {
+                            selectedSubCategoryId = null; // Fallback if id is null
+                            print('⚠️ WARNING: data.id is null for index $index, name: ${data.name}');
+                          }
+                          
+                          // Set the class variable BEFORE calling fetchAllServiceData
+                          subCategory = selectedSubCategoryId;
+                          
+                          // Debug: Print subcategory selection
+                          print('🎯 Subcategory tapped - index: $index, data.id: ${data.id}, data.name: ${data.name}, subCategory set to: $subCategory');
+                          print('🔍 Current subCategory value: $subCategory');
+                          
+                          page = 1;
+                          
+                          // Clear the service list immediately when switching subcategories
+                          serviceList.clear();
+                          futureService = null;
 
-                        appStore.setLoading(true);
-                        fetchAllServiceData();
+                          appStore.setLoading(true);
+                          
+                          // Verify subCategory is set before calling fetchAllServiceData
+                          print('✅ Before fetchAllServiceData - subCategory: $subCategory');
+                          
+                          // Call fetchAllServiceData with the selected subcategory
+                          // Pass the subcategory value directly to ensure it's used
+                          fetchAllServiceData();
 
-                        setState(() {});
-                      },
-                      child: SizedBox(
+                          setState(() {
+                            print('🔄 setState called - subCategory: $subCategory');
+                          });
+                        },
+                        borderRadius: BorderRadius.circular(12),
+                        child: SizedBox(
                         width: context.width() / 4 - 20,
                         child: Stack(
                           clipBehavior: Clip.none,
@@ -234,17 +298,20 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                             Positioned(
                               top: 14,
                               right: 0,
-                              child: Container(
-                                padding: EdgeInsets.all(2),
-                                decoration: boxDecorationDefault(
-                                    color: context.primaryColor),
-                                child: Icon(Icons.done,
-                                    size: 16, color: Colors.white),
-                              ).visible(isSelected),
+                              child: IgnorePointer(
+                                child: Container(
+                                  padding: EdgeInsets.all(2),
+                                  decoration: boxDecorationDefault(
+                                      color: context.primaryColor),
+                                  child: Icon(Icons.done,
+                                      size: 16, color: Colors.white),
+                                ).visible(isSelected),
+                              ),
                             )
                           ],
                         ),
                       ),
+                    ),
                     );
                   },
                 );
@@ -388,6 +455,8 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                       );
                     },
                     onSuccess: (data) {
+                      // Ensure serviceList is synced with the API response
+                      serviceList = data;
                       return Column(
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
@@ -406,7 +475,8 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                               title: language.lblNoServicesFound,
                               subTitle: (searchCont.text.isNotEmpty ||
                                       filterStore.providerId.isNotEmpty ||
-                                      filterStore.categoryId.isNotEmpty)
+                                      filterStore.categoryId.isNotEmpty ||
+                                      subCategory != null)
                                   ? language.noDataFoundInFilter
                                   : null,
                               imageWidget: EmptyStateWidget(),

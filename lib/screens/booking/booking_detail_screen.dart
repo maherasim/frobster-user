@@ -860,41 +860,41 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           child: Column(
             children: [
               ListView.separated(
-                itemCount: extraChargesList.length,
-                shrinkWrap: true,
-                padding: EdgeInsets.zero,
-                physics: NeverScrollableScrollPhysics(),
-                separatorBuilder: (context, index) => 8.height,
-                itemBuilder: (_, i) {
-                  ExtraChargesModel data = extraChargesList[i];
+            itemCount: extraChargesList.length,
+            shrinkWrap: true,
+            padding: EdgeInsets.zero,
+            physics: NeverScrollableScrollPhysics(),
+            separatorBuilder: (context, index) => 8.height,
+            itemBuilder: (_, i) {
+              ExtraChargesModel data = extraChargesList[i];
 
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+              return Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
                     children: [
+                      Text(data.title.validate(),
+                              style: secondaryTextStyle(size: 14))
+                          .expand(),
+                      16.width,
                       Row(
                         children: [
-                          Text(data.title.validate(),
-                                  style: secondaryTextStyle(size: 14))
-                              .expand(),
-                          16.width,
-                          Row(
-                            children: [
-                              Text('${data.qty} * ${data.price.validate()} = ',
-                                  style: secondaryTextStyle()),
-                              4.width,
-                              PriceWidget(
-                                  price:
-                                      '${data.price.validate() * data.qty.validate()}'
-                                          .toDouble(),
-                                  color: textPrimaryColorGlobal,
-                                  isBoldText: true),
-                            ],
-                          ),
+                          Text('${data.qty} * ${data.price.validate()} = ',
+                              style: secondaryTextStyle()),
+                          4.width,
+                          PriceWidget(
+                              price:
+                                  '${data.price.validate() * data.qty.validate()}'
+                                      .toDouble(),
+                              color: textPrimaryColorGlobal,
+                              isBoldText: true),
                         ],
                       ),
                     ],
-                  );
-                },
+                  ),
+                ],
+              );
+            },
               ),
               // Total Extra Charges - Always show if there are items
               if (extraChargesList.isNotEmpty && totalExtraCharges >= 0) ...[
@@ -2467,15 +2467,15 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           lat >= -90 && lat <= 90 && 
           lng >= -180 && lng <= 180) {
         _currentPosition = LatLng(lat.toDouble(), lng.toDouble());
-        _initialLocation = _currentPosition!;
+      _initialLocation = _currentPosition!;
         
         // Update map camera position
-        mapController?.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: _currentPosition!,
-            zoom: 15.0,
-          ),
-        ));
+      mapController?.animateCamera(CameraUpdate.newCameraPosition(
+        CameraPosition(
+          target: _currentPosition!,
+          zoom: 15.0,
+        ),
+      ));
       } else {
         // Invalid coordinates - show error message
         log('Invalid location coordinates: lat=$lat, lng=$lng');
