@@ -352,11 +352,11 @@ class _FilterScreenState extends State<FilterScreen> {
                         }
                       });
 
-                      // subCatList.forEach((element) {
-                      //   if (element.isSelected) {
-                      //     filterStore.setSelectedSubCategory(catId: element.id);
-                      //   }
-                      // });
+                      subCatList.forEach((element) {
+                        if (element.isSelected) {
+                          filterStore.selectedSubCategoryId = element.id.validate();
+                        }
+                      });
 
                       filterStore.countryId = [];
 

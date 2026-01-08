@@ -87,8 +87,13 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
     String subCategoryParam = '';
     
     // When a specific subcategory is selected (not null, not -1)
-    if (subCategory != null && subCategory != -1) {
-      subCategoryParam = subCategory.validate().toString();
+    int? effectiveSubCategory = subCategory;
+    if (effectiveSubCategory == null && filterStore.selectedSubCategoryId != 0) {
+      effectiveSubCategory = filterStore.selectedSubCategoryId;
+    }
+
+    if (effectiveSubCategory != null && effectiveSubCategory != -1) {
+      subCategoryParam = effectiveSubCategory.validate().toString();
       // Send parent categoryId when available (single value from widget, not filterStore)
       if (widget.categoryId != null) {
         categoryIdParam = widget.categoryId.validate().toString();

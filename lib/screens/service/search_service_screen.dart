@@ -57,7 +57,7 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
       page: page,
       list: serviceList,
       categoryId: filterStore.categoryId.join(','),
-      subCategory: subCategory != null ? subCategory.validate().toString() : '',
+      subCategory: filterStore.selectedSubCategoryId != 0 ? filterStore.selectedSubCategoryId.toString() : '',
       providerId: filterStore.providerId.join(","),
       isPriceMin: filterStore.isPriceMin,
       isPriceMax: filterStore.isPriceMax,
