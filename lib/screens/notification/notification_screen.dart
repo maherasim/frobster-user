@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -9,6 +11,7 @@ import 'package:booking_system_flutter/screens/notification/components/notificat
 import 'package:booking_system_flutter/screens/wallet/user_wallet_balance_screen.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -21,14 +24,32 @@ class NotificationScreen extends StatefulWidget {
 
 class _NotificationScreenState extends State<NotificationScreen> {
   Future<List<NotificationData>>? future;
+  StreamSubscription<RemoteMessage>? _notificationSubscription;
 
   @override
   void initState() {
     super.initState();
     init();
+    
+    // Listen for new push notifications and refresh the list
+    _notificationSubscription = FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+      // Refresh notification list when a new push notification arrives
+      if (mounted) {
+        init();
+        setState(() {});
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _notificationSubscription?.cancel();
+    super.dispose();
   }
 
   Future<void> init({Map? req}) async {
+    // Clear cached notifications to ensure fresh data with new timestamp format
+    cachedNotificationList = null;
     future = getNotification(request: req);
   }
 
@@ -82,7 +103,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
             ),
             onSwipeRefresh: () {
               appStore.setLoading(true);
-
+              // Clear cache to get fresh data with new timestamp format
+              cachedNotificationList = null;
               init();
               setState(() {});
               return 2.seconds.delay;

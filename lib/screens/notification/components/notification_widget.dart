@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:booking_system_flutter/component/image_border_component.dart';
 import 'package:booking_system_flutter/model/notification_model.dart';
 import 'package:booking_system_flutter/utils/images.dart';
@@ -35,9 +37,47 @@ class NotificationWidget extends StatelessWidget {
     }
 
     try {
-      DateTime notificationDate = DateTime.parse(createdAt);
+      // Parse the timestamp - handle both UTC and local time formats
+      DateTime notificationDate;
+      
+      // Check if the string contains timezone info (Z or +HH:MM or -HH:MM)
+      final hasTimezone = createdAt.contains('Z') || 
+                          createdAt.contains('+') || 
+                          (createdAt.length > 19 && (createdAt[19] == '+' || createdAt[19] == '-'));
+      
+      if (hasTimezone) {
+        notificationDate = DateTime.parse(createdAt).toLocal();
+      } else {
+        try {
+          String isoString = createdAt.trim();
+          if (isoString.contains(' ') && !isoString.contains('T')) {
+            isoString = isoString.replaceFirst(' ', 'T');
+          }
+          notificationDate = DateTime.parse(isoString + 'Z').toLocal();
+        } catch (e) {
+          notificationDate = DateTime.parse(createdAt);
+        }
+      }
+      
+      // OPTIONAL: Compensate for server time being ~1 hour behind
+      // Based on logs: Server 16:28Z vs Real 17:46Z (~1h 18m diff)
+      // Adding 1 hour likely corrects a timezone misconfiguration 
+      notificationDate = notificationDate.add(Duration(hours: 1));
+      
       DateTime now = DateTime.now();
       Duration difference = now.difference(notificationDate);
+      
+      /*
+      // Debug logging - uncomment to troubleshoot timestamp issues
+      log('🔔 Notification timestamp: "$createdAt"');
+      log('   Has timezone: $hasTimezone');
+      log('   Parsed UTC: ${DateTime.tryParse(createdAt)}');
+      log('   Converted to local: $notificationDate');
+      log('   Current time (local): $now');
+      log('   Current time (UTC): ${now.toUtc()}');
+      log('   Difference: ${difference.inMinutes} minutes (${difference.inHours} hours)');
+      log('   Will display: "${difference.inMinutes < 1 ? 'Just now' : (difference.inMinutes < 60 ? '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago' : '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago')}"');
+      */
 
       // If less than 1 minute ago
       if (difference.inMinutes < 1) {

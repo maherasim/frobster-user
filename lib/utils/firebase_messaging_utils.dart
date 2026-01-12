@@ -188,7 +188,7 @@ void showNotification(
       ?.createNotificationChannel(channel);
 
   const AndroidInitializationSettings initializationSettingsAndroid =
-      AndroidInitializationSettings('@drawable/ic_stat_ic_notification');
+      AndroidInitializationSettings('@drawable/ic_stat_frobster_notification');
   var iOS = const DarwinInitializationSettings(
     requestSoundPermission: false,
     requestBadgePermission: false,
@@ -233,7 +233,7 @@ void showNotification(
     autoCancel: true,
     playSound: true,
     priority: Priority.high,
-    icon: '@drawable/ic_stat_ic_notification',
+    icon: '@drawable/ic_stat_frobster_notification',
     largeIcon: remoteMessage.data.containsKey("image_url")
         ? FilePathAndroidBitmap(await _downloadAndSaveFile(
             remoteMessage.data["image_url"], 'largeIcon'))

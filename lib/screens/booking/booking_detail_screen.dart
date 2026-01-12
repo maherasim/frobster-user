@@ -2142,9 +2142,17 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   GradientButton(
                     onPressed: () async {
                       finish(context);
-        final startAt = status.bookingDetail!.startAt == null
-            ? null
-            : DateTime.parse(status.bookingDetail!.startAt!);
+        // Safely parse startAt, handle invalid date formats
+        DateTime? startAt;
+        try {
+          if (status.bookingDetail!.startAt != null &&
+              status.bookingDetail!.startAt!.isNotEmpty) {
+            startAt = DateTime.parse(status.bookingDetail!.startAt!);
+          }
+        } catch (e) {
+          log('Error parsing startAt: ${status.bookingDetail!.startAt}, error: $e');
+          startAt = null;
+        }
         final endAt = DateTime.now();
         final currentDurationDiff =
             startAt == null ? 0 : endAt.difference(startAt).inSeconds;
@@ -2157,16 +2165,33 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         log('Current DIFF: $currentDurationDiff');
         log('Previous DIFF: $prevDiff');
         log('DURATION DIFF: $durationDiff');
-        log('START AT: $startAt ');
+        log('START AT (DateTime): $startAt');
+        log('START AT (Original String): ${status.bookingDetail!.startAt}');
         log('END AT: $endDateTime');
 
-        Map request = {
-          CommonKeys.id: status.bookingDetail!.id.validate(),
-          BookingUpdateKeys.startAt: formatBookingDate(
+        // Handle startAt: if parsed DateTime is null, use original string value or current time
+        String startAtFormatted;
+        if (startAt != null) {
+          startAtFormatted = formatBookingDate(
             startAt.toString(),
             format: BOOKING_SAVE_FORMAT,
             isLanguageNeeded: false,
-          ),
+          );
+        } else if (status.bookingDetail!.startAt.validate().isNotEmpty) {
+          // Use original startAt string if available (might be in different format)
+          startAtFormatted = status.bookingDetail!.startAt!;
+        } else {
+          // If no startAt exists, use current time as start time
+          startAtFormatted = formatBookingDate(
+            endAt.toString(),
+            format: BOOKING_SAVE_FORMAT,
+            isLanguageNeeded: false,
+          );
+        }
+
+        Map request = {
+          CommonKeys.id: status.bookingDetail!.id.validate(),
+          BookingUpdateKeys.startAt: startAtFormatted,
           BookingUpdateKeys.endAt: formatBookingDate(
             endAt.toString(),
             format: BOOKING_SAVE_FORMAT,
