@@ -1566,37 +1566,37 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       if (!isSentInvoiceOnEmail) {
         buttons.add(
           GradientButton(
-            onPressed: () async {
-              bool? res = await showInDialog(
-                context,
-                contentPadding: EdgeInsets.zero,
-                dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
-                barrierDismissible: false,
-                builder: (_) => InvoiceRequestDialogComponent(
-                    bookingId: bookingResponse.bookingDetail!.id.validate()),
-              );
+        onPressed: () async {
+          bool? res = await showInDialog(
+            context,
+            contentPadding: EdgeInsets.zero,
+            dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
+            barrierDismissible: false,
+            builder: (_) => InvoiceRequestDialogComponent(
+                bookingId: bookingResponse.bookingDetail!.id.validate()),
+          );
 
-              if (res ?? false) {
-                isSentInvoiceOnEmail = res.validate();
-                init();
-                setState(() {});
-              }
-            },
-            child: Text(language.requestInvoice),
+          if (res ?? false) {
+            isSentInvoiceOnEmail = res.validate();
+            init();
+            setState(() {});
+          }
+        },
+        child: Text(language.requestInvoice),
           ).expand(),
-        );
+      );
       } else {
         // Show "Sent Invoice" text if invoice was sent
         buttons.add(
           Container(
-            width: context.width(),
-            padding: EdgeInsets.all(16),
-            decoration: BoxDecoration(color: context.cardColor),
-            child: Text(language.sentInvoiceText,
-                    style: boldTextStyle(), textAlign: TextAlign.center)
-                .center(),
+        width: context.width(),
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(color: context.cardColor),
+        child: Text(language.sentInvoiceText,
+                style: boldTextStyle(), textAlign: TextAlign.center)
+            .center(),
           ),
-        );
+      );
       }
       
       // Rate button - show if not reviewed yet

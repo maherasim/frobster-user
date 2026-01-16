@@ -216,7 +216,7 @@ class BookingDetailProviderWidgetState
                       ).flexible(),
                       12.width,
                       Text(
-                        'Views: ${widget.providerData.totalBooking.validate()}',
+                        'Bookings: ${widget.providerData.totalBooking.validate()}',
                         style: primaryTextStyle(size: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,

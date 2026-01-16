@@ -415,7 +415,36 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
-                          if (data.userData?.totalBooking != null) ...[
+                          if (data.userData?.totalServices != null) ...[
+                            15.height,
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Total Services:',
+                                  style: boldTextStyle(size: LABEL_TEXT_SIZE),
+                                ),
+                                8.width,
+                                Container(
+                                  decoration: boxDecorationWithRoundedCorners(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(20)),
+                                    backgroundColor: appStore.isDarkMode
+                                        ? cardDarkColor
+                                        : primaryColor.withValues(alpha: 0.1),
+                                  ),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 16, vertical: 8),
+                                  child: Text(
+                                    '${data.userData?.totalServices.validate()}',
+                                    style: secondaryTextStyle(
+                                        size: 12, weight: FontWeight.bold),
+                                  ),
+                                )
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          if (data.completedJobs != null) ...[
                             15.height,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
@@ -436,7 +465,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
                                   child: Text(
-                                    '0',
+                                    '${data.completedJobs.validate()}',
                                     style: secondaryTextStyle(
                                         size: 12, weight: FontWeight.bold),
                                   ),

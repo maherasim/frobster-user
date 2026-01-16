@@ -209,7 +209,7 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                             style: secondaryTextStyle(),
                           ), //Todo Translate
                           4.width,
-                          Text("${widget.data.totalBooking.validate()}",
+                          Text("${widget.data.totalServices.validate()}",
                               style: boldTextStyle()),
                         ],
                       ),

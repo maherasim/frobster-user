@@ -162,15 +162,14 @@ class BookingDetailHandymanWidgetState
           Divider(color: context.dividerColor),
           8.height,
           8.height,
-          if (widget.bookingDetail.status == BookingStatusKeys.complete)
+          if (widget.bookingDetail.status == BookingStatusKeys.complete &&
+              widget.handymanData.handymanReview == null)
             TextButton(
               onPressed: () {
                 _handleHandymanRatingClick();
               },
               child: Text(
-                  widget.handymanData.handymanReview != null
-                      ? language.lblEditYourReview
-                      : language.lblRateHandyman,
+                  language.lblRateHandyman,
                   style: boldTextStyle(color: primaryColor)),
             ).center()
         ],

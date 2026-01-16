@@ -9,12 +9,14 @@ class ProviderInfoResponse {
   List<RatingData>? handymanRatingReviewList;
   List<String>? handymanImageList;
   List<UserData>? handymanStaffList;
+  int? completedJobs;
 
   ProviderInfoResponse(
       {this.userData,
       this.serviceList,
       this.handymanRatingReviewList,
-      this.handymanImageList});
+      this.handymanImageList,
+      this.completedJobs});
 
   ProviderInfoResponse.fromJson(Map<String, dynamic> json) {
     userData =
@@ -41,6 +43,17 @@ class ProviderInfoResponse {
               .toList()
           : null;
     }
+    // Parse completed_jobs from API response
+    // Check root level first, then nested in data if it's a Map
+    dynamic completedJobsValue = json['completed_jobs'];
+    if (completedJobsValue == null && json['data'] is Map) {
+      completedJobsValue = (json['data'] as Map)['completed_jobs'];
+    }
+    if (completedJobsValue != null) {
+      completedJobs = completedJobsValue is int 
+          ? completedJobsValue 
+          : int.tryParse(completedJobsValue.toString());
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -60,6 +73,7 @@ class ProviderInfoResponse {
       data['handyman_staff'] =
           this.handymanStaffList!.map((v) => v.toJson()).toList();
     }
+    data['completed_jobs'] = this.completedJobs;
     return data;
   }
 }
