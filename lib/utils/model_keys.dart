@@ -175,6 +175,7 @@ class BlogKey {
 
 class AdvancePaymentKey {
   static String advancePaymentAmount = "advance_payment_amount"; // double value
+  static String advancePaymentPercentage = "advance_payment_percentage"; // percentage value (can be "50%" or 50)
   static String isEnableAdvancePayment = 'is_enable_advance_payment'; // 0/1
   static String advancePaidAmount = 'advance_paid_amount';
 }

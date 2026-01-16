@@ -707,6 +707,25 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           ],
                         ),
                         16.height,
+                        // Advance Payment display - only show when advance payment is enabled and service is not free
+                        if (snap.data!.serviceDetail!.isAdvancePayment &&
+                            !snap.data!.serviceDetail!.isFreeService)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                language.advancedPayment,
+                                style: secondaryTextStyle(size: 13),
+                              ),
+                              Text(
+                                '${snap.data!.serviceDetail!.advancePaymentPercentage.validate()}%',
+                                style: boldTextStyle(size: 13, color: Colors.green),
+                              ),
+                            ],
+                          ),
+                        if (snap.data!.serviceDetail!.isAdvancePayment &&
+                            !snap.data!.serviceDetail!.isFreeService)
+                          16.height,
                         // Description right after attributes
                         Text('Description',
                                 style: boldTextStyle(size: LABEL_TEXT_SIZE)),

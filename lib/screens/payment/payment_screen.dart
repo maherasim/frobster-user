@@ -362,9 +362,13 @@ class _PaymentScreenState extends State<PaymentScreen> {
         txnId: '',
       );
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER) {
+      // For remaining payment, use 'paid' status; for advance payment, use 'pending_by_admin'
+      String bankTransferStatus = widget.isForAdvancePayment 
+          ? PENDING_BY_ADMIN 
+          : SERVICE_PAYMENT_STATUS_PAID;
       savePay(
         paymentMethod: PAYMENT_METHOD_BANK_TRANSFER,
-        paymentStatus: PENDING_BY_ADMIN,
+        paymentStatus: bankTransferStatus,
         txnId: '',
         endPoint: 'save-bank-transfer-payment',
       );
@@ -397,9 +401,16 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
 
     if (widget.bookings.service != null && widget.bookings.service!.isAdvancePayment && widget.bookings.bookingDetail!.bookingPackage == null) {
-      request[AdvancePaymentKey.advancePaidAmount] =  advancePaymentAmount ?? widget.bookings.bookingDetail!.paidAmount;
+      // For remaining payment, set advance_paid_amount to null; for advance payment, set the advance amount
+      if (widget.isForAdvancePayment) {
+        request[AdvancePaymentKey.advancePaidAmount] = advancePaymentAmount ?? widget.bookings.bookingDetail!.paidAmount;
+      } else {
+        // For remaining payment, set to null
+        request[AdvancePaymentKey.advancePaidAmount] = null;
+      }
 
-      // For bank transfer, keep pending_by_admin (do not override to advance_paid/paid)
+      // For bank transfer, use the status we set above (pending_by_admin for advance, paid for remaining)
+      // For other payment methods, set status based on payment flow
       if (paymentMethod != PAYMENT_METHOD_BANK_TRANSFER) {
         if ((widget.bookings.bookingDetail!.paymentStatus == null ||  widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_ADVANCE_PAID || widget.bookings.bookingDetail!.paymentStatus != SERVICE_PAYMENT_STATUS_PAID) && (widget.bookings.bookingDetail!.paidAmount == null || widget.bookings.bookingDetail!.paidAmount.validate() <= 0)) {
           // TODO: check this condition  widget.bookings.bookingPackage?.id == -1

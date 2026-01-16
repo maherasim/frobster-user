@@ -72,16 +72,16 @@ class BankTransferDetailDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Bank Information',
+                'For local and international transfers',
                 style: boldTextStyle(size: 14),
               ),
               Divider(),
               10.height,
-              bankDetailsWidget("Bank Name:","Norisbank",false),
-              bankDetailsWidget("Country:","Germany",false),
-              bankDetailsWidget("Account Number:","4776167",false),
-              bankDetailsWidget("IBAN:","DE57760260000477616700",false),
-              bankDetailsWidget("BIC/Swift:","NORDSDE71XXX",false),
+              bankDetailsWidget("Recipient:","Ben Ghezaiel",false),
+              bankDetailsWidget("IBAN:","DE02 1001 0178 1361 6331 79",false),
+              bankDetailsWidget("BIC:","REVODEB2",false),
+              bankDetailsWidget("Bank Name and Address:","Revolut Bank UAB, Zweigniederlassung Deutschland\nFORA Linden Palais, Unter den Linden 40\n10117, Berlin, Germany",false),
+              bankDetailsWidget("BIC of Sender Bank:","CHASDEFX",false),
             ],
           ),
         ),
@@ -161,10 +161,15 @@ Widget bankDetailsWidget(String title, String value, bool isPrice) {
           appStore.isDarkMode ? darkGray : appTextSecondaryColor,
         ),
       ).expand(flex: 2),
-      Text(
-        isPrice ? num.parse(value.toString()).toPriceFormat() : value,
-        style: boldTextStyle(size: 10),
-      ).expand(flex: 3),
+      Flexible(
+        flex: 3,
+        child: Text(
+          isPrice ? num.parse(value.toString()).toPriceFormat() : value,
+          style: boldTextStyle(size: 10),
+          maxLines: null,
+          overflow: TextOverflow.visible,
+        ),
+      ),
     ],
   ).paddingBottom(6.0);
 }

@@ -464,7 +464,7 @@ class LanguageEn extends BaseLanguage {
   String get lblResume => "Resume";
 
   @override
-  String get lblPayNow => "Pay Now";
+  String get lblPayNow => "Pay Remaining";
 
   @override
   String get lblCheckStatus => "Check Status";

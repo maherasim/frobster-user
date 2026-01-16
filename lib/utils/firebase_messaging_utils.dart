@@ -17,54 +17,93 @@ import '../screens/wallet/user_wallet_balance_screen.dart';
 import 'constant.dart';
 
 Future<void> initFirebaseMessaging() async {
-  await FirebaseMessaging.instance
-      .requestPermission(
-          alert: true, badge: true, provisional: false, sound: true)
-      .then((value) async {
-    if (value.authorizationStatus == AuthorizationStatus.authorized) {
-      await registerNotificationListeners().catchError((e) {
-        log('Notification Listener REGISTRATION ERROR : ${e}');
-      });
+  try {
+    // Get FCM token for debugging
+    String? fcmToken = await FirebaseMessaging.instance.getToken();
+    log('FCM Token: $fcmToken');
+    
+    await FirebaseMessaging.instance
+        .requestPermission(
+            alert: true, badge: true, provisional: false, sound: true)
+        .then((value) async {
+      log('Notification Permission Status: ${value.authorizationStatus}');
+      
+      if (value.authorizationStatus == AuthorizationStatus.authorized) {
+        await registerNotificationListeners().catchError((e) {
+          log('Notification Listener REGISTRATION ERROR : ${e}');
+          toast('Notification setup error: ${e.toString()}');
+        });
 
-      FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
+        FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
-      await FirebaseMessaging.instance
-          .setForegroundNotificationPresentationOptions(
-              alert: true, badge: true, sound: true)
-          .catchError((e) {
-        log('setForegroundNotificationPresentationOptions ERROR: ${e}');
-      });
-    }
-  });
+        await FirebaseMessaging.instance
+            .setForegroundNotificationPresentationOptions(
+                alert: true, badge: true, sound: true)
+            .catchError((e) {
+          log('setForegroundNotificationPresentationOptions ERROR: ${e}');
+        });
+        
+        // Listen for token refresh
+        FirebaseMessaging.instance.onTokenRefresh.listen((newToken) {
+          log('FCM Token Refreshed: $newToken');
+        });
+      } else {
+        log('Notification permission not granted. Status: ${value.authorizationStatus}');
+        toast('Please enable notifications in device settings');
+      }
+    }).catchError((e) {
+      log('Firebase Messaging Permission Request ERROR: ${e}');
+      toast('Failed to request notification permission: ${e.toString()}');
+    });
+  } catch (e) {
+    log('initFirebaseMessaging ERROR: ${e}');
+    toast('Firebase initialization error: ${e.toString()}');
+  }
 }
 
 Future<bool> subscribeToFirebaseTopic() async {
   bool result = appStore.isSubscribedForPushNotification;
   if (appStore.isLoggedIn) {
-    await initFirebaseMessaging();
+    try {
+      await initFirebaseMessaging();
 
-    if (Platform.isIOS) {
-      String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
-      if (apnsToken == null) {
-        await 3.seconds.delay;
-        apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+      // Get and log FCM token
+      String? fcmToken = await FirebaseMessaging.instance.getToken();
+      log('FCM Token for user ${appStore.userId}: $fcmToken');
+
+      if (Platform.isIOS) {
+        String? apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        if (apnsToken == null) {
+          await 3.seconds.delay;
+          apnsToken = await FirebaseMessaging.instance.getAPNSToken();
+        }
+
+        log('APNS Token: ${apnsToken}');
       }
 
-      log('Apn Token=========${apnsToken}');
+      await FirebaseMessaging.instance
+          .subscribeToTopic('user_${appStore.userId}')
+          .then((value) {
+        result = true;
+        log("topic-----subscribed----> user_${appStore.userId}");
+      }).catchError((e) {
+        log("ERROR subscribing to topic user_${appStore.userId}: $e");
+        result = false;
+      });
+      
+      await FirebaseMessaging.instance
+          .subscribeToTopic(USER_APP_TAG)
+          .then((value) {
+        result = true;
+        log("topic-----subscribed----> $USER_APP_TAG");
+      }).catchError((e) {
+        log("ERROR subscribing to topic $USER_APP_TAG: $e");
+        result = false;
+      });
+    } catch (e) {
+      log('subscribeToFirebaseTopic ERROR: $e');
+      result = false;
     }
-
-    await FirebaseMessaging.instance
-        .subscribeToTopic('user_${appStore.userId}')
-        .then((value) {
-      result = true;
-      log("topic-----subscribed----> user_${appStore.userId}");
-    });
-    await FirebaseMessaging.instance
-        .subscribeToTopic(USER_APP_TAG)
-        .then((value) {
-      result = true;
-      log("topic-----subscribed----> $USER_APP_TAG");
-    });
   }
 
   await appStore.setPushNotificationSubscriptionStatus(result);

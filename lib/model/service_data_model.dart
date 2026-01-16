@@ -235,7 +235,17 @@ class ServiceData {
               .toList()
           : null,
       isEnableAdvancePayment: json[AdvancePaymentKey.isEnableAdvancePayment],
-      advancePaymentPercentage: json[AdvancePaymentKey.advancePaymentAmount],
+      advancePaymentPercentage: () {
+        final value = json[AdvancePaymentKey.advancePaymentPercentage] ?? json[AdvancePaymentKey.advancePaymentAmount];
+        if (value == null) return null;
+        if (value is num) return value;
+        if (value is String) {
+          // Remove % sign and parse
+          final cleanValue = value.replaceAll('%', '').trim();
+          return num.tryParse(cleanValue);
+        }
+        return null;
+      }(),
       advancePaymentAmount: json['advance_payment_amount'],
       attachmentsArray: json['attchments_array'] != null
           ? (json['attchments_array'] as List)

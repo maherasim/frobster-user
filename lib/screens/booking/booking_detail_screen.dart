@@ -135,84 +135,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   }
 
   Widget _completeMessage({required BookingDetailResponse snap}) {
-    if (snap.bookingDetail!.status == BookingStatusKeys.complete &&
-        snap.customerReview == null)
-      return Container(
-        padding: EdgeInsets.all(14),
-        width: context.width(),
-        decoration: BoxDecoration(
-          color: payment_message_status.withValues(alpha: 0.2),
-          border: Border.all(color: gold, width: 0.5),
-        ),
-        child: Row(
-          children: [
-            Container(
-              height: 50,
-              width: 50,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(40),
-                color: gold,
-              ),
-              child: Center(
-                child: Image.asset(
-                  ic_star1,
-                  height: 35,
-                  width: 35,
-                ),
-              ),
-            ),
-            16.width,
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Text(language.rateYourExperience, style: boldTextStyle()),
-                    Spacer(),
-                    GestureDetector(
-                      onTap: () {
-                        showInDialog(
-                          context,
-                          contentPadding: EdgeInsets.zero,
-                          builder: (p0) {
-                            return AddReviewDialog(
-                              serviceId:
-                                  snap.bookingDetail!.serviceId.validate(),
-                              bookingId: snap.bookingDetail!.id.validate(),
-                            );
-                          },
-                        ).then((value) {
-                          if (value) {
-                            init();
-                            setState(() {});
-                          }
-                        }).catchError((e) {
-                          log(e.toString());
-                        });
-                      },
-                      child: Text(
-                        language.btnRate,
-                        style: TextStyle(
-                          color: gradientRed,
-                          decoration: TextDecoration.underline,
-                          decorationColor: gradientRed,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-                8.height,
-                Text(
-                  language.weValueYourFeedback,
-                  style: boldTextStyle(color: textSecondaryColor, size: 12),
-                ),
-              ],
-            ).expand(),
-          ],
-        ),
-      );
-
+    // Rate button moved to _action method
     return SizedBox();
   }
 
@@ -1044,8 +967,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     .paddingSymmetric(horizontal: 16),
               16.height,
               if (customerReview != null) ReviewWidget(data: customerReview),
-              // Handyman Rating Button - Show if handyman exists, is different from provider, and no review exists yet
-              if (bookingDetailResponse.handymanData.validate().isNotEmpty &&
+              // Handyman Rating Button - Show when request invoice button appears (same conditions)
+              if (!bookingDetail.isFreeService &&
+                  bookingDetail.status == BookingStatusKeys.complete &&
+                  bookingDetail.paymentStatus == SERVICE_PAYMENT_STATUS_PAID &&
+                  bookingDetailResponse.handymanData.validate().isNotEmpty &&
                   bookingDetailResponse.providerData != null &&
                   bookingDetailResponse.handymanData!.first.id.validate() != 
                       bookingDetailResponse.providerData!.id.validate() &&
@@ -1510,9 +1436,11 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   SERVICE_PAYMENT_STATUS_ADVANCE_PAID &&
               bookingResponse.bookingDetail!.status ==
                   BookingStatusKeys.complete) {
-            PaymentScreen(bookings: bookingResponse, isForAdvancePayment: true)
+            // Pay remaining amount (not advance payment)
+            PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
                 .launch(context);
           } else {
+            // Pay advance payment
             PaymentScreen(
               bookings: bookingResponse,
               isFromBookService: true,
@@ -1601,48 +1529,116 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             bookingResponse.bookingDetail!.paymentMethod ==
                 PAYMENT_METHOD_COD) &&
         bookingResponse.bookingDetail!.paymentId == null) {
+      // Calculate remaining amount if advance payment was made
+      num remainingAmount = bookingResponse.bookingDetail!.totalAmount.validate();
+      if (bookingResponse.bookingDetail!.isAdvancePaymentDone) {
+        remainingAmount = bookingResponse.bookingDetail!.totalAmount.validate() -
+            getAdvancePaymentAmount(bookingInfo: bookingResponse);
+      }
+      
       return GradientButton(
         onPressed: () {
           PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
               .launch(context);
         },
-        child: Text(language.lblPayNow),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Text(language.lblPayNow,
+                style: boldTextStyle(color: Colors.white, size: 16)),
+            8.width,
+            PriceWidget(
+              price: remainingAmount.toDouble(),
+              color: Colors.white,
+              isBoldText: true,
+            ),
+          ],
+        ),
       );
     } else if (!bookingResponse.bookingDetail!.isFreeService &&
         bookingResponse.bookingDetail!.status == BookingStatusKeys.complete &&
-        bookingResponse.bookingDetail!.paymentStatus == SERVICE_PAYMENT_STATUS_PAID &&
-        !isSentInvoiceOnEmail) {
-      return GradientButton(
-        onPressed: () async {
-          bool? res = await showInDialog(
-            context,
-            contentPadding: EdgeInsets.zero,
-            dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
-            barrierDismissible: false,
-            builder: (_) => InvoiceRequestDialogComponent(
-                bookingId: bookingResponse.bookingDetail!.id.validate()),
-          );
+        bookingResponse.bookingDetail!.paymentStatus == SERVICE_PAYMENT_STATUS_PAID) {
+      // Show both Request Invoice and Rate buttons when payment is paid
+      List<Widget> buttons = [];
+      
+      // Request Invoice button - show if invoice not sent
+      if (!isSentInvoiceOnEmail) {
+        buttons.add(
+          GradientButton(
+            onPressed: () async {
+              bool? res = await showInDialog(
+                context,
+                contentPadding: EdgeInsets.zero,
+                dialogAnimation: DialogAnimation.SLIDE_TOP_BOTTOM,
+                barrierDismissible: false,
+                builder: (_) => InvoiceRequestDialogComponent(
+                    bookingId: bookingResponse.bookingDetail!.id.validate()),
+              );
 
-          if (res ?? false) {
-            isSentInvoiceOnEmail = res.validate();
-
-            init();
-            setState(() {});
-          }
-        },
-        child: Text(language.requestInvoice),
-      );
-    } else if (bookingResponse.bookingDetail!.status ==
-            BookingStatusKeys.complete &&
-        isSentInvoiceOnEmail) {
-      return Container(
-        width: context.width(),
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(color: context.cardColor),
-        child: Text(language.sentInvoiceText,
-                style: boldTextStyle(), textAlign: TextAlign.center)
-            .center(),
-      );
+              if (res ?? false) {
+                isSentInvoiceOnEmail = res.validate();
+                init();
+                setState(() {});
+              }
+            },
+            child: Text(language.requestInvoice),
+          ).expand(),
+        );
+      } else {
+        // Show "Sent Invoice" text if invoice was sent
+        buttons.add(
+          Container(
+            width: context.width(),
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(color: context.cardColor),
+            child: Text(language.sentInvoiceText,
+                    style: boldTextStyle(), textAlign: TextAlign.center)
+                .center(),
+          ),
+        );
+      }
+      
+      // Rate button - show if not reviewed yet
+      if (bookingResponse.customerReview == null) {
+        if (buttons.isNotEmpty) buttons.add(16.width);
+        buttons.add(
+          AppButton(
+            text: "Rate a Service",
+            color: Colors.yellow,
+            textColor: Colors.black,
+            onTap: () {
+              showInDialog(
+                context,
+                contentPadding: EdgeInsets.zero,
+                builder: (p0) {
+                  return AddReviewDialog(
+                    serviceId:
+                        bookingResponse.bookingDetail!.serviceId.validate(),
+                    bookingId: bookingResponse.bookingDetail!.id.validate(),
+                  );
+                },
+              ).then((value) {
+                if (value) {
+                  init();
+                  setState(() {});
+                }
+              }).catchError((e) {
+                log(e.toString());
+              });
+            },
+          ).expand(),
+        );
+      }
+      
+      if (buttons.isEmpty) return Offstage();
+      
+      // Return Row if multiple buttons, or single widget if one button
+      if (buttons.length == 1) {
+        return buttons.first;
+      } else {
+        return Row(children: buttons);
+      }
     }
 
     return Offstage();
