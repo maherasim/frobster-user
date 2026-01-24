@@ -1863,8 +1863,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       /// Chat buttons after Accept + Advance Paid
                       Builder(builder: (context) {
                         final isAdvanceDone = snap.data!.bookingDetail!.isAdvancePaymentDone;
-                        // Show chat buttons once any advance is recorded (includes bank transfer pending)
-                        if (!isAdvanceDone) return Offstage();
+                        final paymentStatus = snap.data!.bookingDetail!.paymentStatus.validate();
+                        // Show chat buttons only if advance is done AND payment is not pending admin approval
+                        if (!isAdvanceDone || paymentStatus == PENDING_BY_ADMIN) return Offstage();
 
                         final provider = snap.data!.providerData;
                         final handymen = snap.data!.handymanData.validate();
