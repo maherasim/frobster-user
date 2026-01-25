@@ -270,7 +270,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                           ),
                           12.width,
                           Text(
-                            'Viewgs: ${widget.serviceData!.totalViews.validate()}',
+                            'Views: ${widget.serviceData!.totalViews.validate()}',
                             style: secondaryTextStyle(
                                 size: 10, color: defaultActivityStatus),
                           ),

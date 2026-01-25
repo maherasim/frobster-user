@@ -695,7 +695,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             ),
                             Flexible(
                               child: Text(
-                                '${snap.data!.serviceDetail!.totalBookingCount?.toString() ?? '0'}',
+                                '${snap.data!.serviceDetail!.totalBookingCount ?? 0}',
                                 style: secondaryTextStyle(
                                   size: 14,
                                   weight: FontWeight.normal,

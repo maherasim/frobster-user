@@ -56,14 +56,13 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
 
   Widget servicesWidget(
       {required List<ServiceData> list,
+      required int totalServicesCount,
       int? providerId,
       UserData? providerData}) {
-    int totalServices = list.length;
-    log('##########${totalServices}');
     return Column(
       children: [
         ViewAllLabel(
-          label: '${language.service} (${totalServices})',
+          label: '${language.service} (${totalServicesCount})',
           list: list,
           onTap: () {
             ViewAllServiceScreen(providerId: providerId)
@@ -386,13 +385,13 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
-                          if (data.userData?.totalBooking != null) ...[
+                          ...[
                             15.height,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Bookings:',
+                                  'Asim Booking:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -538,6 +537,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           32.height,
                           servicesWidget(
                             list: data.serviceList!.take(6).toList(),
+                            totalServicesCount: data.serviceList!.length,
                             providerId: widget.providerId.validate(),
                             providerData: data.userData,
                           ).paddingSymmetric(horizontal: 16),

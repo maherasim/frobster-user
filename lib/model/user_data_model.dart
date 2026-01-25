@@ -238,8 +238,28 @@ class UserData {
       verificationId: json['verificationId'],
       designation: json['designation'],
       otpCode: json['otpCode'],
-      totalBooking: json['total_services_booked'],
-      totalServices: json['total_services'],
+      totalBooking: () {
+        final value = json['total_services_booked'];
+        if (value == null) return null;
+        if (value is int) return value;
+        if (value is num) return value.toInt();
+        if (value is String) {
+          final parsed = int.tryParse(value);
+          return parsed;
+        }
+        return int.tryParse(value.toString());
+      }(),
+      totalServices: () {
+        final value = json['total_services'];
+        if (value == null) return null;
+        if (value is int) return value;
+        if (value is num) return value.toInt();
+        if (value is String) {
+          final parsed = int.tryParse(value);
+          return parsed;
+        }
+        return int.tryParse(value.toString());
+      }(),
       emailVerified: json['is_email_verified'],
       handymanImage: json['handyman_image'],
       isVerifyHandyman: json['is_verified'],

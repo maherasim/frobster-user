@@ -179,11 +179,17 @@ class ServiceData {
       description: json['description'],
       isFeatured: json['is_featured'],
       completedBookings: json['completed_booking_count'],
-      totalBookingCount: json['total_booking_count'] != null 
-          ? (json['total_booking_count'] is int 
-              ? json['total_booking_count'] 
-              : (json['total_booking_count'] as num?)?.toInt())
-          : null,
+      totalBookingCount: () {
+        final value = json['total_booking_count'];
+        if (value == null) return null;
+        if (value is int) return value;
+        if (value is num) return value.toInt();
+        if (value is String) {
+          final parsed = int.tryParse(value);
+          return parsed ?? 0;
+        }
+        return int.tryParse(value.toString()) ?? 0;
+      }(),
       providerTotalServices: json['provider_total_services'] != null 
           ? (json['provider_total_services'] is int 
               ? json['provider_total_services'] 
