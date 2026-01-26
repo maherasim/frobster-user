@@ -123,7 +123,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
       },
       child: Container(
         width: context.width(),
-        padding: EdgeInsets.only(left: 16, top: 16, bottom: 16),
+        padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: boxDecorationWithRoundedCorners(
           borderRadius: radius(),
           backgroundColor: context.cardColor,
@@ -145,11 +145,12 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                       ? widget.serviceData!.attachments!.first.validate()
                       : '',
               fit: BoxFit.cover,
-              height: 85,
+              height: 80,
+              width: 80,
               circle: false,
               radius: defaultRadius,
             ),
-            12.width,
+            8.width,
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,27 +159,29 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Container(
-                        decoration: BoxDecoration(
-                          color: appStore.isDarkMode
-                              ? Colors.black
-                              : lightPrimaryColor,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        padding:
-                            EdgeInsets.symmetric(horizontal: 12, vertical: 4),
-                        child: Text(
-                          widget.serviceData!.categoryName.validate(),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
-                          style: TextStyle(
-                            color: primaryColor,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 12,
+                      Flexible(
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: appStore.isDarkMode
+                                ? Colors.black
+                                : lightPrimaryColor,
+                            borderRadius: BorderRadius.circular(20),
                           ),
-                          textAlign: TextAlign.center,
+                          padding:
+                              EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                          child: Text(
+                            widget.serviceData!.categoryName.validate(),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: primaryColor,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 11,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
                         ),
-                      ).flexible(),
+                      ),
                       TextIcon(
                         suffix: Row(
                           children: [
@@ -215,26 +218,30 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         isHourlyService: widget.serviceData!.isHourlyService,
                         isFixedService: widget.serviceData!.isFixedService,
                       ),
-                      8.width,
+                      6.width,
                       if (widget.serviceData!.discount.validate() > 0)
-                        PriceWidget(
-                          size: 12,
-                          price: widget.serviceData!.price.validate(),
-                          isDiscountedPrice: true,
-                          color: textSecondaryColorGlobal,
-                          isLineThroughEnabled: true,
+                        Flexible(
+                          child: PriceWidget(
+                            size: 11,
+                            price: widget.serviceData!.price.validate(),
+                            isDiscountedPrice: true,
+                            color: textSecondaryColorGlobal,
+                            isLineThroughEnabled: true,
+                          ),
                         ),
-                      10.width,
+                      6.width,
                       if (widget.serviceData!.discount.validate() > 0)
-                        Text(
-                          "${widget.serviceData!.discount.validate()}% off", //Todo translate
-                          overflow: TextOverflow.ellipsis,
-                          maxLines: 1,
-                          style: TextStyle(
-                              color: defaultActivityStatus,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 12),
-                        ).expand(),
+                        Flexible(
+                          child: Text(
+                            "${widget.serviceData!.discount.validate()}% off", //Todo translate
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
+                            style: TextStyle(
+                                color: defaultActivityStatus,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 11),
+                          ),
+                        ),
                     ],
                   ),
                   // Street address removed as per requirement
@@ -263,16 +270,24 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                       ),
                       Row(
                         children: [
-                          Text(
-                            'Bookings: ${widget.serviceData!.completedBookings.validate()}',
-                            style: secondaryTextStyle(
-                                size: 10, color: defaultActivityStatus),
+                          Flexible(
+                            child: Text(
+                              'Bookings: ${widget.serviceData!.completedBookings.validate()}',
+                              style: secondaryTextStyle(
+                                  size: 9, color: defaultActivityStatus),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
-                          12.width,
-                          Text(
-                            'Views: ${widget.serviceData!.totalViews.validate()}',
-                            style: secondaryTextStyle(
-                                size: 10, color: defaultActivityStatus),
+                          8.width,
+                          Flexible(
+                            child: Text(
+                              'Views: ${widget.serviceData!.totalViews.validate()}',
+                              style: secondaryTextStyle(
+                                  size: 9, color: defaultActivityStatus),
+                              overflow: TextOverflow.ellipsis,
+                              maxLines: 1,
+                            ),
                           ),
                         ],
                       ),
@@ -307,19 +322,20 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                 ],
               ),
             ),
-            8.width,
             if (widget.isFavouriteService)
               Container(
-                margin: EdgeInsets.only(right: 8),
+                margin: EdgeInsets.only(left: 4),
+                padding: EdgeInsets.all(4),
                 decoration: boxDecorationWithShadow(
                     boxShape: BoxShape.circle,
                     backgroundColor: context.cardColor),
-                child: widget.serviceData!.isFavourite == 0
-                    ? ic_fill_heart.iconImage(color: favouriteColor, size: 18)
-                    : ic_heart.iconImage(color: unFavouriteColor, size: 18),
+                child: widget.serviceData!.isFavourite == 1
+                    ? ic_fill_heart.iconImage(color: favouriteColor, size: 16)
+                    : ic_heart.iconImage(color: unFavouriteColor, size: 16),
               ).onTap(() async {
-                if (widget.serviceData!.isFavourite == 0) {
-                  widget.serviceData!.isFavourite = 1;
+                if (widget.serviceData!.isFavourite == 1) {
+                  // Currently favorited, so remove it
+                  widget.serviceData!.isFavourite = 0;
                   setState(() {});
 
                   await removeToWishList(
@@ -327,12 +343,14 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                               widget.serviceData!.serviceId.validate().toInt())
                       .then((value) {
                     if (!value) {
-                      widget.serviceData!.isFavourite = 0;
+                      // Revert on error
+                      widget.serviceData!.isFavourite = 1;
                       setState(() {});
                     }
                   });
                 } else {
-                  widget.serviceData!.isFavourite = 0;
+                  // Currently not favorited, so add it
+                  widget.serviceData!.isFavourite = 1;
                   setState(() {});
 
                   await addToWishList(
@@ -340,7 +358,8 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                               widget.serviceData!.serviceId.validate().toInt())
                       .then((value) {
                     if (!value) {
-                      widget.serviceData!.isFavourite = 1;
+                      // Revert on error
+                      widget.serviceData!.isFavourite = 0;
                       setState(() {});
                     }
                   });
