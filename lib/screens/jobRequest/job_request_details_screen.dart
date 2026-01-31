@@ -141,8 +141,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   Widget _buildBody() {
     if (postJobDetail == null) return SizedBox.shrink();
 
-    // Add null safety check for postRequest
-    if (postJobDetail!.postRequest == null) {
+    // For cancelled bids, we may not have postRequest, but we should still show available data
+    // Only show error if postRequest is null AND status is not cancelled
+    if (postJobDetail!.postRequest == null && postJobDetail!.status != RequestStatus.cancel) {
       return Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
@@ -163,7 +164,10 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       );
     }
 
-    quantity = getQuantityByPriceType(postJobDetail!.postRequest!);
+    // For cancelled bids without postRequest, use default values
+    quantity = postJobDetail!.postRequest != null 
+        ? getQuantityByPriceType(postJobDetail!.postRequest!)
+        : 1;
     totalAmount = (postJobDetail!.price ?? 0) * quantity;
     extraCharges = postJobDetail!.extraCharges
         .fold(0, (sum, ec) => sum + ((ec.amount ?? 0) * (ec.quantity ?? 0)));
@@ -194,7 +198,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               return await 2.seconds.delay;
             },
             children: [
-              // Status Info Card (hidden when awaiting bank transfer approval)
+              // Status Info Card (shown for all statuses including cancelled, hidden when awaiting bank transfer approval)
               if (getStatusInfo(postJobDetail!).isNotEmpty && !_isAwaitingBankTransferApproval())
                 Container(
                   padding: EdgeInsets.all(12),
@@ -282,73 +286,95 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               24.height,
 
               // Job Details Grid - Reduced to essential cards only
-              GridView.count(
-                crossAxisCount: 2,
-                shrinkWrap: true,
-                physics: NeverScrollableScrollPhysics(),
-                childAspectRatio: 1.8,
-                crossAxisSpacing: 8,
-                mainAxisSpacing: 8,
-                children: [
-                  _buildInfoCard(
-                    icon: Icons.h_mobiledata,
-                    iconColor: gradientRed,
-                    title: 'Title',
-                    value: postJobDetail!.postRequest?.title?.validate() ?? '',
+              // Show grid only if postRequest is available, otherwise show a message for cancelled bids
+              if (postJobDetail!.postRequest != null)
+                GridView.count(
+                  crossAxisCount: 2,
+                  shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
+                  childAspectRatio: 1.8,
+                  crossAxisSpacing: 8,
+                  mainAxisSpacing: 8,
+                  children: [
+                    _buildInfoCard(
+                      icon: Icons.h_mobiledata,
+                      iconColor: gradientRed,
+                      title: 'Title',
+                      value: postJobDetail!.postRequest?.title?.validate() ?? '',
+                    ),
+                    _buildInfoCard(
+                      icon: Icons.location_on,
+                      iconColor: Colors.green,
+                      title: 'Location',
+                      value:
+                          "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}",
+                    ),
+                    _buildInfoCard(
+                      icon: Icons.business_center,
+                      iconColor: Colors.orange,
+                      title: 'Job Type',
+                      value: postJobDetail!.postRequest?.type.displayName
+                              .validate() ??
+                          '',
+                    ),
+                    _buildInfoCard(
+                      icon: Icons.event_available,
+                      iconColor: Colors.blue,
+                      title: 'Start Date',
+                      value: formatDate(
+                          postJobDetail!.postRequest?.startDate
+                              ?.toIso8601String()
+                              .validate(),
+                          showDateWithTime: true),
+                      isDate: true,
+                    ),
+                    _buildInfoCard(
+                      icon: Icons.event_busy,
+                      iconColor: Colors.red,
+                      title: 'End Date',
+                      value: formatDate(
+                          postJobDetail!.postRequest?.endDate
+                              ?.toIso8601String()
+                              .validate(),
+                          showDateWithTime: true),
+                      isDate: true,
+                    ),
+                    _buildInfoCard(
+                      icon: Icons.person,
+                      iconColor: Colors.indigo,
+                      title: 'Employer',
+                      value:
+                          postJobDetail!.provider?.displayName.validate() ?? '',
+                    ),
+                    _buildInfoCard(
+                      icon: Icons.person_outline,
+                      iconColor: Colors.green,
+                      title: 'Customer',
+                      value:
+                          postJobDetail!.customer?.displayName.validate() ?? '',
+                    ),
+                  ],
+                )
+              else if (postJobDetail!.status == RequestStatus.cancel)
+                Container(
+                  padding: EdgeInsets.all(16),
+                  width: double.infinity,
+                  decoration: boxDecorationWithRoundedCorners(
+                    backgroundColor: context.cardColor,
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  _buildInfoCard(
-                    icon: Icons.location_on,
-                    iconColor: Colors.green,
-                    title: 'Location',
-                    value:
-                        "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}",
+                  child: Column(
+                    children: [
+                      Icon(Icons.info_outline, size: 48, color: Colors.grey),
+                      16.height,
+                      Text(
+                        'This bid was cancelled. Job details are no longer available.',
+                        style: secondaryTextStyle(),
+                        textAlign: TextAlign.center,
+                      ),
+                    ],
                   ),
-                  _buildInfoCard(
-                    icon: Icons.business_center,
-                    iconColor: Colors.orange,
-                    title: 'Job Type',
-                    value: postJobDetail!.postRequest?.type.displayName
-                            .validate() ??
-                        '',
-                  ),
-                  _buildInfoCard(
-                    icon: Icons.event_available,
-                    iconColor: Colors.blue,
-                    title: 'Start Date',
-                    value: formatDate(
-                        postJobDetail!.postRequest?.startDate
-                            ?.toIso8601String()
-                            .validate(),
-                        showDateWithTime: true),
-                    isDate: true,
-                  ),
-                  _buildInfoCard(
-                    icon: Icons.event_busy,
-                    iconColor: Colors.red,
-                    title: 'End Date',
-                    value: formatDate(
-                        postJobDetail!.postRequest?.endDate
-                            ?.toIso8601String()
-                            .validate(),
-                        showDateWithTime: true),
-                    isDate: true,
-                  ),
-                  _buildInfoCard(
-                    icon: Icons.person,
-                    iconColor: Colors.indigo,
-                    title: 'Employer',
-                    value:
-                        postJobDetail!.provider?.displayName.validate() ?? '',
-                  ),
-                  _buildInfoCard(
-                    icon: Icons.person_outline,
-                    iconColor: Colors.green,
-                    title: 'Customer',
-                    value:
-                        postJobDetail!.customer?.displayName.validate() ?? '',
-                  ),
-                ],
-              ),
+                ),
               16.height,
 
               // Status Card - Full Width
@@ -398,7 +424,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               ),
 
               // Description Section - Simple and Clear (like service detail screen)
-              if (postJobDetail!.postRequest?.description.validate().isNotEmpty ?? false) ...[
+              // Only show description if postRequest is available
+              if (postJobDetail!.postRequest != null && 
+                  (postJobDetail!.postRequest?.description.validate().isNotEmpty ?? false)) ...[
                 24.height,
                 Text('Description',
                     style: boldTextStyle(size: LABEL_TEXT_SIZE)),

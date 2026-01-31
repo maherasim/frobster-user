@@ -398,6 +398,7 @@ class BidderData {
   String? type;
   UserData? provider;
   PostJobData? postJobData;
+  RequestStatus? status;
 
   BidderData({
     this.id,
@@ -409,6 +410,7 @@ class BidderData {
     this.type,
     this.provider,
     this.postJobData,
+    this.status,
   });
 
   BidderData.fromJson(dynamic json) {
@@ -419,6 +421,12 @@ class BidderData {
     duration = json['duration'];
     type = json['type'];
     whyChooseMe = json["why_choose_me"];
+    status = json['status'] != null 
+        ? RequestStatus.values.firstWhere(
+            (e) => e.backendValue == json['status'],
+            orElse: () => RequestStatus.requested,
+          )
+        : null;
     provider =
     json['provider'] != null ? UserData.fromJson(json['provider']) : null;
     postJobData = json['post_detail'] != null
@@ -435,6 +443,9 @@ class BidderData {
     map['duration'] = duration;
     map['type'] = type;
     map['why_choose_me'] = whyChooseMe;
+    if (status != null) {
+      map['status'] = status?.backendValue;
+    }
     if (provider != null) {
       map['provider'] = provider?.toJson();
     }

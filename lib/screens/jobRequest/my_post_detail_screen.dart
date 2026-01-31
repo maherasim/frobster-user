@@ -266,18 +266,25 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
 
   Widget bidderWidget(List<BidderData> bidderList,
       {required PostJobDetailResponse postJobDetailResponse}) {
+    // Filter out cancelled bids - they should not be shown
+    final activeBids = bidderList.where((bid) => 
+      bid.status == null || bid.status != RequestStatus.cancel
+    ).toList();
+    
+    if (activeBids.isEmpty) return SizedBox.shrink();
+    
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ViewAllLabel(
           label: language.bidder,
-          list: bidderList,
+          list: activeBids,
           onTap: () {
             //
           },
         ).paddingSymmetric(horizontal: 16),
         AnimatedListView(
-          itemCount: bidderList.length,
+          itemCount: activeBids.length,
           padding: EdgeInsets.zero,
           shrinkWrap: true,
           physics: NeverScrollableScrollPhysics(),
@@ -285,7 +292,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
           itemBuilder: (_, i) {
             return BidderItemComponent(
-              data: bidderList[i],
+              data: activeBids[i],
               postJobData: postJobDetailResponse.postRequestDetail!,
               callback: widget.callback,
             );
@@ -297,8 +304,13 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
 
   Widget providerWidget(List<BidderData> bidderList, num? providerId) {
     try {
+      // Filter out cancelled bids before finding the provider
+      final activeBids = bidderList.where((bid) => 
+        bid.status == null || bid.status != RequestStatus.cancel
+      ).toList();
+      
       BidderData? bidderData =
-          bidderList.firstWhere((element) => element.providerId == providerId);
+          activeBids.firstWhere((element) => element.providerId == providerId);
       UserData? user = bidderData.provider;
 
       if (user != null) {
