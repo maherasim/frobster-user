@@ -18,6 +18,7 @@ import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 class JobRequestDetailsScreen extends StatefulWidget {
@@ -44,7 +45,10 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   }
 
   void init() async {
-    future = getPostJobDetailByBid(widget.acceptedBidId);
+    setState(() {
+      future = getPostJobDetailByBid(widget.acceptedBidId);
+      postJobDetail = null; // Reset data when refreshing
+    });
   }
 
   @override
@@ -59,7 +63,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       child: SnapHelperWidget<JobRequestDetailResponse?>(
         future: future,
         onSuccess: (data) {
-          postJobDetail = data;
+          if (data != null) {
+            postJobDetail = data;
+          }
           return _buildBody();
         },
         errorBuilder: (error) {
@@ -135,6 +141,28 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   Widget _buildBody() {
     if (postJobDetail == null) return SizedBox.shrink();
 
+    // Add null safety check for postRequest
+    if (postJobDetail!.postRequest == null) {
+      return Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.error_outline, size: 48, color: Colors.grey),
+            16.height,
+            Text('No job request data available', style: secondaryTextStyle()),
+            16.height,
+            AppButton(
+              text: language.reload,
+              onTap: () {
+                init();
+                setState(() {});
+              },
+            ),
+          ],
+        ).paddingAll(16),
+      );
+    }
+
     quantity = getQuantityByPriceType(postJobDetail!.postRequest!);
     totalAmount = (postJobDetail!.price ?? 0) * quantity;
     extraCharges = postJobDetail!.extraCharges
@@ -159,8 +187,6 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           child: AnimatedScrollView(
             padding: EdgeInsets.only(bottom: 60, top: 16, right: 16, left: 16),
             physics: AlwaysScrollableScrollPhysics(),
-            listAnimationType: ListAnimationType.FadeIn,
-            fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
             onSwipeRefresh: () async {
               init();
               setState(() {});
@@ -255,14 +281,14 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 ).paddingTop(12),
               24.height,
 
-              // Job Details Grid
+              // Job Details Grid - Reduced to essential cards only
               GridView.count(
                 crossAxisCount: 2,
                 shrinkWrap: true,
                 physics: NeverScrollableScrollPhysics(),
-                childAspectRatio: 1.2,
-                crossAxisSpacing: 16,
-                mainAxisSpacing: 16,
+                childAspectRatio: 1.8,
+                crossAxisSpacing: 8,
+                mainAxisSpacing: 8,
                 children: [
                   _buildInfoCard(
                     icon: Icons.h_mobiledata,
@@ -282,14 +308,6 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     iconColor: Colors.orange,
                     title: 'Job Type',
                     value: postJobDetail!.postRequest?.type.displayName
-                            .validate() ??
-                        '',
-                  ),
-                  _buildInfoCard(
-                    icon: Icons.attach_money,
-                    iconColor: Colors.green[600]!,
-                    title: 'Rate Type',
-                    value: postJobDetail!.postRequest?.priceType.displayName
                             .validate() ??
                         '',
                   ),
@@ -316,26 +334,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     isDate: true,
                   ),
                   _buildInfoCard(
-                    icon: Icons.account_balance_wallet,
-                    iconColor: Colors.blue,
-                    title: 'Total Budget',
-                    value: postJobDetail!.postRequest?.totalBudget
-                            ?.validate()
-                            .toPriceFormat() ??
-                        '0',
-                  ),
-                  _buildInfoCard(
-                    icon: Icons.groups,
-                    iconColor: Colors.grey,
-                    title: 'Proposals',
-                    value: (postJobDetail!.postRequest?.postBidList.length ?? 0)
-                        .validate()
-                        .toString(), // Simplified for now
-                  ),
-                  _buildInfoCard(
                     icon: Icons.person,
                     iconColor: Colors.indigo,
-                    title: 'Provider',
+                    title: 'Employer',
                     value:
                         postJobDetail!.provider?.displayName.validate() ?? '',
                   ),
@@ -403,7 +404,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                 16.height,
                 HtmlWidget(
-                  postJobDetail!.postRequest!.description.validate(),
+                  postJobDetail!.postRequest?.description.validate() ?? 'No description available',
                   textStyle: secondaryTextStyle(),
                 ),
               ],
@@ -434,22 +435,15 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   child: Text('Accept', style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.accepted)
-                AppButton(
-                  text: 'Cancel',
-                  textStyle: boldTextStyle(color: white, size: 16),
-                  color: cancelled,
-                  width: context.width(),
-                  onTap: () async {
+                GradientButton(
+                  onPressed: () async {
                     confirmationRequestDialog(context, RequestStatus.cancel);
                   },
-                ).paddingOnly(bottom: 24),
+                  child: Text('Cancel', style: boldTextStyle(color: white, size: 16)),
+                ).withWidth(context.width()).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.pendingAdvance && !_isAwaitingBankTransferApproval())
-                AppButton(
-                  text: 'Pay Advance (\$${advance})',
-                  textStyle: boldTextStyle(color: white, size: 16),
-                  color: defaultStatus,
-                  width: context.width(),
-                  onTap: () async {
+                GradientButton(
+                  onPressed: () async {
                     bool? res = await showInDialog(
                       context,
                       contentPadding: EdgeInsets.zero,
@@ -467,7 +461,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       setState(() {});
                     }
                   },
-                ).paddingOnly(bottom: 24),
+                  child: Text('Pay Advance (\$${advance})', style: boldTextStyle(color: white, size: 16)),
+                ).withWidth(context.width()).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.inProcess && !_isAwaitingBankTransferApproval())
                 Row(
                   children: [
@@ -504,12 +499,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     Expanded(child: _chatActionButton()),
                     16.width,
                     Expanded(
-                      child: AppButton(
-                        text: 'Pay remaining (\$${remaining})',
-                        textStyle: boldTextStyle(color: white, size: 16),
-                        color: defaultStatus,
-                        width: context.width(),
-                        onTap: () async {
+                      child: GradientButton(
+                        onPressed: () async {
                           bool? res = await showInDialog(
                             context,
                             contentPadding: EdgeInsets.zero,
@@ -525,39 +516,51 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             setState(() {});
                           }
                         },
-                      ),
+                        child: Text('Pay remaining (\$${remaining})', style: boldTextStyle(color: white, size: 16)),
+                      ).withWidth(context.width()),
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
 
               // Conversation access: enabled from Advance Paid and later
               if (postJobDetail!.status == RequestStatus.remainingPaid)
-                Row(
+                Column(
                   children: [
-                    Expanded(child: _chatActionButton()),
-                    16.width,
-                    Expanded(
-                      child: AppButton(
-                        text: 'Download',
-                        textStyle: boldTextStyle(color: white, size: 16),
-                        color: completed,
-                        width: context.width(),
-                        onTap: () async {
-                          if (postJobDetail!.id == null) {
-                            toast(language.somethingWentWrong);
-                            return;
-                          }
-                          appStore.setLoading(true);
-                          downloadBidInvoice(postJobDetail!.id!).then((value) {
-                            appStore.setLoading(false);
-                            toast(value.message.validate());
-                          }).catchError((e) {
-                            appStore.setLoading(false);
-                            toast(e.toString());
-                          });
-                        },
-                      ),
+                    Row(
+                      children: [
+                        Expanded(child: _chatActionButton()),
+                        16.width,
+                        Expanded(
+                          child: GradientButton(
+                            onPressed: () async {
+                              if (postJobDetail!.id == null) {
+                                toast(language.somethingWentWrong);
+                                return;
+                              }
+                              appStore.setLoading(true);
+                              downloadBidInvoice(postJobDetail!.id!).then((value) {
+                                appStore.setLoading(false);
+                                toast(value.message.validate());
+                              }).catchError((e) {
+                                appStore.setLoading(false);
+                                toast(e.toString());
+                              });
+                            },
+                            child: Text('Download', style: boldTextStyle(color: white, size: 16)),
+                          ).withWidth(context.width()),
+                        ),
+                      ],
                     ),
+                    // Only show "Rate Employer" button if rating doesn't exist yet
+                    if (postJobDetail!.providerRatingExists != true) ...[
+                      16.height,
+                      GradientButton(
+                        onPressed: () {
+                          _showEmployerRatingDialog();
+                        },
+                        child: Text('Rate Employer', style: boldTextStyle(color: white, size: 16)),
+                      ).withWidth(context.width()),
+                    ],
                   ],
                 ).paddingOnly(bottom: 24),
               if (_canShowChat(postJobDetail!.status) &&
@@ -846,34 +849,39 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     bool isDate = false,
   }) {
     return Container(
-      padding: EdgeInsets.all(16),
+      padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
       decoration: boxDecorationWithRoundedCorners(
         backgroundColor: context.cardColor,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(6),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        mainAxisSize: MainAxisSize.min,
         children: [
-          Icon(icon, color: iconColor, size: 32),
-          8.height,
+          Icon(icon, color: iconColor, size: 18),
+          4.height,
           Text(
             title,
             style: secondaryTextStyle(
-              size: 12,
+              size: 9,
               color: Theme.of(context).colorScheme.onSurfaceVariant,
             ),
             textAlign: TextAlign.center,
-          ),
-          4.height,
-          Text(
-            value,
-            style: boldTextStyle(
-              size: isDate ? 12 : 16,
-              color: Theme.of(context).colorScheme.onSurface,
-            ),
-            textAlign: TextAlign.center,
-            maxLines: 2,
+            maxLines: 1,
             overflow: TextOverflow.ellipsis,
+          ),
+          2.height,
+          Flexible(
+            child: Text(
+              value,
+              style: boldTextStyle(
+                size: isDate ? 9 : 11,
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+              textAlign: TextAlign.center,
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+            ),
           ),
         ],
       ),
@@ -1111,6 +1119,179 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     // statusCode: 0 = pending approval
     return (bt.statusCode ?? -1) == 0;
   }
+
+  void _showEmployerRatingDialog() {
+    double selectedRating = 0;
+    TextEditingController reviewCont = TextEditingController();
+
+    showDialog(
+      context: context,
+      builder: (context) => Dialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+        child: StatefulBuilder(
+          builder: (context, setDialogState) => Material(
+            color: Colors.transparent,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        width: context.width(),
+                        padding: EdgeInsets.only(left: 16, top: 4, bottom: 4),
+                        decoration: BoxDecoration(
+                          gradient: appPrimaryGradient,
+                          borderRadius: BorderRadius.only(
+                            topRight: Radius.circular(8),
+                            topLeft: Radius.circular(8),
+                          ),
+                        ),
+                        child: Row(
+                          children: [
+                            Text('Rate Employer',
+                                    style: boldTextStyle(color: Colors.white))
+                                .expand(),
+                            IconButton(
+                              icon: Icon(Icons.clear, color: Colors.white, size: 16),
+                              onPressed: () {
+                                finish(context);
+                              },
+                            )
+                          ],
+                        ),
+                      ),
+                      Container(
+                        color: context.scaffoldBackgroundColor,
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Text('Your Rating', style: boldTextStyle()),
+                                Text("*", style: secondaryTextStyle(color: Colors.red)),
+                              ],
+                            ),
+                            16.height,
+                            Container(
+                              padding: EdgeInsets.all(16),
+                              width: context.width(),
+                              decoration: boxDecorationDefault(
+                                  color: appStore.isDarkMode
+                                      ? context.dividerColor
+                                      : context.cardColor),
+                              child: RatingBarWidget(
+                                onRatingChanged: (rating) {
+                                  selectedRating = rating;
+                                  setDialogState(() {});
+                                },
+                                activeColor: getRatingBarColor(selectedRating.toInt()),
+                                inActiveColor: ratingBarColor,
+                                rating: selectedRating,
+                                size: 18,
+                              ),
+                            ),
+                            16.height,
+                            Text('Your Comment', style: boldTextStyle()),
+                            16.height,
+                            AppTextField(
+                              controller: reviewCont,
+                              textFieldType: TextFieldType.OTHER,
+                              minLines: 5,
+                              maxLines: 10,
+                              textCapitalization: TextCapitalization.sentences,
+                              decoration: inputDecoration(
+                                context,
+                                labelText: 'Write your review here...',
+                              ).copyWith(
+                                  fillColor: appStore.isDarkMode
+                                      ? context.dividerColor
+                                      : context.cardColor,
+                                  filled: true),
+                            ),
+                            32.height,
+                            GradientButton(
+                              onPressed: () async {
+                                if (selectedRating == 0) {
+                                  toast('Please select a rating');
+                                  return;
+                                }
+
+                                if (postJobDetail == null) {
+                                  toast(language.somethingWentWrong);
+                                  return;
+                                }
+
+                                final bidId = postJobDetail!.id?.validate();
+                                final providerId = postJobDetail!.provider?.id?.validate();
+                                final customerId = appStore.userId;
+
+                                if (bidId == null || providerId == null || customerId == null) {
+                                  toast(language.somethingWentWrong);
+                                  return;
+                                }
+
+                                hideKeyboard(context);
+                                appStore.setLoading(true);
+                                try {
+                                  final request = {
+                                    "post_job_bid_id": bidId.toInt(),
+                                    "provider_id": providerId.toInt(),
+                                    "customer_id": customerId,
+                                    "rating": selectedRating.toInt(),
+                                    "review": reviewCont.text.validate(),
+                                  };
+
+                                  await saveBidRating(request).then((value) {
+                                    appStore.setLoading(false);
+                                    final message = value.message.validate();
+                                    if (message.isNotEmpty) {
+                                      toast(message);
+                                    } else {
+                                      toast('Rating submitted successfully');
+                                    }
+                                    Future.delayed(Duration(milliseconds: 500), () {
+                                      finish(context, true);
+                                      init();
+                                      setState(() {});
+                                    });
+                                  }).catchError((e) {
+                                    appStore.setLoading(false);
+                                    toast(e.toString());
+                                  });
+                                } catch (e) {
+                                  appStore.setLoading(false);
+                                  toast(e.toString());
+                                }
+                              },
+                              child: Text(
+                                'Submit',
+                                style: boldTextStyle(color: Colors.white),
+                              ),
+                            ).withWidth(context.width()),
+                          ],
+                        ).paddingAll(16),
+                      ),
+                    ],
+                  ),
+                ),
+                Observer(
+                    builder: (context) => LoaderWidget()
+                        .visible(appStore.isLoading)
+                        .withSize(height: 80, width: 80))
+              ],
+            ),
+          ),
+        ),
+      ),
+    ).then((value) {
+      if (value == true) {
+        // Rating was submitted successfully
+      }
+    });
+  }
 }
 
 class _MarqueeText extends StatefulWidget {
@@ -1141,14 +1322,20 @@ class _MarqueeTextState extends State<_MarqueeText>
     super.initState();
     _controller = AnimationController.unbounded(vsync: this)
       ..addListener(() {
-        setState(() {
-          _position -= widget.velocity / 60; // approx 60fps
-          if (_textWidth > 0 && -_position > _textWidth + widget.gap) {
-            _position += _textWidth + widget.gap;
-          }
-        });
+        if (mounted) {
+          setState(() {
+            _position -= widget.velocity / 60; // approx 60fps
+            if (_textWidth > 0 && -_position > _textWidth + widget.gap) {
+              _position += _textWidth + widget.gap;
+            }
+          });
+        }
       });
-    _controller.repeat(period: const Duration(milliseconds: 16));
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (mounted) {
+        _controller.repeat(period: const Duration(milliseconds: 16));
+      }
+    });
   }
 
   @override

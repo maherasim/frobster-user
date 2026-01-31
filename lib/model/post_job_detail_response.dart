@@ -41,6 +41,7 @@ class JobRequestDetailResponse {
   PostRequest? postRequest;
   String? taxPercent;
   BankTransferStatus? bankTransfer;
+  bool? providerRatingExists;
 
   JobRequestDetailResponse({
     this.id,
@@ -65,6 +66,7 @@ class JobRequestDetailResponse {
     this.postRequest,
     this.taxPercent,
     this.bankTransfer,
+    this.providerRatingExists,
   });
 
   factory JobRequestDetailResponse.fromJson(Map<String, dynamic> json) => JobRequestDetailResponse(
@@ -90,6 +92,13 @@ class JobRequestDetailResponse {
     customer: json["customer"] == null ? null : Customer.fromJson(json["customer"]),
     postRequest: json["postrequest"] == null ? null : PostRequest.fromJson(json["postrequest"]),
     bankTransfer: json["bank_transfer"] == null ? null : BankTransferStatus.fromJson(json["bank_transfer"]),
+    providerRatingExists: json["provider_rating_exists"] == null 
+        ? false 
+        : (json["provider_rating_exists"] is bool 
+            ? json["provider_rating_exists"] as bool
+            : json["provider_rating_exists"] == 1 
+                || json["provider_rating_exists"] == "1" 
+                || json["provider_rating_exists"] == true),
   );
 
   Map<String, dynamic> toJson() => {

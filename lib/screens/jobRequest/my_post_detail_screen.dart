@@ -100,31 +100,31 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
   }
 
   Widget postJobDetailWidget({required PostJobData data}) {
-    // Simple attribute row helper - no cards, no icons, just label: value
+    // Simple attribute row helper - matching reference design
     Widget attributeRow(String label, String value, {Color? valueColor}) {
-      return Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Flexible(
-            child: Text(
-              label,
-              style: boldTextStyle(size: 18).copyWith(height: 1.2),
-              textAlign: TextAlign.left,
+      return Padding(
+        padding: EdgeInsets.symmetric(vertical: 10),
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              '$label:',
+              style: boldTextStyle(size: 14),
             ),
-          ),
-          Flexible(
-            child: Text(
-              value,
-              style: secondaryTextStyle(
-                size: 14,
-                weight: FontWeight.normal,
-                color: valueColor ?? textPrimaryColorGlobal,
-              ).copyWith(height: 1.2),
-              textAlign: TextAlign.right,
+            Expanded(
+              child: Text(
+                value,
+                style: TextStyle(
+                  fontSize: 12,
+                  fontWeight: FontWeight.w300,
+                  color: valueColor ?? textPrimaryColorGlobal,
+                ),
+                textAlign: TextAlign.right,
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       );
     }
 
@@ -148,30 +148,20 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           ),
         24.height,
 
-        // Simple attribute rows - no cards, no icons
+        // Simple attribute rows - matching reference design
         attributeRow("Job Type", data.type?.displayName ?? 'N/A'),
-        10.height,
         attributeRow(language.startDate, formatDate(data.startDate.validate())),
-        10.height,
         attributeRow(language.endDate, formatDate(data.endDate.validate())),
-        10.height,
         attributeRow(
           "Budget/Price",
           (data.price.validate()).toPriceFormat(),
         ),
-        10.height,
         attributeRow("Total Budget", (data.totalBudget.validate()).toPriceFormat()),
-        10.height,
         attributeRow("Total Days", data.totalDays?.toString() ?? '0'),
-        10.height,
         attributeRow("Total Hours", data.totalHours?.toString() ?? '0'),
-        10.height,
         attributeRow("Remote Work Level", data.remoteWorkLevel?.displayName ?? 'N/A'),
-        10.height,
         attributeRow("Travel Required", data.travelRequired?.displayName ?? 'N/A'),
-        10.height,
         attributeRow("Career Level", data.careerLevel?.displayName ?? 'N/A'),
-        10.height,
         attributeRow("Education Level", data.educationLevel?.displayName ?? 'N/A'),
 
         // Description Section - Simple and Clean (like service detail screen)

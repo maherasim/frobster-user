@@ -1266,6 +1266,10 @@ Future<JobRequestDetailResponse?> getPostJobDetailByBid(num bidId) async {
       if (res.containsKey("bank_transfer")) {
         res["data"]["bank_transfer"] = res["bank_transfer"];
       }
+      // Pass through provider_rating_exists to model if provided at top-level
+      if (res.containsKey("provider_rating_exists")) {
+        res["data"]["provider_rating_exists"] = res["provider_rating_exists"];
+      }
       print(res["data"]);
       job = JobRequestDetailResponse.fromJson(res["data"]);
     }
@@ -1289,6 +1293,12 @@ Future<BaseResponseModel> bidUpdate(num id,Map request) async {
   appStore.setLoading(false);
 
   return res;
+}
+
+Future<BaseResponseModel> saveBidRating(Map request) async {
+  return BaseResponseModel.fromJson(await handleResponse(
+      await buildHttpResponse('postbid/rating/save',
+          request: request, method: HttpMethodType.POST)));
 }
 
 Future<BaseResponseModel> payBidAmount(String endPoint,Map request) async {
