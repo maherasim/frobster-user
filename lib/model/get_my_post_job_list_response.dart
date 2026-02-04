@@ -370,7 +370,7 @@ enum EducationLevel {
 enum RequestStatus {
   requested('Requested','requested',defaultStatus),
   accepted('Accepted','accepted',accept),
-  pendingAdvance('Advance Payment Pending','Advance Payment Pending',primaryColorWithOpacity),
+  pendingAdvance('Advance Payment Pending','advance_payment_pending',primaryColorWithOpacity),
   advancePaid('Advance Paid','advance_paid',primaryColorWithOpacity),
   inProcess('In Process','in_process',primaryColorWithOpacity),
   inProgress('In Progress','in_progress',primaryColorWithOpacity),

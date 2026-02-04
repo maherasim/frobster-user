@@ -159,17 +159,17 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                   child: Text("View Proposal", style: boldTextStyle(color: white, size: 12)),
                 ),
               ),
-              16.width,
-              Expanded(
-                child: GradientButton(
-                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
-                  borderRadius: 8,
-                  onPressed: () {
-                    _showHireSheet(context);
-                  },
-                  child: Text('Hire', style: boldTextStyle(color: white, size: 12)),
-                ),
-              ),
+              // 16.width,
+              // Expanded(
+              //   child: GradientButton(
+              //     padding: EdgeInsets.symmetric(horizontal: 8, vertical: 12),
+              //     borderRadius: 8,
+              //     onPressed: () {
+              //       _showHireSheet(context);
+              //     },
+              //     child: Text('Hire', style: boldTextStyle(color: white, size: 12)),
+              //   ),
+              // ),
             ],
           ),
         ],

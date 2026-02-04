@@ -146,18 +146,28 @@ class _MyPostRequestItemComponentState
                       color: gradientRed,
                       borderRadius: radius(20),
                     ),
+                    constraints: BoxConstraints(
+                      maxWidth: context.width() * 0.5,
+                    ),
                     child: Row(
+                      mainAxisSize: MainAxisSize.min,
                       children: [
-                        PriceWidget(
-                          price: widget.data.price.validate(),
-                          color: white,
-                          isFreeService: false,
-                          size: 14,
+                        Flexible(
+                          child: PriceWidget(
+                            price: widget.data.price.validate(),
+                            color: white,
+                            isFreeService: false,
+                            size: 14,
+                          ),
                         ),
                         6.width,
-                        Text(
-                          '/ ${widget.data.priceType?.displayName ?? ''}',
-                          style: primaryTextStyle(color: white, size: 12),
+                        Flexible(
+                          child: Text(
+                            '/ ${widget.data.priceType?.displayName ?? ''}',
+                            style: primaryTextStyle(color: white, size: 12),
+                            maxLines: 1,
+                            overflow: TextOverflow.ellipsis,
+                          ),
                         ),
                       ],
                     ),
@@ -195,7 +205,9 @@ class _MyPostRequestItemComponentState
                       ],
                     ),
                   8.height,
-                  Row(
+                  Wrap(
+                    spacing: 12,
+                    runSpacing: 8,
                     children: [
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
@@ -204,23 +216,30 @@ class _MyPostRequestItemComponentState
                           borderRadius: radius(20),
                         ),
                         child: Row(
+                          mainAxisSize: MainAxisSize.min,
                           children: [
                             Icon(Icons.work_outline, size: 14, color: gradientRed),
                             6.width,
-                            Text(widget.data.type?.displayName ?? '', style: boldTextStyle(size: 12, color: gradientRed)),
+                            Flexible(
+                              child: Text(widget.data.type?.displayName ?? '', 
+                                style: boldTextStyle(size: 12, color: gradientRed),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                            ),
                           ],
                         ),
                       ),
-                      12.width,
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.remove_red_eye_outlined, size: 14, color: textSecondaryColorGlobal),
                           4.width,
                           Text("Views: ${widget.data.totalViews ?? 0}", style: secondaryTextStyle(size: 12)),
                         ],
                       ),
-                      12.width,
                       Row(
+                        mainAxisSize: MainAxisSize.min,
                         children: [
                           Icon(Icons.how_to_reg_outlined, size: 14, color: textSecondaryColorGlobal),
                           4.width,

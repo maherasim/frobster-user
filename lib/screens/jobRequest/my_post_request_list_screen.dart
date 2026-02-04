@@ -87,7 +87,8 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
       ],
       bottom: TabBar(
         controller: _tabController,
-        isScrollable: false,
+        isScrollable: true,
+        tabAlignment: TabAlignment.start,
         labelStyle: boldTextStyle(size: 13, color: Colors.white),
         unselectedLabelStyle:
             secondaryTextStyle(size: 13, color: Colors.white70, weight: FontWeight.w600),

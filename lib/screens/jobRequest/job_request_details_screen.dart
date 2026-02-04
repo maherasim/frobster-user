@@ -141,28 +141,10 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   Widget _buildBody() {
     if (postJobDetail == null) return SizedBox.shrink();
 
-    // For cancelled bids, we may not have postRequest, but we should still show available data
-    // Only show error if postRequest is null AND status is not cancelled
-    if (postJobDetail!.postRequest == null && postJobDetail!.status != RequestStatus.cancel) {
-      return Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(Icons.error_outline, size: 48, color: Colors.grey),
-            16.height,
-            Text('No job request data available', style: secondaryTextStyle()),
-            16.height,
-            AppButton(
-              text: language.reload,
-              onTap: () {
-                init();
-                setState(() {});
-              },
-            ),
-          ],
-        ).paddingAll(16),
-      );
-    }
+    // Always render the body if we have postJobDetail data
+    // We'll handle missing postRequest gracefully in the UI by showing "N/A" values
+    // Only show error if we truly have no useful data (very rare case)
+    // This ensures the page always renders when we have bid information
 
     // For cancelled bids without postRequest, use default values
     quantity = postJobDetail!.postRequest != null 
@@ -286,74 +268,84 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               24.height,
 
               // Job Details Grid - Reduced to essential cards only
-              // Show grid only if postRequest is available, otherwise show a message for cancelled bids
-              if (postJobDetail!.postRequest != null)
-                GridView.count(
-                  crossAxisCount: 2,
-                  shrinkWrap: true,
-                  physics: NeverScrollableScrollPhysics(),
-                  childAspectRatio: 1.8,
-                  crossAxisSpacing: 8,
-                  mainAxisSpacing: 8,
-                  children: [
-                    _buildInfoCard(
-                      icon: Icons.h_mobiledata,
-                      iconColor: gradientRed,
-                      title: 'Title',
-                      value: postJobDetail!.postRequest?.title?.validate() ?? '',
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.location_on,
-                      iconColor: Colors.green,
-                      title: 'Location',
-                      value:
-                          "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}",
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.business_center,
-                      iconColor: Colors.orange,
-                      title: 'Job Type',
-                      value: postJobDetail!.postRequest?.type.displayName
-                              .validate() ??
-                          '',
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.event_available,
-                      iconColor: Colors.blue,
-                      title: 'Start Date',
-                      value: formatDate(
-                          postJobDetail!.postRequest?.startDate
-                              ?.toIso8601String()
-                              .validate(),
-                          showDateWithTime: true),
-                      isDate: true,
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.event_busy,
-                      iconColor: Colors.red,
-                      title: 'End Date',
-                      value: formatDate(
-                          postJobDetail!.postRequest?.endDate
-                              ?.toIso8601String()
-                              .validate(),
-                          showDateWithTime: true),
-                      isDate: true,
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.person,
-                      iconColor: Colors.indigo,
-                      title: 'Employer',
-                      value:
-                          postJobDetail!.provider?.displayName.validate() ?? '',
-                    ),
-                    _buildInfoCard(
-                      icon: Icons.person_outline,
-                      iconColor: Colors.green,
-                      title: 'Customer',
-                      value:
-                          postJobDetail!.customer?.displayName.validate() ?? '',
-                    ),
-                  ],
+              // Always show grid when postRequest is available OR when status is inProcess OR pendingAdvance
+              if (postJobDetail!.postRequest != null || 
+                  postJobDetail!.status == RequestStatus.inProcess ||
+                  postJobDetail!.status == RequestStatus.pendingAdvance)
+                Padding(
+                  padding: EdgeInsets.zero,
+                  child: GridView.count(
+                    crossAxisCount: 2,
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    childAspectRatio: 1.8,
+                    crossAxisSpacing: 8,
+                    mainAxisSpacing: 8,
+                    children: [
+                      _buildInfoCard(
+                        icon: Icons.h_mobiledata,
+                        iconColor: gradientRed,
+                        title: 'Title',
+                        value: postJobDetail!.postRequest?.title?.validate() ?? 'N/A',
+                      ),
+                      _buildInfoCard(
+                        icon: Icons.location_on,
+                        iconColor: Colors.green,
+                        title: 'Location',
+                        value: postJobDetail!.postRequest != null
+                            ? "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}"
+                            : 'N/A',
+                      ),
+                      _buildInfoCard(
+                        icon: Icons.business_center,
+                        iconColor: Colors.orange,
+                        title: 'Job Type',
+                        value: (postJobDetail!.postRequest?.type != null)
+                            ? postJobDetail!.postRequest!.type.displayName.validate()
+                            : 'N/A',
+                      ),
+                      _buildInfoCard(
+                        icon: Icons.event_available,
+                        iconColor: Colors.blue,
+                        title: 'Start Date',
+                        value: postJobDetail!.postRequest?.startDate != null
+                            ? formatDate(
+                                postJobDetail!.postRequest?.startDate
+                                    ?.toIso8601String()
+                                    .validate(),
+                                showDateWithTime: true)
+                            : 'N/A',
+                        isDate: true,
+                      ),
+                      _buildInfoCard(
+                        icon: Icons.event_busy,
+                        iconColor: Colors.red,
+                        title: 'End Date',
+                        value: postJobDetail!.postRequest?.endDate != null
+                            ? formatDate(
+                                postJobDetail!.postRequest?.endDate
+                                    ?.toIso8601String()
+                                    .validate(),
+                                showDateWithTime: true)
+                            : 'N/A',
+                        isDate: true,
+                      ),
+                      _buildInfoCard(
+                        icon: Icons.person,
+                        iconColor: Colors.indigo,
+                        title: 'Employer',
+                        value:
+                            postJobDetail!.provider?.displayName.validate() ?? 'N/A',
+                      ),
+                      _buildInfoCard(
+                        icon: Icons.person_outline,
+                        iconColor: Colors.green,
+                        title: 'Customer',
+                        value:
+                            postJobDetail!.customer?.displayName.validate() ?? 'N/A',
+                      ),
+                    ],
+                  ),
                 )
               else if (postJobDetail!.status == RequestStatus.cancel)
                 Container(
@@ -1377,22 +1369,58 @@ class _MarqueeTextState extends State<_MarqueeText>
     return ClipRect(
       child: LayoutBuilder(
         builder: (context, constraints) {
-          return Stack(
-            children: [
-              Transform.translate(
-                offset: Offset(_position, 0),
-                child: _measure(
-                  onWidth: (w) => _textWidth = w,
-                  child: Row(
-                    children: [
-                      Text(widget.text, style: widget.textStyle),
-                      SizedBox(width: widget.gap),
-                      Text(widget.text, style: widget.textStyle),
-                    ],
+          if (constraints.maxWidth.isInfinite || constraints.maxWidth == 0) {
+            // If constraints are unbounded, use a simple Text widget
+            return Text(widget.text, style: widget.textStyle);
+          }
+          
+          // If height is unbounded, use a simple Text widget to avoid Stack issues
+          if (constraints.maxHeight.isInfinite) {
+            return Text(
+              widget.text,
+              style: widget.textStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            );
+          }
+          
+          // Ensure we have finite height for Stack
+          final height = constraints.maxHeight.isFinite && constraints.maxHeight > 0 
+              ? constraints.maxHeight 
+              : null;
+          
+          if (height == null) {
+            // If we still don't have a valid height, use simple Text
+            return Text(
+              widget.text,
+              style: widget.textStyle,
+              overflow: TextOverflow.ellipsis,
+              maxLines: 1,
+            );
+          }
+          
+          return SizedBox(
+            width: constraints.maxWidth,
+            height: height,
+            child: Stack(
+              clipBehavior: Clip.hardEdge,
+              children: [
+                Transform.translate(
+                  offset: Offset(_position, 0),
+                  child: _measure(
+                    onWidth: (w) => _textWidth = w,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(widget.text, style: widget.textStyle),
+                        SizedBox(width: widget.gap),
+                        Text(widget.text, style: widget.textStyle),
+                      ],
+                    ),
                   ),
                 ),
-              ),
-            ],
+              ],
+            ),
           );
         },
       ),
@@ -1401,6 +1429,7 @@ class _MarqueeTextState extends State<_MarqueeText>
 
   Widget _measure({required Widget child, required void Function(double) onWidth}) {
     return OverflowBox(
+      alignment: Alignment.centerLeft,
       maxWidth: double.infinity,
       child: _SizeReporter(onWidth: onWidth, child: child),
     );
