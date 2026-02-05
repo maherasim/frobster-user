@@ -98,6 +98,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       case RequestStatus.pendingAdvance:
         message = language.waitingForCustomerToPayAdvancePercentage;
         break;
+      case RequestStatus.advancePaymentPending:
+        message = 'Waiting for admin approval';
+        break;
       case RequestStatus.advancePaid:
         message = language.waitingForProviderToStartWork;
         break;
@@ -118,6 +121,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         break;
       case RequestStatus.completed:
         message = language.jobCompletedWaitingForCustomer;
+        break;
+      case RequestStatus.remainingPaymentPending:
+        message = 'Waiting for customer to pay remaining amount';
         break;
       case RequestStatus.remainingPaid:
         message = language.paymentCompletedDownloadInvoice;
@@ -217,8 +223,33 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ],
                   ),
                 ),
-              // Bank transfer pending approval banner
-              if (_isAwaitingBankTransferApproval())
+              // Show "waiting for admin approval" message when status is advancePaymentPending (advance_payment_pending)
+              if (postJobDetail!.status == RequestStatus.advancePaymentPending)
+                Container(
+                  width: double.infinity,
+                  padding: EdgeInsets.all(12),
+                  decoration: boxDecorationWithRoundedCorners(
+                    backgroundColor: hold.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(Icons.hourglass_bottom, color: hold, size: 20),
+                      8.width,
+                      Expanded(
+                        child: _MarqueeText(
+                          text: 'Waiting for admin approval',
+                          textStyle: secondaryTextStyle(color: hold, size: 14),
+                          velocity: 40, // px per second
+                          gap: 40,
+                        ),
+                      ),
+                    ],
+                  ),
+                ).paddingTop(12),
+              // Bank transfer pending approval banner (for pendingAdvance with bank transfer)
+              if (_isAwaitingBankTransferApproval() && 
+                  (postJobDetail!.status == RequestStatus.pendingAdvance))
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(12),
@@ -268,10 +299,11 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               24.height,
 
               // Job Details Grid - Reduced to essential cards only
-              // Always show grid when postRequest is available OR when status is inProcess OR pendingAdvance
+              // Always show grid when postRequest is available OR when status is inProcess, pendingAdvance, or advancePaymentPending
               if (postJobDetail!.postRequest != null || 
                   postJobDetail!.status == RequestStatus.inProcess ||
-                  postJobDetail!.status == RequestStatus.pendingAdvance)
+                  postJobDetail!.status == RequestStatus.pendingAdvance ||
+                  postJobDetail!.status == RequestStatus.advancePaymentPending)
                 Padding(
                   padding: EdgeInsets.zero,
                   child: GridView.count(
@@ -461,9 +493,17 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   },
                   child: Text('Cancel', style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.pendingAdvance && !_isAwaitingBankTransferApproval())
+              // Show Pay Advance button when status is pendingAdvance ("Advance Payment Pending" with spaces)
+              // Do NOT show for advancePaymentPending ("advance_payment_pending" - waiting for admin approval)
+              if (postJobDetail!.status == RequestStatus.pendingAdvance)
                 GradientButton(
                   onPressed: () async {
+                    // Don't allow payment if bank transfer is awaiting approval
+                    if (_isAwaitingBankTransferApproval()) {
+                      toast('Waiting for admin approval. Please wait.');
+                      return;
+                    }
+                    
                     bool? res = await showInDialog(
                       context,
                       contentPadding: EdgeInsets.zero,
@@ -483,7 +523,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   },
                   child: Text('Pay Advance (\$${advance})', style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.inProcess && !_isAwaitingBankTransferApproval())
+              // Show "Let's Start Work" button when status is inProcess
+              // Only hide if bank transfer is awaiting approval (for advance payment, not for inProcess)
+              if (postJobDetail!.status == RequestStatus.inProcess)
                 Row(
                   children: [
                     Expanded(child: _chatActionButton()),
@@ -498,7 +540,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.done && !_isAwaitingBankTransferApproval())
+              // Always show chat button for done status
+              if (postJobDetail!.status == RequestStatus.done)
                 Row(
                   children: [
                     Expanded(child: _chatActionButton()),
@@ -513,7 +556,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
-              if (postJobDetail!.status == RequestStatus.completed && !_isAwaitingBankTransferApproval())
+              // Always show chat button for completed status
+              if (postJobDetail!.status == RequestStatus.completed)
                 Row(
                   children: [
                     Expanded(child: _chatActionButton()),
@@ -541,6 +585,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                   ],
                 ).paddingOnly(bottom: 24),
+              // Always show chat button for remainingPaymentPending status (no payment button needed)
+              if (postJobDetail!.status == RequestStatus.remainingPaymentPending)
+                _chatActionButton().paddingOnly(bottom: 24),
 
               // Conversation access: enabled from Advance Paid and later
               if (postJobDetail!.status == RequestStatus.remainingPaid)
@@ -583,12 +630,22 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ],
                   ],
                 ).paddingOnly(bottom: 24),
-              if (_canShowChat(postJobDetail!.status) &&
-                  !_isAwaitingBankTransferApproval() &&
-                  postJobDetail!.status != RequestStatus.remainingPaid &&
-                  postJobDetail!.status != RequestStatus.inProcess &&
-                  postJobDetail!.status != RequestStatus.done &&
-                  postJobDetail!.status != RequestStatus.completed)
+              // Always show chat button for: hold, inProgress
+              // Note: inProcess, done, completed, remainingPaymentPending, and remainingPaid already have chat button in their Row widgets above
+              if (postJobDetail!.status == RequestStatus.hold ||
+                  postJobDetail!.status == RequestStatus.inProgress)
+                _chatActionButton().paddingOnly(bottom: 24),
+              // Show chat for other statuses (like advancePaid) if not awaiting bank transfer approval
+              // Only show if not already shown above
+              if (!(postJobDetail!.status == RequestStatus.hold ||
+                  postJobDetail!.status == RequestStatus.inProgress ||
+                  postJobDetail!.status == RequestStatus.inProcess ||
+                  postJobDetail!.status == RequestStatus.done ||
+                  postJobDetail!.status == RequestStatus.completed ||
+                  postJobDetail!.status == RequestStatus.remainingPaymentPending ||
+                  postJobDetail!.status == RequestStatus.remainingPaid) &&
+                  _canShowChat(postJobDetail!.status) &&
+                  !_isAwaitingBankTransferApproval())
                 _chatActionButton().paddingOnly(bottom: 24),
             ],
           ),
@@ -1049,11 +1106,13 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     final steps = <RequestStatus>[
       RequestStatus.accepted,
       RequestStatus.pendingAdvance,
+      RequestStatus.advancePaymentPending,
       RequestStatus.advancePaid,
       RequestStatus.inProcess,
       RequestStatus.inProgress,
       RequestStatus.done,
       RequestStatus.completed,
+      RequestStatus.remainingPaymentPending,
       RequestStatus.remainingPaid,
     ];
     final activeIndex = steps.indexOf(status);
@@ -1104,6 +1163,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         return 'Accept';
       case RequestStatus.pendingAdvance:
         return 'Advance';
+      case RequestStatus.advancePaymentPending:
+        return 'Advance';
       case RequestStatus.advancePaid:
         return 'Advance Paid';
       case RequestStatus.inProcess:
@@ -1114,6 +1175,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         return 'Done';
       case RequestStatus.completed:
         return 'Completed';
+      case RequestStatus.remainingPaymentPending:
+        return 'Remaining';
       case RequestStatus.remainingPaid:
         return 'Paid';
       default:
@@ -1129,6 +1192,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         status == RequestStatus.done ||
         status == RequestStatus.confirmDone ||
         status == RequestStatus.completed ||
+        status == RequestStatus.remainingPaymentPending ||
         status == RequestStatus.remainingPaid;
   }
 
