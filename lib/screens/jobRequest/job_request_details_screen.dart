@@ -86,6 +86,19 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     );
   }
 
+  // Helper method to get icon color for job type
+  Color _getJobTypeIconColor(JobType? type) {
+    if (type == null) return Colors.orange;
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.shade700; // Blue for On Site
+      case JobType.remote:
+        return Colors.green.shade700; // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.shade700; // Orange for Hybrid
+    }
+  }
+
   String getStatusInfo(JobRequestDetailResponse job) {
     String message = '';
     switch (job.status) {
@@ -330,7 +343,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       ),
                       _buildInfoCard(
                         icon: Icons.business_center,
-                        iconColor: Colors.orange,
+                        iconColor: _getJobTypeIconColor(postJobDetail!.postRequest?.type),
                         title: 'Job Type',
                         value: (postJobDetail!.postRequest?.type != null)
                             ? postJobDetail!.postRequest!.type.displayName.validate()

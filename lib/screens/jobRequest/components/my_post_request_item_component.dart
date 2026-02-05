@@ -55,6 +55,32 @@ class _MyPostRequestItemComponentState
     if (mounted) super.setState(fn);
   }
 
+  // Helper method to get background color for job type
+  Color _getJobTypeBgColor(JobType? type) {
+    if (type == null) return gradientRed.withValues(alpha: 0.08);
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.withValues(alpha: 0.12); // Blue for On Site
+      case JobType.remote:
+        return Colors.green.withValues(alpha: 0.12); // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.withValues(alpha: 0.12); // Orange for Hybrid
+    }
+  }
+
+  // Helper method to get icon/text color for job type
+  Color _getJobTypeColor(JobType? type) {
+    if (type == null) return gradientRed;
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.shade700; // Blue for On Site
+      case JobType.remote:
+        return Colors.green.shade700; // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.shade700; // Orange for Hybrid
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -132,7 +158,9 @@ class _MyPostRequestItemComponentState
                       borderRadius: radius(20),
                     ),
                     child: Text(
-                      widget.data.status.displayName,
+                      widget.data.status == RequestStatus.confirmDone 
+                          ? 'Completed' 
+                          : widget.data.status.displayName,
                       style: boldTextStyle(color: white, size: 12),
                     ),
                   ),
@@ -143,7 +171,11 @@ class _MyPostRequestItemComponentState
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
                     decoration: BoxDecoration(
-                      color: gradientRed,
+                      gradient: LinearGradient(
+                        begin: Alignment.centerLeft,
+                        end: Alignment.centerRight,
+                        colors: [gradientRed, gradientBlue],
+                      ),
                       borderRadius: radius(20),
                     ),
                     constraints: BoxConstraints(
@@ -212,17 +244,17 @@ class _MyPostRequestItemComponentState
                       Container(
                         padding: EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                         decoration: BoxDecoration(
-                          color: gradientRed.withValues(alpha: 0.08),
+                          color: _getJobTypeBgColor(widget.data.type),
                           borderRadius: radius(20),
                         ),
                         child: Row(
                           mainAxisSize: MainAxisSize.min,
                           children: [
-                            Icon(Icons.work_outline, size: 14, color: gradientRed),
+                            Icon(Icons.work_outline, size: 14, color: _getJobTypeColor(widget.data.type)),
                             6.width,
                             Flexible(
                               child: Text(widget.data.type?.displayName ?? '', 
-                                style: boldTextStyle(size: 12, color: gradientRed),
+                                style: boldTextStyle(size: 12, color: _getJobTypeColor(widget.data.type)),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                               ),
@@ -262,7 +294,8 @@ class _MyPostRequestItemComponentState
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
                       children: [
-                        if(widget.data.status == RequestStatus.requested) GestureDetector(
+                        // Show edit button only if status is requested AND there are no proposals (bids)
+                        if(widget.data.status == RequestStatus.requested && (widget.data.bidCount ?? 0) == 0) GestureDetector(
                           child: ic_edit_square.iconImage(size: 16),
                           onTap: () async {
                             bool? res = await CreatePostRequestScreen(editJob: widget.data).launch(context);

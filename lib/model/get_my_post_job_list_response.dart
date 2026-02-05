@@ -288,7 +288,7 @@ enum PriceType {
 enum JobType {
   onSite("On Site", "onsite"),
   hybrid("Hybrid", "hybrid"),
-  remote("Remote / Home Office", "remote");
+  remote("Remote", "remote");
 
   final String displayName;
   final String backendValue;
