@@ -99,9 +99,35 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
     );
   }
 
+  // Helper method to get background color for job type
+  Color _getJobTypeBgColor(JobType? type) {
+    if (type == null) return gradientRed.withValues(alpha: 0.08);
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.withValues(alpha: 0.12); // Blue for On Site
+      case JobType.remote:
+        return Colors.green.withValues(alpha: 0.12); // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.withValues(alpha: 0.12); // Orange for Hybrid
+    }
+  }
+
+  // Helper method to get text color for job type
+  Color _getJobTypeColor(JobType? type) {
+    if (type == null) return gradientRed;
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.shade700; // Blue for On Site
+      case JobType.remote:
+        return Colors.green.shade700; // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.shade700; // Orange for Hybrid
+    }
+  }
+
   Widget postJobDetailWidget({required PostJobData data}) {
     // Simple attribute row helper - matching reference design
-    Widget attributeRow(String label, String value, {Color? valueColor}) {
+    Widget attributeRow(String label, String value, {Color? valueColor, Widget? customValueWidget}) {
       return Padding(
         padding: EdgeInsets.symmetric(vertical: 10),
         child: Row(
@@ -112,17 +138,20 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
               '$label:',
               style: boldTextStyle(size: 14),
             ),
-            Expanded(
-              child: Text(
-                value,
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.w300,
-                  color: valueColor ?? textPrimaryColorGlobal,
+            if (customValueWidget != null)
+              customValueWidget
+            else
+              Expanded(
+                child: Text(
+                  value,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w300,
+                    color: valueColor ?? textPrimaryColorGlobal,
+                  ),
+                  textAlign: TextAlign.right,
                 ),
-                textAlign: TextAlign.right,
               ),
-            ),
           ],
         ),
       );
@@ -149,7 +178,27 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         24.height,
 
         // Simple attribute rows - matching reference design
-        attributeRow("Job Type", data.type?.displayName ?? 'N/A'),
+        attributeRow(
+          "Job Type",
+          data.type?.displayName ?? 'N/A',
+          customValueWidget: data.type != null
+              ? Container(
+                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: _getJobTypeBgColor(data.type),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Text(
+                    data.type!.displayName,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w600,
+                      color: _getJobTypeColor(data.type),
+                    ),
+                  ),
+                )
+              : null,
+        ),
         attributeRow(language.startDate, formatDate(data.startDate.validate())),
         attributeRow(language.endDate, formatDate(data.endDate.validate())),
         attributeRow(

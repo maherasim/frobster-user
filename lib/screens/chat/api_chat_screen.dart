@@ -13,6 +13,7 @@ import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/cached_image_widget.dart';
+import '../../component/gradient_icon.dart';
 
 class ApiChatScreen extends StatefulWidget {
   final int conversationId;
@@ -43,6 +44,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   bool _isLoadingMore = false;
   bool _reachedHistoryEnd = false;
   bool _isSending = false;
+  bool _isFetchingNew = false;
 
   int get _lastMessageId => _apiMessages.isEmpty ? 0 : _apiMessages.last.id;
   int get _firstMessageId => _apiMessages.isEmpty ? 0 : _apiMessages.first.id;
@@ -96,7 +98,8 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   }
 
   Future<void> _fetchNew() async {
-    if (_isLoadingInitial) return;
+    if (_isLoadingInitial || _isFetchingNew) return;
+    _isFetchingNew = true;
     try {
       final msgs = await chatFetchMessages(
         conversationId: widget.conversationId,
@@ -105,13 +108,21 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
         limit: 50,
       );
       if (msgs.isNotEmpty) {
-        _apiMessages.addAll(msgs);
-        if (mounted) setState(() {});
-        await chatMarkRead(
-            conversationId: widget.conversationId, upToId: _lastMessageId);
+        // Deduplicate based on ID to prevent race conditions showing "twice send"
+        final existingIds = _apiMessages.map((e) => e.id).toSet();
+        final newUnique = msgs.where((m) => !existingIds.contains(m.id)).toList();
+
+        if (newUnique.isNotEmpty) {
+          _apiMessages.addAll(newUnique);
+          if (mounted) setState(() {});
+          await chatMarkRead(
+              conversationId: widget.conversationId, upToId: _lastMessageId);
+        }
       }
     } catch (e) {
       // ignore ephemeral polling errors
+    } finally {
+      _isFetchingNew = false;
     }
   }
 
@@ -138,7 +149,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   }
 
   Future<void> _sendMessage() async {
-    // Prevent double-sending
+    // Prevent double-sending - check and set flag atomically
     if (_isSending) return;
     
     final text = messageCont.text.trim();
@@ -147,7 +158,10 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       return;
     }
 
-    _isSending = true;
+    // Set flag and update UI immediately to prevent double-tap
+    setState(() {
+      _isSending = true;
+    });
     
     // Clear message immediately for instant feedback (like WhatsApp)
     messageCont.clear();
@@ -168,12 +182,11 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       // Restore message text if sending failed
       messageCont.text = text;
     } finally {
-      // Reset sending flag after a short delay
-      Future.delayed(Duration(milliseconds: 300), () {
-        if (mounted) {
+      if (mounted) {
+        setState(() {
           _isSending = false;
-        }
-      });
+        });
+      }
     }
   }
 
@@ -205,41 +218,80 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: context.cardColor,
-        borderRadius: radius(16),
-        border: Border.all(color: context.dividerColor.withValues(alpha: 0.6)),
+        color: appStore.isDarkMode
+            ? context.cardColor
+            : Colors.grey.shade200,
+        borderRadius: radius(defaultRadius),
       ),
       child: Row(
         children: [
-          AppTextField(
-            textFieldType: TextFieldType.OTHER,
-            controller: messageCont,
-            textStyle: primaryTextStyle(),
-            minLines: 1,
-            onFieldSubmitted: (s) {
-              if (!_isSending) {
-                _sendMessage();
-              }
-            },
-            focus: messageFocus,
-            cursorHeight: 20,
-            maxLines: 5,
-            cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
-            textCapitalization: TextCapitalization.sentences,
-            keyboardType: TextInputType.multiline,
-            decoration: const InputDecoration.collapsed(hintText: '').copyWith(
-              hintText: language.message,
-              hintStyle: secondaryTextStyle(),
+          Container(
+            decoration: BoxDecoration(
+              color: appStore.isDarkMode ? context.cardColor : Colors.white,
+              borderRadius: radius(defaultRadius),
+              border: Border.all(
+                color: gradientRed.withValues(alpha: 0.4),
+                width: 1,
+              ),
+            ),
+            child: AppTextField(
+              textFieldType: TextFieldType.OTHER,
+              controller: messageCont,
+              textStyle: primaryTextStyle(),
+              minLines: 1,
+              onFieldSubmitted: (s) {
+                if (!_isSending && messageCont.text.trim().isNotEmpty) {
+                  _sendMessage();
+                }
+              },
+              focus: messageFocus,
+              cursorHeight: 20,
+              maxLines: 5,
+              cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
+              textCapitalization: TextCapitalization.sentences,
+              keyboardType: TextInputType.multiline,
+              decoration: InputDecoration(
+                hintText: language.message,
+                hintStyle: secondaryTextStyle(),
+                fillColor: Colors.transparent,
+                filled: true,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+              ),
             ),
           ).expand(),
           8.width,
           Container(
-            decoration: boxDecorationDefault(borderRadius: radius(80), color: primaryColor),
-            child: IconButton(
-              icon: Icon(Icons.send, color: Colors.white),
-              onPressed: _isSending ? null : _sendMessage,
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [gradientRed, gradientBlue],
+              ),
+              borderRadius: BorderRadius.circular(80),
             ),
-          )
+            child: IconButton(
+              icon: _isSending
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Icon(Icons.send, color: Colors.white),
+              onPressed: _isSending
+                  ? null
+                  : () {
+                      if (!_isSending && messageCont.text.trim().isNotEmpty) {
+                        _sendMessage();
+                      }
+                    },
+            ),
+          ),
         ],
       ),
     );

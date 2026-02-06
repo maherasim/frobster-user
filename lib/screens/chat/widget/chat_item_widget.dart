@@ -255,8 +255,11 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
                       blurRadius: 0.1,
                       spreadRadius: 0.2), //BoxShadow
                 ],
+                gradient: widget.chatItemData.isMe.validate()
+                    ? appPrimaryGradient
+                    : null,
                 color: widget.chatItemData.isMe.validate()
-                    ? primaryColor
+                    ? null
                     : context.cardColor,
                 borderRadius: widget.chatItemData.isMe.validate()
                     ? radiusOnly(

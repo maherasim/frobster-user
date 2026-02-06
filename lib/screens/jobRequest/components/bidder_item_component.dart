@@ -3,6 +3,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/screens/jobRequest/job_request_details_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../component/disabled_rating_bar_widget.dart';
@@ -124,9 +125,11 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                               )
                             ],
                           ),
-                          builder: (context) => Text(
-                            widget.data.whyChooseMe.validate(),
-                            style: secondaryTextStyle(size: 12,color: textPrimaryColorGlobal),
+                          builder: (context) => SingleChildScrollView(
+                            child: HtmlWidget(
+                              widget.data.whyChooseMe.validate(),
+                              textStyle: secondaryTextStyle(size: 12, color: textPrimaryColorGlobal),
+                            ),
                           ),
                         );
                       },

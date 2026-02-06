@@ -264,7 +264,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         );
                       }),
                       Text(
-                        'Job Type: ${visitTypeLabel(widget.serviceData?.visitType)}',
+                        'Job Type : ${visitTypeLabel(widget.serviceData?.visitType)}',
                         style: secondaryTextStyle(
                             size: 10, color: defaultActivityStatus),
                       ),

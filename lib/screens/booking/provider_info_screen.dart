@@ -391,7 +391,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Asim Booking:',
+                                  'Booking:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,

@@ -99,6 +99,32 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     }
   }
 
+  // Helper method to get background color for job type
+  Color _getJobTypeBgColor(JobType? type) {
+    if (type == null) return gradientRed.withValues(alpha: 0.08);
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.withValues(alpha: 0.12); // Blue for On Site
+      case JobType.remote:
+        return Colors.green.withValues(alpha: 0.12); // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.withValues(alpha: 0.12); // Orange for Hybrid
+    }
+  }
+
+  // Helper method to get text color for job type
+  Color _getJobTypeColor(JobType? type) {
+    if (type == null) return gradientRed;
+    switch (type) {
+      case JobType.onSite:
+        return Colors.blue.shade700; // Blue for On Site
+      case JobType.remote:
+        return Colors.green.shade700; // Green for Remote
+      case JobType.hybrid:
+        return Colors.orange.shade700; // Orange for Hybrid
+    }
+  }
+
   String getStatusInfo(JobRequestDetailResponse job) {
     String message = '';
     switch (job.status) {
@@ -344,10 +370,29 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.business_center,
                         iconColor: _getJobTypeIconColor(postJobDetail!.postRequest?.type),
-                        title: 'Job Type',
+                        title: 'Job Type nice',
                         value: (postJobDetail!.postRequest?.type != null)
                             ? postJobDetail!.postRequest!.type.displayName.validate()
                             : 'N/A',
+                        customValueWidget: (postJobDetail!.postRequest?.type != null)
+                            ? Container(
+                                padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: _getJobTypeBgColor(postJobDetail!.postRequest?.type),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Text(
+                                  postJobDetail!.postRequest!.type.displayName.validate(),
+                                  style: boldTextStyle(
+                                    size: 11,
+                                    color: _getJobTypeColor(postJobDetail!.postRequest?.type),
+                                  ),
+                                  textAlign: TextAlign.center,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              )
+                            : null,
                       ),
                       _buildInfoCard(
                         icon: Icons.event_available,
@@ -937,6 +982,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     required String title,
     required String value,
     bool isDate = false,
+    Widget? customValueWidget,
   }) {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 8),
@@ -962,7 +1008,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           ),
           2.height,
           Flexible(
-            child: Text(
+            child: customValueWidget ?? Text(
               value,
               style: boldTextStyle(
                 size: isDate ? 9 : 11,

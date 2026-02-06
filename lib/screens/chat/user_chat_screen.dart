@@ -21,6 +21,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/cached_image_widget.dart';
 import '../../component/empty_error_state_widget.dart';
+import '../../component/gradient_icon.dart';
 import '../../services/chat_services.dart';
 import '../../utils/configs.dart';
 import '../../utils/getImage.dart';
@@ -109,61 +110,106 @@ class _UserChatScreenState extends State<UserChatScreen>
 
   //region Widget
   Widget _buildChatFieldWidget() {
-    return Row(
-      children: [
-        AppTextField(
-          textFieldType: TextFieldType.OTHER,
-          controller: messageCont,
-          textStyle: primaryTextStyle(),
-          minLines: 1,
-          onFieldSubmitted: (s) {
-            if (!_isSending) {
-            sendMessages();
-            }
-          },
-          focus: messageFocus,
-          cursorHeight: 20,
-          maxLines: 5,
-          cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
-          textCapitalization: TextCapitalization.sentences,
-          keyboardType: TextInputType.multiline,
-          suffix: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              IconButton(
-                icon: Transform.rotate(
-                    angle: -0.75, child: Icon(Icons.attach_file_outlined)),
-                onPressed: () {
-                  if (!appStore.isLoading) {
-                    _handleDocumentClick();
-                  }
-                },
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+      decoration: BoxDecoration(
+        color: appStore.isDarkMode
+            ? context.cardColor
+            : Colors.grey.shade200,
+        borderRadius: radius(defaultRadius),
+      ),
+      child: Row(
+        children: [
+          Container(
+            decoration: BoxDecoration(
+              color: appStore.isDarkMode ? context.cardColor : Colors.white,
+              borderRadius: radius(defaultRadius),
+              border: Border.all(
+                color: gradientRed.withValues(alpha: 0.4),
+                width: 1,
               ),
-              IconButton(
-                icon: Icon(Icons.camera_alt_outlined),
-                onPressed: () {
-                  if (!appStore.isLoading) {
-                    _handleCameraClick();
-                  }
-                },
+            ),
+            child: AppTextField(
+              textFieldType: TextFieldType.OTHER,
+              controller: messageCont,
+              textStyle: primaryTextStyle(),
+              minLines: 1,
+              onFieldSubmitted: (s) {
+                if (!_isSending && messageCont.text.trim().isNotEmpty) {
+                  sendMessages();
+                }
+              },
+              focus: messageFocus,
+              cursorHeight: 20,
+              maxLines: 5,
+              cursorColor: appStore.isDarkMode ? Colors.white : Colors.black,
+              textCapitalization: TextCapitalization.sentences,
+              keyboardType: TextInputType.multiline,
+              suffix: Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  IconButton(
+                    icon: Transform.rotate(
+                        angle: -0.75, child: Icon(Icons.attach_file_outlined)),
+                    onPressed: () {
+                      if (!appStore.isLoading) {
+                        _handleDocumentClick();
+                      }
+                    },
+                  ),
+                  IconButton(
+                    icon: Icon(Icons.camera_alt_outlined),
+                    onPressed: () {
+                      if (!appStore.isLoading) {
+                        _handleCameraClick();
+                      }
+                    },
+                  ),
+                ],
               ),
-            ],
+              decoration: inputDecoration(context).copyWith(
+                hintText: language.message,
+                hintStyle: secondaryTextStyle(),
+                fillColor: Colors.transparent,
+                filled: true,
+                border: InputBorder.none,
+                enabledBorder: InputBorder.none,
+                focusedBorder: InputBorder.none,
+              ),
+            ),
+          ).expand(),
+          8.width,
+          Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+                colors: [gradientRed, gradientBlue],
+              ),
+              borderRadius: BorderRadius.circular(80),
+            ),
+            child: IconButton(
+              icon: _isSending
+                  ? SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2,
+                        valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                      ),
+                    )
+                  : Icon(Icons.send, color: Colors.white),
+              onPressed: _isSending
+                  ? null
+                  : () {
+                      if (!_isSending && messageCont.text.trim().isNotEmpty) {
+                        sendMessages();
+                      }
+                    },
+            ),
           ),
-          decoration: inputDecoration(context).copyWith(
-              hintText: language.message, hintStyle: secondaryTextStyle()),
-        ).expand(),
-        8.width,
-        Container(
-          decoration: boxDecorationDefault(
-              borderRadius: radius(80), color: primaryColor),
-          child: IconButton(
-            icon: Icon(Icons.send, color: Colors.white),
-            onPressed: _isSending ? null : () {
-              sendMessages();
-            },
-          ),
-        )
-      ],
+        ],
+      ),
     );
   }
 
@@ -174,7 +220,7 @@ class _UserChatScreenState extends State<UserChatScreen>
     bool isFile = false,
     List<String> attachmentFiles = const [],
   }) async {
-    // Prevent double-sending
+    // Prevent double-sending - check and set flag atomically
     if (_isSending) return;
     
     // If Message TextField is Empty.
@@ -185,7 +231,10 @@ class _UserChatScreenState extends State<UserChatScreen>
       return;
     }
     
-    _isSending = true;
+    // Set flag and update UI immediately to prevent double-tap
+    setState(() {
+      _isSending = true;
+    });
 
     // Making Request for sending data to firebase
     ChatMessageModel data = ChatMessageModel();
@@ -274,12 +323,14 @@ class _UserChatScreenState extends State<UserChatScreen>
         toast(language.somethingWentWrong);
       });
     } finally {
-      // Reset sending flag after a short delay to allow message to appear
-      Future.delayed(Duration(milliseconds: 300), () {
+      // Reset sending flag after a short delay to prevent rapid double-taps
+      Future.delayed(Duration(milliseconds: 500), () {
         if (mounted) {
-          _isSending = false;
+          setState(() {
+            _isSending = false;
+          });
         }
-    });
+      });
     }
   }
 
