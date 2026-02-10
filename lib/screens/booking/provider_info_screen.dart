@@ -18,6 +18,18 @@ import '../service/view_all_service_screen.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
 
+/// Format raw availability value for display (e.g. full_time → Full Time, part_time → Part Time).
+String _availabilityDisplay(String? raw) {
+  if (raw == null || raw.isEmpty) return '';
+  final v = raw.trim().toLowerCase();
+  if (v == 'full_time') return 'Full Time';
+  if (v == 'part_time') return 'Part Time';
+  return raw.replaceAll('_', ' ').split(' ').map((w) {
+    if (w.isEmpty) return '';
+    return w[0].toUpperCase() + w.substring(1).toLowerCase();
+  }).join(' ');
+}
+
 class ProviderInfoScreen extends StatefulWidget {
   final int? providerId;
   final bool canCustomerContact;
@@ -74,19 +86,22 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
               title: language.lblNoServicesFound,
               imageWidget: EmptyStateWidget()),
         if (list.isNotEmpty)
-          AnimatedWrap(
-            spacing: 16,
-            runSpacing: 16,
-            itemCount: list.length,
-            listAnimationType: ListAnimationType.FadeIn,
-            fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
-            scaleConfiguration: ScaleConfiguration(
-                duration: 300.milliseconds, delay: 50.milliseconds),
-            itemBuilder: (_, index) => ProviderServiceComponent(
-              serviceData: list[index],
-              isFromProviderInfo: true,
-              serviceDetailResponse: ServiceDetailResponse(),
-              providerData: providerData,
+          SizedBox(
+            width: MediaQuery.of(context).size.width - 32,
+            child: AnimatedWrap(
+              spacing: 16,
+              runSpacing: 16,
+              itemCount: list.length,
+              listAnimationType: ListAnimationType.FadeIn,
+              fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
+              scaleConfiguration: ScaleConfiguration(
+                  duration: 300.milliseconds, delay: 50.milliseconds),
+              itemBuilder: (_, index) => ProviderServiceComponent(
+                serviceData: list[index],
+                isFromProviderInfo: true,
+                serviceDetailResponse: ServiceDetailResponse(),
+                providerData: providerData,
+              ),
             ),
           ).paddingOnly(bottom: 50)
       ],
@@ -296,7 +311,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                                Text(data.userData!.availability.validate(),
+                                Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),

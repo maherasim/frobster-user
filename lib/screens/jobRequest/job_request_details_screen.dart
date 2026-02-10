@@ -561,7 +561,11 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       toast('Waiting for admin approval. Please wait.');
                       return;
                     }
-                    
+                    final bidId = postJobDetail?.id;
+                    if (bidId == null) {
+                      toast(language.somethingWentWrong);
+                      return;
+                    }
                     bool? res = await showInDialog(
                       context,
                       contentPadding: EdgeInsets.zero,
@@ -571,7 +575,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       builder: (_) => PaymentDialog(
                           amount: advance,
                           isAdvance: true,
-                          bidId: postJobDetail!.id!),
+                          bidId: bidId is int ? bidId : (bidId as num).toInt()),
                     );
 
                     if (res ?? false) {
@@ -623,6 +627,11 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     Expanded(
                       child: GradientButton(
                         onPressed: () async {
+                          final bidId = postJobDetail?.id;
+                          if (bidId == null) {
+                            toast(language.somethingWentWrong);
+                            return;
+                          }
                           bool? res = await showInDialog(
                             context,
                             contentPadding: EdgeInsets.zero,
@@ -630,7 +639,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             backgroundColor: context.cardColor,
                             barrierDismissible: false,
                             builder: (_) => PaymentDialog(
-                                amount: remaining, bidId: postJobDetail!.id!),
+                                amount: remaining,
+                                bidId: bidId is int ? bidId : (bidId as num).toInt()),
                           );
 
                           if (res ?? false) {
@@ -658,12 +668,14 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         Expanded(
                           child: GradientButton(
                             onPressed: () async {
-                              if (postJobDetail!.id == null) {
+                              final bidId = postJobDetail?.id;
+                              if (bidId == null) {
                                 toast(language.somethingWentWrong);
                                 return;
                               }
                               appStore.setLoading(true);
-                              downloadBidInvoice(postJobDetail!.id!).then((value) {
+                              final id = bidId is int ? bidId : (bidId as num).toInt();
+                              downloadBidInvoice(id).then((value) {
                                 appStore.setLoading(false);
                                 toast(value.message.validate());
                               }).catchError((e) {
@@ -723,10 +735,17 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       positiveText: language.lblYes,
       negativeText: language.lblNo,
       onAccept: (context) async {
+        final bidId = postJobDetail?.id;
+        if (bidId == null) {
+          appStore.setLoading(false);
+          toast(language.somethingWentWrong);
+          return;
+        }
         appStore.setLoading(true);
         final request = {"status": status.backendValue};
+        final id = bidId is int ? bidId : (bidId as num).toInt();
 
-        await bidUpdate(postJobDetail!.id.validate(), request)
+        await bidUpdate(id, request)
             .then((res) async {
           init();
           setState(() {});
@@ -1032,7 +1051,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           toast(language.somethingWentWrong);
           return;
         }
-        if (appStore.userId == providerId.toInt()) {
+        if (appStore.userId == providerId) {
           toast(language.lblNotValidUser);
           return;
         }
@@ -1044,7 +1063,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
             if (matches.isNotEmpty) {
               ChatUserItem? exact;
               for (final u in matches) {
-                if (u.id == providerId.toInt()) {
+                if (u.id == providerId) {
                   exact = u; break;
                 }
               }
@@ -1056,11 +1075,11 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         }
         toast(language.pleaseWaitWhileWeLoadChatDetails + providerId.toString());
         try {
-          final open = await chatOpenWithUser(userId: providerId.toInt());
+          final open = await chatOpenWithUser(userId: providerId!);
           Fluttertoast.cancel();
           ApiChatScreen(
             conversationId: open.conversationId,
-            otherUserId: providerId.toInt(),
+            otherUserId: providerId!,
             otherUserName: postJobDetail?.provider?.displayName.validate() ?? '',
             otherUserAvatarUrl: avatarUrl,
           ).launch(context);
@@ -1380,8 +1399,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                 appStore.setLoading(true);
                                 try {
                                   final request = {
-                                    "post_job_bid_id": bidId.toInt(),
-                                    "provider_id": providerId.toInt(),
+                                    "post_job_bid_id": (bidId is int ? bidId : (bidId as num).toInt()),
+                                    "provider_id": (providerId is int ? providerId : (providerId as num).toInt()),
                                     "customer_id": customerId,
                                     "rating": selectedRating.toInt(),
                                     "review": reviewCont.text.validate(),

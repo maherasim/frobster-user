@@ -109,20 +109,25 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
   @override
   Widget build(BuildContext context) {
     // Street address is not shown for associated services; city/country renders below
-    return GestureDetector(
-      onTap: () {
-        hideKeyboard(context);
-        ServiceDetailScreen(
-                serviceId: widget.isFavouriteService
-                    ? widget.serviceData!.serviceId.validate().toInt()
-                    : widget.serviceData!.id.validate())
-            .launch(context)
-            .then((value) {
-          setStatusBarColor(context.primaryColor);
-        });
-      },
-      child: Container(
-        width: context.width(),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        final cardWidth = constraints.maxWidth.isFinite && constraints.maxWidth > 0
+            ? constraints.maxWidth
+            : context.width();
+        return GestureDetector(
+          onTap: () {
+            hideKeyboard(context);
+            ServiceDetailScreen(
+                    serviceId: widget.isFavouriteService
+                        ? widget.serviceData!.serviceId.validate().toInt()
+                        : widget.serviceData!.id.validate())
+                .launch(context)
+                .then((value) {
+              setStatusBarColor(context.primaryColor);
+            });
+          },
+          child: Container(
+            width: cardWidth,
         padding: EdgeInsets.fromLTRB(12, 12, 12, 12),
         decoration: boxDecorationWithRoundedCorners(
           borderRadius: radius(),
@@ -369,6 +374,8 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
           ],
         ),
       ),
+        );
+      },
     );
   }
 }

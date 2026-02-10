@@ -1,4 +1,14 @@
 import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
+
+/// Safely parse int from JSON (API may return int or double).
+int? _toInt(dynamic v) {
+  if (v == null) return null;
+  if (v is int) return v;
+  if (v is double) return v.toInt();
+  if (v is String) return int.tryParse(v);
+  return null;
+}
+
 class PostJobDetailResponse {
   PostJobData? postRequestDetail;
   List<BidderData>? biderData;
@@ -70,11 +80,11 @@ class JobRequestDetailResponse {
   });
 
   factory JobRequestDetailResponse.fromJson(Map<String, dynamic> json) => JobRequestDetailResponse(
-    id: json["id"],
-    postRequestId: json["post_request_id"],
-    providerId: json["provider_id"],
-    customerId: json["customer_id"],
-    price: json["price"],
+    id: _toInt(json["id"]),
+    postRequestId: _toInt(json["post_request_id"]),
+    providerId: _toInt(json["provider_id"]),
+    customerId: _toInt(json["customer_id"]),
+    price: _toInt(json["price"]),
     holdReason: json["hold_reason"],
     advancePercent: json["advance_percent"],
     whyChooseMe: json["why_choose_me"],
@@ -137,8 +147,8 @@ class BankTransferStatus {
   BankTransferStatus({this.isBankTransfer, this.statusCode, this.status, this.txnId, this.amount});
 
   factory BankTransferStatus.fromJson(Map<String, dynamic> json) => BankTransferStatus(
-        isBankTransfer: json["is_bank_transfer"],
-        statusCode: json["status_code"],
+        isBankTransfer: _toInt(json["is_bank_transfer"]),
+        statusCode: _toInt(json["status_code"]),
         status: json["status"],
         txnId: json["txn_id"],
         amount: json["amount"],
@@ -176,11 +186,11 @@ class ExtraChargesData {
   });
 
   factory ExtraChargesData.fromJson(Map<String, dynamic> json) => ExtraChargesData(
-    id: json["id"],
-    postJobBidId: json["post_job_bid_id"],
+    id: _toInt(json["id"]),
+    postJobBidId: _toInt(json["post_job_bid_id"]),
     title: json["title"],
-    amount: json["amount"],
-    quantity: json["quantity"],
+    amount: _toInt(json["amount"]),
+    quantity: _toInt(json["quantity"]),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );
@@ -207,7 +217,7 @@ class Customer {
   });
 
   factory Customer.fromJson(Map<String, dynamic> json) => Customer(
-    id: json["id"],
+    id: _toInt(json["id"]),
     displayName: json["display_name"],
   );
 
@@ -269,25 +279,25 @@ class PostRequest {
   });
 
   factory PostRequest.fromJson(Map<String, dynamic> json) => PostRequest(
-    id: json["id"],
+    id: _toInt(json["id"]),
     title: json["title"],
-    customerId: json["customer_id"],
+    customerId: _toInt(json["customer_id"]),
     status: RequestStatus.values.firstWhere((e) => e.backendValue == json['status'],orElse:() => RequestStatus.requested),
     providerId: json["provider_id"],
     remainingPercent: json["remaining_percent"],
     type: JobType.values.firstWhere((e) => e.backendValue == json['type'],orElse:() => JobType.onSite),
     startDate: json["start_date"] == null ? null : DateTime.parse(json["start_date"]),
     endDate: json["end_date"] == null ? null : DateTime.parse(json["end_date"]),
-    totalBudget: json["total_budget"],
-    cityId: json["city_id"],
-    countryId: json["country_id"],
+    totalBudget: _toInt(json["total_budget"]),
+    cityId: _toInt(json["city_id"]),
+    countryId: _toInt(json["country_id"]),
     jobPrice: json["job_price"],
     streetAddress: json["street_address"],
     houseNumber: json["house_number"],
     workingAddress: json["working_address"],
-    totalHours: json["total_hours"],
+    totalHours: _toInt(json["total_hours"]),
     priceType: PriceType.values.firstWhere((e) => e.backendValue == json['price_type'],orElse:() => PriceType.fixed),
-    totalDays: json["total_days"],
+    totalDays: _toInt(json["total_days"]),
     city: json["city"] == null ? null : City.fromJson(json["city"]),
     country: json["country"] == null ? null : City.fromJson(json["country"]),
     postBidList: json["post_bid_list"] == null ? [] : List<PostBidList>.from(json["post_bid_list"]!.map((x) => PostBidList.fromJson(x))),
@@ -331,7 +341,7 @@ class City {
   });
 
   factory City.fromJson(Map<String, dynamic> json) => City(
-    id: json["id"],
+    id: _toInt(json["id"]),
     name: json["name"],
   );
 
@@ -351,8 +361,8 @@ class PostBidList {
   });
 
   factory PostBidList.fromJson(Map<String, dynamic> json) => PostBidList(
-    id: json["id"],
-    postRequestId: json["post_request_id"],
+    id: _toInt(json["id"]),
+    postRequestId: _toInt(json["post_request_id"]),
   );
 
   Map<String, dynamic> toJson() => {

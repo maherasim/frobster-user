@@ -24,6 +24,32 @@ import '../service/view_all_service_screen.dart';
 // NOTE: This screen is READ-ONLY. No edit/update functionality should be added.
 // CustomImagePicker or any upload components should NEVER be used here.
 
+/// Strip HTML tags and normalize whitespace from a string.
+String _stripHtml(String text) {
+  if (text.isEmpty) return text;
+  return text
+      .replaceAll(RegExp(r'<[^>]*>'), '')
+      .replaceAll(RegExp(r'&nbsp;'), ' ')
+      .replaceAll(RegExp(r'&amp;'), '&')
+      .replaceAll(RegExp(r'&lt;'), '<')
+      .replaceAll(RegExp(r'&gt;'), '>')
+      .replaceAll(RegExp(r'&quot;'), '"')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim();
+}
+
+/// Format raw availability value for display (e.g. full_time → Full Time Professional).
+String _availabilityDisplay(String? raw) {
+  if (raw == null || raw.isEmpty) return '';
+  final v = raw.trim().toLowerCase();
+  if (v == 'full_time') return 'Full Time';
+  if (v == 'part_time') return 'Part Time';
+  return raw.replaceAll('_', ' ').split(' ').map((w) {
+    if (w.isEmpty) return '';
+    return w[0].toUpperCase() + w.substring(1).toLowerCase();
+  }).join(' ');
+}
+
 class HandymanInfoScreen extends StatefulWidget {
   final int? handymanId;
 
@@ -130,10 +156,10 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                   data.userData?.experience != null
                       ? data.userData!.experience!
                           .split(',')
-                          .map((e) => e
+                          .map((e) => _stripHtml(e
                               .replaceAll(RegExp(r'[\[\]"]'), '')
                               .replaceAll(RegExp(r',+'), ',')
-                              .trim())
+                              .trim()))
                           .where((e) => e.isNotEmpty)
                           .toList()
                       : [];
@@ -286,7 +312,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                                Text(data.userData!.availability.validate(),
+                                Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                       ],
                             ).paddingSymmetric(horizontal: 16),

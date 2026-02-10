@@ -567,8 +567,9 @@ Future<List<ServiceData>> searchServiceAPI({
 //region Category Api
 
 Future<CategoryResponse> getCategoryList(String page) async {
+  final perPage = page == CATEGORY_LIST_ALL ? 'all' : '50';
   return CategoryResponse.fromJson(await handleResponse(await buildHttpResponse(
-      'category-list?page=$page&per_page=50',
+      'category-list?page=$page&per_page=$perPage',
       method: HttpMethodType.GET)));
 }
 

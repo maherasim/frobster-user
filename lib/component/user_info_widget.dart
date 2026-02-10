@@ -46,11 +46,11 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
 
   Future<void> getCountry(int countryId) async {
     await getCountryList().then((value) async {
+      if (!mounted) return;
       if (value.any((element) => element.id == countryId)) {
         country = value.firstWhere((element) => element.id == countryId);
       }
-
-      setState(() {});
+      if (mounted) setState(() {});
     }).catchError((e) {
       toast('$e', print: true);
     });
@@ -85,26 +85,28 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
   Future<void> onTapFavouriteProvider() async {
     if (widget.data.isFavourite == 1) {
       widget.data.isFavourite = 0;
-      setState(() {});
+      if (mounted) setState(() {});
 
       await removeProviderToWishList(providerId: widget.data.id.validate())
           .then((value) {
+        if (!mounted) return;
         if (!value) {
           widget.data.isFavourite = 1;
           setState(() {});
-          widget.onUpdate!.call();
+          widget.onUpdate?.call();
         }
       });
     } else {
       widget.data.isFavourite = 1;
-      setState(() {});
+      if (mounted) setState(() {});
 
       await addProviderToWishList(providerId: widget.data.id.validate())
           .then((value) {
+        if (!mounted) return;
         if (!value) {
           widget.data.isFavourite = 0;
           setState(() {});
-          widget.onUpdate!.call();
+          widget.onUpdate?.call();
         }
       });
     }
