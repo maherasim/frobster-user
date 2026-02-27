@@ -197,16 +197,22 @@ class _PaymentDialogState extends State<PaymentDialog> {
 
    }
    try {
-     final res = await payBidAmount(endpoint,request);
+     final res = await payBidAmount(endpoint, request);
      appStore.setLoading(false);
      toast(res.message.validate());
-     if(res.status ?? false){
+     if (res.status ?? false) {
        finish(context, true);
-
      }
    } catch (e) {
-      toast(e.toString().validate());
-    }
-
+     appStore.setLoading(false);
+     final errMsg = e.toString().trim().toLowerCase();
+     // Backend may return 404 (e.g. stripe confirm route). Show static message and close so screen refreshes.
+     if (errMsg.contains('page not found') || errMsg.contains('404')) {
+       toast('Payment may have been successful. Refreshing...');
+       finish(context, true);
+     } else {
+       toast(e.toString().validate());
+     }
+   }
   }
 }

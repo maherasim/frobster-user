@@ -597,8 +597,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             .validate() >
                                         0)
                                 10.height,
-                                attributeRow('Minimum Orders',
-                                    '${snap.data?.serviceDetail?.minimumOrders ?? 0}'),
+                                attributeRow(
+                                  'Minimum Orders',
+                                  (() {
+                                    final v = snap.data?.serviceDetail?.minimumOrders.validate() ?? '';
+                                    return v.isEmpty ? 'N/A' : v;
+                                  })(),
+                                ),
                               10.height,
                                 attributeRow(
                                   'Job type',

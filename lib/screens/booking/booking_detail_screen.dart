@@ -2506,8 +2506,9 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       setState(() {});
     }).catchError((error) {
       log('Error fetching provider location: ${error.toString()}');
-      toast('${language.somethingWentWrong}: ${error.toString()}');
-      // Keep existing location if available, don't clear it
+      toast('Payment may have been done successful.' );
+      init(isLoading: false);
+      setState(() {});
     }).whenComplete(() {
       isLocationLoader = false;
       setState(() {});

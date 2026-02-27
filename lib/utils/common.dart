@@ -494,22 +494,50 @@ String convertToHourMinute(String timeStr) {
     return ''; // Handle empty time string
   }
 
-  // Normalize time string to always have two digits for hours
-  List<String> parts = timeStr.split(':');
-  int hours = int.parse(parts[0]) % 24; // Ensure hours are within 24 hours
-  int minutes = int.parse(parts[1]);
+  final trimmed = timeStr.trim();
 
-  // Construct the resulting string
-  String result = '';
-  if (hours > 0) {
-    result += '${hours}${language.lblHr}';
+  // Handle human-readable formats like "2 Days", "1 Day", "3 Hours", "30 Min"
+  final dayMatch = RegExp(r'^(\d+)\s*day(s)?$', caseSensitive: false).firstMatch(trimmed);
+  if (dayMatch != null) {
+    final n = dayMatch.group(1)!;
+    return '$n ${int.parse(n) == 1 ? 'Day' : 'Days'}';
   }
-  if (minutes > 0) {
-    result = (result.validate().isNotEmpty)
-        ? '$result $minutes ${language.min}'
-        : '$minutes ${language.min}';
+  final hourMatch = RegExp(r'^(\d+)\s*hour(s)?$', caseSensitive: false).firstMatch(trimmed);
+  if (hourMatch != null) {
+    final n = hourMatch.group(1)!;
+    return '$n ${int.parse(n) == 1 ? language.lblHr : language.lblHr}';
   }
-  return result;
+  final minMatch = RegExp(r'^(\d+)\s*min', caseSensitive: false).firstMatch(trimmed);
+  if (minMatch != null) {
+    return '${minMatch.group(1)} ${language.min}';
+  }
+
+  // Handle "HH:mm" or "HH:mm:ss" format
+  List<String> parts = trimmed.split(':');
+  if (parts.length >= 2) {
+    final hoursStr = parts[0].trim();
+    final minutesStr = parts[1].trim();
+    if (hoursStr.isNotEmpty &&
+        minutesStr.isNotEmpty &&
+        RegExp(r'^\d+$').hasMatch(hoursStr) &&
+        RegExp(r'^\d+$').hasMatch(minutesStr)) {
+      int hours = int.parse(hoursStr) % 24;
+      int minutes = int.parse(minutesStr);
+      String result = '';
+      if (hours > 0) {
+        result += '${hours}${language.lblHr}';
+      }
+      if (minutes > 0) {
+        result = (result.validate().isNotEmpty)
+            ? '$result $minutes ${language.min}'
+            : '$minutes ${language.min}';
+      }
+      return result;
+    }
+  }
+
+  // Fallback: return as-is to avoid FormatException (e.g. "2 Days" from API)
+  return trimmed;
 }
 
 String getPaymentStatusFilterText(String? status) {
@@ -553,9 +581,24 @@ String getPaymentStatusText(String? status, String? method) {
   }
 }
 
+/// Format payment method from DB (e.g. bank_transfer) to display (e.g. Bank Transfer).
+String formatPaymentMethodDisplay(String? method) {
+  if (method == null || method.isEmpty) return method.validate();
+  final lower = method.trim().toLowerCase();
+  if (lower == 'Bank_transfer') return 'Bank Transfer';
+  if (lower == 'paypal') return 'PayPal';
+  if (lower == 'stripe') return 'Stripe';
+  if (lower == 'wallet') return 'Wallet';
+  if (lower == 'cash') return 'Cash';
+  return method.replaceAll('_', ' ').split(' ').map((w) {
+    if (w.isEmpty) return '';
+    return w[0].toUpperCase() + w.substring(1).toLowerCase();
+  }).join(' ');
+}
+
 String buildPaymentStatusWithMethod(String status, String method) {
-  // Only append "by <method>" for fully paid
-  return '${getPaymentStatusText(status, method)}${status == SERVICE_PAYMENT_STATUS_PAID ? ' ${language.by} ${method.capitalizeFirstLetter()}' : ''}';
+  // Only append "by <method>" for fully paid; use clean display format for method
+  return '${getPaymentStatusText(status, method)}${status == SERVICE_PAYMENT_STATUS_PAID ? ' ${language.by} ${formatPaymentMethodDisplay(method)}' : ''}';
 }
 
 Color getRatingBarColor(int rating, {bool showRedForZeroRating = false}) {
