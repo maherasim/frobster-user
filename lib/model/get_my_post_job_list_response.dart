@@ -172,9 +172,9 @@ class PostJobData {
         print("${e.backendValue} == ${json['remote_work_level']}");
         return e.backendValue == json['remote_work_level'];
       }, orElse: () => RemoteWorkLevel.onsite0,),
-      careerLevel: CareerLevel.values.firstWhere((e) => e.backendValue == json['career_level'], orElse: () => CareerLevel.intern),
+      careerLevel: CareerLevel.values.firstWhere((e) => e.backendValue == json['career_level'], orElse: () => CareerLevel.notSpecified),
       travelRequired: TravelRequirement.values.firstWhere((e) => e.backendValue == json['travel_required'].toString() || e.alternateBackendValue == json['travel_required'].toString(), orElse: () => TravelRequirement.no),
-      educationLevel: EducationLevel.values.firstWhere((e) => e.backendValue == json['education_level'], orElse: () => EducationLevel.highSchool),
+      educationLevel: EducationLevel.values.firstWhere((e) => e.backendValue == json['education_level'], orElse: () => EducationLevel.notSpecified),
       streetAddress :json['street_address'],
       houseNumber :json['house_number'],
       workingAddress :json['working_address'],
@@ -326,12 +326,17 @@ enum RemoteWorkLevel {
 
 /// Career Level
 enum CareerLevel {
-  intern("Intern", "intern"),
-  entry("Entry", "entry"),
-  junior("Junior", "junior"),
-  midLevel("Mid-Level", "mid"),
-  senior("Senior", "senior"),
-  lead("Lead", "lead"),
+  notSpecified("Not Specified", "not_specified"),
+  entryLevel("Entry Level", "entry_level"),
+  intermediateLevel("Intermediate Level", "intermediate_level"),
+  experienced("Experienced", "experienced"),
+  professional("Professional", "professional"),
+  middleManagement("Middle Management", "middle_management"),
+  executiveManagement("Executive Management", "executive_management"),
+  seniorManagement("Senior Management", "senior_management"),
+  director("Director", "director"),
+  technician("Technician", "technician"),
+  leader("Leader", "leader"),
   manager("Manager", "manager");
 
   final String displayName;
@@ -354,11 +359,20 @@ enum TravelRequirement {
 
 /// Education Level
 enum EducationLevel {
-  highSchool("High School", "high_school"),
-  associate("Associate Degree", "associate"),
-  undergraduate("Undergraduate Degree", "undergraduate"),
-  masters("Graduate/Master's", "masters"),
-  doctorate("Doctorate", "doctorate");
+  notSpecified("Not Specified", "not_specified"),
+  anyGraduate("Any Graduate", "any_graduate"),
+  apprenticeshipDegree("Apprenticeship Degree", "apprenticeship_degree"),
+  traineeshipDegree("Traineeship Degree", "traineeship_degree"),
+  secondaryDegree("Secondary Degree", "secondary_degree"),
+  undergraduateDiploma("Undergraduate Diploma", "undergraduate_diploma"),
+  highSchoolGraduate("High school graduate", "high_school_graduate"),
+  associateDegree("Associate degree", "associate_degree"),
+  collegeDegree("College Degree", "college_degree"),
+  universityDegree("University Degree", "university_degree"),
+  bachelorsDegree("Bachelor's Degree", "bachelors_degree"),
+  mastersDegree("Master's Degree", "masters_degree"),
+  doctorateDegree("Doctorate Degree", "doctorate_degree"),
+  professionalDegree("Professional Degree", "professional_degree");
 
   final String displayName;
   final String backendValue;

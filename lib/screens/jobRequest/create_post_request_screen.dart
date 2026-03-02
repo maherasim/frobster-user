@@ -70,9 +70,9 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   JobType selectedJobType = JobType.onSite;
   JobSchedule selectedJobSchedule = JobSchedule.fullTime;
   RemoteWorkLevel selectedRemoteWorkLevel = RemoteWorkLevel.onsite0;
-  CareerLevel selectedCareerLevel = CareerLevel.intern;
+  CareerLevel selectedCareerLevel = CareerLevel.notSpecified;
   TravelRequirement selectedTravelRequirement = TravelRequirement.no;
-  EducationLevel selectedEducationLevel = EducationLevel.highSchool;
+  EducationLevel selectedEducationLevel = EducationLevel.notSpecified;
 
 
   // List<ServiceData> myServiceList = [];
@@ -194,10 +194,13 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         totalBudgetCont.text = details.totalBudget.validate().toString();
         selectedJobType = details.type ?? JobType.onSite;
         selectedJobSchedule = details.jobSchedule ?? JobSchedule.fullTime;
-        selectedCareerLevel = details.careerLevel ?? CareerLevel.intern;
+        selectedCareerLevel = details.careerLevel ?? CareerLevel.notSpecified;
         selectedRemoteWorkLevel = details.remoteWorkLevel ?? RemoteWorkLevel.onsite0;
         selectedTravelRequirement = details.travelRequired ?? TravelRequirement.no;
-        selectedEducationLevel = details.educationLevel ?? EducationLevel.highSchool;
+        selectedEducationLevel = details.educationLevel ?? EducationLevel.notSpecified;
+        if (!EducationLevel.values.contains(selectedEducationLevel)) {
+          selectedEducationLevel = EducationLevel.notSpecified;
+        }
         descriptionCont.text = details.description.validate();
         streetAddressCont.text = details.streetAddress.validate();
         poboxAddressCont.text = details.houseNumber.validate();
@@ -908,7 +911,9 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                       labelText: language.educationLevel,
                                     ),
                                     isExpanded: true,
-                                    initialValue: selectedEducationLevel,
+                                    initialValue: EducationLevel.values.contains(selectedEducationLevel)
+                                        ? selectedEducationLevel
+                                        : EducationLevel.notSpecified,
                                     dropdownColor: context.cardColor,
                                     items: EducationLevel.values.map((EducationLevel e) {
                                       return DropdownMenuItem<EducationLevel>(

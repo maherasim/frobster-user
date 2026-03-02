@@ -6,6 +6,12 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+CategoryData? _findCategoryById(List<CategoryData> list, int? id) {
+  if (id == null || list.isEmpty) return null;
+  final found = list.where((e) => e.id == id).toList();
+  return found.isEmpty ? null : found.first;
+}
+
 class CategorySubCatDropDown extends StatefulWidget {
   final int? categoryId;
   final int? subCategoryId;
@@ -43,8 +49,10 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
       subCategoryList = value.categoryList.validate();
 
       if (widget.subCategoryId != null) {
-        selectedSubCategory = value.categoryList!.firstWhere((element) => element.id == widget.subCategoryId);
-        widget.onSubCategorySelect.call(selectedSubCategory?.id.validate());
+        selectedSubCategory = _findCategoryById(value.categoryList ?? [], widget.subCategoryId);
+        if (selectedSubCategory != null) {
+          widget.onSubCategorySelect.call(selectedSubCategory?.id.validate());
+        }
       }
 
       setState(() {});
@@ -57,16 +65,15 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
     appStore.setLoading(true);
 
     await getCategoryList( CATEGORY_LIST_ALL).then((value) {
-      categoryList = value.categoryList!;
+      categoryList = value.categoryList ?? [];
 
-      ///
       if (widget.categoryId != null) {
-        ///
-        selectedCategory = value.categoryList!.firstWhere((element) => element.id == widget.categoryId);
-        widget.onCategorySelect.call(selectedCategory?.id.validate());
+        selectedCategory = _findCategoryById(categoryList, widget.categoryId);
+        if (selectedCategory != null) {
+          widget.onCategorySelect.call(selectedCategory?.id.validate());
+        }
 
-        ///
-        if (widget.subCategoryId != null) {
+        if (widget.subCategoryId != null && selectedCategory != null) {
           getSubCategory(categoryId: selectedCategory!.id.validate());
         }
       }
@@ -93,18 +100,36 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
 
   @override
   Widget build(BuildContext context) {
+    // Dedupe by id so DropdownButton never sees duplicate values
+    final uniqueCategories = categoryList.fold<Map<int, CategoryData>>(<int, CategoryData>{}, (m, e) {
+      if (e.id != null) m[e.id!] = e;
+      return m;
+    }).values.toList();
+    final uniqueSubCategories = subCategoryList.fold<Map<int, CategoryData>>(<int, CategoryData>{}, (m, e) {
+      if (e.id != null) m[e.id!] = e;
+      return m;
+    }).values.toList();
+
+    // Resolve value from current list so it's exactly one of the items (reference equality)
+    final categoryValue = selectedCategory == null
+        ? null
+        : _findCategoryById(uniqueCategories, selectedCategory!.id);
+    final subCategoryValue = selectedSubCategory == null
+        ? null
+        : _findCategoryById(uniqueSubCategories, selectedSubCategory!.id);
+
     return Container(
       child: Column(
         children: [
           DropdownButtonFormField<CategoryData>(
-            initialValue: selectedCategory,
+            initialValue: categoryValue,
             decoration: inputDecoration(
               context,
               labelText: language.lblCategory,
             ),
             dropdownColor: context.cardColor,
             isExpanded: true,
-            items: categoryList.map((data) {
+            items: uniqueCategories.map((data) {
               return DropdownMenuItem<CategoryData>(
                 value: data,
                 child: Text(data.name.validate(), style: primaryTextStyle()),
@@ -137,7 +162,7 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
               labelText: getStringValue(),
             ),
             dropdownColor: context.cardColor,
-            initialValue: selectedSubCategory,
+            initialValue: subCategoryValue,
             validator: widget.isSubCategoryValidate.validate(value: true)
                 ? (value) {
                     if (value == null) return errorThisFieldRequired;
@@ -145,7 +170,7 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
                     return null;
                   }
                 : null,
-            items: subCategoryList.map((data) {
+            items: uniqueSubCategories.map((data) {
               return DropdownMenuItem<CategoryData>(
                 value: data,
                 child: Text(data.name.validate(), style: primaryTextStyle()),
