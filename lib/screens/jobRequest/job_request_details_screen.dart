@@ -14,6 +14,7 @@ import 'package:booking_system_flutter/screens/jobRequest/components/payment_dia
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/utils/images.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
@@ -524,6 +525,10 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
 
               // Extra Charges Breakdown
               _buildExtraChargesBreakdown(),
+
+              // Employer Review & Customer Review (from API)
+              _buildReviewsSection('Employer Review', postJobDetail!.providerReview),
+              _buildReviewsSection('Customer Review', postJobDetail!.customerReview),
               24.height,
             ],
           ),
@@ -972,6 +977,99 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           ),
         ),
       ],
+    );
+  }
+
+  /// Builds a section for Employer Review or Customer Review from API (provider_review / customer_review).
+  Widget _buildReviewsSection(String title, List<BidReview> reviews) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        24.height,
+        Text(title, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        16.height,
+        if (reviews.isEmpty)
+          Container(
+            padding: EdgeInsets.all(16),
+            width: context.width(),
+            decoration: boxDecorationWithRoundedCorners(
+              backgroundColor: context.cardColor,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              'No reviews yet',
+              style: secondaryTextStyle(),
+            ),
+          )
+        else
+          ...reviews.map((r) => _buildReviewCard(r)).toList(),
+      ],
+    );
+  }
+
+  Widget _buildReviewCard(BidReview r) {
+    final rating = (r.rating ?? 0).clamp(0, 5);
+    return Container(
+      margin: EdgeInsets.only(bottom: 12),
+      padding: EdgeInsets.all(16),
+      width: context.width(),
+      decoration: boxDecorationWithRoundedCorners(
+        backgroundColor: context.cardColor,
+        borderRadius: BorderRadius.circular(12),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Expanded(
+                child: Text(
+                  r.raterName.validate().isNotEmpty ? r.raterName! : 'Anonymous',
+                  style: boldTextStyle(size: 14),
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                ),
+              ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: List.generate(5, (i) {
+                  return Padding(
+                    padding: EdgeInsets.only(right: 2),
+                    child: Image.asset(
+                      ic_star_fill,
+                      height: 14,
+                      color: i < rating
+                          ? getRatingBarColor(rating)
+                          : context.dividerColor,
+                    ),
+                  );
+                }),
+              ),
+              6.width,
+              Text(
+                '$rating/5',
+                style: secondaryTextStyle(size: 12),
+              ),
+            ],
+          ),
+          if (r.createdAt.validate().isNotEmpty) ...[
+            4.height,
+            Text(
+              formatDate(r.createdAt.validate()),
+              style: secondaryTextStyle(size: 11),
+            ),
+          ],
+          if (r.review.validate().isNotEmpty) ...[
+            8.height,
+            Text(
+              r.review!,
+              style: secondaryTextStyle(size: 13),
+              maxLines: 10,
+              overflow: TextOverflow.ellipsis,
+            ),
+          ],
+        ],
+      ),
     );
   }
 

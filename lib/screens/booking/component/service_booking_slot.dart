@@ -51,99 +51,121 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
   int totalDays = 0;
   int totalHours = 0;
 
-  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
-    final TimeOfDay initialTime = TimeOfDay.now();
-
-    final TimeOfDay? pickedTime = await showTimePicker(
+  /// Show hour-only picker (no minutes). Returns selected hour 0-23 or null. Tap an hour to select.
+  Future<int?> _showHourPicker(BuildContext context, {int? initialHour}) async {
+    return showModalBottomSheet<int>(
       context: context,
-      initialTime: initialTime,
-      builder: (BuildContext context, Widget? child) {
-        return Theme(
-          data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme().copyWith(
-            colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
-              primary: gradientRed,
-              onPrimary: Colors.white,
-            ),
+      backgroundColor: Colors.transparent,
+      builder: (ctx) {
+        return Container(
+          decoration: boxDecorationWithRoundedCorners(
+            borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius),
+            backgroundColor: context.cardColor,
           ),
-          child: MediaQuery(
-          data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: true),
-          child: child!,
+          padding: EdgeInsets.all(16),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: [
+              Text(
+                'Select hour',
+                style: boldTextStyle(size: LABEL_TEXT_SIZE),
+              ),
+              4.height,
+              Text(
+                'Only hours (minutes set to 00)',
+                style: secondaryTextStyle(size: 12),
+              ),
+              12.height,
+              ConstrainedBox(
+                constraints: BoxConstraints(maxHeight: 280),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 24,
+                  itemBuilder: (context, index) {
+                    final hour = index;
+                    final label = '${hour.toString().padLeft(2, '0')}:00';
+                    return ListTile(
+                      title: Text(label, style: primaryTextStyle()),
+                      onTap: () => Navigator.of(ctx).pop(hour),
+                    );
+                  },
+                ),
+              ),
+              8.height,
+              AppButton(
+                text: language.lblCancel,
+                color: context.scaffoldBackgroundColor,
+                textColor: context.primaryColor,
+                onTap: () => Navigator.of(ctx).pop(),
+              ),
+            ],
           ),
         );
       },
     );
+  }
 
-    if (pickedTime != null) {
-      // Use selected date if available, otherwise use today
+  Future<void> _selectTime(BuildContext context, bool isStartTime) async {
+    final initialHour = isStartTime
+        ? (selStartTime?.hour ?? DateTime.now().hour)
+        : (selEndTime?.hour ?? DateTime.now().hour);
+
+    final int? pickedHour = await _showHourPicker(context, initialHour: initialHour);
+
+    if (pickedHour != null) {
+      // Use selected date if available, otherwise use today. Only hours, minutes = 0.
       final baseDate = selDate ?? DateTime.now();
       final selectedDateTime = DateTime(
-          baseDate.year, baseDate.month, baseDate.day, pickedTime.hour, pickedTime.minute);
+          baseDate.year, baseDate.month, baseDate.day, pickedHour, 0);
 
       setState(() {
         if (isStartTime) {
           selStartTime = selectedDateTime;
-          startTimeCont.text = selStartTime!.formatDateTime(formate: 'HH:mm');
+          startTimeCont.text = selStartTime!.formatDateTime(formate: 'HH:mm'); // "HH:00"
           if (widget.isFixedService) {
             selEndTime = selStartTime?.add(
                 parseDuration(widget.data!.serviceDetail!.duration.validate()));
+            // Keep end time on the hour (no minutes)
+            selEndTime = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day, selEndTime!.hour, 0);
             endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
           } else if (widget.isDailyService) {
             selEndTime = selStartTime?.add(Duration(hours: 8));
+            selEndTime = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day, selEndTime!.hour, 0);
             endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
           }
         } else {
-          // Allow end time to be less than start time (overnight booking)
-          // In 24-hour system, if end time < start time, it means next day
-          // Check if end time is before start time - if so, add 1 day
-          int startTimeMinutes = selStartTime != null 
-              ? selStartTime!.hour * 60 + selStartTime!.minute 
+          int startTimeMinutes = selStartTime != null
+              ? selStartTime!.hour * 60 + selStartTime!.minute
               : 0;
-          int endTimeMinutes = pickedTime.hour * 60 + pickedTime.minute;
-          
+          int endTimeMinutes = pickedHour * 60; // minute = 0
+
           DateTime endDateTime;
           if (selStartTime != null && endTimeMinutes < startTimeMinutes) {
-            // Overnight booking: end time is next day
             endDateTime = selectedDateTime.add(Duration(days: 1));
           } else {
             endDateTime = selectedDateTime;
           }
-          
-          selEndTime = endDateTime;
+          selEndTime = DateTime(endDateTime.year, endDateTime.month, endDateTime.day, endDateTime.hour, 0);
           endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
         }
 
         if (selStartTime != null && selEndTime != null) {
-          // Calculate duration - this will correctly handle overnight bookings
-          // since selEndTime will be on the next day if end time < start time
           final duration = selEndTime!.difference(selStartTime!);
-          
           totalHours = duration.inHours;
-          // If there are remaining minutes, round up to next hour
           if (duration.inMinutes % 60 > 0) {
             totalHours += 1;
           }
-          
-          // Calculate days based on service type
           if (widget.isHourlyService) {
-            // For hourly services: calculate actual calendar days
-            // Count the number of calendar days the booking spans
             DateTime startDate = DateTime(selStartTime!.year, selStartTime!.month, selStartTime!.day);
             DateTime endDate = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day);
-            
-            // Calculate difference in calendar days
             int daysDifference = endDate.difference(startDate).inDays;
-            
-            // If booking spans multiple calendar days, add 1 (to include both start and end days)
-            // If same day, it's 1 day
             totalDays = daysDifference + 1;
           } else if (widget.isDailyService) {
-            // For daily services: calculate based on 8-hour blocks
             totalDays = (totalHours / 8).ceil();
           } else {
-            // For fixed services: calculate based on 8-hour blocks or actual days
             totalDays = (totalHours / 8).ceil();
           }
-          
           totalDaysCont.text = '$totalDays Days';
           totalHoursCont.text = '$totalHours Hours';
         }

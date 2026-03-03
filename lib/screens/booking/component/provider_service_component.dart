@@ -157,7 +157,8 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
             ),
             8.width,
             Expanded(
-              child: Column(
+              child: ClipRect(
+                child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
@@ -187,20 +188,25 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                           ),
                         ),
                       ),
-                      TextIcon(
-                        suffix: Row(
-                          children: [
-                            Image.asset(ic_star_fill,
-                                height: 12,
-                                color: getRatingBarColor(widget
-                                    .serviceData!.totalRating
-                                    .validate()
-                                    .toInt())),
-                            4.width,
-                            Text(
-                                "${widget.serviceData!.totalRating.validate().toStringAsFixed(1)}",
-                                style: boldTextStyle()),
-                          ],
+                      Flexible(
+                        child: TextIcon(
+                          suffix: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Image.asset(ic_star_fill,
+                                  height: 12,
+                                  color: getRatingBarColor(widget
+                                      .serviceData!.totalRating
+                                      .validate()
+                                      .toInt())),
+                              4.width,
+                              Text(
+                                  "${widget.serviceData!.totalRating.validate().toStringAsFixed(1)}",
+                                  style: boldTextStyle(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis),
+                            ],
+                          ),
                         ),
                       ),
                     ],
@@ -213,32 +219,34 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                     overflow: TextOverflow.ellipsis,
                   ),
                   10.height,
-                  Row(
-                    children: [
-                      PriceWidget(
-                        size: 14,
-                        price: widget.serviceData!.discount.validate() > 0
-                            ? widget.serviceData!.getDiscountedPrice
-                            : widget.serviceData!.price.validate(),
-                        isHourlyService: widget.serviceData!.isHourlyService,
-                        isFixedService: widget.serviceData!.isFixedService,
-                      ),
-                      6.width,
-                      if (widget.serviceData!.discount.validate() > 0)
-                        Flexible(
-                          child: PriceWidget(
+                  SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    physics: const NeverScrollableScrollPhysics(),
+                    clipBehavior: Clip.hardEdge,
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        PriceWidget(
+                          size: 14,
+                          price: widget.serviceData!.discount.validate() > 0
+                              ? widget.serviceData!.getDiscountedPrice
+                              : widget.serviceData!.price.validate(),
+                          isHourlyService: widget.serviceData!.isHourlyService,
+                          isFixedService: widget.serviceData!.isFixedService,
+                        ),
+                        6.width,
+                        if (widget.serviceData!.discount.validate() > 0)
+                          PriceWidget(
                             size: 11,
                             price: widget.serviceData!.price.validate(),
                             isDiscountedPrice: true,
                             color: textSecondaryColorGlobal,
                             isLineThroughEnabled: true,
                           ),
-                        ),
-                      6.width,
-                      if (widget.serviceData!.discount.validate() > 0)
-                        Flexible(
-                          child: Text(
-                            "${widget.serviceData!.discount.validate()}% off", //Todo translate
+                        6.width,
+                        if (widget.serviceData!.discount.validate() > 0)
+                          Text(
+                            "${widget.serviceData!.discount.validate()}% off",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -246,8 +254,8 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                                 fontWeight: FontWeight.bold,
                                 fontSize: 11),
                           ),
-                        ),
-                    ],
+                      ],
+                    ),
                   ),
                   // Street address removed as per requirement
                   Column(
@@ -326,6 +334,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                   ]
                 ],
               ),
+            ),
             ),
             if (widget.isFavouriteService)
               Container(

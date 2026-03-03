@@ -23,6 +23,9 @@ class UserData {
   ///check its use
   String? description;
   String? knownLanguages;
+  String? languages;
+  /// When API returns languages as array e.g. ["english", "german"], stored here.
+  List<String>? languagesList;
   String? whyChooseMe;
   String? skills;
   String? userType;
@@ -51,6 +54,10 @@ class UserData {
   num? handymanRating;
   int? isVerifyProvider;
   String? designation;
+  String? companyName;
+  String? vatNumber;
+  String? careerLevel;
+  String? yearsOfExperience;
   String? apiToken;
   String? emailVerifiedAt;
   List<String>? userRole;
@@ -81,6 +88,12 @@ class UserData {
   bool get isProvider => userType == USER_TYPE_PROVIDER;
 
   List<String> get knownLanguagesArray => buildKnownLanguages();
+
+  /// Prefer API array languages; fallback to knownLanguagesArray (from JSON known_languages).
+  List<String> get effectiveLanguagesArray =>
+      (languagesList != null && languagesList!.isNotEmpty)
+          ? languagesList!
+          : knownLanguagesArray;
 
   List<String> get skillsArray => buildSkills();
 
@@ -134,6 +147,8 @@ class UserData {
     this.lastName,
     this.description,
     this.knownLanguages,
+    this.languages,
+    this.languagesList,
     this.whyChooseMe,
     this.skills,
     this.providerType,
@@ -168,6 +183,10 @@ class UserData {
     this.password,
     this.isFavourite,
     this.designation,
+    this.companyName,
+    this.vatNumber,
+    this.careerLevel,
+    this.yearsOfExperience,
     this.verificationId,
     this.otpCode,
     this.totalBooking,
@@ -218,7 +237,13 @@ class UserData {
       password: json['password'],
       isFavourite: json['is_favourite'],
       description: json['description'],
-      knownLanguages: json['known_languages'],
+      knownLanguages: json['known_languages']?.toString(),
+      languages: json['languages'] is List
+          ? null
+          : json['languages']?.toString(),
+      languagesList: json['languages'] is List
+          ? (json['languages'] as List).map((e) => e.toString()).toList()
+          : null,
       whyChooseMe: json['why_choose_me'],
       skills: json['skills'],
       providerType: json['providertype'],
@@ -237,6 +262,10 @@ class UserData {
       isUserExist: json['is_user_exist'],
       verificationId: json['verificationId'],
       designation: json['designation'],
+      companyName: json['company_name']?.toString(),
+      vatNumber: json['vat_number']?.toString(),
+      careerLevel: json['career_level']?.toString(),
+      yearsOfExperience: json['years_of_experience']?.toString(),
       otpCode: json['otpCode'],
       totalBooking: () {
         final value = json['total_services_booked'];
@@ -305,6 +334,7 @@ class UserData {
     if (this.description != null) data['description'] = this.description;
     if (this.knownLanguages != null)
       data['known_languages'] = this.knownLanguages;
+    if (this.languages != null) data['languages'] = this.languages;
     if (this.whyChooseMe != null) data['why_choose_me'] = this.whyChooseMe;
     if (this.skills != null) data['skills'] = this.skills;
     if (this.providerType != null) data['providertype'] = this.providerType;
@@ -324,6 +354,10 @@ class UserData {
       data['is_verify_provider'] = this.isVerifyProvider;
     if (this.isUserExist != null) data['is_user_exist'] = this.isUserExist;
     if (this.designation != null) data['designation'] = this.designation;
+    if (this.companyName != null) data['company_name'] = this.companyName;
+    if (this.vatNumber != null) data['vat_number'] = this.vatNumber;
+    if (this.careerLevel != null) data['career_level'] = this.careerLevel;
+    if (this.yearsOfExperience != null) data['years_of_experience'] = this.yearsOfExperience;
     if (this.verificationId != null)
       data['verificationId'] = this.verificationId;
     if (this.otpCode != null) data['otpCode'] = this.otpCode;

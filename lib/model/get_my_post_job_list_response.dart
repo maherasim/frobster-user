@@ -380,6 +380,21 @@ enum EducationLevel {
   const EducationLevel(this.displayName, this.backendValue);
 }
 
+/// Years of experience (profile)
+enum YearsOfExperience {
+  lessThan1("Less than 1 Year", "less_than_1"),
+  oneTo3("1 to 3 Years", "1_to_3"),
+  threeTo5("3 to 5 Years", "3_to_5"),
+  fiveTo8("5 to 8 Years", "5_to_8"),
+  eightTo10("8 to 10 Years", "8_to_10"),
+  moreThan10("More than 10 Years", "more_than_10");
+
+  final String displayName;
+  final String backendValue;
+
+  const YearsOfExperience(this.displayName, this.backendValue);
+}
+
 /// Education Level
 enum RequestStatus {
   requested('Requested','requested',defaultStatus),

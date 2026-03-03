@@ -99,7 +99,7 @@ class _FavouriteProviderComponentState
                 ),
                 child: CachedImageWidget(
                   url: widget.data!.profileImage.validate(),
-                  width: context.width(),
+                  width: widget.width,
                   height: 110,
                   fit: BoxFit.cover,
                   circle: false,
@@ -131,14 +131,17 @@ class _FavouriteProviderComponentState
                       width: 20,
                       height: 20,
                     ),
-                  Marquee(
-                    directionMarguee: DirectionMarguee.oneDirection,
-                    child: Text(
-                      widget.data!.displayName.validate(),
-                      style: boldTextStyle(),
-                      maxLines: 1,
-                    ),
-                  ).paddingSymmetric(horizontal: 8),
+                  Expanded(
+                    child: Marquee(
+                      directionMarguee: DirectionMarguee.oneDirection,
+                      child: Text(
+                        widget.data!.displayName.validate(),
+                        style: boldTextStyle(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ).paddingSymmetric(horizontal: 8),
+                  ),
                   // Membership Icon (dynamic from API)
                   if (widget.data!.membershipIcon.validate().isNotEmpty)
                     CachedImageWidget(
@@ -155,11 +158,16 @@ class _FavouriteProviderComponentState
                     ),
                 ],
               ),
-              Marquee(
-                directionMarguee: DirectionMarguee.oneDirection,
-                child: Text('Berlin - Germany',
-                    style: primaryTextStyle(size: 12), maxLines: 1),
-              ).paddingSymmetric(horizontal: 8),
+              SizedBox(
+                width: widget.width,
+                child: Marquee(
+                  directionMarguee: DirectionMarguee.oneDirection,
+                  child: Text('Berlin - Germany',
+                      style: primaryTextStyle(size: 12),
+                      maxLines: 1,
+                      overflow: TextOverflow.ellipsis),
+                ).paddingSymmetric(horizontal: 8),
+              ),
               5.height,
               SocialIconsList(),
               16.height,

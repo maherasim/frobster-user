@@ -3,6 +3,7 @@ import 'dart:ui' as ui;
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart' as gmaps;
 import 'package:lottie/lottie.dart' as lottie;
 import 'package:nb_utils/nb_utils.dart';
@@ -25,8 +26,12 @@ class TrackLocation extends StatefulWidget {
 
 class _TrackLocationState extends State<TrackLocation>
     with WidgetsBindingObserver {
-  gmaps.CameraPosition _initialLocation =
-      gmaps.CameraPosition(target: gmaps.LatLng(0.0, 0.0));
+  static const double _worldZoom = 2.0;
+  static const double _locationZoom = 15.0;
+  gmaps.CameraPosition _initialLocation = gmaps.CameraPosition(
+    target: gmaps.LatLng(0.0, 0.0),
+    zoom: _worldZoom,
+  );
   UpdateLocationResponse? providerLocation;
   gmaps.GoogleMapController? mapController;
   Set<gmaps.Marker> _markers = {};
@@ -37,6 +42,27 @@ class _TrackLocationState extends State<TrackLocation>
   List<Uint8List>? _frames;
   StreamSubscription<UpdateLocationResponse>? _locationSubscription;
   bool isLoading = false;
+
+  /// Location comes from API: GET get-location?booking_id={bookingId}
+  /// Response: { "data": { "latitude", "longitude", "datetime" }, "message" }
+  /// "Location not available" when: API failed, or backend returned (0,0), or coords invalid.
+  bool get _hasValidLocation {
+    if (providerLocation == null) return false;
+    final lat = providerLocation!.data.latitude;
+    final lng = providerLocation!.data.longitude;
+    return lat != 0.0 && lng != 0.0 &&
+        lat >= -90 && lat <= 90 &&
+        lng >= -180 && lng <= 180;
+  }
+
+  void _moveMapToLocation() {
+    if (mapController == null || !_hasValidLocation) return;
+    final lat = providerLocation!.data.latitude.toDouble();
+    final lng = providerLocation!.data.longitude.toDouble();
+    mapController!.animateCamera(gmaps.CameraUpdate.newCameraPosition(
+      gmaps.CameraPosition(target: gmaps.LatLng(lat, lng), zoom: _locationZoom),
+    ));
+  }
 
   @override
   void initState() {
@@ -147,26 +173,24 @@ class _TrackLocationState extends State<TrackLocation>
   }
 
   void _updateMarker() {
-    if (providerLocation == null || customIcon == null) return;
-    log("Updating marker: Lat=${providerLocation?.data.latitude}, Lng=${providerLocation?.data.longitude}");
+    if (providerLocation == null) return;
+    if (!_hasValidLocation) {
+      setState(() => _markers = {});
+      return;
+    }
+    final lat = providerLocation!.data.latitude.toDouble();
+    final lng = providerLocation!.data.longitude.toDouble();
+    log("Updating marker: Lat=$lat, Lng=$lng");
     setState(() {
       _markers = {
         gmaps.Marker(
           markerId: gmaps.MarkerId('providerLocation'),
-          position: gmaps.LatLng(
-            double.parse(providerLocation?.data.latitude.toString() ?? "0.0"),
-            double.parse(providerLocation?.data.longitude.toString() ?? "0.0"),
-          ),
-          icon: customIcon!,
+          position: gmaps.LatLng(lat, lng),
+          icon: customIcon ?? gmaps.BitmapDescriptor.defaultMarker,
         ),
       };
     });
-    mapController?.animateCamera(gmaps.CameraUpdate.newLatLngZoom(
-        gmaps.LatLng(
-          double.parse(providerLocation?.data.latitude.toString() ?? "0.0"),
-          double.parse(providerLocation?.data.longitude.toString() ?? "0.0"),
-        ),
-        14));
+    _moveMapToLocation();
   }
 
   void stopProviderLocation() {
@@ -197,18 +221,61 @@ class _TrackLocationState extends State<TrackLocation>
 
   @override
   Widget build(BuildContext context) {
+    final initialTarget = _hasValidLocation
+        ? gmaps.LatLng(
+            providerLocation!.data.latitude.toDouble(),
+            providerLocation!.data.longitude.toDouble(),
+          )
+        : gmaps.LatLng(0.0, 0.0);
+    final initialZoom = _hasValidLocation ? _locationZoom : _worldZoom;
+
     return AppScaffold(
       appBarTitle: widget.isHandyman
           ? language.trackHandymanLocation
           : language.trackProviderLocation,
-      child: Stack(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          gmaps.GoogleMap(
+          if (_hasValidLocation &&
+              providerLocation!.data.datetime.toString().trim().isNotEmpty)
+            Padding(
+              padding: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  Text(
+                    '${language.lastUpdatedAt} ',
+                    style: TextStyle(fontSize: 12, color: Colors.black54),
+                  ),
+                  Expanded(
+                    child: Text(
+                      DateTime.tryParse(
+                                  providerLocation!.data.datetime.toString()) !=
+                              null
+                          ? (DateTime.parse(
+                                  providerLocation!.data.datetime.toString())
+                              .timeAgo)
+                          : providerLocation!.data.datetime.toString(),
+                      style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          Expanded(
+            child: Stack(
+              children: [
+                gmaps.GoogleMap(
             mapType: gmaps.MapType.normal,
             zoomGesturesEnabled: true,
             zoomControlsEnabled: true,
             markers: _markers,
-            initialCameraPosition: _initialLocation,
+            initialCameraPosition: gmaps.CameraPosition(
+              target: initialTarget,
+              zoom: initialZoom,
+            ),
             gestureRecognizers: Set()
               ..add(Factory<OneSequenceGestureRecognizer>(
                   () => new EagerGestureRecognizer()))
@@ -218,12 +285,72 @@ class _TrackLocationState extends State<TrackLocation>
               ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer()))
               ..add(Factory<VerticalDragGestureRecognizer>(
                   () => VerticalDragGestureRecognizer())),
-            onMapCreated: (controller) => mapController = controller,
+            onMapCreated: (controller) {
+              mapController = controller;
+              if (_hasValidLocation) {
+                WidgetsBinding.instance.addPostFrameCallback((_) {
+                  _moveMapToLocation();
+                });
+              }
+            },
           ),
           Positioned(
             left: 10,
             top: 10,
             child: CupertinoActivityIndicator(color: black).visible(isLoading),
+          ),
+          if (!_hasValidLocation && !isLoading)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 0,
+              child: Container(
+                padding: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                color: Colors.black54,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Text(
+                      'Location not available. Worker may not have shared location yet, or the request failed. Tap refresh to try again.',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 12,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    8.height,
+                    Material(
+                      color: Colors.white24,
+                      borderRadius: BorderRadius.circular(8),
+                      child: InkWell(
+                        onTap: () => setLocationfuns(),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 16, vertical: 10),
+                          child: Row(
+                            mainAxisSize: MainAxisSize.min,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Icon(Icons.refresh, color: Colors.white, size: 20),
+                              8.width,
+                              Text(
+                                'Refresh location',
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+              ],
+            ),
           ),
         ],
       ),

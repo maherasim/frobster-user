@@ -5,6 +5,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/provider_info_response.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
+import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:flutter/material.dart';
@@ -28,6 +29,17 @@ String _availabilityDisplay(String? raw) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
   }).join(' ');
+}
+
+/// Map backend education value (e.g. high_school_graduate) to display label (e.g. High school graduate).
+String _educationDisplay(String? raw) {
+  if (raw == null || raw.isEmpty) return 'Not Specified';
+  final v = raw.trim().toLowerCase();
+  final level = EducationLevel.values.firstWhere(
+    (e) => e.backendValue.toLowerCase() == v,
+    orElse: () => EducationLevel.notSpecified,
+  );
+  return level.displayName;
 }
 
 class ProviderInfoScreen extends StatefulWidget {
@@ -395,7 +407,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               children: [
                                 Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(data.userData!.education.validate(),
+                                Text(_educationDisplay(data.userData!.education),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),

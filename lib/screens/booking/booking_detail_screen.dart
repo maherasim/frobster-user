@@ -1087,10 +1087,27 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     );
   }
 
+  void _moveMapToProviderLocation() {
+    if (mapController == null || _currentPosition == null) return;
+    mapController!.animateCamera(CameraUpdate.newCameraPosition(
+      CameraPosition(target: _currentPosition!, zoom: 15.0),
+    ));
+  }
+
   Widget locationTrackWidget(
     List<UserData> handymanList,
     BookingDetailResponse res,
   ) {
+    // When location section is shown and we don't have location yet, fetch it once
+    final hasValidLocation = providerLocation != null &&
+        providerLocation!.data.latitude != 0.0 &&
+        providerLocation!.data.longitude != 0.0;
+    final initialTarget = hasValidLocation
+        ? LatLng(providerLocation!.data.latitude.toDouble(),
+            providerLocation!.data.longitude.toDouble())
+        : const LatLng(0.0, 0.0);
+    final initialZoom = hasValidLocation ? 15.0 : 2.0;
+
     return Column(
       mainAxisAlignment: MainAxisAlignment.start,
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1123,8 +1140,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
               GoogleMap(
                 zoomControlsEnabled: true,
                 initialCameraPosition: CameraPosition(
-                  target: _initialLocation,
-                  zoom: 14.0,
+                  target: initialTarget,
+                  zoom: initialZoom,
                 ),
                 mapType: MapType.normal,
                 minMaxZoomPreference: MinMaxZoomPreference(1, 40),
@@ -1141,17 +1158,20 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       () => VerticalDragGestureRecognizer())),
                 onMapCreated: (GoogleMapController controller) {
                   mapController = controller;
+                  // As soon as the map is ready, move to provider location if we have it
+                  if (_currentPosition != null) {
+                    WidgetsBinding.instance.addPostFrameCallback((_) {
+                      _moveMapToProviderLocation();
+                    });
+                  }
                   setState(() {});
                 },
                 markers: () {
                   if (providerLocation == null) return <Marker>{};
-                  
                   final lat = providerLocation!.data.latitude;
                   final lng = providerLocation!.data.longitude;
-                  
-                  // Only show marker if coordinates are valid (not 0,0 and within valid range)
-                  if (lat != 0.0 && lng != 0.0 && 
-                      lat >= -90 && lat <= 90 && 
+                  if (lat != 0.0 && lng != 0.0 &&
+                      lat >= -90 && lat <= 90 &&
                       lng >= -180 && lng <= 180) {
                     return <Marker>{
                       Marker(
@@ -1170,6 +1190,21 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                 child: CupertinoActivityIndicator(color: black)
                     .visible(isLocationLoader),
               ),
+              if (!hasValidLocation && !isLocationLoader)
+                Positioned(
+                  left: 0,
+                  right: 0,
+                  bottom: 0,
+                  child: Container(
+                    padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+                    color: Colors.black54,
+                    child: Text(
+                      'Tap refresh to load location',
+                      style: secondaryTextStyle(size: 12, color: Colors.white),
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ),
             ],
           ),
         ),
@@ -1883,11 +1918,13 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                     children: [
                                       Icon(Icons.chat_bubble_outline, color: white, size: 18),
                                       8.width,
-                                      Text(
-                                        provider.displayName.validate(),
-                                        style: boldTextStyle(color: white),
-                                        maxLines: 1,
-                                        overflow: TextOverflow.ellipsis,
+                                      Flexible(
+                                        child: Text(
+                                          provider.displayName.validate(),
+                                          style: boldTextStyle(color: white),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       ),
                                     ],
                                   ),

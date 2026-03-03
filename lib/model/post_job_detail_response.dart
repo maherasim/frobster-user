@@ -52,6 +52,8 @@ class JobRequestDetailResponse {
   String? taxPercent;
   BankTransferStatus? bankTransfer;
   bool? providerRatingExists;
+  List<BidReview> providerReview;
+  List<BidReview> customerReview;
 
   JobRequestDetailResponse({
     this.id,
@@ -77,6 +79,8 @@ class JobRequestDetailResponse {
     this.taxPercent,
     this.bankTransfer,
     this.providerRatingExists,
+    this.providerReview = const [],
+    this.customerReview = const [],
   });
 
   factory JobRequestDetailResponse.fromJson(Map<String, dynamic> json) => JobRequestDetailResponse(
@@ -109,6 +113,12 @@ class JobRequestDetailResponse {
             : json["provider_rating_exists"] == 1 
                 || json["provider_rating_exists"] == "1" 
                 || json["provider_rating_exists"] == true),
+    providerReview: json["provider_review"] == null 
+        ? [] 
+        : List<BidReview>.from((json["provider_review"] as List).map((x) => BidReview.fromJson(x as Map<String, dynamic>))),
+    customerReview: json["customer_review"] == null 
+        ? [] 
+        : List<BidReview>.from((json["customer_review"] as List).map((x) => BidReview.fromJson(x as Map<String, dynamic>))),
   );
 
   Map<String, dynamic> toJson() => {
@@ -134,6 +144,8 @@ class JobRequestDetailResponse {
     "postrequest": postRequest?.toJson(),
     "tax_percent": taxPercent,
     "bank_transfer": bankTransfer?.toJson(),
+    "provider_review": providerReview.map((x) => x.toJson()).toList(),
+    "customer_review": customerReview.map((x) => x.toJson()).toList(),
   };
 }
 
@@ -163,6 +175,43 @@ class BankTransferStatus {
       };
 }
 
+
+/// Single review item for provider_review / customer_review from bid detail API.
+class BidReview {
+  int? id;
+  int? rating;
+  String? review;
+  String? raterName;
+  int? raterId;
+  String? createdAt;
+
+  BidReview({
+    this.id,
+    this.rating,
+    this.review,
+    this.raterName,
+    this.raterId,
+    this.createdAt,
+  });
+
+  factory BidReview.fromJson(Map<String, dynamic> json) => BidReview(
+    id: _toInt(json["id"]),
+    rating: _toInt(json["rating"]),
+    review: json["review"]?.toString(),
+    raterName: json["rater_name"]?.toString(),
+    raterId: _toInt(json["rater_id"]),
+    createdAt: json["created_at"]?.toString(),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "rating": rating,
+    "review": review,
+    "rater_name": raterName,
+    "rater_id": raterId,
+    "created_at": createdAt,
+  };
+}
 
 List<ExtraChargesData> extraChargesDataFromJson(dynamic str) => List<ExtraChargesData>.from(str.map((x) => ExtraChargesData.fromJson(x)));
 

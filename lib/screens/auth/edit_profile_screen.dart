@@ -4,7 +4,10 @@ import 'dart:io';
 
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/cached_image_widget.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
+import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
+import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/model/city_list_model.dart';
 import 'package:booking_system_flutter/model/country_list_model.dart';
 import 'package:booking_system_flutter/model/login_model.dart';
@@ -28,6 +31,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../utils/configs.dart';
+import '../../utils/profile_languages.dart';
 
 class EditProfileScreen extends StatefulWidget {
   @override
@@ -55,8 +59,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController vatNumCont = TextEditingController();
   TextEditingController experienceCont = TextEditingController();
   TextEditingController mobilityCont = TextEditingController();
-  TextEditingController educationCont = TextEditingController();
-  TextEditingController certificationsCont = TextEditingController();
+  TextEditingController knownLangCont = TextEditingController();
+  TextEditingController skillsCont = TextEditingController();
+  TextEditingController certificationCont = TextEditingController();
   TextEditingController aboutMeCont = TextEditingController();
   TextEditingController emailCont = TextEditingController();
   TextEditingController userNameCont = TextEditingController();
@@ -71,8 +76,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   FocusNode mobileFocus = FocusNode();
   FocusNode mobilityFocus = FocusNode();
   FocusNode experienceFocus = FocusNode();
-  FocusNode educationFocus = FocusNode();
-  FocusNode certificationsFocus = FocusNode();
+  FocusNode knownLangFocus = FocusNode();
+  FocusNode skillsFocus = FocusNode();
+  FocusNode certificationFocus = FocusNode();
   FocusNode aboutMeFocus = FocusNode();
 
   ValueNotifier _valueNotifier = ValueNotifier(true);
@@ -83,11 +89,21 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   String selectedAvailability = 'Full Time';
 
+  CareerLevel selectedCareerLevel = CareerLevel.notSpecified;
+  EducationLevel selectedEducation = EducationLevel.notSpecified;
+  YearsOfExperience selectedYearsOfExperience = YearsOfExperience.lessThan1;
+
+  int? serviceAddressId;
+  List<Map<String, dynamic>> serviceAddressList = [];
+
   Country selectedCountryCode = defaultCountry();
 
   bool isEmailVerified = getBoolAsync(IS_EMAIL_VERIFIED);
 
   bool showRefresh = false;
+
+  /// Selected language values (keys from profileLanguageOptions). Multi-select for Known languages.
+  List<String> selectedLanguages = [];
 
   @override
   void initState() {
@@ -153,6 +169,65 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     await getUserDetail(appStore.userId).then((value) {
       isEmailVerified = value.emailVerified.validate().getBoolInt();
       setValue(IS_EMAIL_VERIFIED, isEmailVerified);
+
+      // Populate form from user-detail API so existing data shows when editing
+      vatNumCont.text = value.vatNumber.validate();
+      cNameCont.text = value.companyName.validate();
+      mobilityCont.text = value.mobility.validate();
+      // Prefer API languages array ["english", "german"]; fallback known_languages "English, German"
+      selectedLanguages = List<String>.from(value.effectiveLanguagesArray);
+      if (selectedLanguages.isEmpty &&
+          value.knownLanguages.validate().trim().isNotEmpty) {
+        for (String part in value.knownLanguages!
+            .split(RegExp(r'[,،]'))
+            .map((e) => e.trim())
+            .where((e) => e.isNotEmpty)) {
+          String? key = profileLanguageOptions.entries
+              .cast<MapEntry<String, String>>()
+              .where((e) =>
+                  e.value.toLowerCase().trim() == part.toLowerCase().trim())
+              .map((e) => e.key)
+              .firstOrNull;
+          if (key != null) selectedLanguages.add(key);
+        }
+      }
+      knownLangCont.text = selectedLanguages.isNotEmpty
+          ? selectedLanguages
+              .map((k) => profileLanguageOptions[k] ?? k)
+              .join(', ')
+          : value.knownLanguages.validate();
+      skillsCont.text = value.skillsArray.isNotEmpty
+          ? value.skillsArray.join(", ")
+          : value.skills.validate();
+      experienceCont.text = value.experience.validate();
+      certificationCont.text = value.certification.validate();
+      aboutMeCont.text = value.aboutMe.validate();
+
+      final avail = value.availability.validate().toLowerCase();
+      selectedAvailability = avail == 'hybrid'
+          ? 'Hybrid'
+          : (avail == 'full_time' ? 'Full Time' : 'Full Time');
+
+      final careerStr = value.careerLevel.validate();
+      selectedCareerLevel = CareerLevel.values.firstWhere(
+        (e) => e.backendValue == careerStr,
+        orElse: () => CareerLevel.notSpecified,
+      );
+
+      final educationStr = value.education.validate();
+      selectedEducation = EducationLevel.values.firstWhere(
+        (e) => e.backendValue == educationStr,
+        orElse: () => EducationLevel.notSpecified,
+      );
+
+      final yearsStr = value.yearsOfExperience.validate();
+      selectedYearsOfExperience = YearsOfExperience.values.firstWhere(
+        (e) => e.backendValue == yearsStr,
+        orElse: () => YearsOfExperience.lessThan1,
+      );
+
+      serviceAddressId = value.serviceAddressId;
+
       setState(() {});
     }).catchError((e) {
       appStore.setLoading(false);
@@ -236,6 +311,25 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     multiPartRequest.fields[CommonKeys.address] = addressCont.text;
     multiPartRequest.fields[UserKeys.displayName] =
         '${fNameCont.text.validate() + " " + lNameCont.text.validate()}';
+
+    multiPartRequest.fields['company_name'] = cNameCont.text.validate();
+    multiPartRequest.fields['vat_number'] = vatNumCont.text.validate();
+    multiPartRequest.fields['mobility'] = mobilityCont.text.validate();
+    multiPartRequest.fields['known_languages'] =
+        jsonEncode(selectedLanguages);
+    multiPartRequest.fields['skills'] = skillsCont.text.validate();
+    multiPartRequest.fields['experience'] = experienceCont.text.validate();
+    multiPartRequest.fields['career_level'] = selectedCareerLevel.backendValue;
+    multiPartRequest.fields['education'] = selectedEducation.backendValue;
+    multiPartRequest.fields['years_of_experience'] = selectedYearsOfExperience.backendValue;
+    multiPartRequest.fields['certification'] = certificationCont.text.validate();
+    multiPartRequest.fields['about_me'] = aboutMeCont.text.validate();
+    multiPartRequest.fields['availability'] =
+        selectedAvailability == 'Hybrid' ? 'hybrid' : 'full_time';
+    if (serviceAddressId != null) {
+      multiPartRequest.fields['service_address_id'] = serviceAddressId.toString();
+    }
+
     if (imageFile != null) {
       multiPartRequest.files.add(
           await MultipartFile.fromPath(UserKeys.profileImage, imageFile!.path));
@@ -344,6 +438,121 @@ class EditProfileScreenState extends State<EditProfileScreen> {
             ),
           ],
         ).paddingAll(16.0);
+      },
+    );
+  }
+
+  void _showLanguagePicker() {
+    List<String> tempSelected = List<String>.from(selectedLanguages);
+    TextEditingController searchCont = TextEditingController();
+    List<MapEntry<String, String>> entries =
+        profileLanguageOptions.entries.toList();
+
+    showModalBottomSheet<void>(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: context.cardColor,
+      builder: (BuildContext ctx) {
+        return StatefulBuilder(
+          builder: (context, setModalState) {
+            String query = searchCont.text.trim().toLowerCase();
+            List<MapEntry<String, String>> filtered = query.isEmpty
+                ? entries
+                : entries
+                    .where((e) =>
+                        e.key.toLowerCase().contains(query) ||
+                        e.value.toLowerCase().contains(query))
+                    .toList();
+            return DraggableScrollableSheet(
+              initialChildSize: 0.6,
+              minChildSize: 0.3,
+              maxChildSize: 0.95,
+              expand: false,
+              builder: (_, scrollController) => Column(
+                children: [
+                  Text('Select languages', style: boldTextStyle(size: 18))
+                      .paddingOnly(top: 16, bottom: 8),
+                  AppTextField(
+                    controller: searchCont,
+                    textFieldType: TextFieldType.OTHER,
+                    decoration: inputDecoration(context,
+                        hintText: language.search, labelText: language.search),
+                    onChanged: (_) => setModalState(() {}),
+                  ).paddingSymmetric(horizontal: 16, vertical: 8),
+                  Divider(height: 1),
+                  Expanded(
+                    child: ListView.builder(
+                      controller: scrollController,
+                      itemCount: filtered.length,
+                      itemBuilder: (context, index) {
+                        String value = filtered[index].key;
+                        String label = filtered[index].value;
+                        bool checked = tempSelected.contains(value);
+                        return CheckboxListTile(
+                          value: checked,
+                          title: Text(label, style: primaryTextStyle()),
+                          onChanged: (bool? v) {
+                            setModalState(() {
+                              if (v == true) {
+                                tempSelected.add(value);
+                              } else {
+                                tempSelected.remove(value);
+                              }
+                            });
+                          },
+                        );
+                      },
+                    ),
+                  ),
+                  SafeArea(
+                    top: false,
+                    child: Container(
+                      width: double.infinity,
+                      padding: EdgeInsets.fromLTRB(16, 12, 16, 16),
+                      decoration: BoxDecoration(
+                        color: context.cardColor,
+                        border: Border(
+                          top: BorderSide(
+                              color: context.dividerColor, width: 1),
+                        ),
+                      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: OutlinedButton(
+                              onPressed: () => finish(context),
+                              child: Text('Cancel',
+                                  style: boldTextStyle(
+                                      color: context.primaryColor)),
+                            ),
+                          ),
+                          16.width,
+                          Expanded(
+                            child: GradientButton(
+                              onPressed: () {
+                                setState(() {
+                                  selectedLanguages =
+                                      List<String>.from(tempSelected);
+                                  knownLangCont.text = selectedLanguages
+                                      .map((k) =>
+                                          profileLanguageOptions[k] ?? k)
+                                      .join(', ');
+                                });
+                                finish(context);
+                              },
+                              child: Text('Apply',
+                                  style: boldTextStyle(color: white)),
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
       },
     );
   }
@@ -535,11 +744,10 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 AppTextField(
                   textFieldType: TextFieldType.NUMBER,
                   controller: vatNumCont,
-                  // focus: cNameFocus,
-                  errorThisFieldRequired: language.requiredText,
-                  nextFocus: lNameFocus,
+                  nextFocus: mobileFocus,
                   enabled: !isLoginTypeApple,
-                  decoration: inputDecoration(context, labelText: 'VAT Number'),
+                  isValidationRequired: false,
+                  decoration: inputDecoration(context, labelText: 'VAT Number (optional)'),
                 ),
                 16.height,
                 // AppTextField(
@@ -637,7 +845,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                       }).toList(),
                       onChanged: (String? value) async {
                         hideKeyboard(context);
-                        selectedAvailability = value ?? 'Full Times';
+                        selectedAvailability = value ?? 'Full Time';
                         setState(() {});
                       },
                     ).expand(),
@@ -741,6 +949,32 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     },
                   ),
                 16.height,
+                if (appStore.userType == USER_TYPE_HANDYMAN) ...[
+                  DropdownButtonFormField<int?>(
+                    decoration: inputDecoration(context,
+                        labelText: 'Service address'),
+                    isExpanded: true,
+                    initialValue: serviceAddressId,
+                    dropdownColor: context.cardColor,
+                    items: [
+                      DropdownMenuItem<int?>(value: null, child: Text('Select Service address', style: primaryTextStyle())),
+                      ...serviceAddressList.map((e) {
+                        final id = e['id'] as int?;
+                        final name = e['name'] as String?;
+                        return DropdownMenuItem<int?>(
+                          value: id,
+                          child: Text(name ?? '${id ?? ''}', style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                        );
+                      }),
+                    ].toList(),
+                    onChanged: (int? value) {
+                      hideKeyboard(context);
+                      serviceAddressId = value;
+                      setState(() {});
+                    },
+                  ),
+                  16.height,
+                ],
                 AppTextField(
                   controller: addressCont,
                   textFieldType: TextFieldType.ADDRESS,
@@ -751,35 +985,132 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   isValidationRequired: false,
                 ),
                 16.height,
+                InkWell(
+                  onTap: isLoginTypeApple ? null : () => _showLanguagePicker(),
+                  child: InputDecorator(
+                    decoration: inputDecoration(context,
+                        labelText: 'Known languages',
+                        hintText: selectedLanguages.isEmpty
+                            ? 'Tap to select languages'
+                            : null),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            selectedLanguages.isEmpty
+                                ? 'Select languages'
+                                : selectedLanguages
+                                    .map((k) =>
+                                        profileLanguageOptions[k] ?? k)
+                                    .join(', '),
+                            style: selectedLanguages.isEmpty
+                                ? secondaryTextStyle()
+                                : primaryTextStyle(),
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                          ),
+                        ),
+                        Icon(Icons.arrow_drop_down,
+                            color: context.iconColor, size: 24),
+                      ],
+                    ),
+                  ),
+                ),
+                16.height,
                 AppTextField(
-                  textFieldType: TextFieldType.NAME,
+                  textFieldType: TextFieldType.OTHER,
+                  controller: skillsCont,
+                  focus: skillsFocus,
+                  nextFocus: experienceFocus,
+                  enabled: !isLoginTypeApple,
+                  decoration: inputDecoration(context,
+                      labelText: 'Essential skills',
+                      hintText: 'e.g. Skill 1, Skill 2 (comma-separated)'),
+                  isValidationRequired: false,
+                ),
+                16.height,
+                AppTextField(
+                  textFieldType: TextFieldType.MULTILINE,
                   controller: experienceCont,
                   focus: experienceFocus,
                   errorThisFieldRequired: language.requiredText,
-                  nextFocus: educationFocus,
+                  nextFocus: aboutMeFocus,
                   enabled: !isLoginTypeApple,
+                  minLines: 3,
+                  maxLines: 5,
                   decoration: inputDecoration(context, labelText: 'Experience'),
                 ),
                 16.height,
-                AppTextField(
-                  textFieldType: TextFieldType.NAME,
-                  controller: educationCont,
-                  focus: educationFocus,
-                  errorThisFieldRequired: language.requiredText,
-                  nextFocus: certificationsFocus,
-                  enabled: !isLoginTypeApple,
+                DropdownButtonFormField<CareerLevel>(
+                  decoration: inputDecoration(context, labelText: 'Career level'),
+                  isExpanded: true,
+                  initialValue: CareerLevel.values.contains(selectedCareerLevel) ? selectedCareerLevel : CareerLevel.notSpecified,
+                  dropdownColor: context.cardColor,
+                  items: CareerLevel.values.map((CareerLevel e) {
+                    return DropdownMenuItem<CareerLevel>(
+                      value: e,
+                      child: Text(e.displayName, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    );
+                  }).toList(),
+                  onChanged: (CareerLevel? value) {
+                    hideKeyboard(context);
+                    if (value != null) {
+                      selectedCareerLevel = value;
+                      setState(() {});
+                    }
+                  },
+                ),
+                16.height,
+                DropdownButtonFormField<EducationLevel>(
                   decoration: inputDecoration(context, labelText: 'Education'),
+                  isExpanded: true,
+                  initialValue: EducationLevel.values.contains(selectedEducation) ? selectedEducation : EducationLevel.notSpecified,
+                  dropdownColor: context.cardColor,
+                  items: EducationLevel.values.map((EducationLevel e) {
+                    return DropdownMenuItem<EducationLevel>(
+                      value: e,
+                      child: Text(e.displayName, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    );
+                  }).toList(),
+                  onChanged: (EducationLevel? value) {
+                    hideKeyboard(context);
+                    if (value != null) {
+                      selectedEducation = value;
+                      setState(() {});
+                    }
+                  },
+                ),
+                16.height,
+                DropdownButtonFormField<YearsOfExperience>(
+                  decoration: inputDecoration(context, labelText: 'Years of experience'),
+                  isExpanded: true,
+                  initialValue: selectedYearsOfExperience,
+                  dropdownColor: context.cardColor,
+                  items: YearsOfExperience.values.map((YearsOfExperience e) {
+                    return DropdownMenuItem<YearsOfExperience>(
+                      value: e,
+                      child: Text(e.displayName, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                    );
+                  }).toList(),
+                  onChanged: (YearsOfExperience? value) {
+                    hideKeyboard(context);
+                    if (value != null) {
+                      selectedYearsOfExperience = value;
+                      setState(() {});
+                    }
+                  },
                 ),
                 16.height,
                 AppTextField(
-                  textFieldType: TextFieldType.NAME,
-                  controller: certificationsCont,
-                  focus: certificationsFocus,
-                  errorThisFieldRequired: language.requiredText,
+                  textFieldType: TextFieldType.OTHER,
+                  controller: certificationCont,
+                  focus: certificationFocus,
                   nextFocus: aboutMeFocus,
                   enabled: !isLoginTypeApple,
-                  decoration:
-                      inputDecoration(context, labelText: 'Certification'),
+                  decoration: inputDecoration(context,
+                      labelText: 'Certification',
+                      hintText: 'e.g. Cert 1, Cert 2 (comma-separated)'),
+                  isValidationRequired: false,
                 ),
                 16.height,
                 AppTextField(
@@ -792,17 +1123,14 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   decoration: inputDecoration(context, labelText: 'About me'),
                 ),
                 40.height,
-                AppButton(
-                  text: language.save,
-                  color: primaryColor,
-                  textColor: white,
-                  width: context.width() - context.navigationBarHeight,
-                  onTap: () {
+                GradientButton(
+                  onPressed: () {
                     ifNotTester(() {
                       update();
                     });
                   },
-                ),
+                  child: Text(language.save, style: boldTextStyle(color: white)),
+                ).withWidth(context.width() - context.navigationBarHeight),
                 24.height,
               ],
             ),
