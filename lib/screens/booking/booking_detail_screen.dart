@@ -28,6 +28,7 @@ import 'package:booking_system_flutter/screens/booking/shimmer/booking_detail_sh
 import 'package:booking_system_flutter/screens/booking/time_slots_list.dart';
 import 'package:booking_system_flutter/screens/booking/track_location.dart';
 import 'package:booking_system_flutter/screens/payment/payment_screen.dart';
+import 'package:booking_system_flutter/screens/booking/component/booking_payment_dialog.dart';
 import 'package:booking_system_flutter/screens/review/components/review_widget.dart';
 import 'package:booking_system_flutter/screens/review/rating_view_all_screen.dart';
 import 'package:booking_system_flutter/screens/chat/api_chat_screen.dart';
@@ -1472,15 +1473,43 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
               bookingResponse.bookingDetail!.status ==
                   BookingStatusKeys.complete) {
             // Pay remaining amount (not advance payment)
-            PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
-                .launch(context);
+            final remainingAmount = bookingResponse.bookingDetail!.totalAmount.validate() -
+                getAdvancePaymentAmount(bookingInfo: bookingResponse);
+            showInDialog(
+              context,
+              contentPadding: EdgeInsets.zero,
+              builder: (context) {
+                return BookingPaymentDialog(
+                  bookings: bookingResponse,
+                  isForAdvancePayment: false,
+                  amount: remainingAmount,
+                );
+              },
+            ).then((result) {
+              if (result == true) {
+                init();
+                setState(() {});
+              }
+            });
           } else {
             // Pay advance payment
-            PaymentScreen(
-              bookings: bookingResponse,
-              isFromBookService: true,
-              isForAdvancePayment: true,
-            ).launch(context);
+            final advanceAmount = getAdvancePaymentAmount(bookingInfo: bookingResponse);
+            showInDialog(
+              context,
+              contentPadding: EdgeInsets.zero,
+              builder: (context) {
+                return BookingPaymentDialog(
+                  bookings: bookingResponse,
+                  isForAdvancePayment: true,
+                  amount: advanceAmount,
+                );
+              },
+            ).then((result) {
+              if (result == true) {
+                init();
+                setState(() {});
+              }
+            });
           }
         },
       );
@@ -1573,8 +1602,22 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       
       return GradientButton(
         onPressed: () {
-          PaymentScreen(bookings: bookingResponse, isForAdvancePayment: false)
-              .launch(context);
+          showInDialog(
+            context,
+            contentPadding: EdgeInsets.zero,
+            builder: (context) {
+              return BookingPaymentDialog(
+                bookings: bookingResponse,
+                isForAdvancePayment: false,
+                amount: remainingAmount,
+              );
+            },
+          ).then((result) {
+            if (result == true) {
+              init();
+              setState(() {});
+            }
+          });
         },
         child: Row(
           mainAxisAlignment: MainAxisAlignment.center,

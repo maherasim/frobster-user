@@ -22,8 +22,27 @@ class PayPalService {
       payPalClientId = paymentSetting.liveValue!.payPalClientId.validate();
       secretKey = paymentSetting.liveValue!.payPalSecretKey.validate();
     }
-    if (payPalClientId.isEmpty || secretKey.isEmpty)
+    if (payPalClientId.isEmpty || secretKey.isEmpty) {
+      appStore.setLoading(false);
       throw language.accessDeniedContactYourAdmin;
+    }
+
+    // Format amount to ensure it has exactly 2 decimal places (required by PayPal)
+    final formattedAmount = totalAmount.toStringAsFixed(2);
+    final amountValue = num.tryParse(formattedAmount) ?? totalAmount;
+    
+    // Validate amount
+    if (amountValue <= 0) {
+      appStore.setLoading(false);
+      throw 'Invalid payment amount';
+    }
+    
+    // Validate currency code
+    final currencyCode = appConfigurationStore.currencyCode.validate();
+    if (currencyCode.isEmpty) {
+      appStore.setLoading(false);
+      throw 'Currency code is not configured';
+    }
 
     PaypalCheckout(
       sandboxMode: paymentSetting.isTest.getBoolInt(),
@@ -34,12 +53,12 @@ class PayPalService {
       transactions: [
         {
           "amount": {
-            "total": totalAmount,
-            "currency": '${appConfigurationStore.currencyCode}',
+            "total": formattedAmount,
+            "currency": currencyCode,
             "details": {
-              "subtotal": totalAmount,
-              "shipping": '0',
-              "shipping_discount": 0
+              "subtotal": formattedAmount,
+              "shipping": '0.00',
+              "shipping_discount": '0.00'
             }
           },
           "description":
@@ -60,14 +79,20 @@ class PayPalService {
       onError: (error) {
         log("onError: $error");
         appStore.setLoading(false);
-        toast(error);
-        finish(context);
+        toast(error.toString());
+        // Don't finish context here - let the calling screen handle it
       },
       onCancel: (params) {
         log("cancelled: $params");
         toast(language.cancelled);
         appStore.setLoading(false);
       },
-    ).launch(context).whenComplete(() => appStore.setLoading(false));
+    ).launch(context).catchError((e) {
+      log("PayPal launch error: $e");
+      appStore.setLoading(false);
+      toast('Failed to launch PayPal: ${e.toString()}');
+    }).whenComplete(() {
+      appStore.setLoading(false);
+    });
   }
 }
