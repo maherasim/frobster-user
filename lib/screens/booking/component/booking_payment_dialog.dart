@@ -55,6 +55,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
   }
 
   void init() async {
+    log('BookingPaymentDialog initialized - amount: ${widget.amount}, isForAdvancePayment: ${widget.isForAdvancePayment}');
     future = getPaymentGateways(requireCOD: !widget.isForAdvancePayment);
     setState(() {});
   }
