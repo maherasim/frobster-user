@@ -61,16 +61,29 @@ class SuccessDialog extends StatelessWidget {
                     style: secondaryTextStyle(size: 14, color: Colors.grey),
                   ),
                   32.height,
-                  AppButton(
-                    text: language.done,
-                    height: 40,
-                    color: primaryColor,
-                    textStyle: boldTextStyle(color: white),
+                  Container(
                     width: context.width() * 0.4,
-                    onTap: () {
-                      finish(context, true);
-                      finish(context, true);
-                    },
+                    height: 40,
+                    decoration: BoxDecoration(
+                      gradient: successGradient,
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Material(
+                      color: Colors.transparent,
+                      child: InkWell(
+                        onTap: () {
+                          finish(context, true);
+                          finish(context, true);
+                        },
+                        borderRadius: BorderRadius.circular(8),
+                        child: Center(
+                          child: Text(
+                            language.done,
+                            style: boldTextStyle(color: white),
+                          ),
+                        ),
+                      ),
+                    ),
                   ),
                 ],
               ),
@@ -79,7 +92,7 @@ class SuccessDialog extends StatelessWidget {
               left: 0,
               right: 0,
               child: DottedBorder(
-                color: primaryColor,
+                color: gradientGreen,
                 strokeWidth: 2,
                 dashPattern: [8, 9],
                 borderType: BorderType.Circle,
@@ -91,7 +104,7 @@ class SuccessDialog extends StatelessWidget {
                     padding: EdgeInsets.all(19),
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: primaryColor,
+                      gradient: successGradient,
                     ),
                     child: CachedImageWidget(
                       url: ic_right,

@@ -22,6 +22,8 @@ import '../../services/cinet_pay_services_new.dart';
 import '../../services/flutter_wave_service_new.dart';
 import '../../services/midtrans_service.dart';
 import '../../services/paypal_service.dart';
+import '../../screens/jobRequest/components/paypal_webview_screen.dart';
+import '../../network/network_utils.dart';
 import '../../services/paystack_service.dart';
 import '../../services/phone_pe/phone_pe_service.dart';
 import '../../services/razorpay_service_new.dart';
@@ -81,13 +83,18 @@ class _PaymentScreenState extends State<PaymentScreen> {
     if (widget.bookings.service!.isAdvancePayment &&
         !widget.bookings.service!.isFreeService &&
         widget.bookings.bookingDetail!.bookingPackage == null) {
-      if (widget.bookings.bookingDetail!.paidAmount.validate() == 0) {
-        advancePaymentAmount =
-            widget.bookings.bookingDetail!.totalAmount.validate() *
-                widget.bookings.service!.advancePaymentPercentage.validate() /
-                100;
+      // Calculate advance payment amount
+      advancePaymentAmount =
+          widget.bookings.bookingDetail!.totalAmount.validate() *
+              widget.bookings.service!.advancePaymentPercentage.validate() /
+              100;
+      
+      // Use isForAdvancePayment flag to determine which amount to show
+      if (widget.isForAdvancePayment) {
+        // User wants to pay advance payment
         totalAmount = getAdvancePaymentAmount;
       } else {
+        // User wants to pay remaining amount
         totalAmount = getRemainingAmount;
       }
     } else {
@@ -225,21 +232,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
         toast(e);
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_PAYPAL) {
-      PayPalService.paypalCheckOut(
-        context: context,
-        paymentSetting: currentPaymentMethod!,
-        totalAmount: totalAmount,
-        onComplete: (p0) {
-          log('PayPalService onComplete: $p0');
-          savePay(
-            paymentMethod: PAYMENT_METHOD_PAYPAL,
-            paymentStatus: widget.isForAdvancePayment
-                ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
-                : SERVICE_PAYMENT_STATUS_PAID,
-            txnId: p0['transaction_id'],
-          );
-        },
-      );
+      // Use webview-based PayPal payment flow (same as job requests)
+      await _handlePayPalPayment();
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_AIRTEL) {
       showInDialog(
         context,
@@ -378,6 +372,74 @@ class _PaymentScreenState extends State<PaymentScreen> {
     }
   }
 
+  Future<void> _handlePayPalPayment() async {
+    try {
+      final request = {
+        "type": widget.isForAdvancePayment ? "advance" : "remaining",
+        "amount": totalAmount,
+      };
+
+      // Call backend to create PayPal payment and get approval URL
+      final response = await buildHttpResponse(
+        'booking/paypal/create/${widget.bookings.bookingDetail!.id.validate()}',
+        request: request,
+        method: HttpMethodType.POST,
+      );
+      
+      final jsonResponse = await handleResponse(response);
+      
+      // The Laravel API returns: {"status": true, "url": "approval_link"}
+      if (jsonResponse is Map) {
+        final status = jsonResponse['status'] as bool?;
+        final approvalUrl = jsonResponse['url'] as String?;
+        
+        if (status == true && approvalUrl != null && approvalUrl.isNotEmpty) {
+          appStore.setLoading(false);
+
+          // Open PayPal webview with the approval URL (keep PaymentScreen open in background)
+          final paymentType = widget.isForAdvancePayment ? "advance" : "remaining";
+          final result = await PayPalWebViewScreen(
+            approvalUrl: approvalUrl,
+            bidId: widget.bookings.bookingDetail!.id.validate(),
+            paymentType: paymentType,
+          ).launch(context);
+
+          // If payment was successful, save the payment and close PaymentScreen
+          if (result == true) {
+            // Payment was successful, now save it
+            // The backend should have already processed the payment via the success callback
+            // But we still need to call savePay to update the booking status
+            savePay(
+              paymentMethod: PAYMENT_METHOD_PAYPAL,
+              paymentStatus: widget.isForAdvancePayment
+                  ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
+                  : SERVICE_PAYMENT_STATUS_PAID,
+              txnId: '', // Backend should have the transaction ID from PayPal
+            );
+          } else {
+            appStore.setLoading(false);
+            // Payment was cancelled or failed - PaymentScreen stays open for user to retry
+          }
+        } else {
+          appStore.setLoading(false);
+          final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
+          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+        }
+      } else {
+        appStore.setLoading(false);
+        toast('Invalid response from server. Please try again.');
+      }
+    } catch (e) {
+      appStore.setLoading(false);
+      final errMsg = e.toString().trim().toLowerCase();
+      if (errMsg.contains('page not found') || errMsg.contains('404')) {
+        toast('Payment endpoint not found. Please contact support.');
+      } else {
+        toast('PayPal payment error: ${e.toString()}');
+      }
+    }
+  }
+
   void savePay({
     String txnId = '',
     String paymentMethod = '',
@@ -433,8 +495,12 @@ class _PaymentScreenState extends State<PaymentScreen> {
     appStore.setLoading(true);
     savePayment(request,endPoint: endPoint).then((value) {
       appStore.setLoading(false);
-      push(DashboardScreen(redirectToBooking: true),
-          isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);
+      // If payment was successful, return true to parent screen so it can refresh
+      if (value.status ?? false) {
+        finish(context, true);
+      } else {
+        toast(value.message ?? language.somethingWentWrong);
+      }
     }).catchError((e) {
       toast(e.toString());
       appStore.setLoading(false);
@@ -505,7 +571,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                               insetPadding: EdgeInsets.symmetric(horizontal: 10),
                               builder: (p0) {
                                 return  BankTransferDetailDialog(
-                                  bookingAmount: widget.isFromBookService ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount.toPriceFormat(),
+                                  bookingAmount: widget.isForAdvancePayment ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount.toPriceFormat(),
                                   bookingId: widget.bookings.bookingDetail!.id.validate(),
                                 );
                               },
@@ -647,7 +713,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                     }
                   },
                   child: Text(
-                    "${language.lblPayNow} ${widget.isFromBookService ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount.toPriceFormat()}",
+                    "${language.lblPayNow} ${widget.isForAdvancePayment ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount.toPriceFormat()}",
                   ),
                 ).withWidth(context.width()).paddingAll(16),
             ],

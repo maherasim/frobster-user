@@ -65,3 +65,12 @@ const LinearGradient appPrimaryGradient = LinearGradient(
   end: Alignment.centerRight,
   colors: <Color>[gradientRed, gradientBlue],
 );
+
+// Success gradient (green-based)
+const Color gradientGreen = Color(0xFF3CAE5C); // success green
+const Color gradientGreenLight = Color(0xFF4CAF50); // lighter green
+const LinearGradient successGradient = LinearGradient(
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+  colors: <Color>[gradientGreen, gradientGreenLight],
+);

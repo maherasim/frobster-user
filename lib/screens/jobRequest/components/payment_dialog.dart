@@ -7,6 +7,8 @@ import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/booking/component/bank_transfer_detail_dialog.dart';
 import 'package:booking_system_flutter/services/paypal_service.dart';
 import 'package:booking_system_flutter/services/stripe_service_new.dart';
+import 'package:booking_system_flutter/screens/jobRequest/components/paypal_webview_screen.dart';
+import 'package:booking_system_flutter/network/network_utils.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
@@ -154,15 +156,8 @@ class _PaymentDialogState extends State<PaymentDialog> {
         toast(e);
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_PAYPAL) {
-      PayPalService.paypalCheckOut(
-        context: context,
-        paymentSetting: currentPaymentMethod!,
-        totalAmount: widget.amount,
-        onComplete: (p0) {
-          log('PayPalService onComplete: $p0');
-          savePay(paymentMethod: PAYMENT_METHOD_PAYPAL);
-        },
-      );
+      // Use webview-based PayPal payment flow
+      await _handlePayPalPayment();
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_FROM_WALLET) {
       savePay(paymentMethod: PAYMENT_METHOD_FROM_WALLET,);
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER) {
@@ -170,6 +165,68 @@ class _PaymentDialogState extends State<PaymentDialog> {
     } else {
       appStore.setLoading(false);
       toast(language.paymentMethodNotSupported);
+    }
+  }
+
+  Future<void> _handlePayPalPayment() async {
+    try {
+      final request = {
+        "type": widget.isAdvance ? "advance" : "remaining",
+        "amount": widget.amount,
+      };
+
+      // Call backend to create PayPal payment and get approval URL
+      final response = await buildHttpResponse(
+        'postjob/paypal/create/${widget.bidId}',
+        request: request,
+        method: HttpMethodType.POST,
+      );
+      
+      final jsonResponse = await handleResponse(response);
+      
+      // The Laravel API returns: {"status": true, "url": "approval_link"}
+      if (jsonResponse is Map) {
+        final status = jsonResponse['status'] as bool?;
+        final approvalUrl = jsonResponse['url'] as String?;
+        
+        if (status == true && approvalUrl != null && approvalUrl.isNotEmpty) {
+          appStore.setLoading(false);
+
+          // Open PayPal webview with the approval URL
+          final paymentType = widget.isAdvance ? "advance" : "remaining";
+          final result = await PayPalWebViewScreen(
+            approvalUrl: approvalUrl,
+            bidId: widget.bidId,
+            paymentType: paymentType,
+          ).launch(context);
+
+          // If payment was successful, save the payment
+          if (result == true) {
+            // Payment was successful, now save it
+            // The backend should have already processed the payment via the success callback
+            // But we still need to call savePay to update the job request status
+            savePay(paymentMethod: PAYMENT_METHOD_PAYPAL);
+          } else {
+            appStore.setLoading(false);
+            // Payment was cancelled or failed - dialog stays open for user to retry
+          }
+        } else {
+          appStore.setLoading(false);
+          final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
+          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+        }
+      } else {
+        appStore.setLoading(false);
+        toast('Invalid response from server. Please try again.');
+      }
+    } catch (e) {
+      appStore.setLoading(false);
+      final errMsg = e.toString().trim().toLowerCase();
+      if (errMsg.contains('page not found') || errMsg.contains('404')) {
+        toast('Payment endpoint not found. Please contact support.');
+      } else {
+        toast('PayPal payment error: ${e.toString()}');
+      }
     }
   }
 
@@ -186,6 +243,8 @@ class _PaymentDialogState extends State<PaymentDialog> {
        endpoint = 'postjob/stripe/confirm/${widget.bidId}';
        break;
      case PAYMENT_METHOD_PAYPAL:
+       // PayPal payment is processed via webview success callback
+       // This endpoint may update status or be handled by backend
        endpoint = 'postjob/paypal/create/${widget.bidId}';
        break;
      case PAYMENT_METHOD_FROM_WALLET:

@@ -68,11 +68,15 @@ class _TrackLocationState extends State<TrackLocation>
   void initState() {
     super.initState();
     allLocation();
-    WidgetsBinding.instance.addObserver(this);
+    if (mounted) WidgetsBinding.instance.addObserver(this);
   }
 
   allLocation() async {
-    await _loadCustomIcon();
+    try {
+      await _loadCustomIcon();
+    } catch (e) {
+      log("Error loading custom icon: $e");
+    }
     await setLocationfuns();
     _startLocationUpdates();
   }
@@ -80,39 +84,59 @@ class _TrackLocationState extends State<TrackLocation>
   //region Methods
   void _startLocationUpdates() {
     _locationSubscription = Stream.periodic(Duration(seconds: 30))
-        .asyncMap((_) => setLocationfuns())
+        .asyncMap((_) => getProviderLocation(widget.bookingId))
         .listen((location) async {
-      setState(() {
-        providerLocation = location;
-      });
-      _updateMarker();
-      setState(() {
-        isLoading = false;
-      });
+      if (location != null && mounted) {
+        final lat = location.data.latitude;
+        final lng = location.data.longitude;
+        
+        // Only trigger update if location is valid
+        if (lat != 0.0 && lng != 0.0) {
+          final oldLat = providerLocation?.data.latitude ?? 0.0;
+          final oldLng = providerLocation?.data.longitude ?? 0.0;
+          
+          setState(() {
+            providerLocation = location;
+          });
+          _updateMarker();
+          
+          // Only move map if location actually changed significantly
+          if ((oldLat - lat).abs() > 0.00001 || (oldLng - lng).abs() > 0.00001) {
+            _moveMapToLocation();
+          }
+        }
+      }
     });
   }
 
   Future<UpdateLocationResponse> setLocationfuns() async {
-    setState(() {
-      isLoading = true;
-    });
+    if (mounted) {
+      setState(() {
+        isLoading = true;
+      });
+    }
     try {
       var value = await getProviderLocation(widget.bookingId);
-      setState(() {
-        providerLocation = value;
-      });
-      _updateMarker();
+      if (mounted) {
+        setState(() {
+          providerLocation = value;
+        });
+        _updateMarker();
+        // Move camera to location on initial fetch
+        if (_hasValidLocation) {
+          _moveMapToLocation();
+        }
+      }
       return value;
     } catch (e) {
-      log("Error ==> $e");
-      setState(() {
-        isLoading = false;
-      });
+      log("Error fetching location ==> $e");
       return UpdateLocationResponse(data: Data());
     } finally {
-      setState(() {
-        isLoading = false;
-      });
+      if (mounted) {
+        setState(() {
+          isLoading = false;
+        });
+      }
     }
   }
 
@@ -152,7 +176,21 @@ class _TrackLocationState extends State<TrackLocation>
 
     final iconBytes = _frames![frame];
     customIcon = gmaps.BitmapDescriptor.fromBytes(iconBytes);
-    _updateMarker();
+    
+    // Update marker icon without calling _moveMapToLocation or heavy logic
+    if (_hasValidLocation) {
+      final lat = providerLocation!.data.latitude.toDouble();
+      final lng = providerLocation!.data.longitude.toDouble();
+      setState(() {
+        _markers = {
+          gmaps.Marker(
+            markerId: gmaps.MarkerId('providerLocation'),
+            position: gmaps.LatLng(lat, lng),
+            icon: customIcon ?? gmaps.BitmapDescriptor.defaultMarker,
+          ),
+        };
+      });
+    }
   }
 
   Future<Uint8List> _captureLottieFrameAsImage(
@@ -175,22 +213,23 @@ class _TrackLocationState extends State<TrackLocation>
   void _updateMarker() {
     if (providerLocation == null) return;
     if (!_hasValidLocation) {
-      setState(() => _markers = {});
+      if (mounted) setState(() => _markers = {});
       return;
     }
     final lat = providerLocation!.data.latitude.toDouble();
     final lng = providerLocation!.data.longitude.toDouble();
-    log("Updating marker: Lat=$lat, Lng=$lng");
-    setState(() {
-      _markers = {
-        gmaps.Marker(
-          markerId: gmaps.MarkerId('providerLocation'),
-          position: gmaps.LatLng(lat, lng),
-          icon: customIcon ?? gmaps.BitmapDescriptor.defaultMarker,
-        ),
-      };
-    });
-    _moveMapToLocation();
+    log("Updating marker data: Lat=$lat, Lng=$lng");
+    if (mounted) {
+      setState(() {
+        _markers = {
+          gmaps.Marker(
+            markerId: gmaps.MarkerId('providerLocation'),
+            position: gmaps.LatLng(lat, lng),
+            icon: customIcon ?? gmaps.BitmapDescriptor.defaultMarker,
+          ),
+        };
+      });
+    }
   }
 
   void stopProviderLocation() {
@@ -268,37 +307,40 @@ class _TrackLocationState extends State<TrackLocation>
             child: Stack(
               children: [
                 gmaps.GoogleMap(
-            mapType: gmaps.MapType.normal,
-            zoomGesturesEnabled: true,
-            zoomControlsEnabled: true,
-            markers: _markers,
-            initialCameraPosition: gmaps.CameraPosition(
-              target: initialTarget,
-              zoom: initialZoom,
-            ),
-            gestureRecognizers: Set()
-              ..add(Factory<OneSequenceGestureRecognizer>(
-                  () => new EagerGestureRecognizer()))
-              ..add(Factory<PanGestureRecognizer>(() => PanGestureRecognizer()))
-              ..add(Factory<ScaleGestureRecognizer>(
-                  () => ScaleGestureRecognizer()))
-              ..add(Factory<TapGestureRecognizer>(() => TapGestureRecognizer()))
-              ..add(Factory<VerticalDragGestureRecognizer>(
-                  () => VerticalDragGestureRecognizer())),
-            onMapCreated: (controller) {
-              mapController = controller;
-              if (_hasValidLocation) {
-                WidgetsBinding.instance.addPostFrameCallback((_) {
-                  _moveMapToLocation();
-                });
-              }
-            },
-          ),
-          Positioned(
-            left: 10,
-            top: 10,
-            child: CupertinoActivityIndicator(color: black).visible(isLoading),
-          ),
+                  key: ValueKey('track_map_${widget.bookingId}'),
+                  mapType: gmaps.MapType.normal,
+                  zoomGesturesEnabled: true,
+                  zoomControlsEnabled: true,
+                  markers: _markers,
+                  initialCameraPosition: gmaps.CameraPosition(
+                    target: initialTarget,
+                    zoom: initialZoom,
+                  ),
+                  gestureRecognizers: Set()
+                    ..add(Factory<OneSequenceGestureRecognizer>(
+                        () => new EagerGestureRecognizer()))
+                    ..add(Factory<PanGestureRecognizer>(
+                        () => PanGestureRecognizer()))
+                    ..add(Factory<ScaleGestureRecognizer>(
+                        () => ScaleGestureRecognizer()))
+                    ..add(Factory<TapGestureRecognizer>(
+                        () => TapGestureRecognizer()))
+                    ..add(Factory<VerticalDragGestureRecognizer>(
+                        () => VerticalDragGestureRecognizer())),
+                  onMapCreated: (controller) {
+                    mapController = controller;
+                    if (_hasValidLocation) {
+                      WidgetsBinding.instance.addPostFrameCallback((_) {
+                        _moveMapToLocation();
+                      });
+                    }
+                  },
+                ),
+                Positioned(
+                  left: 10,
+                  top: 10,
+                  child: CupertinoActivityIndicator(color: black).visible(isLoading),
+                ),
           if (!_hasValidLocation && !isLoading)
             Positioned(
               left: 0,

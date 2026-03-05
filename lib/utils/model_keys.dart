@@ -184,10 +184,14 @@ class BankServiceKey {
   static String bankName = 'bank_name';
   static String branchName = 'branch_name';
   static String accountNo = 'account_no';
+  static String accountHolder = 'account_holder';
   static String ifscNo = 'ifsc_no';
   static String mobileNo = 'mobile_no';
+  static String ibanNo = 'iban_no';
+  static String bicNumber = 'bic_number';
   static String aadharNo = 'aadhar_no';
   static String panNo = 'pan_no';
+  static String stripeAccount = 'stripe_account';
   static String bankAttachment = 'bank_attachment';
   static String bankProfile = 'bank_profile';
 }

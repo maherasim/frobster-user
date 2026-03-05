@@ -51,6 +51,9 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
 
   init(String bankName) async {
     appStore.setLoading(true);
+    // Store the ID of currently selected bank before refreshing
+    int? selectedBankId = selectedBank?.id;
+    
     getBankListDetail(
       page: page,
       list: bankHistoryList,
@@ -61,17 +64,26 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
     ).then((value) {
       setState(() {
         bankHistoryList = value;
+        // Clear selectedBank first to avoid mismatch
+        selectedBank = null;
       });
-      bankHistoryList.forEach((value) {
-        if (bankName.isNotEmpty && bankName == value.bankName) {
-          setState(() {
-            selectedBank = value;
-          });
-        } else if (value.isDefault == 1) {
-          setState(() {
-            selectedBank = value;
-          });
+      
+      // Find and select the bank by name or ID
+      BankHistory? bankToSelect;
+      for (var bank in bankHistoryList) {
+        if (bankName.isNotEmpty && bankName == bank.bankName) {
+          bankToSelect = bank;
+          break;
+        } else if (selectedBankId != null && bank.id == selectedBankId) {
+          bankToSelect = bank;
+          break;
+        } else if (bank.isDefault == 1 && bankToSelect == null) {
+          bankToSelect = bank;
         }
+      }
+      
+      setState(() {
+        selectedBank = bankToSelect;
       });
     }).whenComplete(() {
       appStore.setLoading(false);
@@ -188,7 +200,7 @@ class _WithdrawRequestState extends State<WithdrawRequest> {
                     decoration: inputDecoration(context),
                     isExpanded: true,
                     menuMaxHeight: 300,
-                    initialValue: selectedBank,
+                    value: selectedBank,
                     hint: Text(
                       language.egCentralNationalBank,
                       style: secondaryTextStyle(size: 12),
