@@ -1499,8 +1499,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
               contentPadding: EdgeInsets.zero,
               builder: (context) {
                 return BookingPaymentDialog(
-                  bookings: bookingResponse,
-                  isForAdvancePayment: true,
+              bookings: bookingResponse,
+              isForAdvancePayment: true,
                   amount: advanceAmount,
                 );
               },
@@ -2586,8 +2586,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       setState(() {});
     }).catchError((error) {
       log('Error fetching provider location: ${error.toString()}');
-      toast('Payment may have been done successful.' );
-      init(isLoading: false);
+      // Silently handle location fetch errors - don't show misleading payment messages
+      // Location fetching is a background operation and errors are expected
       setState(() {});
     }).whenComplete(() {
       isLocationLoader = false;
