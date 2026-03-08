@@ -57,21 +57,21 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         if (uri != null) {
           final path = uri.path.toLowerCase();
           
-          // Check for success URL pattern
-          if (path.contains('booking/paypal-success') || 
-              path.contains('/booking/paypal-success/') ||
-              path.contains('booking/paypal/success') ||
-              path.contains('/booking/paypal/success/')) {
+          // Check for success URL pattern (booking-paypal/success)
+          if (path.contains('booking-paypal/success') || 
+              path.contains('/booking-paypal/success/') ||
+              path.contains('booking-paypal-success') ||
+              path.contains('/booking-paypal-success/')) {
             // The backend handles payment capture automatically
             // We need to check the response to see if it was successful
             await _checkPaymentStatus(url);
           }
           
-          // Check if this is the cancel redirect URL
-          if (path.contains('booking/paypal-cancel') || 
-              path.contains('/booking/paypal-cancel') ||
-              path.contains('booking/paypal/cancel') ||
-              path.contains('/booking/paypal/cancel')) {
+          // Check if this is the cancel redirect URL (booking-paypal/cancel)
+          if (path.contains('booking-paypal/cancel') || 
+              path.contains('/booking-paypal/cancel') ||
+              path.contains('booking-paypal-cancel') ||
+              path.contains('/booking-paypal-cancel')) {
             _handlePayPalCancel();
           }
         }
@@ -88,19 +88,19 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         if (uri != null) {
           final path = uri.path.toLowerCase();
           
-          // Don't prevent navigation to success URL - let backend handle it
-          if (path.contains('booking/paypal-success') || 
-              path.contains('/booking/paypal-success/') ||
-              path.contains('booking/paypal/success') ||
-              path.contains('/booking/paypal/success/')) {
+          // Don't prevent navigation to success URL - let backend handle it (booking-paypal/success)
+          if (path.contains('booking-paypal/success') || 
+              path.contains('/booking-paypal/success/') ||
+              path.contains('booking-paypal-success') ||
+              path.contains('/booking-paypal-success/')) {
             return NavigationDecision.navigate;
           }
           
-          // Prevent navigation to cancel URL and handle it
-          if (path.contains('booking/paypal-cancel') || 
-              path.contains('/booking/paypal-cancel') ||
-              path.contains('booking/paypal/cancel') ||
-              path.contains('/booking/paypal/cancel')) {
+          // Prevent navigation to cancel URL and handle it (booking-paypal/cancel)
+          if (path.contains('booking-paypal/cancel') || 
+              path.contains('/booking-paypal/cancel') ||
+              path.contains('booking-paypal-cancel') ||
+              path.contains('/booking-paypal-cancel')) {
             _handlePayPalCancel();
             return NavigationDecision.prevent;
           }
@@ -157,7 +157,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
       
       // Make direct API call to verify payment status
       try {
-        final endpoint = 'booking/paypal-success/${widget.bookingId}?token=$token${payerId != null ? '&PayerID=$payerId' : ''}';
+        final endpoint = 'booking-paypal/success/${widget.bookingId}?token=$token${payerId != null ? '&PayerID=$payerId' : ''}';
         
         final successResponse = await buildHttpResponse(
           endpoint,
@@ -376,12 +376,19 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarWidget(
-        language.payment,
-        color: context.primaryColor,
-        textColor: Colors.white,
-        backWidget: BackWidget(),
-        textSize: APP_BAR_TEXT_SIZE,
+      appBar: AppBar(
+        title: Text(
+          'PayPal Payment',
+          style: boldTextStyle(color: Colors.white, size: APP_BAR_TEXT_SIZE),
+        ),
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: appPrimaryGradient,
+          ),
+        ),
+        leading: BackWidget(),
+        backgroundColor: Colors.transparent,
+        elevation: 0,
       ),
       body: Stack(
         children: [

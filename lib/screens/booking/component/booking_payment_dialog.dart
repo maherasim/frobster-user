@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'package:booking_system_flutter/component/empty_error_state_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/wallet_balance_component.dart';
@@ -11,6 +12,8 @@ import 'package:booking_system_flutter/services/cinet_pay_services_new.dart';
 import 'package:booking_system_flutter/services/flutter_wave_service_new.dart';
 import 'package:booking_system_flutter/services/midtrans_service.dart';
 import 'package:booking_system_flutter/services/paypal_service.dart';
+import 'package:booking_system_flutter/screens/booking/component/booking_paypal_webview_screen.dart';
+import 'package:booking_system_flutter/network/network_utils.dart';
 import 'package:booking_system_flutter/services/paystack_service.dart';
 import 'package:booking_system_flutter/services/phone_pe/phone_pe_service.dart';
 import 'package:booking_system_flutter/services/razorpay_service_new.dart';
@@ -165,40 +168,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
         toast(e);
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_PAYPAL) {
-      try {
-        // Format amount to ensure it has exactly 2 decimal places
-        final formattedAmount = widget.amount is num 
-            ? (widget.amount as num).toStringAsFixed(2)
-            : widget.amount.toString();
-        final amountValue = num.tryParse(formattedAmount) ?? widget.amount;
-        
-        // Validate amount
-        if (amountValue <= 0) {
-          appStore.setLoading(false);
-          toast('Invalid payment amount');
-          return;
-        }
-        
-        PayPalService.paypalCheckOut(
-          context: context,
-          paymentSetting: currentPaymentMethod!,
-          totalAmount: amountValue,
-          onComplete: (p0) {
-            log('PayPalService onComplete: $p0');
-            savePay(
-              paymentMethod: PAYMENT_METHOD_PAYPAL,
-              paymentStatus: widget.isForAdvancePayment
-                  ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
-                  : SERVICE_PAYMENT_STATUS_PAID,
-              txnId: p0['transaction_id'],
-            );
-          },
-        );
-      } catch (e) {
-        appStore.setLoading(false);
-        log('PayPal error: $e');
-        toast(e.toString());
-      }
+      await _handlePayPalPayment();
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_PHONEPE) {
       PhonePeServices peServices = PhonePeServices(
         paymentSetting: currentPaymentMethod!,
@@ -336,6 +306,102 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
     } else {
       appStore.setLoading(false);
       toast(language.paymentMethodNotSupported);
+    }
+  }
+
+  Future<void> _handlePayPalPayment() async {
+    try {
+      // Validate amount
+      if (widget.amount <= 0) {
+        appStore.setLoading(false);
+        toast('Invalid payment amount. Please try again.');
+        log('PayPal Payment Error: Invalid amount - widget.amount=${widget.amount}');
+        return;
+      }
+      
+      log('PayPal Payment - widget.amount: ${widget.amount}, type: ${widget.amount.runtimeType}');
+      
+      // Send amount directly (same as job requests) - backend should handle formatting
+      final request = {
+        "booking_id": widget.bookings.bookingDetail!.id.validate(),
+        "type": widget.isForAdvancePayment ? "advance" : "remaining",
+        "amount": widget.amount, // Send directly - backend should use this value
+      };
+      
+      log('PayPal Payment - Request amount: ${request["amount"]}, type: ${request["amount"].runtimeType}');
+
+      log('PayPal Payment Request (JSON): ${jsonEncode(request)}');
+      log('PayPal Payment Request (Map): $request');
+
+      // Call backend to create PayPal payment and get approval URL
+      final response = await buildHttpResponse(
+        'booking-paypal/create',
+        request: request,
+        method: HttpMethodType.POST,
+      );
+      
+      final jsonResponse = await handleResponse(response);
+      
+      log('PayPal API Response: $jsonResponse');
+      log('PayPal API Response type: ${jsonResponse.runtimeType}');
+      
+      // The API returns: {"url": "approval_link"} or {"status": true, "url": "approval_link"}
+      if (jsonResponse is Map) {
+        final error = jsonResponse['error'] as String?;
+        
+        if (error != null) {
+          appStore.setLoading(false);
+          log('PayPal API Error: $error');
+          // Show the error message from backend
+          toast(error);
+          return;
+        }
+        
+        final approvalUrl = jsonResponse['url'] as String?;
+        final status = jsonResponse['status'] as bool?;
+        
+        log('PayPal API - Extracted values: url=$approvalUrl, status=$status');
+        log('PayPal API - URL check: ${approvalUrl != null}, isEmpty: ${approvalUrl?.isEmpty}, status check: ${status == null || status == true}');
+        
+        // Check if we have a valid URL (either status is true OR url exists directly)
+        if (approvalUrl != null && approvalUrl.isNotEmpty && (status == null || status == true)) {
+          log('PayPal API - Opening webview with URL: $approvalUrl');
+          appStore.setLoading(false);
+
+          // Open PayPal webview screen with the approval URL
+          final paymentType = widget.isForAdvancePayment ? "advance" : "remaining";
+          final result = await BookingPayPalWebViewScreen(
+            approvalUrl: approvalUrl,
+            bookingId: widget.bookings.bookingDetail!.id.validate(),
+            paymentType: paymentType,
+          ).launch(context);
+
+          // If payment was successful, close dialog and refresh booking details
+          if (result == true) {
+            // Payment was successful - backend should have already processed it via success callback
+            finish(context, true);
+          } else {
+            appStore.setLoading(false);
+            // Payment was cancelled or failed - dialog stays open for user to retry
+          }
+        } else {
+          appStore.setLoading(false);
+          final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
+          log('PayPal API - Missing URL: status=$status, url=$approvalUrl');
+          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+        }
+      } else {
+        appStore.setLoading(false);
+        toast('Invalid response from server. Please try again.');
+      }
+    } catch (e) {
+      appStore.setLoading(false);
+      final errMsg = e.toString().trim().toLowerCase();
+      if (errMsg.contains('page not found') || errMsg.contains('404')) {
+        toast('Payment endpoint not found. Please contact support.');
+      } else {
+        toast('PayPal payment error: ${e.toString()}');
+      }
     }
   }
 

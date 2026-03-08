@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:flutter/material.dart';
@@ -27,17 +28,17 @@ class _LocationServiceDialogState extends State<LocationServiceDialog> {
                   style: primaryTextStyle())
               .paddingAll(16),
           16.height,
-          AppButton(
-            text:
-                appStore.isCurrentLocation ? language.turnOff : language.turnOn,
-            width: context.width(),
-            margin: EdgeInsets.all(16),
-            color: primaryColor,
-            textColor: Colors.white,
-            onTap: () async {
+          GradientButton(
+            onPressed: () async {
               finish(context, true);
             },
-          ),
+            child: Text(
+              appStore.isCurrentLocation ? language.turnOff : language.turnOn,
+              style: boldTextStyle(color: Colors.white),
+            ),
+          )
+              .withWidth(context.width())
+              .paddingAll(16),
           8.height,
         ],
       ),
