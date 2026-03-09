@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/user_info_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
@@ -40,6 +42,32 @@ String _educationDisplay(String? raw) {
     orElse: () => EducationLevel.notSpecified,
   );
   return level.displayName;
+}
+
+/// Map backend career level value (e.g. entry_level) to display label (e.g. Entry Level).
+String _careerLevelDisplay(String? raw) {
+  if (raw == null || raw.isEmpty) return 'Not Specified';
+  final v = raw.trim().toLowerCase();
+  final level = CareerLevel.values.firstWhere(
+    (e) => e.backendValue.toLowerCase() == v,
+    orElse: () => CareerLevel.notSpecified,
+  );
+  return level.displayName;
+}
+
+/// Map backend years of experience value (e.g. less_than_1) to display label (e.g. Less than 1 Year).
+String _yearsOfExperienceDisplay(String? raw) {
+  if (raw == null || raw.isEmpty) return 'Not Specified';
+  final v = raw.trim().toLowerCase();
+  try {
+    final level = YearsOfExperience.values.firstWhere(
+      (e) => e.backendValue.toLowerCase() == v,
+    );
+    return level.displayName;
+  } catch (e) {
+    // If backend value doesn't match any enum, return "Not Specified"
+    return 'Not Specified';
+  }
 }
 
 class ProviderInfoScreen extends StatefulWidget {
@@ -140,15 +168,35 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                     orElse: () => null)
                 ?.$2,
             onSuccess: (data) {
-              // Clean skills - remove brackets, quotes, double commas
+              // Clean skills - handle both JSON array and comma-separated string formats
               final List<String> skills = data.userData?.skills != null
-                  ? data.userData!.skillsArray
-                      .map((e) => e
-                          .replaceAll(RegExp(r'[\[\]"]'), '') // Remove brackets and quotes
-                          .replaceAll(RegExp(r',+'), ',') // Remove double commas
-                          .trim())
-                      .where((e) => e.isNotEmpty)
-                      .toList()
+                  ? (() {
+                      final skillsStr = data.userData!.skills!.trim();
+                      if (skillsStr.isEmpty) return <String>[];
+                      
+                      // Try JSON array format first
+                      if (skillsStr.isJson()) {
+                        try {
+                          final jsonArray = jsonDecode(skillsStr) as List;
+                          return jsonArray
+                              .map((e) => e.toString().trim())
+                              .where((e) => e.isNotEmpty)
+                              .toList();
+                        } catch (e) {
+                          // If JSON parsing fails, fall through to comma-separated
+                        }
+                      }
+                      
+                      // Handle comma-separated string format
+                      return skillsStr
+                          .split(',')
+                          .map((e) => e
+                              .replaceAll(RegExp(r'[\[\]"]'), '') // Remove brackets and quotes
+                              .replaceAll(RegExp(r',+'), ',') // Remove double commas
+                              .trim())
+                          .where((e) => e.isNotEmpty)
+                          .toList();
+                    })()
                   : [];
               final List<String> mobilityList = data.userData?.mobility != null
                   ? data.userData!.mobility!
@@ -408,6 +456,30 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                 Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_educationDisplay(data.userData!.education),
+                                    style: secondaryTextStyle(size: 12)),
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          if (data.userData?.careerLevel != null) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Career Level', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                5.height,
+                                Text(_careerLevelDisplay(data.userData!.careerLevel),
+                                    style: secondaryTextStyle(size: 12)),
+                              ],
+                            ).paddingSymmetric(horizontal: 16),
+                          ],
+                          if (data.userData?.yearsOfExperience != null && data.userData!.yearsOfExperience!.isNotEmpty) ...[
+                            15.height,
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text('Years of Experience', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                5.height,
+                                Text(_yearsOfExperienceDisplay(data.userData!.yearsOfExperience),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),
