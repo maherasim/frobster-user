@@ -1,4 +1,4 @@
-const appLogo = 'assets/images/app_logo.jpg';
+const appLogo = 'assets/images/app_logo.png';
 
 //region NewDashboard
 const grid = "assets/newDashboard/grid.png";
@@ -7,7 +7,7 @@ const ic_clock = 'assets/icons/ic_clock.png';
 const ic_close = 'assets/icons/ic_close.png';
 const ic_video = 'assets/icons/ic_video.png';
 const ic_hi = 'assets/icons/ic_hi.png';
-const imgAppLogo = 'assets/newDashboard/img_app_logo.png';
+const imgAppLogo = 'assets/images/app_logo.png';
 
 //endregion
 
