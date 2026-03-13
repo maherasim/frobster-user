@@ -1,17 +1,17 @@
 import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
-const APP_NAME = 'Frobster User';
+const APP_NAME = 'Persotel User';
 const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
 var defaultPrimaryColor = Color(0xFFE53935);
 
 
 // Don't add slash at the end of the url
 
-const DOMAIN_URL = "https://frobster.com";
+const DOMAIN_URL = "https://persotel.de";
 const BASE_URL = '$DOMAIN_URL/api/';
 
-const DEFAULT_LANGUAGE = 'en';
+const DEFAULT_LANGUAGE = 'de';
 
 /// You can change this to your Provider App package name
 /// This will be used in Registered As Partner in Sign In Screen where your users can redirect to the Play/App Store for Provider App

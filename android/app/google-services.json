@@ -62,6 +62,25 @@
           "other_platform_oauth_client": []
         }
       }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88760716486:android:cfd4016d33b0888e80dbc7",
+        "android_client_info": {
+          "package_name": "com.persotel.userapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAWSFmXUbdkkWCXfMB0VgG0-DEVFK_GT4o"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
     }
   ],
   "configuration_version": "1"

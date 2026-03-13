@@ -1,7 +1,6 @@
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/theme_selection_dialog.dart';
 import 'package:booking_system_flutter/main.dart';
-import 'package:booking_system_flutter/screens/language_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
@@ -64,22 +63,22 @@ class _SettingScreenState extends State<SettingScreen> {
                     });
                   },
                 ),
-              SettingItemWidget(
-                leading: ic_language
-                    .iconImage(
-                        size: 17,
-                        color: Theme.of(context).colorScheme.onSurfaceVariant)
-                    .paddingOnly(left: 2),
-                paddingAfterLeading: 16,
-                title: language.language,
-                trailing: trailing,
-                titleTextStyle: primaryTextStyle(),
-                onTap: () {
-                  LanguagesScreen().launch(context).then((value) {
-                    setState(() {});
-                  });
-                },
-              ),
+              // SettingItemWidget(
+              //   leading: ic_language
+              //       .iconImage(
+              //           size: 17,
+              //           color: Theme.of(context).colorScheme.onSurfaceVariant)
+              //       .paddingOnly(left: 2),
+              //   paddingAfterLeading: 16,
+              //   title: language.language,
+              //   trailing: trailing,
+              //   titleTextStyle: primaryTextStyle(),
+              //   onTap: () {
+              //     LanguagesScreen().launch(context).then((value) {
+              //       setState(() {});
+              //     });
+              //   },
+              // ),
               SettingItemWidget(
                 leading: ic_dark_mode.iconImage(
                     size: 22,

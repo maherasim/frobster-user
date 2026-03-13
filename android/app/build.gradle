@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.frobster.userapp"
+    namespace = "com.persotel.userapp"
     compileSdk = 36
     ndkVersion = "28.2.13676358"
 

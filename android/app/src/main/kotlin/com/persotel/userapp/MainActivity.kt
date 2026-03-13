@@ -1,4 +1,4 @@
-package com.frobster.userapp
+package com.persotel.userapp
 
 import io.flutter.embedding.android.FlutterActivity
 import io.flutter.embedding.android.FlutterFragmentActivity
