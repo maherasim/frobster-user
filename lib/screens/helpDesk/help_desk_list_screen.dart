@@ -98,7 +98,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
             }).launch(context);
           },
           icon: Icon(Icons.add, size: 28, color: white),
-        ).visible(rolesAndPermissionStore.helpDeskAdd),
+        ),
       ],
       showLoader: false,
       child: Stack(

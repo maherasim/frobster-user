@@ -37,15 +37,33 @@ Future<void> saveHelpDeskMultiPart(
   appStore.setLoading(true);
 
   await sendMultiPartRequest(multiPartRequest, onSuccess: (temp) async {
-    appStore.setLoading(false);
-
-    log("Response: ${jsonDecode(temp)}");
-
-    toast(jsonDecode(temp)['message'], print: true);
-    finish(getContext, true);
+    try {
+      log("Response: $temp");
+      
+      String message = 'Query submitted successfully';
+      if (temp.toString().isNotEmpty && temp.toString().isJson()) {
+        final jsonResponse = jsonDecode(temp);
+        message = jsonResponse['message']?.toString() ?? 'Query submitted successfully';
+      }
+      
+      appStore.setLoading(false);
+      toast(message, print: true);
+      
+      // Emit LiveStream to refresh help desk list
+      LiveStream().emit(LIVESTREAM_UPDATE_HELP_DESK_LIST, OPEN);
+      
+      // Close the screen
+      finish(getContext, true);
+    } catch (e) {
+      log('Error parsing response: $e');
+      appStore.setLoading(false);
+      toast('Query submitted successfully');
+      LiveStream().emit(LIVESTREAM_UPDATE_HELP_DESK_LIST, OPEN);
+      finish(getContext, true);
+    }
   }, onError: (error) {
-    toast(error.toString(), print: true);
     appStore.setLoading(false);
+    toast(error.toString(), print: true);
   }).catchError((e) {
     appStore.setLoading(false);
     toast(e.toString());

@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.frobster.user"
+    namespace = "com.frobster.userapp"
     compileSdk = 36
     ndkVersion = "28.2.13676358"
 
@@ -25,22 +25,17 @@ android {
         applicationId = android.namespace
         minSdk = 24
         targetSdk = 35
-        versionCode = 98
+        versionCode = 1
         versionName = "11.13.0"
     }
     
     signingConfigs {
         release {
-            def keystorePropertiesFile = rootProject.file("key.properties")
-            if (keystorePropertiesFile.exists()) {
-                def keystoreProperties = new Properties()
-                keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
-                
-                keyAlias = keystoreProperties['keyAlias']
-                keyPassword = keystoreProperties['keyPassword']
-                storeFile = file(keystoreProperties['storeFile'])
-                storePassword = keystoreProperties['storePassword']
-            }
+            // Direct signing configuration (no key.properties file needed)
+            keyAlias = 'upload'
+            keyPassword = 'Asim@6869rI#'
+            storeFile = file('upload-keystore.jks')
+            storePassword = 'Asim@6869rI#'
         }
     }
 

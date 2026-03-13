@@ -9,6 +9,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/chat_gpt_loder.dart';
 import '../../component/custom_image_picker.dart';
+import '../../component/gradient_button.dart';
 import '../../component/loader_widget.dart';
 import '../../utils/colors.dart';
 import '../../utils/common.dart';
@@ -71,8 +72,10 @@ class _AddHelpDeskScreenState extends State<AddHelpDeskScreen> {
                   .where((element) => !element.path.contains('http'))
                   .toList())
           .then((value) {
-        widget.callback.call(true);
+        // Callback will be triggered after screen closes
+        // Don't call here to avoid refresh issues
       }).catchError((e) {
+        appStore.setLoading(false);
         toast(e.toString());
       });
     }
@@ -167,20 +170,27 @@ class _AddHelpDeskScreenState extends State<AddHelpDeskScreen> {
                 ),
               ),
               Observer(
-                builder: (_) => AppButton(
-                  margin: EdgeInsets.only(left: 16, bottom: 16, right: 16),
-                  text: language.btnSubmit,
-                  height: 40,
-                  color: appStore.isLoading
-                      ? primaryColor.withValues(alpha: 0.5)
-                      : primaryColor,
-                  textStyle: boldTextStyle(color: white),
-                  width: context.width() - context.navigationBarHeight,
-                  onTap: appStore.isLoading
-                      ? () {}
-                      : () {
-                          checkValidation();
-                        },
+                builder: (_) => Padding(
+                  padding: EdgeInsets.only(left: 16, bottom: 16, right: 16),
+                  child: Opacity(
+                    opacity: appStore.isLoading ? 0.5 : 1.0,
+                    child: SizedBox(
+                      width: context.width() - context.navigationBarHeight,
+                      child: GradientButton(
+                        onPressed: appStore.isLoading
+                            ? () {}
+                            : () {
+                                checkValidation();
+                              },
+                        borderRadius: 12,
+                        padding: EdgeInsets.symmetric(vertical: 12),
+                        child: Text(
+                          language.btnSubmit,
+                          style: boldTextStyle(color: white, size: 14),
+                        ),
+                      ),
+                    ),
+                  ),
                 ),
               ),
             ],
