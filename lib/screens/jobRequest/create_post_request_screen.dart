@@ -35,7 +35,12 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   int currentStep = 0;
-  final List<String> _steps = const ['Basics', 'Location', 'Schedule', 'Details'];
+  final List<String> _steps = const [
+    'Grundlagen',
+    'Standort',
+    'Zeitplan',
+    'Details'
+  ];
 
   TextEditingController postTitleCont = TextEditingController();
 
@@ -1211,7 +1216,8 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     child: Center(
-                      child: Text('Back', style: boldTextStyle(color: gradientRed)),
+                      child:
+                          Text(language.back, style: boldTextStyle(color: gradientRed)),
                     ),
                   ),
                 ),
@@ -1234,7 +1240,8 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                   });
                 }
               },
-              child: Text(currentStep == _steps.length - 1 ? language.publish : 'Next'),
+              child: Text(
+                  currentStep == _steps.length - 1 ? language.publish : language.btnNext),
             ),
           ),
         ],
@@ -1271,13 +1278,13 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   String _stepHint() {
     switch (currentStep) {
       case 0:
-        return 'Add a clear title and choose category.';
+        return 'Geben Sie einen klaren Titel ein und waehlen Sie eine Kategorie.';
       case 1:
-        return 'Set where the work will happen and your address.';
+        return 'Legen Sie den Arbeitsort und Ihre Adresse fest.';
       case 2:
-        return 'Choose rate type, dates, and budget. We auto-calc totals.';
+        return 'Waehlen Sie Preisart, Termine und Budget. Summen werden automatisch berechnet.';
       case 3:
-        return 'Describe the job and attach images if helpful.';
+        return 'Beschreiben Sie den Auftrag und fuegen Sie bei Bedarf Bilder hinzu.';
       default:
         return '';
     }
@@ -1290,21 +1297,21 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         return false;
       }
       if (categoryId == null || categoryId == -1) {
-        toast('Please select category');
+        toast(language.selectCategory);
         return false;
       }
       return true;
     } else if (step == 1) {
       if (selectedCountry == null) {
-        toast('Please select country');
+        toast(language.selectCountry);
         return false;
       }
       if (stateList.isNotEmpty && selectedState == null) {
-        toast('Please select state');
+        toast(language.selectState);
         return false;
       }
       if (cityList.isNotEmpty && selectedCity == null) {
-        toast('Please select city');
+        toast(language.selectCity);
         return false;
       }
       return true;
@@ -1314,7 +1321,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         return false;
       }
       if (selStartDate.validate().isEmpty || selEndDate.validate().isEmpty) {
-        toast('Please select start and end dates');
+        toast(language.selectStartDateEndDate);
         return false;
       }
       return true;

@@ -25,8 +25,8 @@ import 'component/provider_service_component.dart';
 String _availabilityDisplay(String? raw) {
   if (raw == null || raw.isEmpty) return '';
   final v = raw.trim().toLowerCase();
-  if (v == 'full_time') return 'Full Time';
-  if (v == 'part_time') return 'Part Time';
+  if (v == 'full_time') return 'Vollzeit';
+  if (v == 'part_time') return 'Teilzeit';
   return raw.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
@@ -35,7 +35,7 @@ String _availabilityDisplay(String? raw) {
 
 /// Map backend education value (e.g. high_school_graduate) to display label (e.g. High school graduate).
 String _educationDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return 'Not Specified';
+  if (raw == null || raw.isEmpty) return 'Nicht angegeben';
   final v = raw.trim().toLowerCase();
   final level = EducationLevel.values.firstWhere(
     (e) => e.backendValue.toLowerCase() == v,
@@ -46,7 +46,7 @@ String _educationDisplay(String? raw) {
 
 /// Map backend career level value (e.g. entry_level) to display label (e.g. Entry Level).
 String _careerLevelDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return 'Not Specified';
+  if (raw == null || raw.isEmpty) return 'Nicht angegeben';
   final v = raw.trim().toLowerCase();
   final level = CareerLevel.values.firstWhere(
     (e) => e.backendValue.toLowerCase() == v,
@@ -57,7 +57,7 @@ String _careerLevelDisplay(String? raw) {
 
 /// Map backend years of experience value (e.g. less_than_1) to display label (e.g. Less than 1 Year).
 String _yearsOfExperienceDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return 'Not Specified';
+  if (raw == null || raw.isEmpty) return 'Nicht angegeben';
   final v = raw.trim().toLowerCase();
   try {
     final level = YearsOfExperience.values.firstWhere(
@@ -65,8 +65,8 @@ String _yearsOfExperienceDisplay(String? raw) {
     );
     return level.displayName;
   } catch (e) {
-    // If backend value doesn't match any enum, return "Not Specified"
-    return 'Not Specified';
+    // If backend value doesn't match any enum, return fallback.
+    return 'Nicht angegeben';
   }
 }
 
@@ -334,7 +334,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Experiences', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text('Erfahrungen', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -370,7 +370,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('Verfuegbarkeit: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                               ],
@@ -381,7 +381,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Mobility', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text('Mobilitaet', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -417,7 +417,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Certification', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text('Zertifizierungen', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -453,7 +453,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.educationLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_educationDisplay(data.userData!.education),
                                     style: secondaryTextStyle(size: 12)),
@@ -465,7 +465,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Career Level', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.careerLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_careerLevelDisplay(data.userData!.careerLevel),
                                     style: secondaryTextStyle(size: 12)),
@@ -477,7 +477,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Years of Experience', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('Berufserfahrung (Jahre)', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_yearsOfExperienceDisplay(data.userData!.yearsOfExperience),
                                     style: secondaryTextStyle(size: 12)),
@@ -490,7 +490,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Booking:',
+                                  'Buchungen:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -519,7 +519,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Total Services:',
+                                  'Gesamte Dienstleistungen:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -548,7 +548,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Completed Jobs:',
+                                  'Abgeschlossene Auftraege:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -626,7 +626,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('About Me', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('Ueber mich', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(data.userData!.aboutMe.validate(),
                                     style: secondaryTextStyle(size: 12)),

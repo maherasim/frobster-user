@@ -258,7 +258,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     final String city = bookingDetail.cityName.validate();
                     final String country = bookingDetail.countryName.validate();
                     final String label = (city.isEmpty && country.isEmpty)
-                        ? 'N/A'
+                        ? language.notAvailable
                         : '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
                     return Text(
                       label,
@@ -339,7 +339,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       spacing: 8,
                       children: [
                         Text(
-                          'Working Address: ',
+                          '${language.workingAddress}: ',
                           style: secondaryTextStyle(),
                         ),
                         8.width,
@@ -424,7 +424,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Total Price: ',
+                        '${language.totalAmount}: ',
                         style: secondaryTextStyle(),
                       ),
                       PriceWidget(
@@ -1200,7 +1200,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     color: Colors.black54,
                     child: Text(
-                      'Tap refresh to load location',
+                      'Tippen Sie auf Aktualisieren, um den Standort zu laden',
                       style: secondaryTextStyle(size: 12, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),
@@ -1682,7 +1682,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         if (buttons.isNotEmpty) buttons.add(16.width);
         buttons.add(
           AppButton(
-            text: "Rate a Service",
+            text: language.btnRate,
             color: Colors.yellow,
             textColor: Colors.black,
             onTap: () {
@@ -1787,7 +1787,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Booking Date & Slot',
+                        language.bookingDateAndSlot,
                         style: boldTextStyle(size: LABEL_TEXT_SIZE),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -1834,7 +1834,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                               Expanded(
                                 child: Marquee(
                                   child: Text(
-                                    'Payment submitted via Bank Transfer. Awaiting admin confirmation.',
+                                    language.waitingForPaymentApproval,
                                     style: boldTextStyle(size: 12),
                                   ),
                                 ),
@@ -1979,7 +1979,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                       borderRadius: radius(12),
                                     ),
                                     child: Text(
-                                      'Provider',
+                                      language.textProvider,
                                       style: secondaryTextStyle(color: white, size: 10),
                                     ),
                                   ),
@@ -2024,7 +2024,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                                       borderRadius: radius(12),
                                     ),
                                     child: Text(
-                                      'Handyman',
+                                      language.textHandyman,
                                       style: secondaryTextStyle(color: white, size: 10),
                                     ),
                                   ),

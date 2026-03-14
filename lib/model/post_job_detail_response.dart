@@ -360,7 +360,7 @@ class PostRequest {
     "status": status.backendValue,
     "provider_id": providerId,
     "remaining_percent": remainingPercent,
-    "type": type,
+    "type": type.backendValue,
     "start_date": startDate?.toIso8601String(),
     "end_date": endDate?.toIso8601String(),
     "total_budget": totalBudget,

@@ -179,8 +179,8 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
 
         // Simple attribute rows - matching reference design
         attributeRow(
-          "Job Type",
-          data.type?.displayName ?? 'N/A',
+          language.jobType,
+          data.type?.displayName ?? language.notAvailable,
           customValueWidget: data.type != null
               ? Container(
                   padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -202,21 +202,26 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         attributeRow(language.startDate, formatDate(data.startDate.validate())),
         attributeRow(language.endDate, formatDate(data.endDate.validate())),
         attributeRow(
-          "Budget/Price",
+          language.price,
           (data.price.validate()).toPriceFormat(),
         ),
-        attributeRow("Total Budget", (data.totalBudget.validate()).toPriceFormat()),
-        attributeRow("Total Days", data.totalDays?.toString() ?? '0'),
-        attributeRow("Total Hours", data.totalHours?.toString() ?? '0'),
-        attributeRow("Remote Work Level", data.remoteWorkLevel?.displayName ?? 'N/A'),
-        attributeRow("Travel Required", data.travelRequired?.displayName ?? 'N/A'),
-        attributeRow("Career Level", data.careerLevel?.displayName ?? 'N/A'),
-        attributeRow("Education Level", data.educationLevel?.displayName ?? 'N/A'),
+        attributeRow(
+            language.totalBudget, (data.totalBudget.validate()).toPriceFormat()),
+        attributeRow(language.totalDays, data.totalDays?.toString() ?? '0'),
+        attributeRow(language.totalHours, data.totalHours?.toString() ?? '0'),
+        attributeRow(language.remoteWorkLevel,
+            data.remoteWorkLevel?.displayName ?? language.notAvailable),
+        attributeRow(language.travelRequirements,
+            data.travelRequired?.displayName ?? language.notAvailable),
+        attributeRow(language.careerLevel,
+            data.careerLevel?.displayName ?? language.notAvailable),
+        attributeRow(language.educationLevel,
+            data.educationLevel?.displayName ?? language.notAvailable),
 
         // Description Section - Simple and Clean (like service detail screen)
         if (data.description.validate().isNotEmpty) ...[
           24.height,
-          Text('Description',
+          Text(language.hintDescription,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
@@ -228,7 +233,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Skills & Requirements Section - Simple and Clean
         if (data.requirement.validate().isNotEmpty) ...[
           24.height,
-          Text('Skills & Requirements',
+          Text(language.skillsAndRequirements,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
@@ -240,7 +245,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Duties & Responsibilities Section - Simple and Clean
         if (data.duties.validate().isNotEmpty) ...[
           24.height,
-          Text('Duties & Responsibilities',
+          Text(language.dutiesAndResponsibilities,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
@@ -252,7 +257,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Benefits Section - Simple and Clean
         if (data.benefits.validate().isNotEmpty) ...[
           24.height,
-          Text('Benefits',
+          Text(language.benefits,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
