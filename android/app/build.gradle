@@ -6,7 +6,7 @@ plugins {
 }
 
 android {
-    namespace = "com.persotel.userapp"
+    namespace = "de.persotel.user"
     compileSdk = 36
     ndkVersion = "28.2.13676358"
 
