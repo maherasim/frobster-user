@@ -8,66 +8,9 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:88760716486:android:a1665628dcca3fab80dbc7",
-        "android_client_info": {
-          "package_name": "com.frobster.provider"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAWSFmXUbdkkWCXfMB0VgG0-DEVFK_GT4o"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:88760716486:android:1acc9d11d6472e4580dbc7",
-        "android_client_info": {
-          "package_name": "com.frobster.user"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAWSFmXUbdkkWCXfMB0VgG0-DEVFK_GT4o"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:88760716486:android:980f9798c02e61a480dbc7",
-        "android_client_info": {
-          "package_name": "com.frobster.userapp"
-        }
-      },
-      "oauth_client": [],
-      "api_key": [
-        {
-          "current_key": "AIzaSyAWSFmXUbdkkWCXfMB0VgG0-DEVFK_GT4o"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": []
-        }
-      }
-    },
-    {
-      "client_info": {
         "mobilesdk_app_id": "1:88760716486:android:cfd4016d33b0888e80dbc7",
         "android_client_info": {
-          "package_name": "com.persotel.userapp"
+          "package_name": "de.persotel.user"
         }
       },
       "oauth_client": [],
