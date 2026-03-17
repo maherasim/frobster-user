@@ -8,6 +8,7 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
+import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -160,16 +161,16 @@ class ChangePasswordScreenState extends State<ChangePasswordScreen> {
                     labelText: language.hintReenterPasswordTxt),
               ),
               24.height,
-              AppButton(
-                text: language.confirm,
-                color: primaryColor,
-                textColor: Colors.white,
-                width: context.width() - context.navigationBarHeight,
-                onTap: () {
-                  ifNotTester(() {
-                    changePassword();
-                  });
-                },
+              SizedBox(
+                width: double.infinity,
+                child: GradientButton(
+                  onPressed: () {
+                    ifNotTester(() {
+                      changePassword();
+                    });
+                  },
+                  child: Text(language.confirm),
+                ),
               ),
               24.height,
             ],
