@@ -5,6 +5,12 @@ plugins {
     id "com.google.gms.google-services"
 }
 
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "com.frobster.frobsteruser"
     compileSdk = 36
@@ -25,17 +31,18 @@ android {
         applicationId = android.namespace
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
+        versionCode = 3
         versionName = "11.13.0"
     }
-    
+
     signingConfigs {
         release {
-            // Direct signing configuration (no key.properties file needed)
-            keyAlias = 'upload'
-            keyPassword = 'Asim@6869rI#'
-            storeFile = file('upload-keystore.jks')
-            storePassword = 'Asim@6869rI#'
+            if (keystorePropertiesFile.exists()) {
+                keyAlias = keystoreProperties["keyAlias"]
+                keyPassword = keystoreProperties["keyPassword"]
+                storeFile = file(keystoreProperties["storeFile"])
+                storePassword = keystoreProperties["storePassword"]
+            }
         }
     }
 
