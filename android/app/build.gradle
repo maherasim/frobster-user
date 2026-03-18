@@ -25,17 +25,17 @@ android {
         applicationId = android.namespace
         minSdk = 24
         targetSdk = 35
-        versionCode = 1
+        versionCode = 3  // Increment by 1 for every new Play Store upload
         versionName = "11.13.0"
     }
     
     signingConfigs {
         release {
-            // Direct signing configuration (no key.properties file needed)
+            // Germany app (de.persotel.user) – upload-keystore-germany.jks
             keyAlias = 'upload'
-            keyPassword = 'Asim@6869rI#'
-            storeFile = file('upload-keystore.jks')
-            storePassword = 'Asim@6869rI#'
+            keyPassword = 'AsimR@6869rI#'
+            storeFile = file('upload-keystore-germany.jks')
+            storePassword = 'AsimR@6869rI#'
         }
     }
 

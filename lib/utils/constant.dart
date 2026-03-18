@@ -2,7 +2,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 /// DO NOT CHANGE THIS PACKAGE NAME
 var appPackageName =
-    isAndroid ? 'com.frobster.user' : 'com.iqonic.user';
+    isAndroid ? 'de.persotel.user' : 'de.persotel.user';
 
 //region Custom Headers
 class CustomHeader {
