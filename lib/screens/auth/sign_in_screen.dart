@@ -290,6 +290,13 @@ class _SignInScreenState extends State<SignInScreen> {
       return Column(
         children: [
           20.height,
+          /*
+           * Muted social login section:
+           * - "Or continue with" divider
+           * - Sign in with Google
+           * - Sign in with OTP
+           */
+          /*
           if ((appConfigurationStore.googleLoginStatus ||
                   appConfigurationStore.otpLoginStatus) ||
               (isIOS && appConfigurationStore.appleLoginStatus))
@@ -357,6 +364,7 @@ class _SignInScreenState extends State<SignInScreen> {
               onTap: otpSignIn,
             ),
           if (appConfigurationStore.otpLoginStatus) 16.height,
+          */
           if (isIOS)
             if (appConfigurationStore.appleLoginStatus)
               AppButton(
