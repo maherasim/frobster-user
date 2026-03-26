@@ -75,7 +75,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
 
   Future<void> _handleSubmitClick() async {
     if (currentPaymentMethod == null) {
-      toast('Please select a payment method');
+      toast(language.chooseAnyOnePayment);
       return;
     }
 
@@ -314,7 +314,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
       // Validate amount
       if (widget.amount <= 0) {
         appStore.setLoading(false);
-        toast('Invalid payment amount. Please try again.');
+        toast(language.invalidPaymentAmount);
         log('PayPal Payment Error: Invalid amount - widget.amount=${widget.amount}');
         return;
       }
@@ -388,19 +388,19 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
           log('PayPal API - Missing URL: status=$status, url=$approvalUrl');
-          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+          toast(errorMsg ?? language.failedToGetPaypalUrl);
         }
       } else {
         appStore.setLoading(false);
-        toast('Invalid response from server. Please try again.');
+        toast(language.invalidResponseTryAgain);
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast('Payment endpoint not found. Please contact support.');
+        toast(language.paymentEndpointNotFound);
       } else {
-        toast('PayPal payment error: ${e.toString()}');
+        toast('${language.paypalPaymentError}: ${e.toString()}');
       }
     }
   }

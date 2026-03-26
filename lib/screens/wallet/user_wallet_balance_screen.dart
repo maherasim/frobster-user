@@ -571,10 +571,10 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
                           columns: [
-                            DataColumn(label: Text("Amount",style: boldTextStyle())),
-                            DataColumn(label: Text("Status",style: boldTextStyle())),
-                            DataColumn(label: Text("Transaction Type",style: boldTextStyle())),
-                            DataColumn(label: Text("Created At",style: boldTextStyle())),
+                            DataColumn(label: Text(language.amountLabel,style: boldTextStyle())),
+                            DataColumn(label: Text(language.lblStatus,style: boldTextStyle())),
+                            DataColumn(label: Text(language.transactionTypeLabel,style: boldTextStyle())),
+                            DataColumn(label: Text(language.createdAtLabel,style: boldTextStyle())),
                           ],
                           rows: transactionList.map((tx) {
                             Color statusColor;
@@ -587,7 +587,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                             }
                             return DataRow(
                               cells: [
-                                DataCell(Text("\$${tx.amount}")),
+                                DataCell(Text("${appConfigurationStore.currencySymbol}${tx.amount}")),
                                 DataCell(Container(
                                   decoration: BoxDecoration(
                                     color: statusColor,

@@ -2335,4 +2335,191 @@ class LanguageDe extends BaseLanguage {
   @override
   String get waitingForProviderToMarkBidAsCompleted =>
       'Warten auf Anbieter zur Markierung des Gebots als abgeschlossen';
+
+  // Bank details / profile / map (screens)
+  @override
+  String get accountHolderName => 'Name des Kontoinhabers';
+
+  @override
+  String get ibanNumber => 'IBAN-Nummer';
+
+  @override
+  String get bicSwiftCode => 'BIC / SWIFT-Code';
+
+  @override
+  String get stripeAccount => 'Stripe-Konto';
+
+  @override
+  String get companyName => 'Firmenname';
+
+  @override
+  String get vatNumberOptional => 'USt-IdNr. (optional)';
+
+  @override
+  String get selectAvailability => 'Verfügbarkeit auswählen';
+
+  @override
+  String get mobility => 'Mobilität';
+
+  @override
+  String get serviceAddress => 'Serviceadresse';
+
+  @override
+  String get knownLanguagesLabel => 'Bekannte Sprachen';
+
+  @override
+  String get essentialSkillsLabel => 'Wesentliche Fähigkeiten';
+
+  @override
+  String get experience => 'Erfahrung';
+
+  @override
+  String get yearsOfExperience => 'Jahre Erfahrung';
+
+  @override
+  String get certification => 'Zertifizierung';
+
+  @override
+  String get aboutMe => 'Über mich';
+
+  @override
+  String get mapStartLabel => 'Start';
+
+  // Booking slot / time labels
+  @override
+  String get startTime => 'Startzeit';
+
+  @override
+  String get endTime => 'Endzeit';
+
+  // Payment / webview messages
+  @override
+  String get invalidResponseTryAgain =>
+      'Ungültige Serverantwort. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get paymentEndpointNotFound =>
+      'Zahlungs-Endpunkt nicht gefunden. Bitte kontaktieren Sie den Support.';
+
+  @override
+  String get paypalErrorLoadingPage => 'Fehler beim Laden der PayPal-Seite';
+
+  @override
+  String get paymentVerificationMissingToken =>
+      'Zahlungsprüfung fehlgeschlagen: Token fehlt';
+
+  @override
+  String get verifyingPayment => 'Zahlung wird geprüft...';
+
+  @override
+  String get paymentVerificationServerError =>
+      'Zahlungsprüfung wegen Serverfehler fehlgeschlagen. Bitte prüfen Sie Ihren Zahlungsstatus oder kontaktieren Sie den Support.';
+
+  @override
+  String get paymentMayHaveBeenProcessed =>
+      'Die Zahlung wurde möglicherweise verarbeitet. Bitte prüfen Sie Ihren Zahlungsstatus.';
+
+  @override
+  String get paymentCompletedSuccessfully => 'Zahlung erfolgreich abgeschlossen';
+
+  @override
+  String get errorProcessingPayment => 'Fehler bei der Zahlungsabwicklung';
+
+  @override
+  String get failedToGetPaypalUrl =>
+      'PayPal-Zahlungslink konnte nicht abgerufen werden. Bitte versuchen Sie es erneut.';
+
+  // Chat policy
+  @override
+  String get messageHiddenDueToPolicy => 'Nachricht wegen Richtlinie ausgeblendet';
+
+  // Help desk
+  @override
+  String get querySubmittedSuccessfully => 'Anfrage erfolgreich gesendet';
+
+  // Service search / sharing / admin approval
+  @override
+  String get startSearchingYourService => 'Beginnen Sie mit der Suche nach Ihrem Service';
+
+  @override
+  String get waitingForAdminApproval => 'Warten auf Admin-Freigabe';
+
+  @override
+  String get waitingForAdminApprovalPleaseWait =>
+      'Warten auf Admin-Freigabe. Bitte warten.';
+
+  @override
+  String get invalidPaymentAmount =>
+      'Ungültiger Zahlungsbetrag. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get paypalPaymentError => 'PayPal-Zahlungsfehler';
+
+  @override
+  String get failedToShareToFacebook =>
+      'Teilen auf Facebook fehlgeschlagen. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get failedToShareToInstagram =>
+      'Teilen auf Instagram fehlgeschlagen. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get failedToShareToTwitter =>
+      'Teilen auf Twitter fehlgeschlagen. Bitte versuchen Sie es erneut.';
+
+  @override
+  String get failedToShareToLinkedIn =>
+      'Teilen auf LinkedIn fehlgeschlagen. Bitte versuchen Sie es erneut.';
+
+  // Common UI labels / placeholders (screens)
+  @override
+  String get invalidDashboardType => 'Ungültiger Dashboard-Typ';
+
+  @override
+  String get amountLabel => 'Betrag';
+
+  @override
+  String get transactionTypeLabel => 'Transaktionsart';
+
+  @override
+  String get createdAtLabel => 'Erstellt am';
+
+  @override
+  String get selectServiceAddress => 'Serviceadresse auswählen';
+
+  @override
+  String get tapToSelectLanguages => 'Tippen, um Sprachen auszuwählen';
+
+  @override
+  String get selectLanguages => 'Sprachen auswählen';
+
+  @override
+  String get essentialSkillsHint =>
+      'z.B. Fähigkeit 1, Fähigkeit 2 (durch Komma getrennt)';
+
+  @override
+  String get experienceLabel => 'Erfahrung';
+
+  @override
+  String get certificationHint =>
+      'z.B. Zertifikat 1, Zertifikat 2 (durch Komma getrennt)';
+
+  @override
+  String get titleLabel => 'Titel';
+
+  @override
+  String get locationLabel => 'Ort';
+
+  @override
+  String get employerLabel => 'Arbeitgeber';
+
+  @override
+  String get customerLabel => 'Kunde';
+
+  @override
+  String get bidCancelledDetailsUnavailable =>
+      'Dieses Gebot wurde storniert. Jobdetails sind nicht mehr verfügbar.';
+
+  @override
+  String get ratingSubmittedSuccessfully => 'Bewertung erfolgreich gesendet';
 }

@@ -228,7 +228,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           leading: ic_ticket.iconImage(
                               size: SETTING_ICON_SIZE,
                               color: Theme.of(context).colorScheme.onSurfaceVariant),
-                          title: 'My Bookings',
+                          title: language.bookingHistory,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
                               EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -285,7 +285,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
                           leading: Icon(Icons.work_outline_rounded, size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
-                          title: 'My Job Requests',
+                          title: language.myPostJobList,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
                           padding:

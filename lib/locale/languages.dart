@@ -1468,5 +1468,73 @@ abstract class BaseLanguage {
 
   String get waitingForProviderToMarkBidAsCompleted;
 
+  // Bank details / profile / map (screens)
+  String get accountHolderName;
+  String get ibanNumber;
+  String get bicSwiftCode;
+  String get stripeAccount;
+  String get companyName;
+  String get vatNumberOptional;
+  String get selectAvailability;
+  String get mobility;
+  String get serviceAddress;
+  String get knownLanguagesLabel;
+  String get essentialSkillsLabel;
+  String get yearsOfExperience;
+  String get certification;
+  String get aboutMe;
+  String get mapStartLabel;
+
+  // Booking slot / time labels
+  String get startTime;
+  String get endTime;
+
+  // Payment / webview messages
+  String get invalidResponseTryAgain;
+  String get paymentEndpointNotFound;
+  String get paypalErrorLoadingPage;
+  String get paymentVerificationMissingToken;
+  String get verifyingPayment;
+  String get paymentVerificationServerError;
+  String get paymentMayHaveBeenProcessed;
+  String get paymentCompletedSuccessfully;
+  String get errorProcessingPayment;
+  String get failedToGetPaypalUrl;
+
+  // Chat policy
+  String get messageHiddenDueToPolicy;
+
+  // Help desk
+  String get querySubmittedSuccessfully;
+
+  // Service search / sharing / admin approval
+  String get startSearchingYourService;
+  String get waitingForAdminApproval;
+  String get waitingForAdminApprovalPleaseWait;
+  String get invalidPaymentAmount;
+  String get paypalPaymentError;
+  String get failedToShareToFacebook;
+  String get failedToShareToInstagram;
+  String get failedToShareToTwitter;
+  String get failedToShareToLinkedIn;
+
+  // Common UI labels / placeholders (screens)
+  String get invalidDashboardType;
+  String get amountLabel;
+  String get transactionTypeLabel;
+  String get createdAtLabel;
+  String get selectServiceAddress;
+  String get tapToSelectLanguages;
+  String get selectLanguages;
+  String get essentialSkillsHint;
+  String get experienceLabel;
+  String get certificationHint;
+  String get titleLabel;
+  String get locationLabel;
+  String get employerLabel;
+  String get customerLabel;
+  String get bidCancelledDetailsUnavailable;
+  String get ratingSubmittedSuccessfully;
+
 
 }

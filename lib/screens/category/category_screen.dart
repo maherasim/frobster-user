@@ -241,7 +241,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                             ),
                           Spacer(),
                           PopupMenuButton<String>(
-                            tooltip: 'Sort',
+                            tooltip: language.sort,
                             onSelected: (v) {
                               _sortMode = v;
                               setState(() {});
@@ -253,7 +253,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   children: [
                                     Icon(Icons.trending_up, size: 18),
                                     8.width,
-                                    Text('Popular'),
+                                    Text(language.sortPopular),
                                   ],
                                 ),
                               ),
@@ -263,7 +263,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   children: [
                                     Icon(Icons.sort_by_alpha, size: 18),
                                     8.width,
-                                    Text('A - Z'),
+                                    Text(language.sortAZ),
                                   ],
                                 ),
                               ),
@@ -280,7 +280,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 children: [
                                   Icon(Icons.sort_rounded),
                                   6.width,
-                                  Text('Sort'),
+                                  Text(language.sort),
                                 ],
                               ),
                             ),

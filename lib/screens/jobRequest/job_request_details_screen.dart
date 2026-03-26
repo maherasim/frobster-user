@@ -139,7 +139,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         message = language.waitingForCustomerToPayAdvancePercentage;
         break;
       case RequestStatus.advancePaymentPending:
-        message = 'Waiting for admin approval';
+        message = language.waitingForAdminApproval;
         break;
       case RequestStatus.advancePaid:
         message = language.waitingForProviderToStartWork;
@@ -278,7 +278,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       8.width,
                       Expanded(
                         child: _MarqueeText(
-                          text: 'Waiting for admin approval',
+                          text: language.waitingForAdminApproval,
                           textStyle: secondaryTextStyle(color: hold, size: 14),
                           velocity: 40, // px per second
                           gap: 40,
@@ -357,13 +357,13 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.h_mobiledata,
                         iconColor: gradientRed,
-                        title: 'Title',
+                        title: language.titleLabel,
                         value: postJobDetail!.postRequest?.title?.validate() ?? 'N/A',
                       ),
                       _buildInfoCard(
                         icon: Icons.location_on,
                         iconColor: Colors.green,
-                        title: 'Location',
+                        title: language.locationLabel,
                         value: postJobDetail!.postRequest != null
                             ? "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}"
                             : 'N/A',
@@ -371,7 +371,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.business_center,
                         iconColor: _getJobTypeIconColor(postJobDetail!.postRequest?.type),
-                        title: 'Job Type nice',
+                        title: language.jobType,
                         value: (postJobDetail!.postRequest?.type != null)
                             ? postJobDetail!.postRequest!.type.displayName.validate()
                             : 'N/A',
@@ -398,7 +398,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.event_available,
                         iconColor: Colors.blue,
-                        title: 'Start Date',
+                        title: language.lblStartDate,
                         value: postJobDetail!.postRequest?.startDate != null
                             ? formatDate(
                                 postJobDetail!.postRequest?.startDate
@@ -411,7 +411,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.event_busy,
                         iconColor: Colors.red,
-                        title: 'End Date',
+                        title: language.lblEndDate,
                         value: postJobDetail!.postRequest?.endDate != null
                             ? formatDate(
                                 postJobDetail!.postRequest?.endDate
@@ -424,14 +424,14 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.person,
                         iconColor: Colors.indigo,
-                        title: 'Employer',
+                        title: language.employerLabel,
                         value:
                             postJobDetail!.provider?.displayName.validate() ?? 'N/A',
                       ),
                       _buildInfoCard(
                         icon: Icons.person_outline,
                         iconColor: Colors.green,
-                        title: 'Customer',
+                        title: language.customerLabel,
                         value:
                             postJobDetail!.customer?.displayName.validate() ?? 'N/A',
                       ),
@@ -451,7 +451,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       Icon(Icons.info_outline, size: 48, color: Colors.grey),
                       16.height,
                       Text(
-                        'This bid was cancelled. Job details are no longer available.',
+                        language.bidCancelledDetailsUnavailable,
                         style: secondaryTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -563,7 +563,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   onPressed: () async {
                     // Don't allow payment if bank transfer is awaiting approval
                     if (_isAwaitingBankTransferApproval()) {
-                      toast('Waiting for admin approval. Please wait.');
+                      toast(language.waitingForAdminApprovalPleaseWait);
                       return;
                     }
                     final bidId = postJobDetail?.id;
@@ -1464,7 +1464,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                               textCapitalization: TextCapitalization.sentences,
                               decoration: inputDecoration(
                                 context,
-                                labelText: 'Write your review here...',
+                                labelText: language.lblEnterReview,
                               ).copyWith(
                                   fillColor: appStore.isDarkMode
                                       ? context.dividerColor
@@ -1475,7 +1475,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             GradientButton(
                               onPressed: () async {
                                 if (selectedRating == 0) {
-                                  toast('Please select a rating');
+                                  toast(language.lblSelectRating);
                                   return;
                                 }
 
@@ -1510,7 +1510,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                     if (message.isNotEmpty) {
                                       toast(message);
                                     } else {
-                                      toast('Rating submitted successfully');
+                                      toast(language.ratingSubmittedSuccessfully);
                                     }
                                     Future.delayed(Duration(milliseconds: 500), () {
                                       finish(context, true);
@@ -1527,7 +1527,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                 }
                               },
                               child: Text(
-                                'Submit',
+                                language.lblSubmit,
                                 style: boldTextStyle(color: Colors.white),
                               ),
                             ).withWidth(context.width()),

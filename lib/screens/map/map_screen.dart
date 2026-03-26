@@ -76,7 +76,7 @@ class MapScreenState extends State<MapScreen> {
         markerId: MarkerId(_currentAddress),
         position: LatLng(position.latitude, position.longitude),
         infoWindow: InfoWindow(
-            title: 'Start $_currentAddress', snippet: _destinationAddress),
+            title: '${language.mapStartLabel} $_currentAddress', snippet: _destinationAddress),
         icon: BitmapDescriptor.defaultMarker,
       ));
 

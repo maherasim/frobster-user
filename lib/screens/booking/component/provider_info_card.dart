@@ -35,7 +35,7 @@ class ProviderInfoCard extends StatelessWidget {
       // mainAxisSize: MainAxisSize,
       children: [
         Text(
-          'Personal Info',
+          BaseLanguage.of(context).personalInfo,
           style: boldTextStyle(),
         ),
         Container(
@@ -46,7 +46,7 @@ class ProviderInfoCard extends StatelessWidget {
           child: Column(
             children: [
               titleWidget(
-                title: 'Skills',
+                title: BaseLanguage.of(context).essentialSkills,
                 detail: userData.skills.validate(),
                 detailTextStyle: boldTextStyle(),
               ),

@@ -122,7 +122,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
     } catch (e) {
       log('Error loading PayPal URL: $e');
       if (mounted) {
-        toast('Error loading PayPal page: ${e.toString()}');
+        toast('${language.paypalErrorLoadingPage}: ${e.toString()}');
         finish(context, false);
       }
     }
@@ -139,7 +139,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
       final payerId = uri.queryParameters['PayerID'];
       
       if (token == null || token.isEmpty) {
-        toast('Payment verification failed: Missing token');
+        toast(language.paymentVerificationMissingToken);
         finish(context, false);
         return;
       }
@@ -149,7 +149,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
       // Hide webview immediately to prevent showing raw JSON
       setState(() {
         showSuccessScreen = true;
-        successMessage = 'Verifying payment...';
+        successMessage = language.verifyingPayment;
       });
       
       // Wait a moment for the backend to process the payment
@@ -169,7 +169,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         appStore.setLoading(false);
         
         if (responseData is Map && responseData['status'] == true) {
-          final message = responseData['message'] as String? ?? 'Payment completed successfully';
+          final message = responseData['message'] as String? ?? language.paymentCompletedSuccessfully;
           paymentData = responseData['data'] as Map<String, dynamic>?;
           
           // Update success screen with actual message
@@ -216,14 +216,14 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
             showSuccessScreen = false;
           });
           
-          toast('Payment verification failed due to server error. Please check your payment status or contact support.');
+          toast(language.paymentVerificationServerError);
           finish(context, false);
         } else {
           // Other errors - might be network issues, but token exists so payment might be processed
           // Show warning but still return success (backend might have processed it)
           setState(() {
             showSuccessScreen = true;
-            successMessage = 'Payment may have been processed. Please verify your payment status.';
+            successMessage = language.paymentMayHaveBeenProcessed;
           });
           
           // Auto-close after 3 seconds with warning
@@ -251,7 +251,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         setState(() {
           showSuccessScreen = false;
         });
-        toast('Payment verification failed due to server error. Please check your payment status or contact support.');
+        toast(language.paymentVerificationServerError);
         finish(context, false);
       } else {
         // Other errors - might be network issues
@@ -260,7 +260,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
           // Token exists, payment might be processed but we can't verify
           setState(() {
             showSuccessScreen = true;
-            successMessage = 'Payment may have been processed. Please verify your payment status.';
+            successMessage = language.paymentMayHaveBeenProcessed;
           });
           
           // Auto-close after 3 seconds with warning
@@ -270,7 +270,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
             }
           });
         } else {
-          toast('Error processing payment: ${e.toString()}');
+          toast('${language.errorProcessingPayment}: ${e.toString()}');
           finish(context, false);
         }
       }
@@ -314,7 +314,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
             ),
             16.height,
             Text(
-              successMessage ?? 'Payment completed successfully',
+              successMessage ?? language.paymentCompletedSuccessfully,
               style: secondaryTextStyle(size: 16),
               textAlign: TextAlign.center,
             ).paddingSymmetric(horizontal: 32),

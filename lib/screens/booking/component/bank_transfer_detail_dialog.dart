@@ -20,7 +20,7 @@ class BankTransferDetailDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Bank Transfer Details',
+              language.bankTransferDetailsTitle,
               style: boldTextStyle(size: 16),
             ),
             GestureDetector(
@@ -40,7 +40,7 @@ class BankTransferDetailDialog extends StatelessWidget {
         if(bookingAmount != null && bookingAmount!.isNotEmpty) RichTextWidget(
           list: [
             TextSpan(
-              text: 'Please pay the amount of',
+              text: language.bankTransferPayAmountPrefix,
               style: primaryTextStyle(
                 size: 12,
                 weight: FontWeight.w600,
@@ -51,7 +51,7 @@ class BankTransferDetailDialog extends StatelessWidget {
               style: boldTextStyle(size: 14, color: context.primaryColor),
             ),
             TextSpan(
-              text: 'via bank transfer using the details below:',
+              text: language.bankTransferPayAmountSuffix,
               style: primaryTextStyle(
                 size: 12,
                 weight: FontWeight.w600,
@@ -72,16 +72,16 @@ class BankTransferDetailDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'For local and international transfers',
+                language.bankTransferLocalInternationalTitle,
                 style: boldTextStyle(size: 14),
               ),
               Divider(),
               10.height,
-              bankDetailsWidget("Recipient:","Frobster International",false),
-              bankDetailsWidget("IBAN:","DE02 1001 0178 1361 6331 79",false),
-              bankDetailsWidget("BIC:","REVODEB2",false),
-              bankDetailsWidget("Bank Name and Address:","Revolut Bank UAB, Zweigniederlassung Deutschland\nFORA Linden Palais, Unter den Linden 40\n10117, Berlin, Germany",false),
-              bankDetailsWidget("BIC of Sender Bank:","CHASDEFX",false),
+              bankDetailsWidget(language.bankTransferRecipientLabel,"Frobster International",false),
+              bankDetailsWidget(language.bankTransferIbanLabel,"DE02 1001 0178 1361 6331 79",false),
+              bankDetailsWidget(language.bankTransferBicLabel,"REVODEB2",false),
+              bankDetailsWidget(language.bankTransferBankNameAddressLabel,"Revolut Bank UAB, Zweigniederlassung Deutschland\nFORA Linden Palais, Unter den Linden 40\n10117, Berlin, Germany",false),
+              bankDetailsWidget(language.bankTransferSenderBankBicLabel,"CHASDEFX",false),
             ],
           ),
         ),
@@ -98,7 +98,7 @@ class BankTransferDetailDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'Instructions',
+                language.bankTransferInstructionsTitle,
                 style: boldTextStyle(size: 14),
               ),
               Divider(),
@@ -106,7 +106,7 @@ class BankTransferDetailDialog extends StatelessWidget {
               if(bookingId != null) RichTextWidget(
                 list: [
                   TextSpan(
-                    text: 'Mention your Booking ID',
+                    text: language.bankTransferMentionBookingIdPrefix,
                     style: primaryTextStyle(
                       size: 12,
                       weight: FontWeight.w500,
@@ -117,7 +117,7 @@ class BankTransferDetailDialog extends StatelessWidget {
                     style: boldTextStyle(size: 14, color: context.primaryColor),
                   ),
                   TextSpan(
-                    text: 'in the transfer reference.',
+                    text: language.bankTransferMentionBookingIdSuffix,
                     style: primaryTextStyle(
                       size: 12,
                       weight: FontWeight.w500,
@@ -128,7 +128,7 @@ class BankTransferDetailDialog extends StatelessWidget {
               RichTextWidget(
                 list: [
                   TextSpan(
-                    text: 'Send Proof of Payment (screenshot or pdf Document) to:',
+                    text: language.bankTransferSendProofPrefix,
                     style: primaryTextStyle(
                       size: 12,
                       weight: FontWeight.w500,

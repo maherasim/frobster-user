@@ -96,8 +96,8 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
         unselectedLabelColor: Colors.white70,
         indicatorColor: Colors.white,
         tabs: [
-          Tab(text: 'All'),
-          Tab(text: 'Open'),
+          Tab(text: language.lblAll),
+          Tab(text: language.open),
           Tab(text: language.inProgress.validate(value: 'In Progress')),
           Tab(text: language.completed.validate(value: 'Completed')),
         ],

@@ -242,7 +242,7 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                               )
                             else
                               NoDataWidget(
-                                title: 'Start searching your service',
+                                title: language.startSearchingYourService,
                                 imageWidget: EmptyStateWidget(),
                               ),
                           ],

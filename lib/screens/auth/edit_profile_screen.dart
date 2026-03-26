@@ -693,7 +693,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: emailFocus,
                   enabled: !isLoginTypeApple,
                   decoration:
-                      inputDecoration(context, labelText: 'Company Name'),
+                      inputDecoration(context, labelText: language.companyName),
                 ),
                 16.height,
                 AppTextField(
@@ -747,7 +747,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: mobileFocus,
                   enabled: !isLoginTypeApple,
                   isValidationRequired: false,
-                  decoration: inputDecoration(context, labelText: 'VAT Number (optional)'),
+                  decoration: inputDecoration(context, labelText: language.vatNumberOptional),
                 ),
                 16.height,
                 // AppTextField(
@@ -828,7 +828,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     DropdownButtonFormField<String>(
                       decoration: inputDecoration(context,
-                          labelText: 'Select Availability'),
+                          labelText: language.selectAvailability),
                       isExpanded: true,
                       initialValue: selectedAvailability,
                       dropdownColor: context.cardColor,
@@ -859,7 +859,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   errorThisFieldRequired: language.requiredText,
                   nextFocus: emailFocus,
                   enabled: !isLoginTypeApple,
-                  decoration: inputDecoration(context, labelText: 'Mobility'),
+                  decoration: inputDecoration(context, labelText: language.mobility),
                 ),
 
                 16.height,
@@ -952,12 +952,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 if (appStore.userType == USER_TYPE_HANDYMAN) ...[
                   DropdownButtonFormField<int?>(
                     decoration: inputDecoration(context,
-                        labelText: 'Service address'),
+                        labelText: language.serviceAddress),
                     isExpanded: true,
                     initialValue: serviceAddressId,
                     dropdownColor: context.cardColor,
                     items: [
-                      DropdownMenuItem<int?>(value: null, child: Text('Select Service address', style: primaryTextStyle())),
+                      DropdownMenuItem<int?>(value: null, child: Text(language.selectServiceAddress, style: primaryTextStyle())),
                       ...serviceAddressList.map((e) {
                         final id = e['id'] as int?;
                         final name = e['name'] as String?;
@@ -989,16 +989,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   onTap: isLoginTypeApple ? null : () => _showLanguagePicker(),
                   child: InputDecorator(
                     decoration: inputDecoration(context,
-                        labelText: 'Known languages',
+                        labelText: language.knownLanguagesLabel,
                         hintText: selectedLanguages.isEmpty
-                            ? 'Tap to select languages'
+                            ? language.tapToSelectLanguages
                             : null),
                     child: Row(
                       children: [
                         Expanded(
                           child: Text(
                             selectedLanguages.isEmpty
-                                ? 'Select languages'
+                                ? language.selectLanguages
                                 : selectedLanguages
                                     .map((k) =>
                                         profileLanguageOptions[k] ?? k)
@@ -1024,8 +1024,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: experienceFocus,
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
-                      labelText: 'Essential skills',
-                      hintText: 'e.g. Skill 1, Skill 2 (comma-separated)'),
+                      labelText: language.essentialSkillsLabel,
+                      hintText: language.essentialSkillsHint),
                   isValidationRequired: false,
                 ),
                 16.height,
@@ -1038,11 +1038,11 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: !isLoginTypeApple,
                   minLines: 3,
                   maxLines: 5,
-                  decoration: inputDecoration(context, labelText: 'Experience'),
+                  decoration: inputDecoration(context, labelText: language.experienceLabel),
                 ),
                 16.height,
                 DropdownButtonFormField<CareerLevel>(
-                  decoration: inputDecoration(context, labelText: 'Career level'),
+                  decoration: inputDecoration(context, labelText: language.careerLevel),
                   isExpanded: true,
                   initialValue: CareerLevel.values.contains(selectedCareerLevel) ? selectedCareerLevel : CareerLevel.notSpecified,
                   dropdownColor: context.cardColor,
@@ -1062,7 +1062,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 16.height,
                 DropdownButtonFormField<EducationLevel>(
-                  decoration: inputDecoration(context, labelText: 'Education'),
+                  decoration: inputDecoration(context, labelText: language.educationLevel),
                   isExpanded: true,
                   initialValue: EducationLevel.values.contains(selectedEducation) ? selectedEducation : EducationLevel.notSpecified,
                   dropdownColor: context.cardColor,
@@ -1082,7 +1082,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 16.height,
                 DropdownButtonFormField<YearsOfExperience>(
-                  decoration: inputDecoration(context, labelText: 'Years of experience'),
+                  decoration: inputDecoration(context, labelText: language.yearsOfExperience),
                   isExpanded: true,
                   initialValue: selectedYearsOfExperience,
                   dropdownColor: context.cardColor,
@@ -1108,8 +1108,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: aboutMeFocus,
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
-                      labelText: 'Certification',
-                      hintText: 'e.g. Cert 1, Cert 2 (comma-separated)'),
+                      labelText: language.certification,
+                      hintText: language.certificationHint),
                   isValidationRequired: false,
                 ),
                 16.height,
@@ -1120,7 +1120,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   errorThisFieldRequired: language.requiredText,
                   enabled: !isLoginTypeApple,
                   maxLines: 4,
-                  decoration: inputDecoration(context, labelText: 'About me'),
+                  decoration: inputDecoration(context, labelText: language.aboutMe),
                 ),
                 40.height,
                 GradientButton(

@@ -31,7 +31,7 @@ class _FilterCountryComponentState extends State<FilterCityComponent> {
   Widget build(BuildContext context) {
     if (widget.cityList.isEmpty)
       return NoDataWidget(
-        title: 'No City Found',
+        title: BaseLanguage.of(context).noCityFound,
         imageWidget: EmptyStateWidget(),
       );
 

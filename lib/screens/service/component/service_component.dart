@@ -140,7 +140,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to Facebook: $e');
-      toast('Failed to share to Facebook. Please try again.');
+      toast(language.failedToShareToFacebook);
     }
   }
 
@@ -159,7 +159,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to Instagram: $e');
-      toast('Failed to share to Instagram. Please try again.');
+      toast(language.failedToShareToInstagram);
     }
   }
 
@@ -178,7 +178,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to Twitter: $e');
-      toast('Failed to share to Twitter. Please try again.');
+      toast(language.failedToShareToTwitter);
     }
   }
 
@@ -197,7 +197,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to LinkedIn: $e');
-      toast('Failed to share to LinkedIn. Please try again.');
+      toast(language.failedToShareToLinkedIn);
     }
   }
 
@@ -217,7 +217,7 @@ class ServiceComponentState extends State<ServiceComponent> {
           case DASHBOARD_4:
             return ServiceDashboardComponent4(serviceData: widget.serviceData);
           default:
-            return Center(child: Text("Invalid Dashboard Type"));
+            return Center(child: Text(language.invalidDashboardType));
         }
       });
     }

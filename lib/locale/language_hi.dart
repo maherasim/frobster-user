@@ -2301,4 +2301,180 @@ class LanguageHi extends BaseLanguage {
   @override
   String get waitingForProviderToMarkBidAsCompleted => 'प्रदाता के बोली को पूरा के रूप में चिह्नित करने की प्रतीक्षा कर रहा है';
 
+  // Bank details / profile / map (screens) - fallback English
+  @override
+  String get accountHolderName => 'Account Holder Name';
+
+  @override
+  String get ibanNumber => 'IBAN Number';
+
+  @override
+  String get bicSwiftCode => 'BIC / SWIFT Code';
+
+  @override
+  String get stripeAccount => 'Stripe Account';
+
+  @override
+  String get companyName => 'Company Name';
+
+  @override
+  String get vatNumberOptional => 'VAT Number (optional)';
+
+  @override
+  String get selectAvailability => 'Select Availability';
+
+  @override
+  String get mobility => 'Mobility';
+
+  @override
+  String get serviceAddress => 'Service address';
+
+  @override
+  String get knownLanguagesLabel => 'Known languages';
+
+  @override
+  String get essentialSkillsLabel => 'Essential skills';
+
+  @override
+  String get experience => 'Experience';
+
+  @override
+  String get yearsOfExperience => 'Years of experience';
+
+  @override
+  String get certification => 'Certification';
+
+  @override
+  String get aboutMe => 'About me';
+
+  @override
+  String get mapStartLabel => 'Start';
+
+  // Booking slot / time labels - fallback English
+  @override
+  String get startTime => 'Start Time';
+
+  @override
+  String get endTime => 'End Time';
+
+  // Payment / webview messages - fallback English
+  @override
+  String get invalidResponseTryAgain => 'Invalid response from server. Please try again.';
+
+  @override
+  String get paymentEndpointNotFound => 'Payment endpoint not found. Please contact support.';
+
+  @override
+  String get paypalErrorLoadingPage => 'Error loading PayPal page';
+
+  @override
+  String get paymentVerificationMissingToken => 'Payment verification failed: Missing token';
+
+  @override
+  String get verifyingPayment => 'Verifying payment...';
+
+  @override
+  String get paymentVerificationServerError =>
+      'Payment verification failed due to server error. Please check your payment status or contact support.';
+
+  @override
+  String get paymentMayHaveBeenProcessed =>
+      'Payment may have been processed. Please verify your payment status.';
+
+  @override
+  String get paymentCompletedSuccessfully => 'Payment completed successfully';
+
+  @override
+  String get errorProcessingPayment => 'Error processing payment';
+
+  @override
+  String get failedToGetPaypalUrl => 'Failed to get PayPal payment URL. Please try again.';
+
+  // Chat policy - fallback English
+  @override
+  String get messageHiddenDueToPolicy => 'Message hidden due to policy';
+
+  // Help desk - fallback English
+  @override
+  String get querySubmittedSuccessfully => 'Query submitted successfully';
+
+  // Service search / sharing / admin approval - fallback English
+  @override
+  String get startSearchingYourService => 'Start searching your service';
+
+  @override
+  String get waitingForAdminApproval => 'Waiting for admin approval';
+
+  @override
+  String get waitingForAdminApprovalPleaseWait =>
+      'Waiting for admin approval. Please wait.';
+
+  @override
+  String get invalidPaymentAmount => 'Invalid payment amount. Please try again.';
+
+  @override
+  String get paypalPaymentError => 'PayPal payment error';
+
+  @override
+  String get failedToShareToFacebook => 'Failed to share to Facebook. Please try again.';
+
+  @override
+  String get failedToShareToInstagram => 'Failed to share to Instagram. Please try again.';
+
+  @override
+  String get failedToShareToTwitter => 'Failed to share to Twitter. Please try again.';
+
+  @override
+  String get failedToShareToLinkedIn => 'Failed to share to LinkedIn. Please try again.';
+
+  // Common UI labels / placeholders (screens) - fallback English
+  @override
+  String get invalidDashboardType => 'Invalid Dashboard Type';
+
+  @override
+  String get amountLabel => 'Amount';
+
+  @override
+  String get transactionTypeLabel => 'Transaction Type';
+
+  @override
+  String get createdAtLabel => 'Created At';
+
+  @override
+  String get selectServiceAddress => 'Select Service address';
+
+  @override
+  String get tapToSelectLanguages => 'Tap to select languages';
+
+  @override
+  String get selectLanguages => 'Select languages';
+
+  @override
+  String get essentialSkillsHint => 'e.g. Skill 1, Skill 2 (comma-separated)';
+
+  @override
+  String get experienceLabel => 'Experience';
+
+  @override
+  String get certificationHint => 'e.g. Cert 1, Cert 2 (comma-separated)';
+
+  @override
+  String get titleLabel => 'Title';
+
+  @override
+  String get locationLabel => 'Location';
+
+  @override
+  String get employerLabel => 'Employer';
+
+  @override
+  String get customerLabel => 'Customer';
+
+  @override
+  String get bidCancelledDetailsUnavailable =>
+      'This bid was cancelled. Job details are no longer available.';
+
+  @override
+  String get ratingSubmittedSuccessfully => 'Rating submitted successfully';
+
 }

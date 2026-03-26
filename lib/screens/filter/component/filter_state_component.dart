@@ -26,7 +26,7 @@ class _FilterStateComponentState extends State<FilterStateComponent> {
   Widget build(BuildContext context) {
     if (widget.stateList.isEmpty) {
       return NoDataWidget(
-        title: 'No State Found',
+        title: BaseLanguage.of(context).noStateFound,
         imageWidget: EmptyStateWidget(),
       );
     }

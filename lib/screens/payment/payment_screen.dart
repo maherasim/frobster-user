@@ -423,19 +423,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
         } else {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
-          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+          toast(errorMsg ?? language.failedToGetPaypalUrl);
         }
       } else {
         appStore.setLoading(false);
-        toast('Invalid response from server. Please try again.');
+        toast(language.invalidResponseTryAgain);
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast('Payment endpoint not found. Please contact support.');
+        toast(language.paymentEndpointNotFound);
       } else {
-        toast('PayPal payment error: ${e.toString()}');
+        toast('${language.paypalPaymentError}: ${e.toString()}');
       }
     }
   }
