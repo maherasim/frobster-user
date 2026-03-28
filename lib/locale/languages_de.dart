@@ -3,13 +3,13 @@ import 'languages.dart';
 
 class LanguageDe extends BaseLanguage {
   @override
-  String get walkTitle1 => 'Erstellen und richten Sie Ihr Konto ein';
+  String get walkTitle1 => 'Konto erstellen und einrichten';
 
   @override
-  String get walkTitle2 => 'Durchsuchen und buchen Sie Dienste';
+  String get walkTitle2 => 'Services durchsuchen und buchen';
 
   @override
-  String get walkTitle3 => 'Verfolgen und verwalten Sie Ihre Buchungen';
+  String get walkTitle3 => 'Buchungen verfolgen und verwalten';
 
   @override
   String get getStarted => "Loslegen";
@@ -18,35 +18,35 @@ class LanguageDe extends BaseLanguage {
   String get signIn => "Einloggen";
 
   @override
-  String get signUp => "Anmeldung";
+  String get signUp => "Kostenlos Anmelden";
 
   @override
-  String get hintFirstNameTxt => "Geben Sie Ihren Vornamen ein";
+  String get hintFirstNameTxt => "Vornamen eingeben";
 
   @override
-  String get hintLastNameTxt => "Geben Sie Ihren Nachnamen ein";
+  String get hintLastNameTxt => "Nachnamen eingeben";
 
   @override
-  String get hintContactNumberTxt => "Geben Sie Ihre Kontaktnummer ein";
+  String get hintContactNumberTxt => " Kontaktnummer eingeben";
 
   @override
-  String get hintEmailAddressTxt => "Geben sie ihre E-Mailadresse ein";
+  String get hintEmailAddressTxt => "E-Mailadresse eingeben";
 
   @override
   String get hintUserNameTxt => 'Nutzername';
 
   @override
-  String get hintPasswordTxt => "Geben Sie Ihr Passwort ein";
+  String get hintPasswordTxt => "Passwort eingeben";
 
   @override
   String get hintReenterPasswordTxt =>
-      "Wiederhole die Eingabe deines Passwortes";
+      "Passwortes wiederholen";
 
   @override
-  String get confirm => "Bestätigen Sie";
+  String get confirm => "Bestätigen";
 
   @override
-  String get hintEmailTxt => "Geben sie ihre E-Mail Adresse ein";
+  String get hintEmailTxt => "E-Mail Adresse eingeben";
 
   @override
   String get forgotPassword => "Passwort vergessen?";
@@ -55,13 +55,13 @@ class LanguageDe extends BaseLanguage {
   String get alreadyHaveAccountTxt => "Sie haben bereits ein Konto?";
 
   @override
-  String get rememberMe => "Erinnere dich an mich";
+  String get rememberMe => "Mich erinnere";
 
   @override
   String get resetPassword => "Passwort zurücksetzen";
 
   @override
-  String get dashboard => "Armaturenbrett";
+  String get dashboard => "Dashboorad";
 
   @override
   String get editProfile => "Profil bearbeiten";
@@ -85,7 +85,7 @@ class LanguageDe extends BaseLanguage {
   String get termsCondition => "Allgemeine Geschäftsbedingungen";
 
   @override
-  String get helpSupport => "Hilfe Unterstützung";
+  String get helpSupport => "Hilfe";
 
   @override
   String get privacyPolicy => "Datenschutz-Bestimmungen";
@@ -97,16 +97,16 @@ class LanguageDe extends BaseLanguage {
   String get logout => "Ausloggen";
 
   @override
-  String get chooseTheme => "Wählen Sie das App-Thema";
+  String get chooseTheme => "App-Thema auswählen";
 
   @override
   String get selectCountry => "Land auswählen";
 
   @override
-  String get selectState => "Staat wählen";
+  String get selectState => "Staat auswählen";
 
   @override
-  String get selectCity => "Stadt wählen";
+  String get selectCity => "Stadt auswählen";
 
   @override
   String get changePassword => "Passwort ändern";
@@ -118,13 +118,13 @@ class LanguageDe extends BaseLanguage {
   String get doNotHaveAccount => "Ich habe kein Konto?";
 
   @override
-  String get hintNewPasswordTxt => "Gib dein neues Passwort ein";
+  String get hintNewPasswordTxt => "Passwort eingeben";
 
   @override
-  String get hintOldPasswordTxt => "Geben Sie Ihr altes Passwort ein";
+  String get hintOldPasswordTxt => "Altes Passwort eingeben";
 
   @override
-  String get hintAddress => "Geben Sie Ihre Adresse ein";
+  String get hintAddress => "Adresse eingeben";
 
   @override
   String get lblGallery => "Galerie";
@@ -133,28 +133,28 @@ class LanguageDe extends BaseLanguage {
   String get yourReview => "Deine Bewertung";
 
   @override
-  String get review => "Rezensionen";
+  String get review => "Bewertung";
 
   @override
-  String get hintDescription => "Geben Sie Ihre Beschreibung ein";
+  String get hintDescription => "Beschreibung eingeben";
 
   @override
   String get lblApply => "Anwenden";
 
   @override
-  String get bookTheService => "Buchen Sie den Service.";
+  String get bookTheService => "Service Buchen.";
 
   @override
   String get contactAdmin => "Bitte wenden Sie sich an den Administrator";
 
   @override
-  String get allServices => "Alle dienstleistungen.";
+  String get allServices => "Alle Services.";
 
   @override
   String get duration => "Dauer";
 
   @override
-  String get hourly => "stündlich";
+  String get hourly => "stunde";
 
   @override
   String get payment => "Zahlung";
@@ -163,7 +163,7 @@ class LanguageDe extends BaseLanguage {
   String get done => "Fertig";
 
   @override
-  String get lblConfirmJobDone => "Job erledigt bestätigen";
+  String get lblConfirmJobDone => "Bestätige: Auftrag abgeschlossen";
 
   @override
   String get totalAmount => "Gesamtsumme";
@@ -172,10 +172,10 @@ class LanguageDe extends BaseLanguage {
   String get applyCoupon => "Gutschein anwenden.";
 
   @override
-  String get priceDetail => "Preisdetails.";
+  String get priceDetail => "Honorar Details.";
 
   @override
-  String get home => "Heim";
+  String get home => "Home";
 
   @override
   String get category => "Kategorien";
@@ -184,7 +184,7 @@ class LanguageDe extends BaseLanguage {
   String get booking => "Buchung";
 
   @override
-  String get lblJob => 'Arbeit';
+  String get lblJob => 'Aufträge';
 
   @override
   String get profile => "Profil";
@@ -193,14 +193,14 @@ class LanguageDe extends BaseLanguage {
   String get lblAlertBooking => 'Möchten Sie den Service buchen?';
 
   @override
-  String get serviceName => "Dienstname";
+  String get serviceName => "Servicename";
 
   @override
-  String get service => "Dienstleistungen";
+  String get service => "Services";
 
   @override
   String get lblCancelReason =>
-      "Bitte geben Sie den Grund ein, um diese Buchung zu stornieren.";
+      "Bitte Grund eingeben, um diese Buchung zu stornieren.";
 
   @override
   String get enterReason => "Grund hier angeben";
@@ -230,7 +230,7 @@ class LanguageDe extends BaseLanguage {
   String get appThemeDefault => "Systemfehler";
 
   @override
-  String get markAsRead => "Markiere alle als gelesen";
+  String get markAsRead => "Alle als gelesen markieren";
 
   @override
   String get lblYes => "Jawohl";
@@ -246,15 +246,15 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get walkThrough1 =>
-      'Registrieren Sie sich oder melden Sie sich mit Ihren E-Mail- oder Social-Media-Profilen bei Ihrem Konto an. Die Vervollständigung Ihres Profils sorgt für ein reibungsloses Buchungserlebnis.';
+      'Registrieren Sie sich oder melden Sie sich mit Ihren E-Mail-Profilen bei Ihrem Konto an. Die Vervollständigung Ihres Profils sorgt für ein reibungsloses Buchungserlebnis.';
 
   @override
   String get walkThrough2 =>
-      'Entdecken Sie die große Auswahl an Dienstleistungen in Ihrer Nähe. Wählen Sie einen Dienst aus, wählen Sie ein passendes Zeitfenster und geben Sie Ihre Standortdaten an, um schnell und einfach einen Dienst zu buchen.';
+      'Entdecken Sie die große Auswahl an Services in Ihrer Nähe. Wählen Sie einen Service aus, wählen Sie ein passendes Zeitfenster und geben Sie Ihre Standortdaten an, um schnell und einfach einen Freiberufler zu buchen.';
 
   @override
   String get walkThrough3 =>
-      'Verfolgen Sie Ihren Servicestatus in Echtzeit. Sehen und verwalten Sie Ihre aktuellen und vergangenen Buchungen. Verschieben oder stornieren Sie anstehende Dienste mühelos.';
+      'Verfolgen Sie Ihren Servicestatus in Echtzeit. Sehen und verwalten Sie Ihre aktuellen und vergangenen Buchungen. Verschieben oder stornieren Sie anstehende Buchungen mühelos.';
 
   @override
   String get lblNotification => "Benachrichtigungen";
@@ -273,10 +273,10 @@ class LanguageDe extends BaseLanguage {
   String get notAvailable => "Nicht verfügbar";
 
   @override
-  String get lblFavorite => "Lieblingsdienste";
+  String get lblFavorite => "Liebling Services";
 
   @override
-  String get lblChat => "Plaudern";
+  String get lblChat => "Chat";
 
   @override
   String get getLocation => "Standort erhalten";
@@ -285,39 +285,39 @@ class LanguageDe extends BaseLanguage {
   String get setAddress => "Adresse einstellen";
 
   @override
-  String get requiredText => "Trường này là bắt buộc";
+  String get requiredText => "Diese Angabe ist erforderlich";
 
   @override
-  String get phnRequiredText => "Vui lòng nhập số điện thoại di động";
+  String get phnRequiredText => "diese Angabe is pflichtig";
 
   @override
   String get lblCall => "Anruf";
 
   @override
-  String get lblRateHandyman => "Bewerten Sie Handwerker";
+  String get lblRateHandyman => "Freiberufler Bewerten";
 
   @override
   String get msgForLocationOn =>
-      'Ihr Standort ist eingeschaltet. Sehen Sie sich die Dienste fort, die in allen Bereichen verfügbar sind?';
+      'Ihr Standort ist eingeschaltet. Sehen Sie sich Freiberufler fort, die in allen Bereichen verfügbar sind?';
 
   @override
   String get msgForLocationOff =>
-      'Ihr Standort ist ausgeschaltet. Entdecken und finden Sie in Ihrem ausgewählten Bereich zur Verfügung stehenden Dienste.';
+      'Ihr Standort ist ausgeschaltet. Entdecken und finden Sie in Ihrem ausgewählten Bereich zur Verfügung stehenden Services.';
 
   @override
-  String get lblEnterPhnNumber => "Trage deine Telefonnummer ein";
+  String get lblEnterPhnNumber => "Tel. Nr. eingeben";
 
   @override
   String get btnSendOtp => "Senden Sie OTP.";
 
   @override
-  String get lblLocationOff => "Alle Dienstleistungen verfügbar.";
+  String get lblLocationOff => "Alle Services verfügbar.";
 
   @override
   String get lblAppSetting => "App-Einstellung.";
 
   @override
-  String get lblSubTotal => "Steuerbetrag";
+  String get lblSubTotal => "Steuersatz";
 
   @override
   String get lblImage => "Bild";
@@ -340,7 +340,7 @@ class LanguageDe extends BaseLanguage {
   String get lblLoginTitle => "Hallo wieder ";
 
   @override
-  String get lblLoginSubTitle => "Willkommen zurück, Sie wurden lange vermisst";
+  String get lblLoginSubTitle => "Hallo und Willkommen zurück, Sie wurden lange vermisst";
 
   @override
   String get lblOrContinueWith => "Oder fortfahren";
@@ -353,28 +353,28 @@ class LanguageDe extends BaseLanguage {
       'Erstellen Sie Ihr Konto für eine bessere Erfahrung';
 
   @override
-  String get lblStepper1Title => "Geben Sie die Detailinformationen ein";
+  String get lblStepper1Title => "Detailinfos eingeben";
 
   @override
-  String get lblDateAndTime => "Datum (und Uhrzeit:";
+  String get lblDateAndTime => "Datum und Uhrzeit:";
 
   @override
-  String get chooseDateAndTime => 'Wählen Sie Datum und Uhrzeit';
+  String get chooseDateAndTime => 'Datum und Uhrzeit auswählen';
 
   @override
   String get lblYourAddress => "Deine Adresse";
 
   @override
-  String get lblEnterYourAddress => "Geben Sie Ihre Adresse ein";
+  String get lblEnterYourAddress => "Adresse eingeben";
 
   @override
-  String get lblUseCurrentLocation => "Verwenden Sie den aktuellen Standort";
+  String get lblUseCurrentLocation => "Deine aktueller Standort verwenden";
 
   @override
   String get lblEnterDescription => "Beschreibung eingeben";
 
   @override
-  String get lblPrice => "Preis";
+  String get lblPrice => "Honorar";
 
   @override
   String get lblTax => "Steuer";
@@ -389,10 +389,10 @@ class LanguageDe extends BaseLanguage {
   String get lblPrevious => "Vorherige";
 
   @override
-  String get lblCoupon => "Coupon";
+  String get lblCoupon => "Gutscheine";
 
   @override
-  String get lblEditYourReview => "Bearbeiten Sie Ihre Bewertung.";
+  String get lblEditYourReview => "Bewertung bearbeiten.";
 
   @override
   String get lblTime => "Zeit";
@@ -405,7 +405,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get lblConfirmMsg =>
-      "Möchten Sie diese Buchung sicher, dass Sie diese Buchung bestätigen möchten?";
+      "Möchten Sie diese Buchung wirklich bestätigen?";
 
   @override
   String get lblCancel => "Stornieren";
@@ -432,25 +432,25 @@ class LanguageDe extends BaseLanguage {
   String get lblDate => "Datum";
 
   @override
-  String get lblAboutHandyman => "Über Handwerker.";
+  String get lblAboutHandyman => "Über Freiberufler.";
 
   @override
-  String get lblAboutProvider => "Über den Anbieter.";
+  String get lblAboutProvider => "Über Freiberufler.";
 
   @override
   String get lblNotRatedYet => "Sie haben noch nicht bewertet";
 
   @override
-  String get lblDeleteReview => "Überprüfung löschen";
+  String get lblDeleteReview => "Bewertung löschen";
 
   @override
   String get lblConfirmReviewSubTitle => 'Möchten Sie diese Bewertung löschen?';
 
   @override
-  String get lblConfirmService => 'Möchten Sie diesen Gottesdienst abhalten?';
+  String get lblConfirmService => 'Möchten Sie diesen Service bestätigen?';
 
   @override
-  String get lblConFirmResumeService => 'Möchten Sie diesen Dienst fortsetzen?';
+  String get lblConFirmResumeService => 'Möchten Sie diesen Service fortfahren?';
 
   @override
   String get lblEndServicesMsg => "Möchten Sie diesen Service beenden?";
@@ -468,13 +468,13 @@ class LanguageDe extends BaseLanguage {
   String get lblResume => "Fortsetzen";
 
   @override
-  String get lblPayNow => "Zahlen Sie jetzt";
+  String get lblPayNow => "Jetzt bezahlen";
 
   @override
   String get lblCheckStatus => "Status überprüfen";
 
   @override
-  String get lblID => "ICH WÜRDE";
+  String get lblID => "ID";
 
   @override
   String get lblNoBookingsFound => "Keine Buchungen gefunden";
@@ -486,16 +486,16 @@ class LanguageDe extends BaseLanguage {
   String get lblYourComment => "Dein Kommentar";
 
   @override
-  String get lblIntroducingCustomerRating => "Einführung der Kundenbewertung.";
+  String get lblIntroducingCustomerRating => "Einführung in Kundenbewertung.";
 
   @override
-  String get lblSeeYourRatings => "Sehen Sie Ihre Bewertungen an";
+  String get lblSeeYourRatings => "Bewertungen ansehen";
 
   @override
-  String get lblFeatured => "Vorgestellt";
+  String get lblFeatured => "Exklusiv";
 
   @override
-  String get lblNoServicesFound => "Keine Dienste gefunden";
+  String get lblNoServicesFound => "Keine Service gefunden";
 
   @override
   String get lblGENERAL => "ALLGEMEINES";
@@ -507,7 +507,7 @@ class LanguageDe extends BaseLanguage {
   String get lblPurchaseCode => "Vollständiger Quellcode kaufen";
 
   @override
-  String get lblNoRateYet => "Derzeit haben Sie keine Dienste bewertet";
+  String get lblNoRateYet => "Derzeit haben Sie keine Service bewertet";
 
   @override
   String get lblMemberSince => "Mitglied seit";
@@ -531,7 +531,7 @@ class LanguageDe extends BaseLanguage {
   String get lblNoPayments => "Keine Zahlungen";
 
   @override
-  String get lblPayWith => "Möchten Sie mit zahlen?";
+  String get lblPayWith => "Möchten Sie bezahlen?";
 
   @override
   String get payWith => "Bezahlen mit";
@@ -540,7 +540,7 @@ class LanguageDe extends BaseLanguage {
   String get lblYourRating => "Deine Bewertung";
 
   @override
-  String get lblEnterReview => "Geben Sie Ihre Bewertung ein (optional)";
+  String get lblEnterReview => "Bewertung eingeben";
 
   @override
   String get lblDelete => "Löschen";
@@ -552,35 +552,35 @@ class LanguageDe extends BaseLanguage {
   String get lblSelectRating => 'Bewertung ist erforderlich';
 
   @override
-  String get lblNoServiceRatings => "Keine Service-Ratings";
+  String get lblNoServiceRatings => "Keine Service-Bewertung";
 
   @override
   String get lblSearchFor => "Suchen nach";
 
   @override
-  String get lblRating => "Nennen";
+  String get lblRating => "Bewertung";
 
   @override
   String get lblAvailableAt => "Verfügbar um";
 
   @override
-  String get lblRelatedServices => "Zugehörige Dienstleistungen.";
+  String get lblRelatedServices => "Zugehörige Services.";
 
   @override
-  String get lblBookNow => "buchen Sie jetzt";
+  String get lblBookNow => "Jetzt buchen";
 
   @override
   String get lblWelcomeToHandyman => "Willkommen bei $APP_NAME.";
 
   @override
   String get lblWalkThroughSubTitle =>
-      "$APP_NAME Service - On-Demand-Home Services-App mit vollständiger Lösung";
+      "$APP_NAME Service - All-In-One Freiberufler-App mit vollständiger Lösung";
 
   @override
-  String get textHandyman => "Handyman";
+  String get textHandyman => "Freiberufler";
 
   @override
-  String get lblChooseFromMap => "Wähle aus der Karte";
+  String get lblChooseFromMap => "Aus der Karte auswählen";
 
   @override
   String get lblDeleteAddress => "Adresse löschen";
@@ -595,13 +595,13 @@ class LanguageDe extends BaseLanguage {
   String get lblServiceFaq => "Service-FAQs.";
 
   @override
-  String get lblLogoutTitle => "Oh nein, du gehst!";
+  String get lblLogoutTitle => "Oh nein, schade du gehst!";
 
   @override
   String get lblLogoutSubTitle => "Möchten Sie sich abmelden?";
 
   @override
-  String get lblFeaturedProduct => "Dies ist ein Produkt";
+  String get lblFeaturedProduct => "Exklusive Services";
 
   @override
   String get lblAlert => "Alarm";
@@ -613,7 +613,7 @@ class LanguageDe extends BaseLanguage {
   String get lblInvalidCoupon => "Gutscheincode ist ungültig";
 
   @override
-  String get lblSelectCode => "Bitte wählen Sie den Gutscheincode aus";
+  String get lblSelectCode => "Bitte Gutscheincode auswählen";
 
   @override
   String get lblBackPressMsg => "Drücken Sie erneut, um die App zu verlassen";
@@ -622,7 +622,7 @@ class LanguageDe extends BaseLanguage {
   String get lblHour => "Stunde";
 
   @override
-  String get lblHelplineNumber => "Helpline -Nummer";
+  String get lblHelplineNumber => "Helpline Nr.";
 
   @override
   String get lblSubcategories => "Unterkategorien";
@@ -635,7 +635,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get lblWalkThrough0 =>
-      "Handwerkerservice - On -Demand Home Services App mit komplette Lösung";
+      "Freiberufler - All-In-One Services App mit komplette Lösung";
 
   @override
   String get lblServiceTotalTime => "Service Gesamtzeit";
@@ -645,13 +645,13 @@ class LanguageDe extends BaseLanguage {
       'Ihr Buchungsdatum und Ihre Uhrzeit wurden erfolgreich abgeschlossen';
 
   @override
-  String get lblSelectDate => "Bitte wählen Sie Datum Uhrzeit";
+  String get lblSelectDate => "Bitte Datum Uhrzeit auswählen";
 
   @override
   String get lblReasonCancelling => "Grund:";
 
   @override
-  String get lblReasonRejecting => "Grund für die Ablehnung dieser Buchung";
+  String get lblReasonRejecting => "Stornogrund für dieser Buchung";
 
   @override
   String get lblFailed => "Grund, warum diese Buchung gescheitert ist";
@@ -661,14 +661,14 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get lblMaterialTheme =>
-      "Aktivieren Sie das Material, das Sie Themen haben";
+      "Themen aktivieren";
 
   @override
-  String get lblServiceProof => "Service -Beweis";
+  String get lblServiceProof => "Servicenachweis";
 
   @override
   String get lblAndroid12Support =>
-      "Diese Aktion startet Ihre App neu. Bestätigen Sie?";
+      "Diese Aktion startet Ihre App neu. Bitte bestätigen?";
 
   @override
   String get lblOff => "Rabatt";
@@ -695,7 +695,7 @@ class LanguageDe extends BaseLanguage {
   String get lblCatchUpAfterAWhile => "Nach einer Weile aufholen";
 
   @override
-  String get lblId => "Ausweis";
+  String get lblId => "ID";
 
   @override
   String get lblMethod => "Methode";
@@ -714,7 +714,7 @@ class LanguageDe extends BaseLanguage {
       "Ihr Konto wird dauerhaft gelöscht. Ihre Daten werden nicht wieder wiederhergestellt.";
 
   @override
-  String get lblAutoSliderStatus => "Auto -Slider -Status";
+  String get lblAutoSliderStatus => "Auto Slider Status";
 
   @override
   String get lblPickAddress => "Adresse auswählen";
@@ -723,13 +723,13 @@ class LanguageDe extends BaseLanguage {
   String get lblUpdateDateAndTime => "Datum und Uhrzeit aktualisieren";
 
   @override
-  String get lblRecheck => "Überprüfung";
+  String get lblRecheck => "Überprüfen";
 
   @override
   String get lblLoginAgain => "Bitte melden Sie sich erneut an";
 
   @override
-  String get lblUpdate => "Aktualisieren";
+  String get lblUpdate => "Update";
 
   @override
   String get lblNewUpdate => "Neues Update";
@@ -745,24 +745,24 @@ class LanguageDe extends BaseLanguage {
       "ist verfügbar. Möchten sie updaten?";
 
   @override
-  String get lblRegisterAsPartner => "Registrieren Sie sich als Partner";
+  String get lblRegisterAsPartner => "Als Partner Registrieren";
 
   @override
   String get lblSignInWithApple => "Melden Sie sich mit Apple an";
 
   @override
   String get lblWaitingForProviderApproval =>
-      "Warten auf die Genehmigung von Anbietern";
+      "Warte auf Genehmigung des Freiberufler";
 
   @override
-  String get lblFree => "unbezahlt";
+  String get lblFree => "Kostenlos";
 
   @override
   String get lblAppleSignInNotAvailable =>
       "Apple Signin ist für Ihr Gerät nicht verfügbar";
 
   @override
-  String get lblTotalExtraCharges => "Gesamt zusätzliche Gebühren";
+  String get lblTotalExtraCharges => "Gesamt Extrakosten";
 
   @override
   String get lblWaitingForResponse => "Auf Rückantwort warten";
@@ -771,15 +771,15 @@ class LanguageDe extends BaseLanguage {
   String get lblAll => "Alle";
 
   @override
-  String get noConversation => "Kein Gespräch";
+  String get noConversation => "Kein Chat";
 
   @override
   String get noConversationSubTitle =>
-      "Sie haben noch kein Gespräch geführt. Bitte buchen Sie einen Dienst, um mit einem Anbieter zu chatten.";
+      "Sie haben noch kein Gespräch geführt. Bitte buchen Sie einen Service, um mit einem Freiberufler zu chatten.";
 
   @override
   String get noBookingSubTitle =>
-      "Sieht so aus, als hätten Sie Ihre Bestellung noch nicht gebucht";
+      "Sieht so aus, als hätten Sie Ihren Service noch nicht gebucht";
 
   @override
   String get myReviews => "Meine Bewertungen";
@@ -791,34 +791,34 @@ class LanguageDe extends BaseLanguage {
   String get noProviderFound => "Kein Anbieter gefunden";
 
   @override
-  String get createServiceRequest => "Serviceanfrage erstellen";
+  String get createServiceRequest => "Service erstellen";
 
   @override
-  String get chooseImages => "Wählen Sie Bilder";
+  String get chooseImages => "Bilder auswählen";
 
   @override
-  String get serviceDescription => "Leistungsbeschreibung";
+  String get serviceDescription => "Service Infos";
 
   @override
   String get addNewService => "Neuen Service hinzufügen";
 
   @override
-  String get newPostJobRequest => 'Neue Jobanfrage stellen';
+  String get newPostJobRequest => 'Neue Auftrag erstellen';
 
   @override
-  String get postJobTitle => "Post -Berufsbezeichnung";
+  String get postJobTitle => "Job-Auftrag Titel";
 
   @override
-  String get postJobDescription => "Post -Job -Beschreibung";
+  String get postJobDescription => "Auftrag-Beschreibung";
 
   @override
-  String get services => "Dienstleistungen";
+  String get services => "Services";
 
   @override
-  String get myPostJobList => "Meine individuelle Jobanfrage";
+  String get myPostJobList => "Meine Aufträge";
 
   @override
-  String get requestNewJob => "Fordern Sie einen neuen Job an";
+  String get requestNewJob => "Neuer Job-Auftrag";
 
   @override
   String get noNotifications => "Keine Benachrichtigungen";
@@ -829,44 +829,44 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get noFavouriteSubTitle =>
-      "Ihre Lieblingsdienste werden hier erscheinen";
+      "Ihre LieblingsService werden hier erscheinen";
 
   @override
   String get termsConditionsAccept =>
-      "Bitte akzeptieren Sie Allgemeine Geschäftsbedingungen";
+      "Bitte Allgemeine Geschäftsbedingungen akzeptieren";
 
   @override
   String get disclaimer => "Haftungsausschluss";
 
   @override
   String get disclaimerContent =>
-      "Sie werden nach Abschluss Ihrer Buchung um Zahlung gefragt.";
+      "Sie werden nach Abschluss Ihrer Buchung nach Zahlung gefragt.";
 
   @override
   String get inputMustBeNumberOrDigit =>
-      'Die Eingabe muss Anzahl oder Ziffer sein';
+      'Eingabe muss Anzahl oder Ziffer sein';
 
   @override
-  String get requiredAfterCountryCode => 'nach Ländercode erforderlich';
+  String get requiredAfterCountryCode => 'Nach Ländercode erforderlich';
 
   @override
   String get selectedOtherBookingTime =>
-      'Die ausgewählte Buchungszeit ist bereits übergeben. Bitte wählen Sie ein anderes Mal.';
+      'Ausgewählte Buchungszeit ist bereits vergeben. Bitte wählen Sie ein anderes Mal.';
 
   @override
-  String get myServices => 'Meine Dienstleistungen';
+  String get myServices => 'Meine Services';
 
   @override
   String get doYouWantToAssign => 'Möchten Sie zuweisen?';
 
   @override
-  String get bidPrice => 'Angebotspreis';
+  String get bidPrice => 'Angebot €';
 
   @override
   String get accept => 'Annehmen';
 
   @override
-  String get price => 'Preis';
+  String get price => 'Honorar';
 
   @override
   String get remove => 'Entfernen';
@@ -879,32 +879,32 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get createPostJobWithoutSelectService =>
-      'Sie können keinen Postjob erstellen, ohne den Service auszuwählen';
+      'Sie können keinen Auftrag erstellen, ohne einen Service auszuwählen';
 
   @override
-  String get selectCategory => 'Kategorie wählen';
+  String get selectCategory => 'Kategorie auswählen';
 
   @override
-  String get pleaseAddImage => 'Bitte fügen Sie Bild hinzu';
+  String get pleaseAddImage => 'Bitte Bild hinzufügen';
 
   @override
   String get selectedBookingTimeIsAlreadyPassed =>
-      'Die ausgewählte Buchungszeit ist bereits übergeben. Bitte wählen Sie ein anderes Mal.';
+      'Die ausgewählte Buchungszeit ist bereits vergeben. Bitte wählen Sie ein anderes Mal.';
 
   @override
-  String get jobPrice => 'Arbeitspreis';
+  String get jobPrice => 'Extrakosten';
 
   @override
-  String get estimatedPrice => 'Schätzpreis';
+  String get estimatedPrice => 'Geschätztes €';
 
   @override
-  String get bidder => 'Bieter';
+  String get bidder => 'Bewerber';
 
   @override
-  String get assignedProvider => 'Zugewiesener Anbieter';
+  String get assignedProvider => 'Zugewiesener Freiberufler';
 
   @override
-  String get myPostDetail => 'Mein Postdetail';
+  String get myPostDetail => 'Mein Jobdetail';
 
   @override
   String get thankYou => 'Danke schön!';
@@ -916,46 +916,46 @@ class LanguageDe extends BaseLanguage {
   String get goToHome => 'Zur Startseite';
 
   @override
-  String get goToReview => 'Gehen Sie zur Überprüfung';
+  String get goToReview => 'Zu Review gehen';
 
   @override
   String get noServiceAdded => 'Kein Service hinzugefügt';
 
   @override
-  String get noPostJobFound => 'Kein Postjob gefunden';
+  String get noPostJobFound => 'Keine Aufträge gefunden';
 
   @override
   String get noPostJobFoundSubtitle =>
-      'Wenn Sie Ihren Job veröffentlichen, wird jeder Anbieter benachrichtigt, und Sie können Ihren gewünschten Anbieter auswählen, um den Job zu erledigen.';
+      'Wenn Sie Ihren Auftrag veröffentlichen, wird jeder Anbieter benachrichtigt. Passende Freiberufler werden sich vorstellen und erklären, warum sie für den Auftrag geeignet sind';
 
   @override
-  String get pleaseEnterValidOTP => 'Bitte geben Sie gültige OTP ein';
+  String get pleaseEnterValidOTP => 'Bitte gültige OTP eingeben';
 
   @override
-  String get confirmOTP => 'Bestätigen Sie OTP';
+  String get confirmOTP => 'OTP Bestätigen';
 
   @override
-  String get sendingOTP => 'Senden von OTP';
+  String get sendingOTP => 'OTP Senden';
 
   @override
   String get pleaseSelectDifferentSlotThenPrevious =>
-      'Bitte wählen Sie einen anderen Slot als vorherige Slot';
+      'Bitte einen anderen Zeitfenster als vorherige auswählen';
 
   @override
   String get pleaseSelectTheSlotsFirst =>
-      'Bitte wählen Sie zuerst die Slots aus';
+      'Bitte zuerst Zeitfenster auswählen';
 
   @override
-  String get editTimeSlotsBooking => 'Zeitfenster bearbeiten Buchung';
+  String get editTimeSlotsBooking => 'Zeitplan bearbeiten';
 
   @override
-  String get availableSlots => 'Verfügbare Plätze';
+  String get availableSlots => 'Verfügbare Zeitplan';
 
   @override
-  String get noTimeSlots => 'Keine Zeitfenster';
+  String get noTimeSlots => 'Keine Zeitplan';
 
   @override
-  String get bookingDateAndSlot => 'Ooking Date & Slot';
+  String get bookingDateAndSlot => 'Buchung Datum & Zeit';
 
   @override
   String get extraCharges => 'Extrakosten';
@@ -968,7 +968,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get jobRequestSubtitle =>
-      'Finden Sie Ihren Service nicht? Machen Sie sich keine Sorgen, Sie können Ihre Anforderungen veröffentlichen.';
+      'Sie finden keine passenden Service? Machen Sie sich keine Sorgen, Sie können einen Auftrag KOSTENLOS veröffentlichen.';
 
   @override
   String get verified => 'Verifiziert';
@@ -979,7 +979,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get otpCodeIsSentToYourMobileNumber =>
-      'OTP -Code wird an Ihre Handynummer gesendet';
+      'OTP -Code wird an Ihre Persotel gesendet';
 
   @override
   String get yourPaymentFailedPleaseTryAgain =>
@@ -987,7 +987,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get yourPaymentHasBeenMadeSuccessfully =>
-      'Ihre Zahlung wurde erfolgreich geleistet';
+      'Ihre Zahlung wurde erfolgreich durchgeführt';
 
   @override
   String get transactionFailed => 'Transaktion fehlgeschlagen';
@@ -996,7 +996,7 @@ class LanguageDe extends BaseLanguage {
   String get lblStep3 => 'Schritt 3';
 
   @override
-  String get lblAvailableOnTheseDays => 'An diesen Tagen erhältlich';
+  String get lblAvailableOnTheseDays => 'An diesen Tagen verfügbar';
 
   @override
   String get internetNotAvailable => 'Ihr Internet scheint offline zu sein';
@@ -1008,22 +1008,22 @@ class LanguageDe extends BaseLanguage {
   String get somethingWentWrong => 'Etwas ist schief gelaufen';
 
   @override
-  String get postJob => 'Postjob';
+  String get postJob => 'Aufträge';
 
   @override
   String get package => 'Paket';
 
   @override
-  String get frequentlyBoughtTogether => 'Wird oft zusammen gekauft';
+  String get frequentlyBoughtTogether => 'Wird oft zusammen gebucht';
 
   @override
   String get endOn => 'Endet auf';
 
   @override
-  String get buy => 'Kaufen';
+  String get buy => 'Buchen';
 
   @override
-  String get includedServices => 'Eingeschlossene Dienstleistungen';
+  String get includedServices => 'Inklusive Services';
 
   @override
   String get includedInThisPackage => 'In diesem Paket enthalten';
@@ -1033,7 +1033,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get getTheseServiceWithThisPackage =>
-      'Sie erhalten diese Dienste mit diesem Paket';
+      'Sie erhalten diese Service mit diesem Paket';
 
   @override
   String get lblNotValidUser => 'Sie sind kein gültiger Benutzer';
@@ -1045,7 +1045,7 @@ class LanguageDe extends BaseLanguage {
   String get lblChangeCountry => 'Land ändern';
 
   @override
-  String get lblTimeSlotNotAvailable => 'Dieser Slot ist nicht verfügbar';
+  String get lblTimeSlotNotAvailable => 'Dieser Zeitfenster ist nicht verfügbar';
 
   @override
   String get lblAdd => 'hinzufügen';
@@ -1061,16 +1061,16 @@ class LanguageDe extends BaseLanguage {
   String get lblSignInFailed => 'Anmeldung fehlgeschlagen';
 
   @override
-  String get lblUserCancelled => 'Benutzer abgesagt';
+  String get lblUserCancelled => 'Benutzer storniert';
 
   @override
-  String get lblTransactionCancelled => 'Transaktion abgesagt';
+  String get lblTransactionCancelled => 'Transaktion storniert';
 
   @override
   String get lblExample => 'Beispiel';
 
   @override
-  String get lblCheckOutWithCinetPay => 'Kasse mit Cinetpay';
+  String get lblCheckOutWithCinetPay => 'Bezahlen mit Cinetpay';
 
   @override
   String get lblLocationPermissionDenied =>
@@ -1082,7 +1082,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get lblEnableLocation =>
-      'Bitte stellen Sie sicher, dass Standortdienste aktiviert sind.';
+      'Bitte stellen Sie sicher, dass Standort-Service aktiviert sind.';
 
   @override
   String get lblNoUserFound => 'Kein Benutzer gefunden';
@@ -1095,29 +1095,29 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get lblConfirmationForDeleteMsg =>
-      'Möchten Sie die Nachricht löschen?';
+      'Möchten Sie diese Nachricht löschen?';
 
   @override
-  String get favouriteProvider => 'Lieblingsanbieter';
+  String get favouriteProvider => 'Liebling Profis';
 
   @override
   String get noProviderFoundMessage =>
       'Ihre Lieblingsanbieter werden hier erscheinen';
 
   @override
-  String get personalInfo => 'Persönliche Informationen';
+  String get personalInfo => 'Persönliche Infos';
 
   @override
-  String get essentialSkills => 'Essenzielle Fähigkeiten';
+  String get essentialSkills => 'Fähigkeiten';
 
   @override
-  String get knownLanguages => 'Bekannte Sprachen';
+  String get knownLanguages => 'Sprachen';
 
   @override
   String get authorBy => 'Autor von';
 
   @override
-  String get views => 'Ansichten';
+  String get views => 'Views';
 
   @override
   String get blogs => 'Blogs';
@@ -1130,14 +1130,14 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get invoiceSubTitle =>
-      'Geben Sie die E -Mail -Adresse ein, an der Sie Ihre Rechnung erhalten möchten';
+      'Geben Sie die E-Mail-Adresse ein, an der Sie Ihre Rechnung erhalten möchten';
 
   @override
   String get sentInvoiceText =>
-      'Bitte überprüfen Sie Ihre E -Mails, die wir in Ihrer E -Mail -Rechnungen gesendet haben.';
+      'Bitte überprüfen Sie Ihre E-Mails, an die wir die Rechnungen gesendet haben.';
 
   @override
-  String get send => 'Schicken';
+  String get send => 'Senden';
 
   @override
   String get published => 'Veröffentlicht';
@@ -1152,10 +1152,10 @@ class LanguageDe extends BaseLanguage {
   String get accepted => 'Akzeptiert';
 
   @override
-  String get onGoing => 'Beim Gehen';
+  String get onGoing => 'Im Gange';
 
   @override
-  String get inProgress => 'Im Gange';
+  String get inProgress => 'Im Progress';
 
   @override
   String get cancelled => 'Abgesagt';
@@ -1170,7 +1170,7 @@ class LanguageDe extends BaseLanguage {
   String get completed => 'Vollendet';
 
   @override
-  String get pendingApproval => 'Ausstehende Genehmigung';
+  String get pendingApproval => 'Genehmigung Ausstehend';
 
   @override
   String get waiting => 'Warten';
@@ -1179,11 +1179,11 @@ class LanguageDe extends BaseLanguage {
   String get paid => 'Bezahlt';
 
   @override
-  String get advancePaid => 'Vorab bezahlt';
+  String get advancePaid => 'Anzalung OK';
 
   @override
   String get insufficientBalanceMessage =>
-      'Sie haben eine unzureichende Balance in Ihrer Brieftasche. Bitte wählen Sie eine andere Methode.';
+      'Sie haben eine unzureichende Balance in Ihrer Geldbörse. Bitte wählen Sie eine andere Methode.';
 
   @override
   String get cinetPayNotSupportedMessage =>
@@ -1193,27 +1193,27 @@ class LanguageDe extends BaseLanguage {
   String get loading => 'Wird geladen..';
 
   @override
-  String get walletBalance => 'Brieftaschenbalance';
+  String get walletBalance => 'Geldbörse';
 
   @override
-  String get payAdvance => 'Voraus bezahlen';
+  String get payAdvance => 'Anzahlen';
 
   @override
   String get advancePaymentMessage =>
       'Nehmen Sie eine Vorauszahlung vor, um eine Buchung abzuschließen';
 
   @override
-  String get advancePayAmount => 'Vorauszahlungsbetrag';
+  String get advancePayAmount => 'Anzahlungsbetrag';
 
   @override
   String get remainingAmount => 'Restbetrag';
 
   @override
-  String get advancePayment => 'Vorauszahlung';
+  String get advancePayment => 'Anzahlung';
 
   @override
   String get withExtraAndAdvanceCharge =>
-      'Mit zusätzlicher Gebühr und Vorauszahlung';
+      'Mit Extrakosten und Anzahlung';
 
   @override
   String get withExtraCharge => 'Mit zusätzlicher Gebühr';
@@ -1240,13 +1240,13 @@ class LanguageDe extends BaseLanguage {
   String get payWithFlutterWave => 'Mit Flutterwave bezahlen';
 
   @override
-  String get goodMorning => 'Guten Morgen';
+  String get goodMorning => 'Hallo und Guten Morgen';
 
   @override
-  String get goodAfternoon => 'Guten Tag';
+  String get goodAfternoon => 'Hallo und Guten Tag';
 
   @override
-  String get goodEvening => 'Guten Abend';
+  String get goodEvening => 'Hallo und Guten Abend';
 
   @override
   String get invalidURL => 'ungültige URL';
@@ -1276,22 +1276,22 @@ class LanguageDe extends BaseLanguage {
   String get badGateway => 'Bad Gateway';
 
   @override
-  String get serviceUnavailable => 'Dienst nicht verfügbar';
+  String get serviceUnavailable => 'Service nicht verfügbar';
 
   @override
   String get gatewayTimeout => 'Gateway Timeout';
 
   @override
-  String get pleaseWait => 'Warten Sie mal';
+  String get pleaseWait => 'Bitte Warten';
 
   @override
-  String get externalWallet => 'Außenbrieftasche';
+  String get externalWallet => 'Geldbörse';
 
   @override
   String get userNotFound => 'Benutzer nicht gefunden';
 
   @override
-  String get requested => 'Angefordert';
+  String get requested => 'Offen';
 
   @override
   String get assigned => 'Zugewiesen';
@@ -1305,10 +1305,10 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get noDataFoundInFilter =>
-      'Wählen Sie die besten Filterkriterien, um die besten Ergebnisse zu erzielen';
+      'Besten Filterkriterien auswählen, um die besten Ergebnisse zu erzielen';
 
   @override
-  String get addYourCountryCode => 'Fügen Sie Ihren Ländercode hinzu';
+  String get addYourCountryCode => 'Ländercode hinzufügen';
 
   @override
   String get help => 'Hilfe';
@@ -1319,21 +1319,21 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get priceAmountValidationMessage =>
-      'Der Preisbetrag sollte verstreut sein als 0';
+      'Der Betrag muss > als 0 sein';
 
   @override
   String get pleaseWaitWhileWeLoadChatDetails =>
-      'Bitte warten Sie, während wir Chat -Details laden';
+      'Bitte warten, während wir Chat Details laden';
 
   @override
   String get isNotAvailableForChat => 'ist nicht für den Chat verfügbar';
 
   @override
   String get connectWithFirebaseForChat =>
-      'Connectez-vous avec Firebase pour le chat';
+      'Verbinde dich mit Firebase für den Chat';
 
   @override
-  String get closeApp => 'Close App';
+  String get closeApp => 'App schließen';
 
   @override
   String get providerAddedToFavourite =>
@@ -1358,20 +1358,20 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get pleaseChooseAnyOnePayment =>
-      'Bitte wählen Sie eine Zahlungsmethode aus';
+      'Bitte Zahlungsmethode auswählen';
 
   @override
-  String get myWallet => 'Mein Geldbeutel';
+  String get myWallet => 'Mein Geldbörse';
 
   @override
-  String get balance => 'Gleichgewicht';
+  String get balance => 'Guthaben';
 
   @override
-  String get topUpWallet => 'Top-up-Brieftasche';
+  String get topUpWallet => 'Geldbörse auffüllen';
 
   @override
   String get topUpAmountQuestion =>
-      'Mit welcher Menge würden Sie lieber auffüllen?';
+      'Mit welche Betrag würden Sie lieber auffüllen?';
 
   @override
   String get paymentMethod => 'Bezahlverfahren';
@@ -1381,10 +1381,10 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get selectYourPaymentMethodToAddBalance =>
-      'Wählen Sie Ihre Zahlungsmethode aus, um den Guthaben hinzuzufügen';
+      'Zahlungsmethode auswählen, um Guthaben hinzuzufügen';
 
   @override
-  String get proceedToTopUp => 'Fahren Sie mit der Aufladung fort';
+  String get proceedToTopUp => 'Mit Aufladung fortfahren';
 
   @override
   String get serviceAddedToFavourite =>
@@ -1405,18 +1405,18 @@ class LanguageDe extends BaseLanguage {
   String get close => 'Schließen';
 
   @override
-  String get totalAmountShouldBeMoreThan => 'Gesamtbetrag sollte mehr als sein';
+  String get totalAmountShouldBeMoreThan => 'Gesamtbetrag sollte mehr als';
 
   @override
   String get totalAmountShouldBeLessThan =>
-      'Die Gesamtmenge sollte geringer sein als';
+      'Gesamtbetrag sollte geringer als';
 
   @override
   String get doYouWantToTopUpYourWallet =>
-      'Möchten Sie jetzt Ihre Brieftasche auffüllen?';
+      'Möchten Sie jetzt Ihre Geldbörse auffüllen?';
 
   @override
-  String get chooseYourLocation => 'Wähle deinen Standort';
+  String get chooseYourLocation => 'Standort auswählen';
 
   @override
   String get connect => 'Verbinden';
@@ -1425,7 +1425,7 @@ class LanguageDe extends BaseLanguage {
   String get transactionId => 'Transaktions-ID';
 
   @override
-  String get at => 'bei';
+  String get at => 'am';
 
   @override
   String get appliedTaxes => 'Angewandte Steuern';
@@ -1435,7 +1435,7 @@ class LanguageDe extends BaseLanguage {
       'Zugriff abgelehnt. Wenden Sie sich an Ihren Administrator, um Unterstützung zu erhalten.';
 
   @override
-  String get yourWalletIsUpdated => 'Ihre Brieftasche ist aktualisiert!';
+  String get yourWalletIsUpdated => 'Ihre Geldbörse ist aktualisiert!';
 
   @override
   String get by => 'von';
@@ -1447,7 +1447,7 @@ class LanguageDe extends BaseLanguage {
   String get theAmountShouldBeEntered => 'Der Betrag sollte eingegeben werden';
 
   @override
-  String get walletHistory => 'Brieftaschengeschichte';
+  String get walletHistory => 'Geldbörse Verlauf';
 
   @override
   String get debit => 'Lastschrift';
@@ -1467,7 +1467,7 @@ class LanguageDe extends BaseLanguage {
       'Bitte stellen Sie sicher, dass Sie mindestens einen Buchungsstatus auswählen';
 
   @override
-  String get clearFilter => 'Klaren Filter';
+  String get clearFilter => 'Filter Klären';
 
   @override
   String get bookingStatus => 'Buchungsstatus';
@@ -1479,13 +1479,13 @@ class LanguageDe extends BaseLanguage {
   String get serviceAddOns => 'Service-Add-Ons';
 
   @override
-  String get turnOn => 'Anmachen';
+  String get turnOn => 'Anschalten';
 
   @override
   String get turnOff => 'Abschalten';
 
   @override
-  String get serviceVisitType => 'Type de visite de service';
+  String get serviceVisitType => 'Service-Art';
 
   @override
   String get thisServiceIsOnlineRemote =>
@@ -1493,7 +1493,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get deleteMessageForAddOnService =>
-      'Voulez-vous supprimer ce service complémentaire?';
+      'Möchten Sie diesen Zusatz-Service entfernen??';
 
   @override
   String get confirmation => 'Bestätigung!';
@@ -1528,10 +1528,10 @@ class LanguageDe extends BaseLanguage {
   String get coupons => 'Gutscheine';
 
   @override
-  String get handymanList => 'Handwerkerliste';
+  String get handymanList => 'mein Team';
 
   @override
-  String get noHandymanFound => 'Kein Handwerker gefunden';
+  String get noHandymanFound => 'Kein Freiberufler gefunden';
 
   @override
   String get back => 'Zurück';
@@ -1541,30 +1541,30 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get whyChooseMeAs =>
-      'Warum wählen Sie mich als Ihren vertrauenswürdigen Dienstleister?';
+      'Warum mich auswählen als Ihren vertrauenswürdigen Dienstleister?';
 
   @override
   String get reason => 'Grund';
 
   @override
   String get pleaseEnterAddressAnd =>
-      'Bitte geben Sie Adresse und Buchungsdatum und Slot ein';
+      'Bitte Adresse, Buchungsdatum und Zeitfentser eingeben';
 
   @override
-  String get pleaseEnterYourAddress => 'Bitte geben Sie Ihre Adresse ein';
+  String get pleaseEnterYourAddress => 'Bitte Adresse eingeben';
 
   @override
   String get pleaseSelectBookingDate =>
-      'Bitte wählen Sie Buchungsdatum und Slot';
+      'Bitte Buchungsdatum und Zeitfenster auswählen';
 
   @override
   String get doYouWantTo => 'Möchten Sie diesen Gutschein entfernen?';
 
   @override
-  String get chooseDateTime => 'Wählen Sie Datum und Uhrzeit';
+  String get chooseDateTime => 'Datum und Uhrzeit auswählen';
 
   @override
-  String get airtelMoneyPayment => 'Airtel -Geldzahlung';
+  String get airtelMoneyPayment => 'Airtel-Zahlung';
 
   @override
   String get recommendedForYou => 'für dich empfohlen';
@@ -1597,7 +1597,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get theUserHasExceeded =>
-      'Der Benutzer hat seine von der Brieftasche zugelassene Transaktionsgrenze überschritten';
+      'Der Benutzer hat seine von der Geldbörse zugelassene Transaktionsgrenze überschritten';
 
   @override
   String get theAmountUserIs =>
@@ -1609,11 +1609,11 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get transactionInPendingState =>
-      'Transaktion im ausstehenden Zustand. Bitte überprüfen Sie nach einiger Zeit';
+      'Transaktion im ausstehenden Zustand. Bitte nach kurzer Zeit überprüfen';
 
   @override
   String get userWalletDoesNot =>
-      'Benutzerbrieftasche hat nicht genug Geld, um den zahlenden Betrag abzudecken';
+      'Geldbörse: Guthaben reicht nicht aus, um den Betrag abzudecken';
 
   @override
   String get theTransactionWasRefused => 'Die Transaktion wurde abgelehnt';
@@ -1652,7 +1652,7 @@ class LanguageDe extends BaseLanguage {
   String get ambiguous => 'Mehrdeutig';
 
   @override
-  String get success => 'Erfolg';
+  String get success => 'Erfolgreich';
 
   @override
   String get incorrectPin => 'Falsche Pin';
@@ -1662,29 +1662,29 @@ class LanguageDe extends BaseLanguage {
       'Überschreitet die Auszahlungsbetragsgrenze (en) / Abhebungsbetragsgrenze überschritten';
 
   @override
-  String get invalidAmount => 'Ungültige Menge';
+  String get invalidAmount => 'Ungültiger Betrag';
 
   @override
-  String get transactionIdIsInvalid => 'Die Transaktions -ID ist ungültig';
+  String get transactionIdIsInvalid => 'Die Transaktions-ID ist ungültig';
 
   @override
-  String get inProcess => 'In Bearbeitung';
+  String get inProcess => 'Im Prozess';
 
   @override
-  String get notEnoughBalance => 'Nicht genug Gleichgewicht';
+  String get notEnoughBalance => 'Nicht genug Guthaben';
 
   @override
   String get refused => 'Abgelehnt';
 
   @override
-  String get doNotHonor => 'Nicht ehren';
+  String get doNotHonor => 'Nicht honoriert';
 
   @override
   String get transactionNotPermittedTo =>
       'Transaktion nicht dem Zahlungsempfänger gestattet';
 
   @override
-  String get transactionTimedOut => 'Transaktionszeitpunkt';
+  String get transactionTimedOut => 'Transaktionszeit aus';
 
   @override
   String get transactionNotFound => 'Transaktion nicht gefunden';
@@ -1720,11 +1720,11 @@ class LanguageDe extends BaseLanguage {
       'Im Moment keine Gutscheine. Schauen Sie weiter nach exklusiven Angeboten zurück!';
 
   @override
-  String get refundPolicy => 'Rückgaberecht';
+  String get refundPolicy => 'Rückerstattungsrichtlinie';
 
   @override
   String get chooseAnyOnePayment =>
-      'Wählen Sie zuerst eine Zahlungsmethode aus';
+      'Zuerst Zahlungsmethode auswählen';
 
   @override
   String get january => 'Januar';
@@ -1772,7 +1772,7 @@ class LanguageDe extends BaseLanguage {
   String get tue => 'Di';
 
   @override
-  String get wed => 'Heiraten';
+  String get wed => 'Mi';
 
   @override
   String get thu => 'Do';
@@ -1784,13 +1784,13 @@ class LanguageDe extends BaseLanguage {
   String get sat => 'Sa';
 
   @override
-  String get sun => 'Sonne';
+  String get sun => 'So';
 
   @override
   String get weekName => 'Wochenname';
 
   @override
-  String get removeThisFile => 'Entfernen Sie diese Datei';
+  String get removeThisFile => 'Datei Entfernen';
 
   @override
   String get areYouSureWantToRemoveThisFile =>
@@ -1801,14 +1801,14 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get youAreNotConnectedWithChatServer =>
-      'Stellen Sie eine Verbindung zum Chat-Server her';
+      'Eine Verbindung zum Chat-Server herstellen';
 
   @override
   String get NotConnectedWithChatServerMessage =>
       'Sie sind nicht mit dem Chatserver verbunden. Tippen Sie auf die Schaltfläche unten, um eine Verbindung herzustellen und mit dem Chatten zu beginnen';
 
   @override
-  String get sentYouAMessage => 'Schickte dir eine Nachricht';
+  String get sentYouAMessage => 'Hat dir eine Nachricht geschickt';
 
   @override
   String get pushNotification => 'Push-Benachrichtigung';
@@ -1817,14 +1817,14 @@ class LanguageDe extends BaseLanguage {
   String get yourBooking => 'Ihre Buchung';
 
   @override
-  String get featuredServices => 'Besondere Dienstleistungen';
+  String get featuredServices => 'Exklusive Services';
 
   @override
   String get postYourRequestAnd =>
-      'Veröffentlichen Sie Ihre Anfrage und wir werden unser Bestes tun, um sie zu erfüllen';
+      'Veröffentlichen Sie Ihre Auträge und wir werden unser Bestes tun, um sie zu erfüllen';
 
   @override
-  String get newRequest => 'Neue Anfrage';
+  String get newRequest => 'Neuer Auftrag';
 
   @override
   String get upcomingBooking => 'Bevorstehende Buchung';
@@ -1834,21 +1834,21 @@ class LanguageDe extends BaseLanguage {
       'Der Benutzer hat die Verwendung der Spracherkennung abgelehnt';
 
   @override
-  String get helloGuest => 'Hallo Gast';
+  String get helloGuest => 'Halli Hallo Gast';
 
   @override
   String get eGCleaningPlumberPest =>
-      'z.B. Reinigung, Klempner, Schädlingsbekämpfung';
+      'z.B. Elektriker, Kellner, Receptionist';
 
   @override
   String get ifYouDidnTFind =>
-      'Wenn Sie unseren Service nicht gefunden haben, machen Sie sich keine Sorgen! Sie können Ihre Anfrage ganz einfach posten.';
+      'Jetzt kostenlos Ihren Auftrag inserieren und Angebote einholen.';
 
   @override
-  String get popularServices => 'Beliebte Dienste';
+  String get popularServices => 'Beliebte Services';
 
   @override
-  String get canTFindYourServices => 'Sie können Ihre Dienste nicht finden?';
+  String get canTFindYourServices => 'Sie können den passenden Service nicht finden?';
 
   @override
   String get trackProviderLocation =>
@@ -1856,25 +1856,25 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get trackHandymanLocation =>
-      'Verfolgen Sie den Standort des Handwerkers';
+      'Verfolgen Sie den Standort des Mitarbeiters';
 
   @override
-  String get handymanLocation => 'Handwerkerstandort';
+  String get handymanLocation => 'MA-Standort';
 
   @override
-  String get providerLocation => 'Standort des Anbieters';
+  String get providerLocation => 'Anbieter Standort';
 
   @override
   String get lastUpdatedAt => 'Zuletzt aktualisiert unter:';
 
   @override
-  String get track => 'Schiene';
+  String get track => 'Track';
 
   @override
-  String get handymanReached => 'Handwerker erreicht? Klicken Sie zum Starten';
+  String get handymanReached => 'Freiberufler Angekommen? Klicken Sie zum Starten';
 
   @override
-  String get providerReached => 'Anbieter erreicht? Klicken Sie zum Starten';
+  String get providerReached => 'Auftragnehmer angekommen? Klicken Sie zum Starten';
 
   @override
   String get lblBankDetails => "Bankdaten";
@@ -1892,22 +1892,22 @@ class LanguageDe extends BaseLanguage {
   String get setAsDefault => "Als Standard einstellen";
 
   @override
-  String get aadharNumber => "Aadhar-Nummer";
+  String get aadharNumber => "Aadhar-Nummer (opt)";
 
   @override
-  String get panNumber => "PAN-Nummer";
+  String get panNumber => "PAN-Nummer (opt)";
 
   @override
   String get lblPleaseEnterAccountNumber =>
-      "Bitte geben Sie die Kontonummer ein";
+      "Bitte Kontonummer eingeben";
 
   @override
   String get lblAccountNumberMustContainOnlyDigits =>
-      "Die Kontonummer darf nur Ziffern enthalten";
+      "Kontonummer darf nur Ziffern enthalten";
 
   @override
   String get lblAccountNumberMustBetween11And16Digits =>
-      "Die Kontonummer muss zwischen 11 und 16 Ziffern lang sein";
+      "Kontonummer muss zwischen 11 und 16 Ziffern lang sein";
 
   @override
   String get noBankDataTitle => "Keine Bankdaten gefunden";
@@ -1928,19 +1928,19 @@ class LanguageDe extends BaseLanguage {
   String get lblEdit => 'Bearbeiten';
 
   @override
-  String get bankName => 'Bank Name';
+  String get bankName => 'Bankname';
 
   @override
-  String get accountNumber => 'Accountnummer';
+  String get accountNumber => 'Konto Nr.';
 
   @override
-  String get iFSCCode => 'IBAN -Code';
+  String get iFSCCode => 'IBAN';
 
   @override
   String get availableBalance => "Verfügbares Guthaben";
 
   @override
-  String get withdraw => "Zurückziehen";
+  String get withdraw => "Abheben";
 
   @override
   String get successful => 'Erfolgreich';
@@ -1950,13 +1950,13 @@ class LanguageDe extends BaseLanguage {
       'Ihr Auszahlungsantrag wurde erfolgreich übermittelt.';
 
   @override
-  String get eg3000 => 'zB" 3000"';
+  String get eg3000 => 'zB" 300"';
 
   @override
   String get chooseBank => "Bank auswählen";
 
   @override
-  String get egCentralNationalBank => 'zB" Zentralbank"';
+  String get egCentralNationalBank => 'zB" Deutsche Bank"';
 
   @override
   String get topUp => "Aufladen";
@@ -1969,7 +1969,7 @@ class LanguageDe extends BaseLanguage {
   String get withdrawRequest => "Antrag zurückziehen";
 
   @override
-  String get lblEnterAmount => "Menge eingeben";
+  String get lblEnterAmount => "Betrag eingeben";
 
   @override
   String get btnSave => 'Speichern';
@@ -1981,7 +1981,7 @@ class LanguageDe extends BaseLanguage {
   String get packageIsExpired => 'Paket ist abgelaufen';
 
   @override
-  String get bookPackage => 'Buchpaket';
+  String get bookPackage => 'Paket buchen';
 
   @override
   String get packageDescription => 'Paketbeschreibung';
@@ -1994,7 +1994,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get noteAddressIsNot =>
-      'Hinweis: Für Remote-Dienste ist keine Adresse erforderlich.';
+      'Hinweis: Für Remote-Service ist keine Adresse erforderlich.';
 
   @override
   String get wouldYouLikeTo =>
@@ -2012,20 +2012,20 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get byConfirmingYouAgree =>
-      'Mit der Bestätigung erklären Sie sich mit unseren einverstanden';
+      'Mit der Bestätigung erklären Sie sich einverstanden mit unseren';
 
   @override
   String get and => 'Und';
 
   @override
   String get areYouSureYou =>
-      'Sind Sie sicher, dass Sie stornieren möchten? Je nach Servicepreis kann eine Stornogebühr anfallen';
+      'Sind Sie sicher, dass Sie stornieren möchten? Je nach Service kann eine Stornogebühr anfallen';
 
   @override
   String get totalCancellationFee => 'Gesamte Stornogebühr';
 
   @override
-  String get goBack => 'Geh zurück';
+  String get goBack => 'Zurück';
 
   @override
   String get bookingCancelled => 'Buchung storniert';
@@ -2039,10 +2039,10 @@ class LanguageDe extends BaseLanguage {
       'Hinweis: Überprüfen Sie Ihren Buchungsverlauf auf Rückerstattungsdetails';
 
   @override
-  String get cancelledReason => 'Grund für den Abbruch';
+  String get cancelledReason => 'Grund für Stornierung';
 
   @override
-  String get refundPaymentDetails => 'Zahlungsdetails für die Rückerstattung';
+  String get refundPaymentDetails => 'Rückerstattung Details';
 
   @override
   String get refundOf => 'Rückerstattung von';
@@ -2054,16 +2054,16 @@ class LanguageDe extends BaseLanguage {
   String get cancellationFee => 'Stornogebühr';
 
   @override
-  String get advancedPayment => 'Vorauszahlung';
+  String get advancedPayment => 'Anzahlung';
 
   @override
-  String get hoursOfTheScheduled => 'Stunden des geplanten Gottesdienstes';
+  String get hoursOfTheScheduled => 'Stunden des Zeitplans';
 
   @override
   String get open => 'OFFEN';
 
   @override
-  String get closed => 'GESCHLOSSEN';
+  String get closed => 'ABGESCHLOSSEN';
 
   @override
   String get createBy => 'Erstellen von';
@@ -2072,7 +2072,7 @@ class LanguageDe extends BaseLanguage {
   String get repliedBy => 'Beantwortet von';
 
   @override
-  String get closedBy => 'Geschlossen von';
+  String get closedBy => 'Abgeschlossen von';
 
   @override
   String get helpDesk => 'Helpdesk';
@@ -2104,17 +2104,17 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get eGDuringTheService =>
-      'z.B. Während des Gottesdienstes wurden die Möbel versehentlich beschädigt.';
+      'z.B. Möbel wurden versehentlich beschädigt.';
 
   @override
   String get doYouWantClosedThisQuery => 'Möchten Sie diese Abfrage schließen?';
 
   @override
-  String get markAsClosed => 'Als geschlossen markieren';
+  String get markAsClosed => 'Als erledigt markieren';
 
   @override
   String get youCanMarkThis =>
-      'Sie können dies als geschlossen markieren, wenn Sie mit unserer Antwort zufrieden sind';
+      'Sie können dies als erledigt markieren, wenn Sie mit unserer Antwort zufrieden sind';
 
   @override
   String get subject => 'Thema';
@@ -2123,10 +2123,10 @@ class LanguageDe extends BaseLanguage {
   String get eGDamagedFurniture => 'z.B. Beschädigte Möbel';
 
   @override
-  String get closedOn => 'Geschlossen am:';
+  String get closedOn => 'Erledigt am:';
 
   @override
-  String get on => 'An';
+  String get on => 'Am';
 
   @override
   String get showMessage => 'Nachricht anzeigen';
@@ -2135,14 +2135,14 @@ class LanguageDe extends BaseLanguage {
   String get yesterday => 'Gestern';
 
   @override
-  String get chooseAction => 'Wählen Sie Aktion';
+  String get chooseAction => 'Aktion auswählen';
 
   @override
-  String get chooseImage => 'Wählen Sie Bild';
+  String get chooseImage => 'Foto auswählen';
 
   @override
   String get noteYouCanUpload =>
-      'Hinweis: Sie können Bilder mit den Erweiterungen \'jpg\', \'png\', \'jpeg\' hochladen und nur ein Bild auswählen';
+      'Hinweis: Sie können Bilder mit den Erweiterungen \'jpg\', \'png\', \'jpeg\' hochladen und nur ein (1) Bild auswählen';
 
   @override
   String get removeImage => 'Bild entfernen';
@@ -2166,16 +2166,16 @@ class LanguageDe extends BaseLanguage {
   String get noStatusFound => 'Kein Status gefunden';
 
   @override
-  String get selectStartDateEndDate => 'Wählen Sie Startdatum und Enddatum';
+  String get selectStartDateEndDate => 'Start- & Enddatum auswählen';
 
   @override
-  String get handymanNotFound => 'Handwerker nicht gefunden';
+  String get handymanNotFound => 'Freiberfler nicht gefunden';
 
   @override
   String get providerNotFound => 'Anbieter nicht gefunden';
 
   @override
-  String get rateYourExperience => 'Bewerten Sie Ihre Erfahrung';
+  String get rateYourExperience => 'Bewerten abgeben';
 
   @override
   String get weValueYourFeedback =>
@@ -2185,7 +2185,7 @@ class LanguageDe extends BaseLanguage {
   String get viewStatus => 'Status anzeigen';
 
   @override
-  String get paymentInfo => 'Zahlungsinformationen';
+  String get paymentInfo => 'Zahlungsinfo';
 
   @override
   String get mobile => 'Mobile:';
@@ -2194,10 +2194,10 @@ class LanguageDe extends BaseLanguage {
   String get to => 'Zu';
 
   @override
-  String get chooseYourDateRange => 'Wählen Sie Ihren Datumsbereich';
+  String get chooseYourDateRange => 'Datumsbereich eingeben';
 
   @override
-  String get asHandyman => 'Als Handwerker';
+  String get asHandyman => 'Als Freiberufler';
 
   @override
   String get passwordLengthShouldBe =>
@@ -2207,10 +2207,10 @@ class LanguageDe extends BaseLanguage {
   String get paymentMethodNotSupported => 'Zahlungsmethode nicht unterstützt';
 
   @override
-  String get hintSelectType => 'Art auswählen';
+  String get hintSelectType => 'Typ auswählen';
 
   @override
-  String get lblSelectSubCategory => "Wählen Sie Unterkategorie";
+  String get lblSelectSubCategory => "Unterkategorie auswählen";
 
   @override
   String get country => "Land";
@@ -2225,7 +2225,7 @@ class LanguageDe extends BaseLanguage {
   String get lblSubCategory => "Unterkategorie";
 
   @override
-  String get priceType => "Preistyp";
+  String get priceType => "Honorartyp";
 
   @override
   String get totalBudget => "Gesamtbudget";
@@ -2234,13 +2234,13 @@ class LanguageDe extends BaseLanguage {
   String get jobType => "Jobtyp";
 
   @override
-  String get jobSchedule => "Arbeitszeitplan";
+  String get jobSchedule => "Zeitplan";
 
   @override
-  String get remoteWorkLevel => "Remote-Arbeitslevel";
+  String get remoteWorkLevel => "Remote-Level";
 
   @override
-  String get travelRequirements => "Reiseanforderungen";
+  String get travelRequirements => "Reise erforderlich";
 
   @override
   String get careerLevel => "Karrierestufe";
@@ -2249,7 +2249,7 @@ class LanguageDe extends BaseLanguage {
   String get educationLevel => "Bildungsniveau";
 
   @override
-  String get startDate => "Anfangsdatum";
+  String get startDate => "Startdatum";
 
   @override
   String get endDate => "Enddatum";
@@ -2267,13 +2267,13 @@ class LanguageDe extends BaseLanguage {
   String get streetAndHouseNr => "Straße und Hausnummer";
 
   @override
-  String get poboxAndCityCountry => "Postfach, Stadt & Land";
+  String get poboxAndCityCountry => "PLZ Stadt & Land";
 
   @override
-  String get skillsAndRequirements => "Fähigkeiten und Anforderungen";
+  String get skillsAndRequirements => "Anforderungen";
 
   @override
-  String get dutiesAndResponsibilities => "Aufgaben und Verantwortlichkeiten";
+  String get dutiesAndResponsibilities => "Aufgaben";
 
   @override
   String get benefits => "Leistungen";
@@ -2286,23 +2286,23 @@ class LanguageDe extends BaseLanguage {
       "HINWEIS: Sie können Bilder mit \ 'jpg \', \ 'png \', \ 'jpeg \'-Erweiterungen hochladen, und Sie können mehrere Bilder auswählen";
 
   @override
-  String get waitingForAdvancePayment => 'Warten auf Vorauszahlung';
+  String get waitingForAdvancePayment => 'Warte auf Anzahlung';
 
   @override
-  String get waitingForPaymentApproval => 'Warten auf Zahlungsfreigabe';
+  String get waitingForPaymentApproval => 'Warte auf Zahlungseingang';
 
   // Job Request specific strings
   @override
   String get waitingForCustomerToConfirm =>
-      "Warten auf Kundenbestätigung 'Lass uns anfangen'";
+      "Warten auf Kundenbestätigung 'Lass uns starten'";
 
   @override
   String get workInProgressWaitingForProvider =>
-      "Arbeit in Bearbeitung — warten auf Anbieter-Update oder Fertigstellung";
+      "Auftrag im Gange — warte auf Anbieter-Update oder Fertigstellung";
 
   @override
   String get jobCompletedWaitingForCustomer =>
-      "Job abgeschlossen — warten auf Kundenzahlung des Restbetrags";
+      "Job abgeschlossen — warte Auf Kundenzahlung des Restbetrags";
 
   @override
   String get paymentCompletedDownloadInvoice =>
@@ -2310,31 +2310,31 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get waitingForCustomerToAcceptTheBid =>
-      'Warten auf die Annahme des Gebots durch den Kunden';
+      'Warte auf die Annahme des Gebots durch den Kunden';
 
   @override
   String get waitingForProviderToSplitPayment =>
-      'Warten auf die Aufteilung der Zahlung durch den Anbieter';
+      'Warte auf die Aufteilung der Zahlung durch den Anbieter';
 
   @override
   String get waitingForCustomerToPayAdvancePercentage =>
-      'Warten auf die Vorauszahlung des Kunden';
+      'Warte auf die Anzahlung des Kunden';
 
   @override
   String get waitingForCustomerToConfirmWorkDone =>
-      'Warten auf die Bestätigung der erledigten Arbeit durch den Kunden';
+      'Warte auf Abschluss-Bestätigung durch den Kunden';
 
   @override
   String get waitingForProviderToStartWork =>
-      'Warten auf Anbieter zum Arbeitsbeginn';
+      'Warte dass der Auftragnehmer mit der Arbeit beginnt..';
 
   @override
   String get waitingForProviderToResumeWork =>
-      'Warten auf Anbieter zur Arbeitsfortsetzung';
+      'Warte dass der Auftragnehmer mit der Arbeit fortfährt.';
 
   @override
   String get waitingForProviderToMarkBidAsCompleted =>
-      'Warten auf Anbieter zur Markierung des Gebots als abgeschlossen';
+      'Warte auf Markierung des Auftrags als abgeschlossen durch Auftragnehmer';
 
   // Bank details / profile / map (screens)
   @override
@@ -2362,16 +2362,13 @@ class LanguageDe extends BaseLanguage {
   String get mobility => 'Mobilität';
 
   @override
-  String get serviceAddress => 'Serviceadresse';
+  String get serviceAddress => 'Adresse';
 
   @override
-  String get knownLanguagesLabel => 'Bekannte Sprachen';
+  String get knownLanguagesLabel => 'Sprachen';
 
   @override
-  String get essentialSkillsLabel => 'Wesentliche Fähigkeiten';
-
-  @override
-  String get experience => 'Erfahrung';
+  String get essentialSkillsLabel => 'Fähigkeiten';
 
   @override
   String get yearsOfExperience => 'Jahre Erfahrung';
@@ -2395,7 +2392,7 @@ class LanguageDe extends BaseLanguage {
   // Payment / webview messages
   @override
   String get invalidResponseTryAgain =>
-      'Ungültige Serverantwort. Bitte versuchen Sie es erneut.';
+      'Ungültige Antwort. Bitte versuchen Sie es erneut.';
 
   @override
   String get paymentEndpointNotFound =>
@@ -2417,7 +2414,7 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get paymentMayHaveBeenProcessed =>
-      'Die Zahlung wurde möglicherweise verarbeitet. Bitte prüfen Sie Ihren Zahlungsstatus.';
+      'Zahlung wurde möglicherweise bearbeitet. Bitte prüfen Sie Ihren Zahlungsstatus.';
 
   @override
   String get paymentCompletedSuccessfully => 'Zahlung erfolgreich abgeschlossen';
@@ -2442,11 +2439,11 @@ class LanguageDe extends BaseLanguage {
   String get startSearchingYourService => 'Beginnen Sie mit der Suche nach Ihrem Service';
 
   @override
-  String get waitingForAdminApproval => 'Warten auf Admin-Freigabe';
+  String get waitingForAdminApproval => 'Warte auf Admin-Freigabe';
 
   @override
   String get waitingForAdminApprovalPleaseWait =>
-      'Warten auf Admin-Freigabe. Bitte warten.';
+      'Admin-Freigabe noch offen. Bitte warten.';
 
   @override
   String get invalidPaymentAmount =>
@@ -2485,7 +2482,7 @@ class LanguageDe extends BaseLanguage {
   String get createdAtLabel => 'Erstellt am';
 
   @override
-  String get selectServiceAddress => 'Serviceadresse auswählen';
+  String get selectServiceAddress => 'Adresse auswählen';
 
   @override
   String get tapToSelectLanguages => 'Tippen, um Sprachen auszuwählen';
