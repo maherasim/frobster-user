@@ -2519,4 +2519,58 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get ratingSubmittedSuccessfully => 'Bewertung erfolgreich gesendet';
+
+  @override
+  String get sort => 'Sortieren';
+
+  @override
+  String get sortPopular => 'Beliebt';
+
+  @override
+  String get sortAZ => 'A–Z';
+
+  @override
+  String get bankTransferDetailsTitle => 'Banküberweisung';
+
+  @override
+  String get bankTransferPayAmountPrefix => 'Bitte überweisen Sie';
+
+  @override
+  String get bankTransferPayAmountSuffix => ' mit den unten stehenden Daten.';
+
+  @override
+  String get bankTransferLocalInternationalTitle => 'Inlands- / Auslandsüberweisung';
+
+  @override
+  String get bankTransferRecipientLabel => 'Empfänger';
+
+  @override
+  String get bankTransferIbanLabel => 'IBAN';
+
+  @override
+  String get bankTransferBicLabel => 'BIC';
+
+  @override
+  String get bankTransferBankNameAddressLabel => 'Bankname & Adresse';
+
+  @override
+  String get bankTransferSenderBankBicLabel => 'BIC Ihrer Bank';
+
+  @override
+  String get bankTransferInstructionsTitle => 'Hinweise';
+
+  @override
+  String get bankTransferMentionBookingIdPrefix => 'Buchungs-ID';
+
+  @override
+  String get bankTransferMentionBookingIdSuffix => ' im Verwendungszweck angeben.';
+
+  @override
+  String get bankTransferSendProofPrefix => 'Zahlungsnachweis senden an';
+
+  @override
+  String get noCityFound => 'Keine Stadt gefunden';
+
+  @override
+  String get noStateFound => 'Kein Bundesland gefunden';
 }

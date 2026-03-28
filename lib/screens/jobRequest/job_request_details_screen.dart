@@ -398,7 +398,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.event_available,
                         iconColor: Colors.blue,
-                        title: language.lblStartDate,
+                        title: language.startDate,
                         value: postJobDetail!.postRequest?.startDate != null
                             ? formatDate(
                                 postJobDetail!.postRequest?.startDate
@@ -411,7 +411,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.event_busy,
                         iconColor: Colors.red,
-                        title: language.lblEndDate,
+                        title: language.endDate,
                         value: postJobDetail!.postRequest?.endDate != null
                             ? formatDate(
                                 postJobDetail!.postRequest?.endDate
@@ -1527,7 +1527,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                 }
                               },
                               child: Text(
-                                language.lblSubmit,
+                                language.btnSubmit,
                                 style: boldTextStyle(color: Colors.white),
                               ),
                             ).withWidth(context.width()),

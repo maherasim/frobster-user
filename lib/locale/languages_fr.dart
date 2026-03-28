@@ -2498,4 +2498,57 @@ class LanguageFr extends BaseLanguage {
   @override
   String get ratingSubmittedSuccessfully => 'Rating submitted successfully';
 
+  @override
+  String get sort => 'Trier';
+
+  @override
+  String get sortPopular => 'Populaire';
+
+  @override
+  String get sortAZ => 'A–Z';
+
+  @override
+  String get bankTransferDetailsTitle => 'Virement bancaire';
+
+  @override
+  String get bankTransferPayAmountPrefix => 'Veuillez payer';
+
+  @override
+  String get bankTransferPayAmountSuffix => ' en utilisant les coordonnées ci-dessous.';
+
+  @override
+  String get bankTransferLocalInternationalTitle => 'Virement local / international';
+
+  @override
+  String get bankTransferRecipientLabel => 'Bénéficiaire';
+
+  @override
+  String get bankTransferIbanLabel => 'IBAN';
+
+  @override
+  String get bankTransferBicLabel => 'BIC';
+
+  @override
+  String get bankTransferBankNameAddressLabel => 'Banque et adresse';
+
+  @override
+  String get bankTransferSenderBankBicLabel => 'BIC de votre banque';
+
+  @override
+  String get bankTransferInstructionsTitle => 'Instructions';
+
+  @override
+  String get bankTransferMentionBookingIdPrefix => 'Indiquez l’ID de réservation';
+
+  @override
+  String get bankTransferMentionBookingIdSuffix => ' dans le libellé du paiement.';
+
+  @override
+  String get bankTransferSendProofPrefix => 'Envoyez la preuve de paiement à';
+
+  @override
+  String get noCityFound => 'Aucune ville trouvée';
+
+  @override
+  String get noStateFound => 'Aucune région trouvée';
 }

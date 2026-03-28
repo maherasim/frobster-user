@@ -1536,5 +1536,28 @@ abstract class BaseLanguage {
   String get bidCancelledDetailsUnavailable;
   String get ratingSubmittedSuccessfully;
 
+  // Category list sort
+  String get sort;
+  String get sortPopular;
+  String get sortAZ;
+
+  // Bank transfer dialog
+  String get bankTransferDetailsTitle;
+  String get bankTransferPayAmountPrefix;
+  String get bankTransferPayAmountSuffix;
+  String get bankTransferLocalInternationalTitle;
+  String get bankTransferRecipientLabel;
+  String get bankTransferIbanLabel;
+  String get bankTransferBicLabel;
+  String get bankTransferBankNameAddressLabel;
+  String get bankTransferSenderBankBicLabel;
+  String get bankTransferInstructionsTitle;
+  String get bankTransferMentionBookingIdPrefix;
+  String get bankTransferMentionBookingIdSuffix;
+  String get bankTransferSendProofPrefix;
+
+  // Filter empty states
+  String get noCityFound;
+  String get noStateFound;
 
 }

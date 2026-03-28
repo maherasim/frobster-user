@@ -2441,4 +2441,58 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get ratingSubmittedSuccessfully => 'Rating submitted successfully';
+
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get sortPopular => 'Popular';
+
+  @override
+  String get sortAZ => 'A–Z';
+
+  @override
+  String get bankTransferDetailsTitle => 'Bank transfer details';
+
+  @override
+  String get bankTransferPayAmountPrefix => 'Please pay';
+
+  @override
+  String get bankTransferPayAmountSuffix => ' using the details below.';
+
+  @override
+  String get bankTransferLocalInternationalTitle => 'Local / international transfer';
+
+  @override
+  String get bankTransferRecipientLabel => 'Recipient';
+
+  @override
+  String get bankTransferIbanLabel => 'IBAN';
+
+  @override
+  String get bankTransferBicLabel => 'BIC';
+
+  @override
+  String get bankTransferBankNameAddressLabel => 'Bank name & address';
+
+  @override
+  String get bankTransferSenderBankBicLabel => 'Your bank BIC';
+
+  @override
+  String get bankTransferInstructionsTitle => 'Instructions';
+
+  @override
+  String get bankTransferMentionBookingIdPrefix => 'Mention booking ID';
+
+  @override
+  String get bankTransferMentionBookingIdSuffix => ' in the payment reference.';
+
+  @override
+  String get bankTransferSendProofPrefix => 'Send proof of payment to';
+
+  @override
+  String get noCityFound => 'No city found';
+
+  @override
+  String get noStateFound => 'No state found';
 }
