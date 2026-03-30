@@ -157,6 +157,15 @@ class LanguageAr extends BaseLanguage {
   String get hourly => "بالساعة";
 
   @override
+  String get priceSuffixHourly => '/ساعة';
+
+  @override
+  String get priceSuffixDaily => '/يوم';
+
+  @override
+  String get priceSuffixFixed => '/ثابت';
+
+  @override
   String get payment => "قسط";
 
   @override
@@ -1097,6 +1106,18 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get views => 'الآراء';
+
+  @override
+  String get proposals => 'العروض';
+
+  @override
+  String get viewProposal => 'عرض العرض';
+
+  @override
+  String get hireProvider => 'استئجار مقدم الخدمة';
+
+  @override
+  String get hireAndContinue => 'استئجار ومتابعة';
 
   @override
   String get blogs => 'المدونات';
@@ -2495,4 +2516,137 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get noStateFound => 'No state found';
+
+  @override
+  String get bidDetailsTitle => 'Bid details';
+
+  @override
+  String get waitingForCustomerPayRemainingAmount =>
+      'Waiting for customer to pay remaining amount';
+
+  @override
+  String get bidCancelledShort => 'This bid was cancelled';
+
+  @override
+  String get holdReasonPrefix => 'Hold reason:';
+
+  @override
+  String get employerReviewTitle => 'Employer review';
+
+  @override
+  String get customerReviewTitle => 'Customer review';
+
+  @override
+  String get letsStartWork => "Let's start work";
+
+  @override
+  String get confirmDone => 'Confirm done';
+
+  @override
+  String get payRemaining => 'Pay remaining';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get rateEmployer => 'Rate employer';
+
+  @override
+  String get rateUnitPrice => 'Rate (unit price)';
+
+  @override
+  String get quantityLabel => 'Quantity';
+
+  @override
+  String get lineTotalAmount => 'Total amount';
+
+  @override
+  String get netAmountLabel => 'Net amount';
+
+  @override
+  String get netAmountSubtext => '(Subtotal − Tax)';
+
+  @override
+  String get grandTotalAmountLabel => 'Grand total amount';
+
+  @override
+  String get extraChargesBreakdownTitle => 'Extra charges breakdown';
+
+  @override
+  String get noReviewsYet => 'No reviews yet';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get bidLabelColon => 'Bid:';
+
+  @override
+  String get advancePercentWord => 'Advance';
+
+  @override
+  String get jobBidProgressAccept => 'Accept';
+
+  @override
+  String get jobBidProgressAdvance => 'Advance';
+
+  @override
+  String get jobBidProgressAdvancePaid => 'Advance paid';
+
+  @override
+  String get jobBidProgressLetsStart => "Let's start";
+
+  @override
+  String get jobBidProgressWork => 'Work';
+
+  @override
+  String get jobBidProgressDone => 'Done';
+
+  @override
+  String get jobBidProgressCompleted => 'Completed';
+
+  @override
+  String get jobBidProgressRemaining => 'Remaining';
+
+  @override
+  String get jobBidProgressPaid => 'Paid';
+
+  @override
+  String get serviceTypeDaily => 'يومي';
+
+  @override
+  String get serviceTypeFixed => 'ثابت';
+
+  @override
+  String get visitTypeOnsite => 'في الموقع';
+
+  @override
+  String get visitTypeHybrid => 'هجين';
+
+  @override
+  String get percentOffSuffix => '% خصم';
+
+  @override
+  String get bookingsLabel => 'حجوزات';
+
+  @override
+  String get onsiteFullPresenceLabel => 'في الموقع (100٪)';
+
+  @override
+  String get remoteWorkShareSuffix => 'عن بُعد';
+
+  @override
+  String get cancellationPolicyTitle => 'سياسة الإلغاء';
+
+  @override
+  String get minimumOrdersLabel => 'الحد الأدنى للطلبات';
+
+  @override
+  String get totalBookingsLabel => 'إجمالي الحجوزات';
+
+  @override
+  String get travelRequiredLabel => 'التنقل مطلوب';
+
+  @override
+  String get descriptionHeading => 'Description';
 }

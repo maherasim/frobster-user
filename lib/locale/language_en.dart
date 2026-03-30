@@ -156,6 +156,15 @@ class LanguageEn extends BaseLanguage {
   String get hourly => "hourly";
 
   @override
+  String get priceSuffixHourly => '/Hour';
+
+  @override
+  String get priceSuffixDaily => '/Day';
+
+  @override
+  String get priceSuffixFixed => '/Fix';
+
+  @override
   String get payment => "Payment";
 
   @override
@@ -1106,6 +1115,18 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get views => 'Views';
+
+  @override
+  String get proposals => 'Proposals';
+
+  @override
+  String get viewProposal => 'View Proposal';
+
+  @override
+  String get hireProvider => 'Hire Provider';
+
+  @override
+  String get hireAndContinue => 'Hire & Continue';
 
   @override
   String get blogs => 'Blogs';
@@ -2531,4 +2552,137 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get noStateFound => 'No state found';
+
+  @override
+  String get bidDetailsTitle => 'Bid details';
+
+  @override
+  String get waitingForCustomerPayRemainingAmount =>
+      'Waiting for customer to pay remaining amount';
+
+  @override
+  String get bidCancelledShort => 'This bid was cancelled';
+
+  @override
+  String get holdReasonPrefix => 'Hold reason:';
+
+  @override
+  String get employerReviewTitle => 'Employer review';
+
+  @override
+  String get customerReviewTitle => 'Customer review';
+
+  @override
+  String get letsStartWork => "Let's start work";
+
+  @override
+  String get confirmDone => 'Confirm done';
+
+  @override
+  String get payRemaining => 'Pay remaining';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get rateEmployer => 'Rate employer';
+
+  @override
+  String get rateUnitPrice => 'Rate (unit price)';
+
+  @override
+  String get quantityLabel => 'Quantity';
+
+  @override
+  String get lineTotalAmount => 'Total amount';
+
+  @override
+  String get netAmountLabel => 'Net amount';
+
+  @override
+  String get netAmountSubtext => '(Subtotal − Tax)';
+
+  @override
+  String get grandTotalAmountLabel => 'Grand total amount';
+
+  @override
+  String get extraChargesBreakdownTitle => 'Extra charges breakdown';
+
+  @override
+  String get noReviewsYet => 'No reviews yet';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get bidLabelColon => 'Bid:';
+
+  @override
+  String get advancePercentWord => 'Advance';
+
+  @override
+  String get jobBidProgressAccept => 'Accept';
+
+  @override
+  String get jobBidProgressAdvance => 'Advance';
+
+  @override
+  String get jobBidProgressAdvancePaid => 'Advance paid';
+
+  @override
+  String get jobBidProgressLetsStart => "Let's start";
+
+  @override
+  String get jobBidProgressWork => 'Work';
+
+  @override
+  String get jobBidProgressDone => 'Done';
+
+  @override
+  String get jobBidProgressCompleted => 'Completed';
+
+  @override
+  String get jobBidProgressRemaining => 'Remaining';
+
+  @override
+  String get jobBidProgressPaid => 'Paid';
+
+  @override
+  String get serviceTypeDaily => 'Daily';
+
+  @override
+  String get serviceTypeFixed => 'Fixed';
+
+  @override
+  String get visitTypeOnsite => 'On-site';
+
+  @override
+  String get visitTypeHybrid => 'Hybrid';
+
+  @override
+  String get percentOffSuffix => '% off';
+
+  @override
+  String get bookingsLabel => 'Bookings';
+
+  @override
+  String get onsiteFullPresenceLabel => 'On-site (100%)';
+
+  @override
+  String get remoteWorkShareSuffix => 'Remote';
+
+  @override
+  String get cancellationPolicyTitle => 'Cancellation policy';
+
+  @override
+  String get minimumOrdersLabel => 'Minimum orders';
+
+  @override
+  String get totalBookingsLabel => 'Total bookings';
+
+  @override
+  String get travelRequiredLabel => 'Travel required';
+
+  @override
+  String get descriptionHeading => 'Description';
 }

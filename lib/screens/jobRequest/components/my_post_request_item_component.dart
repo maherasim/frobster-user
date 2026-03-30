@@ -159,7 +159,7 @@ class _MyPostRequestItemComponentState
                     ),
                     child: Text(
                       widget.data.status == RequestStatus.confirmDone 
-                          ? 'Completed' 
+                          ? language.completed 
                           : widget.data.status.displayName,
                       style: boldTextStyle(color: white, size: 12),
                     ),
@@ -267,7 +267,7 @@ class _MyPostRequestItemComponentState
                         children: [
                           Icon(Icons.remove_red_eye_outlined, size: 14, color: textSecondaryColorGlobal),
                           4.width,
-                          Text("Views: ${widget.data.totalViews ?? 0}", style: secondaryTextStyle(size: 12)),
+                          Text("${language.views}: ${widget.data.totalViews ?? 0}", style: secondaryTextStyle(size: 12)),
                         ],
                       ),
                       Row(
@@ -275,7 +275,7 @@ class _MyPostRequestItemComponentState
                         children: [
                           Icon(Icons.how_to_reg_outlined, size: 14, color: textSecondaryColorGlobal),
                           4.width,
-                          Text("Proposals: ${widget.data.bidCount ?? 0}", style: secondaryTextStyle(size: 12)),
+                          Text("${language.proposals}: ${widget.data.bidCount ?? 0}", style: secondaryTextStyle(size: 12)),
                         ],
                       ),
                     ],

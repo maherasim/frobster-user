@@ -96,11 +96,11 @@ class ServiceComponentState extends State<ServiceComponent> {
     } else {
       priceText = widget.serviceData.price.validate().toPriceFormat();
       if (widget.serviceData.isHourlyService) {
-        priceText += '/Hour';
+        priceText += language.priceSuffixHourly;
       } else if (widget.serviceData.isDailyService) {
-        priceText += '/Day';
+        priceText += language.priceSuffixDaily;
       } else if (widget.serviceData.isFixedService) {
-        priceText += '/Fix';
+        priceText += language.priceSuffixFixed;
       }
     }
 
@@ -262,7 +262,7 @@ class ServiceComponentState extends State<ServiceComponent> {
     }
     
     final String cityCountry = (mappedCity.isEmpty && mappedCountry.isEmpty)
-        ? 'N/A'
+        ? language.notAvailable
         : (mappedCity.isNotEmpty && mappedCountry.isNotEmpty
             ? '${mappedCity} - ${mappedCountry}'
             : '${mappedCity}${mappedCountry}');
@@ -514,7 +514,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Services: ${widget.serviceData.providerTotalServices ?? 0}',
+                              '${language.services}: ${widget.serviceData.providerTotalServices ?? 0}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),
@@ -522,7 +522,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              'Views: ${widget.serviceData.totalViews ?? NumberFormat("#,###").format(randomNumber)}',
+                              '${language.views}: ${widget.serviceData.totalViews ?? NumberFormat("#,###").format(randomNumber)}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),

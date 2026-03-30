@@ -156,6 +156,15 @@ class LanguageFr extends BaseLanguage {
   String get hourly => "horaire";
 
   @override
+  String get priceSuffixHourly => '/h';
+
+  @override
+  String get priceSuffixDaily => '/jour';
+
+  @override
+  String get priceSuffixFixed => '/forfait';
+
+  @override
   String get payment => "Paiement";
 
   @override
@@ -1119,6 +1128,18 @@ class LanguageFr extends BaseLanguage {
 
   @override
   String get views => 'Vues';
+
+  @override
+  String get proposals => 'Propositions';
+
+  @override
+  String get viewProposal => 'Voir la proposition';
+
+  @override
+  String get hireProvider => 'Engager le prestataire';
+
+  @override
+  String get hireAndContinue => 'Engager et continuer';
 
   @override
   String get blogs => 'Blogs';
@@ -2551,4 +2572,137 @@ class LanguageFr extends BaseLanguage {
 
   @override
   String get noStateFound => 'Aucune région trouvée';
+
+  @override
+  String get bidDetailsTitle => 'Détails de l’offre';
+
+  @override
+  String get waitingForCustomerPayRemainingAmount =>
+      'En attente du paiement du solde par le client';
+
+  @override
+  String get bidCancelledShort => 'Cette offre a été annulée';
+
+  @override
+  String get holdReasonPrefix => 'Motif de la pause :';
+
+  @override
+  String get employerReviewTitle => 'Avis employeur';
+
+  @override
+  String get customerReviewTitle => 'Avis client';
+
+  @override
+  String get letsStartWork => 'Commencer le travail';
+
+  @override
+  String get confirmDone => 'Confirmer la fin';
+
+  @override
+  String get payRemaining => 'Payer le solde';
+
+  @override
+  String get download => 'Télécharger';
+
+  @override
+  String get rateEmployer => 'Noter l’employeur';
+
+  @override
+  String get rateUnitPrice => 'Tarif (prix unitaire)';
+
+  @override
+  String get quantityLabel => 'Quantité';
+
+  @override
+  String get lineTotalAmount => 'Montant total';
+
+  @override
+  String get netAmountLabel => 'Montant net';
+
+  @override
+  String get netAmountSubtext => '(Sous-total − TVA)';
+
+  @override
+  String get grandTotalAmountLabel => 'Montant total général';
+
+  @override
+  String get extraChargesBreakdownTitle => 'Détail des frais supplémentaires';
+
+  @override
+  String get noReviewsYet => 'Pas encore d’avis';
+
+  @override
+  String get anonymous => 'Anonyme';
+
+  @override
+  String get bidLabelColon => 'Offre :';
+
+  @override
+  String get advancePercentWord => 'Acompte';
+
+  @override
+  String get jobBidProgressAccept => 'Accepté';
+
+  @override
+  String get jobBidProgressAdvance => 'Acompte';
+
+  @override
+  String get jobBidProgressAdvancePaid => 'Acompte payé';
+
+  @override
+  String get jobBidProgressLetsStart => 'Démarrer';
+
+  @override
+  String get jobBidProgressWork => 'Travail';
+
+  @override
+  String get jobBidProgressDone => 'Terminé';
+
+  @override
+  String get jobBidProgressCompleted => 'Complété';
+
+  @override
+  String get jobBidProgressRemaining => 'Solde';
+
+  @override
+  String get jobBidProgressPaid => 'Payé';
+
+  @override
+  String get serviceTypeDaily => 'Quotidien';
+
+  @override
+  String get serviceTypeFixed => 'Forfait';
+
+  @override
+  String get visitTypeOnsite => 'Sur place';
+
+  @override
+  String get visitTypeHybrid => 'Hybride';
+
+  @override
+  String get percentOffSuffix => '% de réduction';
+
+  @override
+  String get bookingsLabel => 'Réservations';
+
+  @override
+  String get onsiteFullPresenceLabel => 'Sur place (100%)';
+
+  @override
+  String get remoteWorkShareSuffix => 'à distance';
+
+  @override
+  String get cancellationPolicyTitle => 'Politique d\'annulation';
+
+  @override
+  String get minimumOrdersLabel => 'Commandes minimum';
+
+  @override
+  String get totalBookingsLabel => 'Réservations totales';
+
+  @override
+  String get travelRequiredLabel => 'Déplacement requis';
+
+  @override
+  String get descriptionHeading => 'Description';
 }

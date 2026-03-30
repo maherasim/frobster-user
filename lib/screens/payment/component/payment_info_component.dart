@@ -54,54 +54,92 @@ class _PaymentInfoComponentState extends State<PaymentInfoComponent> {
             SnapHelperWidget<List<PaymentData>>(
               future: future,
               onSuccess: (data) {
-                return AnimatedListView(
-                  itemCount: list.length,
-                  shrinkWrap: true,
-                  padding: EdgeInsets.all(8),
-                  physics: NeverScrollableScrollPhysics(),
-                  emptyWidget: NoDataWidget(
-                      title: language.noDataAvailable,
-                      imageWidget: EmptyStateWidget()),
-                  listAnimationType: ListAnimationType.Scale,
-                  itemBuilder: (p0, index) {
-                    PaymentData data = list[index];
-
-                    return Container(
-                      decoration: boxDecorationDefault(
-                          color: context.scaffoldBackgroundColor),
-                      padding: EdgeInsets.all(16),
-                      margin: EdgeInsets.all(8),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Marquee(
-                              child: Text(
-                                  '${language.transactionId} ${data.txnId.validate()}',
-                                  style: primaryTextStyle())),
-                          8.height,
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Row(
-                                children: [
-                                  PriceWidget(
-                                      price: data.totalAmount.validate()),
-                                  8.width,
-                                  Text('(${data.paymentMethod.validate().capitalizeFirstLetter()})',
-                                          style: primaryTextStyle())
-                                      .expand(),
-                                ],
-                              ).expand(),
-                              8.width,
-                              Text(formatDate(data.date.validate().toString()),
-                                  style: secondaryTextStyle()),
-                            ],
-                          ),
-                        ],
+                if (list.isEmpty) {
+                  return NoDataWidget(
+                    title: language.noDataAvailable,
+                    imageWidget: EmptyStateWidget(),
+                  ).paddingSymmetric(vertical: 24);
+                }
+                return SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: ConstrainedBox(
+                    constraints: BoxConstraints(
+                      minWidth: context.width() - 32,
+                    ),
+                    child: DataTable(
+                      headingRowColor: WidgetStateProperty.all(
+                        context.scaffoldBackgroundColor,
                       ),
-                    );
-                  },
-                );
+                      dataRowMinHeight: 52,
+                      headingTextStyle: boldTextStyle(size: 12),
+                      dataTextStyle: primaryTextStyle(size: 12),
+                      columnSpacing: 16,
+                      horizontalMargin: 12,
+                      columns: [
+                        DataColumn(
+                          label: Text(
+                            language.transactionId,
+                            style: boldTextStyle(size: 12),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            language.amountLabel,
+                            style: boldTextStyle(size: 12),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            language.paymentMethod,
+                            style: boldTextStyle(size: 12),
+                          ),
+                        ),
+                        DataColumn(
+                          label: Text(
+                            language.lblDate,
+                            style: boldTextStyle(size: 12),
+                          ),
+                        ),
+                      ],
+                      rows: list.map((PaymentData data) {
+                        return DataRow(
+                          cells: [
+                            DataCell(
+                              ConstrainedBox(
+                                constraints: BoxConstraints(maxWidth: 160),
+                                child: Text(
+                                  data.txnId.validate(),
+                                  maxLines: 3,
+                                  overflow: TextOverflow.ellipsis,
+                                ),
+                              ),
+                            ),
+                            DataCell(
+                              PriceWidget(
+                                price: data.totalAmount.validate(),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                data.paymentMethod
+                                    .validate()
+                                    .capitalizeFirstLetter(),
+                              ),
+                            ),
+                            DataCell(
+                              Text(
+                                formatDate(
+                                  data.date.validate().toString(),
+                                ),
+                                style: secondaryTextStyle(size: 12),
+                              ),
+                            ),
+                          ],
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ).paddingSymmetric(horizontal: 8);
               },
             ),
           ],

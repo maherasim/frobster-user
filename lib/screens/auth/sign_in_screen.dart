@@ -3,7 +3,6 @@ import 'package:booking_system_flutter/component/base_scaffold_body.dart';
 import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/screens/auth/forgot_password_screen.dart';
-import 'package:booking_system_flutter/screens/auth/otp_login_screen.dart';
 import 'package:booking_system_flutter/screens/auth/sign_up_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
@@ -98,79 +97,6 @@ class _SignInScreenState extends State<SignInScreen> {
       appStore.setLoading(false);
       toast(e.toString());
     }
-  }
-
-  void googleSignIn() async {
-    if (!appStore.isLoading) {
-      appStore.setLoading(true);
-      await authService.signInWithGoogle(context).then((googleUser) async {
-        String firstName = '';
-        String lastName = '';
-        if (googleUser.displayName.validate().split(' ').length >= 1)
-          firstName = googleUser.displayName.splitBefore(' ');
-        if (googleUser.displayName.validate().split(' ').length >= 2)
-          lastName = googleUser.displayName.splitAfter(' ');
-
-        Map<String, dynamic> request = {
-          'first_name': firstName,
-          'last_name': lastName,
-          'email': googleUser.email,
-          'username': googleUser.email
-              .splitBefore('@')
-              .replaceAll('.', '')
-              .toLowerCase(),
-          // 'password': passwordCont.text.trim(),
-          'social_image': googleUser.photoURL,
-          'login_type': LOGIN_TYPE_GOOGLE,
-        };
-        var loginResponse = await loginUser(request, isSocialLogin: true);
-
-        loginResponse.userData!.profileImage = googleUser.photoURL.validate();
-
-        await saveUserData(loginResponse.userData!);
-        appStore.setLoginType(LOGIN_TYPE_GOOGLE);
-
-        authService.verifyFirebaseUser();
-
-        onLoginSuccessRedirection();
-        appStore.setLoading(false);
-      }).catchError((e) {
-        appStore.setLoading(false);
-        log(e.toString());
-        toast(e.toString());
-      });
-    }
-  }
-
-  void appleSign() async {
-    if (!appStore.isLoading) {
-      appStore.setLoading(true);
-
-      await authService.appleSignIn().then((req) async {
-        await loginUser(req, isSocialLogin: true).then((value) async {
-          await saveUserData(value.userData!);
-          appStore.setLoginType(LOGIN_TYPE_APPLE);
-
-          appStore.setLoading(false);
-          authService.verifyFirebaseUser();
-
-          onLoginSuccessRedirection();
-        }).catchError((e) {
-          appStore.setLoading(false);
-          log(e.toString());
-          throw e;
-        });
-      }).catchError((e) {
-        appStore.setLoading(false);
-        toast(e.toString());
-      });
-    }
-  }
-
-  void otpSignIn() async {
-    hideKeyboard(context);
-
-    OTPLoginScreen().launch(context);
   }
 
   void onLoginSuccessRedirection() {
@@ -280,114 +206,8 @@ class _SignInScreenState extends State<SignInScreen> {
             ),
           ],
         ),
-        
       ],
     );
-  }
-
-  Widget _buildSocialWidget() {
-    if (appConfigurationStore.socialLoginStatus) {
-      return Column(
-        children: [
-          20.height,
-          if ((appConfigurationStore.googleLoginStatus ||
-                  appConfigurationStore.otpLoginStatus) ||
-              (isIOS && appConfigurationStore.appleLoginStatus))
-            Row(
-              children: [
-                Divider(color: context.dividerColor, thickness: 2).expand(),
-                16.width,
-                Text(language.lblOrContinueWith, style: secondaryTextStyle()),
-                16.width,
-                Divider(color: context.dividerColor, thickness: 2).expand(),
-              ],
-            ),
-          24.height,
-          if (appConfigurationStore.googleLoginStatus)
-            AppButton(
-              text: '',
-              color: context.cardColor,
-              padding: EdgeInsets.all(8),
-              textStyle: boldTextStyle(),
-              width: context.width() - context.navigationBarHeight,
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(12),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: gradientRed.withValues(alpha: 0.1),
-                      boxShape: BoxShape.circle,
-                    ),
-                    child: GoogleLogoWidget(size: 16),
-                  ),
-                  Text(language.lblSignInWithGoogle,
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.center)
-                      .expand(),
-                ],
-              ),
-              onTap: googleSignIn,
-            ),
-          if (appConfigurationStore.googleLoginStatus) 16.height,
-          if (appConfigurationStore.otpLoginStatus)
-            AppButton(
-              text: '',
-              color: context.cardColor,
-              padding: EdgeInsets.all(8),
-              textStyle: boldTextStyle(),
-              width: context.width() - context.navigationBarHeight,
-              child: Row(
-                children: [
-                  Container(
-                    padding: EdgeInsets.all(8),
-                    decoration: boxDecorationWithRoundedCorners(
-                      backgroundColor: gradientRed.withValues(alpha: 0.1),
-                      boxShape: BoxShape.circle,
-                    ),
-                    child: ic_calling
-                        .iconImage(size: 18, color: gradientRed)
-                        .paddingAll(4),
-                  ),
-                  Text(language.lblSignInWithOTP,
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.center)
-                      .expand(),
-                ],
-              ),
-              onTap: otpSignIn,
-            ),
-          if (appConfigurationStore.otpLoginStatus) 16.height,
-          if (isIOS)
-            if (appConfigurationStore.appleLoginStatus)
-              AppButton(
-                text: '',
-                color: context.cardColor,
-                padding: EdgeInsets.all(8),
-                textStyle: boldTextStyle(),
-                width: context.width() - context.navigationBarHeight,
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: boxDecorationWithRoundedCorners(
-                        backgroundColor: gradientRed.withValues(alpha: 0.1),
-                        boxShape: BoxShape.circle,
-                      ),
-                      child: Icon(Icons.apple),
-                    ),
-                    Text(language.lblSignInWithApple,
-                            style: boldTextStyle(size: 12),
-                            textAlign: TextAlign.center)
-                        .expand(),
-                  ],
-                ),
-                onTap: appleSign,
-              ),
-        ],
-      );
-    } else {
-      return Offstage();
-    }
   }
 
 //endregion
@@ -493,7 +313,6 @@ class _SignInScreenState extends State<SignInScreen> {
                       ),
                     ),
                     _buildRememberWidget(),
-                    if (!getBoolAsync(HAS_IN_REVIEW)) _buildSocialWidget(),
                     30.height,
                   ],
                 );

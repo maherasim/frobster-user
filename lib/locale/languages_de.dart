@@ -157,6 +157,15 @@ class LanguageDe extends BaseLanguage {
   String get hourly => "stunde";
 
   @override
+  String get priceSuffixHourly => '/Std.';
+
+  @override
+  String get priceSuffixDaily => '/Tag';
+
+  @override
+  String get priceSuffixFixed => '/Fest';
+
+  @override
   String get payment => "Zahlung";
 
   @override
@@ -812,7 +821,7 @@ class LanguageDe extends BaseLanguage {
   String get postJobDescription => "Auftrag-Beschreibung";
 
   @override
-  String get services => "Services";
+  String get services => "Leistungen";
 
   @override
   String get myPostJobList => "Meine Aufträge";
@@ -1117,7 +1126,19 @@ class LanguageDe extends BaseLanguage {
   String get authorBy => 'Autor von';
 
   @override
-  String get views => 'Views';
+  String get views => 'Aufrufe';
+
+  @override
+  String get proposals => 'Angebote';
+
+  @override
+  String get viewProposal => 'Angebot ansehen';
+
+  @override
+  String get hireProvider => 'Anbieter beauftragen';
+
+  @override
+  String get hireAndContinue => 'Beauftragen & fortfahren';
 
   @override
   String get blogs => 'Blogs';
@@ -2573,4 +2594,137 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get noStateFound => 'Kein Bundesland gefunden';
+
+  @override
+  String get bidDetailsTitle => 'Gebotsdetails';
+
+  @override
+  String get waitingForCustomerPayRemainingAmount =>
+      'Warten auf Zahlung des Restbetrags durch den Kunden';
+
+  @override
+  String get bidCancelledShort => 'Dieses Gebot wurde storniert';
+
+  @override
+  String get holdReasonPrefix => 'Pausengrund:';
+
+  @override
+  String get employerReviewTitle => 'Bewertung Arbeitgeber';
+
+  @override
+  String get customerReviewTitle => 'Bewertung Kunde';
+
+  @override
+  String get letsStartWork => 'Arbeit beginnen';
+
+  @override
+  String get confirmDone => 'Abschluss bestätigen';
+
+  @override
+  String get payRemaining => 'Restbetrag zahlen';
+
+  @override
+  String get download => 'Herunterladen';
+
+  @override
+  String get rateEmployer => 'Arbeitgeber bewerten';
+
+  @override
+  String get rateUnitPrice => 'Satz (Stückpreis)';
+
+  @override
+  String get quantityLabel => 'Menge';
+
+  @override
+  String get lineTotalAmount => 'Gesamtbetrag';
+
+  @override
+  String get netAmountLabel => 'Nettobetrag';
+
+  @override
+  String get netAmountSubtext => '(Zwischensumme − Steuer)';
+
+  @override
+  String get grandTotalAmountLabel => 'Gesamtsumme';
+
+  @override
+  String get extraChargesBreakdownTitle => 'Aufschlüsselung Zusatzkosten';
+
+  @override
+  String get noReviewsYet => 'Noch keine Bewertungen';
+
+  @override
+  String get anonymous => 'Anonym';
+
+  @override
+  String get bidLabelColon => 'Gebot:';
+
+  @override
+  String get advancePercentWord => 'Anzahlung';
+
+  @override
+  String get jobBidProgressAccept => 'Akzeptiert';
+
+  @override
+  String get jobBidProgressAdvance => 'Anzahlung';
+
+  @override
+  String get jobBidProgressAdvancePaid => 'Anzahlung OK';
+
+  @override
+  String get jobBidProgressLetsStart => 'Start';
+
+  @override
+  String get jobBidProgressWork => 'Arbeit';
+
+  @override
+  String get jobBidProgressDone => 'Erledigt';
+
+  @override
+  String get jobBidProgressCompleted => 'Abgeschlossen';
+
+  @override
+  String get jobBidProgressRemaining => 'Rest';
+
+  @override
+  String get jobBidProgressPaid => 'Bezahlt';
+
+  @override
+  String get serviceTypeDaily => 'Täglich';
+
+  @override
+  String get serviceTypeFixed => 'Festpreis';
+
+  @override
+  String get visitTypeOnsite => 'Vor Ort';
+
+  @override
+  String get visitTypeHybrid => 'Hybrid';
+
+  @override
+  String get percentOffSuffix => '% Rabatt';
+
+  @override
+  String get bookingsLabel => 'Buchungen';
+
+  @override
+  String get onsiteFullPresenceLabel => 'Vor Ort (100%)';
+
+  @override
+  String get remoteWorkShareSuffix => 'Remote';
+
+  @override
+  String get cancellationPolicyTitle => 'Stornierungsbedingungen';
+
+  @override
+  String get minimumOrdersLabel => 'Mindestbestellungen';
+
+  @override
+  String get totalBookingsLabel => 'Buchungen gesamt';
+
+  @override
+  String get travelRequiredLabel => 'Anreise erforderlich';
+
+  @override
+  String get descriptionHeading => 'Beschreibung';
 }

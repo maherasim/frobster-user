@@ -106,6 +106,13 @@ abstract class BaseLanguage {
 
   String get hourly;
 
+  /// Shown after formatted price (e.g. hourly service cards).
+  String get priceSuffixHourly;
+
+  String get priceSuffixDaily;
+
+  String get priceSuffixFixed;
+
   String get payment;
 
   String get done;
@@ -717,6 +724,14 @@ abstract class BaseLanguage {
   String get authorBy;
 
   String get views;
+
+  String get proposals;
+
+  String get viewProposal;
+
+  String get hireProvider;
+
+  String get hireAndContinue;
 
   String get blogs;
 
@@ -1559,5 +1574,69 @@ abstract class BaseLanguage {
   // Filter empty states
   String get noCityFound;
   String get noStateFound;
+
+  // Job bid / post job request details screen
+  String get bidDetailsTitle;
+  String get waitingForCustomerPayRemainingAmount;
+  String get bidCancelledShort;
+  String get holdReasonPrefix;
+  String get employerReviewTitle;
+  String get customerReviewTitle;
+  String get letsStartWork;
+  String get confirmDone;
+  String get payRemaining;
+  String get download;
+  String get rateEmployer;
+  String get rateUnitPrice;
+  String get quantityLabel;
+  String get lineTotalAmount;
+  String get netAmountLabel;
+  String get netAmountSubtext;
+  String get grandTotalAmountLabel;
+  String get extraChargesBreakdownTitle;
+  String get noReviewsYet;
+  String get anonymous;
+  String get bidLabelColon;
+  String get advancePercentWord;
+  String get jobBidProgressAccept;
+  String get jobBidProgressAdvance;
+  String get jobBidProgressAdvancePaid;
+  String get jobBidProgressLetsStart;
+  String get jobBidProgressWork;
+  String get jobBidProgressDone;
+  String get jobBidProgressCompleted;
+  String get jobBidProgressRemaining;
+  String get jobBidProgressPaid;
+
+  // Service detail screen (pricing type, visit/remote labels, policy)
+  String get serviceTypeDaily;
+
+  String get serviceTypeFixed;
+
+  String get visitTypeOnsite;
+
+  String get visitTypeHybrid;
+
+  String get onsiteFullPresenceLabel;
+
+  /// Appended after discount number, e.g. "15" + "% off" → "15% off".
+  String get percentOffSuffix;
+
+  /// Short label before completed booking count (e.g. "Bookings: 3").
+  String get bookingsLabel;
+
+  /// Shown after a percentage for hybrid remote, e.g. "50% Remote".
+  String get remoteWorkShareSuffix;
+
+  String get cancellationPolicyTitle;
+
+  String get minimumOrdersLabel;
+
+  String get totalBookingsLabel;
+
+  String get travelRequiredLabel;
+
+  /// Section title for job/post description (not the input hint).
+  String get descriptionHeading;
 
 }

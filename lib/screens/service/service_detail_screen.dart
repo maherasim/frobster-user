@@ -1,5 +1,6 @@
 import 'dart:math';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
+import 'package:intl/intl.dart';
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/online_service_icon_widget.dart';
@@ -81,8 +82,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     final t = type.validate();
     final lower = t.toLowerCase();
     if (lower == SERVICE_TYPE_HOURLY.toLowerCase()) return language.hourly;
-    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return 'Daily';
-    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return 'Fixed';
+    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return language.serviceTypeDaily;
+    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return language.serviceTypeFixed;
     return t.capitalizeFirstLetter();
   }
 
@@ -101,9 +102,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     final upper = value.trim().toUpperCase();
     switch (upper) {
       case 'ON_SITE':
-        return 'Onsite';
+        return language.visitTypeOnsite;
       case 'ONLINE':
-        return 'Online';
+        return language.online;
       default:
         return _titleCase(value);
     }
@@ -111,20 +112,41 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   String _formatRemoteLevel(String value) {
     final v = value.trim().toLowerCase();
-    if (v == 'onsite') return 'Onsite (100%)';
+    if (v == 'onsite') return language.onsiteFullPresenceLabel;
     if (v.endsWith('_remote')) {
       final pct = v.split('_').first;
       final numOnly = pct.replaceAll(RegExp(r'[^0-9]'), '');
-      if (numOnly.isNotEmpty) return '$numOnly% Remote';
+      if (numOnly.isNotEmpty) {
+        return '$numOnly% ${language.remoteWorkShareSuffix}';
+      }
     }
     return _titleCase(value);
   }
 
   String _formatTravelRequired(String value) {
     final v = value.trim().toLowerCase();
-    if (v == 'true' || v == '1') return 'Yes';
-    if (v == 'false' || v == '0') return 'No';
+    if (v == 'true' || v == '1') return language.lblYes;
+    if (v == 'false' || v == '0') return language.lblNo;
     return _titleCase(value);
+  }
+
+  String _formatSlotDay(BuildContext context, String dayRaw) {
+    final day = dayRaw.trim().toLowerCase();
+    const keys = <String, int>{
+      'monday': DateTime.monday,
+      'tuesday': DateTime.tuesday,
+      'wednesday': DateTime.wednesday,
+      'thursday': DateTime.thursday,
+      'friday': DateTime.friday,
+      'saturday': DateTime.saturday,
+      'sunday': DateTime.sunday,
+    };
+    final weekday = keys[day];
+    if (weekday == null) return dayRaw.capitalizeFirstLetter();
+    final refMonday = DateTime(2024, 1, 1);
+    final dt = refMonday.add(Duration(days: weekday - DateTime.monday));
+    final locale = Localizations.localeOf(context).toString();
+    return DateFormat.EEEE(locale).format(dt);
   }
 
   //region Widgets
@@ -167,7 +189,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           if (addr.trim().isNotEmpty) return addr;
                           final city = value.cityName.validate();
                           final country = value.countryName.validate();
-                          if (city.isEmpty && country.isEmpty) return 'N/A';
+                          if (city.isEmpty && country.isEmpty) return language.notAvailable;
                           return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
                         })(),
                         style: boldTextStyle(
@@ -205,7 +227,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Cancelation Policy', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        Text(language.cancellationPolicyTitle,
+            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
         HtmlWidget(
           policy.validate(),
@@ -239,7 +262,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
   }
 
   Widget slotsAvailable(
-      {required List<SlotData> data, required bool isSlotAvailable}) {
+      {required BuildContext context,
+      required List<SlotData> data,
+      required bool isSlotAvailable}) {
     if (!isSlotAvailable ||
         data.where((element) => element.slot.validate().isNotEmpty).isEmpty)
       return Offstage();
@@ -270,7 +295,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                     ? Border.all(color: context.dividerColor)
                     : null,
               ),
-              child: Text('${value.day.capitalizeFirstLetter()}',
+              child: Text(_formatSlotDay(context, value.day.validate()),
                   style: secondaryTextStyle(
                       size: LABEL_TEXT_SIZE, color: gradientRed)),
             );
@@ -503,7 +528,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             final city = primaryCity.isNotEmpty ? primaryCity : fallbackCity;
                             final country = primaryCountry.isNotEmpty ? primaryCountry : fallbackCountry;
                             final label = (city.isEmpty && country.isEmpty)
-                                ? 'N/A'
+                                ? language.notAvailable
                                 : "$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country";
                             return Text(
                               label,
@@ -589,7 +614,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             .validate() >
                                         0)
                                 attributeRow(
-                                  'Discount',
+                                  language.lblDiscount,
                                   "${snap.data!.serviceDetail!.discount.validate()}%",
                                   valueColor: defaultActivityStatus, // green color
                                 ),
@@ -598,15 +623,15 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                         0)
                                 10.height,
                                 attributeRow(
-                                  'Minimum Orders',
+                                  language.minimumOrdersLabel,
                                   (() {
                                     final v = snap.data?.serviceDetail?.minimumOrders.validate() ?? '';
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.notAvailable : v;
                                   })(),
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Job type',
+                                  language.jobType,
                                   (() {
                                     final v = _formatVisitType(snap
                                             .data
@@ -614,12 +639,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             ?.visitType
                                             .validate() ??
                                         '');
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.notAvailable : v;
                                   })(),
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Remote work level',
+                                  language.remoteWorkLevel,
                                   (() {
                                     final v = _formatRemoteLevel(snap
                                             .data
@@ -627,12 +652,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             ?.remoteWorkLevel
                                             .validate() ??
                                         '');
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.notAvailable : v;
                                   })(),
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Career level',
+                                  language.careerLevel,
                                   (() {
                                     final v = _titleCase(snap
                                             .data
@@ -640,12 +665,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             ?.careerLevel
                                             .validate() ??
                                         '');
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.notAvailable : v;
                                   })(),
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Travel required',
+                                  language.travelRequiredLabel,
                                   (() {
                                     final raw = snap
                                             .data
@@ -654,7 +679,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             .validate() ??
                                         '';
                                     final v = _formatTravelRequired(raw);
-                                    return raw.trim().isEmpty ? 'N/A' : v;
+                                    return raw.trim().isEmpty ? language.notAvailable : v;
                                   })(),
                                 ),
                               ],
@@ -668,7 +693,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           children: [
                             Flexible(
                               child: Text(
-                                'Views',
+                                language.views,
                                 style: secondaryTextStyle(size: 13),
                                 textAlign: TextAlign.left,
                               ),
@@ -693,7 +718,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           children: [
                             Flexible(
                               child: Text(
-                                'Total Booking',
+                                language.totalBookingsLabel,
                                 style: secondaryTextStyle(size: 13),
                                 textAlign: TextAlign.left,
                               ),
@@ -732,7 +757,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             !snap.data!.serviceDetail!.isFreeService)
                           16.height,
                         // Description right after attributes
-                        Text('Description',
+                        Text(language.descriptionHeading,
                                 style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                         16.height,
                         (snap.data!.serviceDetail!.description
@@ -763,6 +788,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                         children: [
                           8.height,
                           slotsAvailable(
+                            context: context,
                             data: snap.data!.serviceDetail!.bookingSlots
                                 .validate(),
                             isSlotAvailable:
