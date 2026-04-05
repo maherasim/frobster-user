@@ -1,6 +1,9 @@
 import 'package:booking_system_flutter/screens/newDashboard/dashboard_3/component/service_dashboard_component_3.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../../utils/ugc_blocked_utils.dart';
 
 import '../../../../component/empty_error_state_widget.dart';
 import '../../../../component/view_all_label_component.dart';
@@ -21,14 +24,17 @@ class ServiceListDashboardComponent3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (serviceList.isEmpty) return Offstage();
+    return Observer(builder: (_) {
+      final list =
+          filterOutBlockedServices(serviceList, appStore.blockedUserIds);
+      if (list.isEmpty) return Offstage();
 
-    return Column(
+      return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         ViewAllLabel(
           label: serviceListTitle,
-          list: serviceList,
+          list: list,
           trailingTextStyle: boldTextStyle(color: primaryColor, size: 12),
           onTap: () {
             ViewAllServiceScreen(isFeatured: isFeatured ? '1' : '')
@@ -39,14 +45,14 @@ class ServiceListDashboardComponent3 extends StatelessWidget {
             });
           },
         ).paddingSymmetric(horizontal: 16),
-        if (serviceList.isNotEmpty)
+        if (list.isNotEmpty)
           HorizontalList(
-            itemCount: serviceList.length,
+            itemCount: list.length,
             spacing: 16,
             padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 8),
             itemBuilder: (context, index) {
               return ServiceDashboardComponent3(
-                serviceData: serviceList[index],
+                serviceData: list[index],
                 width: 280,
                 isBorderEnabled: true,
               );
@@ -62,5 +68,6 @@ class ServiceListDashboardComponent3 extends StatelessWidget {
           ).center(),
       ],
     );
+    });
   }
 }

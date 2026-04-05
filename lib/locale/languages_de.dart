@@ -2335,4 +2335,48 @@ class LanguageDe extends BaseLanguage {
   @override
   String get waitingForProviderToMarkBidAsCompleted =>
       'Warten auf Anbieter zur Markierung des Gebots als abgeschlossen';
+
+  @override
+  String get ugcReportService => 'Melden';
+
+  @override
+  String get ugcBlockProvider => 'Anbieter blockieren';
+
+  @override
+  String get ugcReportTitle => 'Diese Dienstleistung melden';
+
+  @override
+  String get ugcSelectReason => 'Grund';
+
+  @override
+  String get ugcDetailsOptional => 'Details (optional)';
+
+  @override
+  String get ugcSubmitReport => 'Meldung senden';
+
+  @override
+  String get ugcBlockConfirmTitle => 'Anbieter blockieren?';
+
+  @override
+  String get ugcProviderBlockedMessage =>
+      'Sie haben diesen Anbieter blockiert.';
+
+  @override
+  String get ugcBlockConfirmMessage =>
+      'Sie sehen die Angebote dieses Anbieters nicht mehr. Fortfahren?';
+
+  @override
+  String get ugcReasonSpam => 'Spam';
+
+  @override
+  String get ugcReasonHarassment => 'Belästigung';
+
+  @override
+  String get ugcReasonInappropriate => 'Unangemessen';
+
+  @override
+  String get ugcReasonFraud => 'Betrug';
+
+  @override
+  String get ugcReasonOther => 'Sonstiges';
 }

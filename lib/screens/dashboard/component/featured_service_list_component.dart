@@ -3,7 +3,10 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/screens/service/component/service_component.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import '../../../utils/ugc_blocked_utils.dart';
 
 import '../../../component/empty_error_state_widget.dart';
 import '../../../utils/colors.dart';
@@ -16,9 +19,12 @@ class FeaturedServiceListComponent extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (serviceList.isEmpty) return Offstage();
+    return Observer(builder: (_) {
+      final list =
+          filterOutBlockedServices(serviceList, appStore.blockedUserIds);
+      if (list.isEmpty) return Offstage();
 
-    return Container(
+      return Container(
       padding: EdgeInsets.only(bottom: 16),
       width: context.width(),
       decoration: BoxDecoration(
@@ -32,19 +38,19 @@ class FeaturedServiceListComponent extends StatelessWidget {
           16.height,
           ViewAllLabel(
             label: language.lblFeatured,
-            list: serviceList,
+            list: list,
             onTap: () {
               ViewAllServiceScreen(isFeatured: "1").launch(context);
             },
           ).paddingSymmetric(horizontal: 16),
-          if (serviceList.isNotEmpty)
+          if (list.isNotEmpty)
             HorizontalList(
-              itemCount: serviceList.length,
+              itemCount: list.length,
               spacing: 16,
               padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
               itemBuilder: (context, index) => ServiceComponent(
                 isFromFeatured: true,
-                serviceData: serviceList[index],
+                serviceData: list[index],
                 width: 280,
                 isBorderEnabled: true,
               ),
@@ -60,5 +66,6 @@ class FeaturedServiceListComponent extends StatelessWidget {
         ],
       ),
     );
+    });
   }
 }

@@ -12,6 +12,7 @@ import '../../../../utils/colors.dart';
 import '../../../../utils/common.dart';
 import '../../../../utils/constant.dart';
 import '../../../../utils/images.dart';
+import '../../../../utils/ugc_blocked_utils.dart';
 import '../../../booking/provider_info_screen.dart';
 import '../../../service/service_detail_screen.dart';
 
@@ -59,6 +60,10 @@ class _ServiceDashboardComponent1State
     return GestureDetector(
       onTap: () {
         hideKeyboard(context);
+        if (shouldBlockServiceTap(widget.serviceData)) {
+          toast(language.ugcProviderBlockedMessage);
+          return;
+        }
         ServiceDetailScreen(
           serviceId: widget.isFavouriteService
               ? widget.serviceData.serviceId.validate().toInt()

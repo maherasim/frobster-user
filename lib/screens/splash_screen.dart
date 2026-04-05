@@ -69,6 +69,8 @@ class _SplashScreenState extends State<SplashScreen> {
           cachedWalletHistoryList!.clear();
       }
 
+      await appStore.loadBlockedUserIds();
+
       if (appConfigurationStore.maintenanceModeStatus) {
         MaintenanceModeScreen().launch(context,
             isNewTask: true, pageRouteAnimation: PageRouteAnimation.Fade);

@@ -12,6 +12,7 @@ import '../../../model/user_data_model.dart';
 import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
 import '../../../utils/constant.dart';
+import '../../../utils/ugc_blocked_utils.dart';
 import '../../../utils/images.dart';
 import '../../service/service_detail_screen.dart';
 import '../book_service_screen.dart';
@@ -117,6 +118,11 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
         return GestureDetector(
           onTap: () {
             hideKeyboard(context);
+            if (widget.serviceData != null &&
+                shouldBlockServiceTap(widget.serviceData!)) {
+              toast(language.ugcProviderBlockedMessage);
+              return;
+            }
             ServiceDetailScreen(
                     serviceId: widget.isFavouriteService
                         ? widget.serviceData!.serviceId.validate().toInt()

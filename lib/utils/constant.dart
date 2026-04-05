@@ -129,6 +129,9 @@ const HAS_IN_APP_STORE_REVIEW = 'hasInAppStoreReview1';
 const HAS_IN_PLAY_STORE_REVIEW = 'hasInPlayStoreReview1';
 const HAS_IN_REVIEW = 'hasInReview';
 const AUTO_SLIDER_STATUS = 'AUTO_SLIDER_STATUS';
+
+/// Per-logged-in-user list of ids passed to [ugc/block] (comma-separated).
+const UGC_BLOCKED_USER_IDS_PREFIX = 'UGC_BLOCKED_USER_IDS_';
 const UPDATE_NOTIFY = 'UPDATE_NOTIFY';
 
 const APPLE_EMAIL = 'APPLE_EMAIL';

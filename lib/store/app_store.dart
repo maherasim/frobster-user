@@ -108,6 +108,10 @@ abstract class _AppStore with Store {
   @observable
   double expansionDynamicHeight = 65;
 
+  /// User or provider ids blocked via UGC (persisted per account).
+  @observable
+  List<int> blockedUserIds = ObservableList();
+
   @observable
   LanguageDataModel selectedLanguage = languageList().first;
 
@@ -329,5 +333,36 @@ abstract class _AppStore with Store {
     errorSomethingWentWrong = language.somethingWentWrong;
     errorThisFieldRequired = language.requiredText;
     errorInternetNotAvailable = language.internetNotAvailable;
+  }
+
+  @action
+  Future<void> loadBlockedUserIds() async {
+    blockedUserIds.clear();
+    if (!isLoggedIn || userId <= 0) return;
+    final raw = getStringAsync(
+      '$UGC_BLOCKED_USER_IDS_PREFIX$userId',
+      defaultValue: '',
+    );
+    if (raw.isEmpty) return;
+    for (final part in raw.split(',')) {
+      final v = int.tryParse(part.trim());
+      if (v != null && v > 0) blockedUserIds.add(v);
+    }
+  }
+
+  @action
+  Future<void> addBlockedUserId(int blockedUserId) async {
+    if (blockedUserId <= 0 || !isLoggedIn || userId <= 0) return;
+    if (blockedUserIds.contains(blockedUserId)) return;
+    blockedUserIds.add(blockedUserId);
+    await setValue(
+      '$UGC_BLOCKED_USER_IDS_PREFIX$userId',
+      blockedUserIds.join(','),
+    );
+  }
+
+  @action
+  void clearBlockedUserIdsOnLogout() {
+    blockedUserIds.clear();
   }
 }

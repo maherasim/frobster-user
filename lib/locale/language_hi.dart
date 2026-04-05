@@ -2301,4 +2301,48 @@ class LanguageHi extends BaseLanguage {
   @override
   String get waitingForProviderToMarkBidAsCompleted => 'प्रदाता के बोली को पूरा के रूप में चिह्नित करने की प्रतीक्षा कर रहा है';
 
+  @override
+  String get ugcReportService => 'रिपोर्ट करें';
+
+  @override
+  String get ugcBlockProvider => 'प्रदाता को ब्लॉक करें';
+
+  @override
+  String get ugcReportTitle => 'इस सेवा की रिपोर्ट करें';
+
+  @override
+  String get ugcSelectReason => 'कारण';
+
+  @override
+  String get ugcDetailsOptional => 'विवरण (वैकल्पिक)';
+
+  @override
+  String get ugcSubmitReport => 'रिपोर्ट भेजें';
+
+  @override
+  String get ugcBlockConfirmTitle => 'प्रदाता को ब्लॉक करें?';
+
+  @override
+  String get ugcBlockConfirmMessage =>
+      'आपको इस प्रदाता की सेवाएँ अब नहीं दिखेंगी। जारी रखें?';
+
+  @override
+  String get ugcProviderBlockedMessage =>
+      'आपने इस प्रदाता को ब्लॉक कर दिया है।';
+
+  @override
+  String get ugcReasonSpam => 'स्पैम';
+
+  @override
+  String get ugcReasonHarassment => 'उत्पीड़न';
+
+  @override
+  String get ugcReasonInappropriate => 'अनुचित';
+
+  @override
+  String get ugcReasonFraud => 'धोखाधड़ी';
+
+  @override
+  String get ugcReasonOther => 'अन्य';
+
 }

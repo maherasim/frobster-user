@@ -2322,4 +2322,48 @@ class LanguageFr extends BaseLanguage {
   @override
   String get paymentCompletedDownloadInvoice => "Paiement terminé. Vous pouvez télécharger la facture.";
 
+  @override
+  String get ugcReportService => 'Signaler';
+
+  @override
+  String get ugcBlockProvider => 'Bloquer le prestataire';
+
+  @override
+  String get ugcReportTitle => 'Signaler ce service';
+
+  @override
+  String get ugcSelectReason => 'Motif';
+
+  @override
+  String get ugcDetailsOptional => 'Détails (facultatif)';
+
+  @override
+  String get ugcSubmitReport => 'Envoyer le signalement';
+
+  @override
+  String get ugcBlockConfirmTitle => 'Bloquer le prestataire ?';
+
+  @override
+  String get ugcBlockConfirmMessage =>
+      'Vous ne verrez plus les services de ce prestataire. Continuer ?';
+
+  @override
+  String get ugcProviderBlockedMessage =>
+      'Vous avez bloqué ce prestataire.';
+
+  @override
+  String get ugcReasonSpam => 'Spam';
+
+  @override
+  String get ugcReasonHarassment => 'Harcèlement';
+
+  @override
+  String get ugcReasonInappropriate => 'Contenu inapproprié';
+
+  @override
+  String get ugcReasonFraud => 'Fraude';
+
+  @override
+  String get ugcReasonOther => 'Autre';
+
 }

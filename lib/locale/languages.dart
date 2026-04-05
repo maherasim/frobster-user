@@ -1468,5 +1468,33 @@ abstract class BaseLanguage {
 
   String get waitingForProviderToMarkBidAsCompleted;
 
+  // UGC: report service / block provider (customer listings)
+  String get ugcReportService;
+
+  String get ugcBlockProvider;
+
+  String get ugcReportTitle;
+
+  String get ugcSelectReason;
+
+  String get ugcDetailsOptional;
+
+  String get ugcSubmitReport;
+
+  String get ugcBlockConfirmTitle;
+
+  String get ugcBlockConfirmMessage;
+
+  String get ugcProviderBlockedMessage;
+
+  String get ugcReasonSpam;
+
+  String get ugcReasonHarassment;
+
+  String get ugcReasonInappropriate;
+
+  String get ugcReasonFraud;
+
+  String get ugcReasonOther;
 
 }
