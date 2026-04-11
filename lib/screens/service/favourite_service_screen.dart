@@ -15,6 +15,7 @@ import 'package:nb_utils/nb_utils.dart';
 import '../../component/empty_error_state_widget.dart';
 import '../../utils/constant.dart';
 import '../../utils/colors.dart';
+import '../../utils/ugc_blocked_utils.dart';
 
 class FavouriteServiceScreen extends StatefulWidget {
   const FavouriteServiceScreen({Key? key}) : super(key: key);
@@ -62,14 +63,20 @@ class _FavouriteServiceScreenState extends State<FavouriteServiceScreen> {
             initialData: cachedServiceFavList,
             builder: (context, snap) {
               if (snap.hasData) {
-                if (snap.data.validate().isEmpty)
-                  return NoDataWidget(
-                    title: language.lblNoServicesFound,
-                    subTitle: language.noFavouriteSubTitle,
-                    imageWidget: EmptyStateWidget(),
+                return Observer(builder: (_) {
+                  final visible = filterOutBlockedServices(
+                    snap.data!.validate(),
+                    appStore.blockedUserIds,
                   );
+                  if (visible.isEmpty) {
+                    return NoDataWidget(
+                      title: language.lblNoServicesFound,
+                      subTitle: language.noFavouriteSubTitle,
+                      imageWidget: EmptyStateWidget(),
+                    );
+                  }
 
-                return AnimatedScrollView(
+                  return AnimatedScrollView(
                   padding: EdgeInsets.fromLTRB(16, 16, 16, 60),
                   listAnimationType: ListAnimationType.FadeIn,
                   fadeInConfiguration: FadeInConfiguration(duration: 2.seconds),
@@ -95,10 +102,10 @@ class _FavouriteServiceScreenState extends State<FavouriteServiceScreen> {
                     ListView.separated(
                       shrinkWrap: true,
                       physics: NeverScrollableScrollPhysics(),
-                      itemCount: snap.data!.length,
+                      itemCount: visible.length,
                       separatorBuilder: (_, __) => 16.height,
                       itemBuilder: (_, index) {
-                        final service = snap.data![index];
+                        final service = visible[index];
                         return FutureBuilder<ProviderInfoResponse>(
                           future:
                               getProviderDetail(service.providerId.validate()),
@@ -124,6 +131,7 @@ class _FavouriteServiceScreenState extends State<FavouriteServiceScreen> {
                     ),
                   ],
                 );
+                });
               }
 
               return snapWidgetHelper(

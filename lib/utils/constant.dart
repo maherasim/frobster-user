@@ -131,6 +131,9 @@ const HAS_IN_REVIEW = 'hasInReview';
 const AUTO_SLIDER_STATUS = 'AUTO_SLIDER_STATUS';
 const UPDATE_NOTIFY = 'UPDATE_NOTIFY';
 
+/// Per-account comma-separated ids from [ugc/block].
+const UGC_BLOCKED_USER_IDS_PREFIX = 'UGC_BLOCKED_USER_IDS_';
+
 const APPLE_EMAIL = 'APPLE_EMAIL';
 const APPLE_UID = 'APPLE_UID';
 const APPLE_GIVE_NAME = 'APPLE_GIVE_NAME';

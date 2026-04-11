@@ -3,6 +3,7 @@ import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/store/filter_store.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/cached_image_widget.dart';
@@ -12,6 +13,7 @@ import '../../model/service_data_model.dart';
 import '../../network/rest_apis.dart';
 import '../../utils/common.dart';
 import '../../utils/constant.dart';
+import '../../utils/ugc_blocked_utils.dart';
 import '../../utils/images.dart';
 import '../booking/component/provider_service_component.dart';
 import '../filter/filter_screen.dart';
@@ -200,11 +202,16 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                 },
                 children: [
                   showRecommended
-                      ? Column(
+                      ? Observer(builder: (_) {
+                          final featured = filterOutBlockedServices(
+                            widget.featuredList.validate(),
+                            appStore.blockedUserIds,
+                          );
+                          return Column(
                           mainAxisSize: MainAxisSize.min,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            if (widget.featuredList.validate().isNotEmpty)
+                            if (featured.isNotEmpty)
                               Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -214,8 +221,7 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                                               size: LABEL_TEXT_SIZE))
                                       .paddingSymmetric(horizontal: 16),
                                   AnimatedListView(
-                                    itemCount:
-                                        widget.featuredList.validate().length,
+                                    itemCount: featured.length,
                                     listAnimationType: ListAnimationType.FadeIn,
                                     fadeInConfiguration: FadeInConfiguration(
                                         duration: 2.seconds),
@@ -233,8 +239,7 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                                     ),
                                     itemBuilder: (_, index) {
                                       return ProviderServiceComponent(
-                                              serviceData: widget.featuredList
-                                                  .validate()[index])
+                                              serviceData: featured[index])
                                           .paddingAll(8);
                                     },
                                   ).paddingAll(8),
@@ -246,7 +251,8 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                                 imageWidget: EmptyStateWidget(),
                               ),
                           ],
-                        )
+                        );
+                        })
                       : SnapHelperWidget(
                           future: futureService,
                           loadingWidget:
@@ -266,12 +272,17 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                             );
                           },
                           onSuccess: (data) {
-                            return Column(
+                            return Observer(builder: (_) {
+                              final visible = filterOutBlockedServices(
+                                serviceList,
+                                appStore.blockedUserIds,
+                              );
+                              return Column(
                               mainAxisSize: MainAxisSize.min,
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 AnimatedListView(
-                                  itemCount: serviceList.length,
+                                  itemCount: visible.length,
                                   listAnimationType: ListAnimationType.FadeIn,
                                   fadeInConfiguration:
                                       FadeInConfiguration(duration: 2.seconds),
@@ -288,12 +299,13 @@ class _SearchServiceScreenState extends State<SearchServiceScreen> {
                                   ),
                                   itemBuilder: (_, index) {
                                     return ProviderServiceComponent(
-                                            serviceData: serviceList[index])
+                                            serviceData: visible[index])
                                         .paddingAll(8);
                                   },
                                 ).paddingAll(8),
                               ],
                             );
+                            });
                           },
                         ),
                 ],

@@ -15,6 +15,7 @@ import '../../model/service_data_model.dart';
 import '../../network/rest_apis.dart';
 import '../../utils/common.dart';
 import '../../utils/constant.dart';
+import '../../utils/ugc_blocked_utils.dart';
 import '../../utils/images.dart';
 import '../filter/filter_screen.dart';
 import 'component/service_component.dart';
@@ -462,40 +463,46 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
                     onSuccess: (data) {
                       // Ensure serviceList is synced with the API response
                       serviceList = data;
-                      return Column(
-                        mainAxisSize: MainAxisSize.min,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(language.service,
-                                  style: boldTextStyle(size: LABEL_TEXT_SIZE))
-                              .paddingSymmetric(horizontal: 16),
-                          AnimatedListView(
-                            itemCount: serviceList.length,
-                            listAnimationType: ListAnimationType.FadeIn,
-                            fadeInConfiguration:
-                                FadeInConfiguration(duration: 2.seconds),
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            emptyWidget: NoDataWidget(
-                              title: language.lblNoServicesFound,
-                              subTitle: (searchCont.text.isNotEmpty ||
-                                      filterStore.providerId.isNotEmpty ||
-                                      filterStore.categoryId.isNotEmpty ||
-                                      subCategory != null)
-                                  ? language.noDataFoundInFilter
-                                  : null,
-                              imageWidget: EmptyStateWidget(),
-                            ),
-                            itemBuilder: (_, index) {
-                              return ServiceComponent(
-                                isFromService: true,
-                                serviceData: serviceList[index],
-                                isFromViewAllService: true,
-                              ).paddingAll(8);
-                            },
-                          ).paddingAll(8),
-                        ],
-                      );
+                      return Observer(builder: (_) {
+                        final visible = filterOutBlockedServices(
+                          serviceList,
+                          appStore.blockedUserIds,
+                        );
+                        return Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(language.service,
+                                    style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                .paddingSymmetric(horizontal: 16),
+                            AnimatedListView(
+                              itemCount: visible.length,
+                              listAnimationType: ListAnimationType.FadeIn,
+                              fadeInConfiguration:
+                                  FadeInConfiguration(duration: 2.seconds),
+                              physics: NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              emptyWidget: NoDataWidget(
+                                title: language.lblNoServicesFound,
+                                subTitle: (searchCont.text.isNotEmpty ||
+                                        filterStore.providerId.isNotEmpty ||
+                                        filterStore.categoryId.isNotEmpty ||
+                                        subCategory != null)
+                                    ? language.noDataFoundInFilter
+                                    : null,
+                                imageWidget: EmptyStateWidget(),
+                              ),
+                              itemBuilder: (_, index) {
+                                return ServiceComponent(
+                                  isFromService: true,
+                                  serviceData: visible[index],
+                                  isFromViewAllService: true,
+                                ).paddingAll(8);
+                              },
+                            ).paddingAll(8),
+                          ],
+                        );
+                      });
                     },
                   ),
                 ],

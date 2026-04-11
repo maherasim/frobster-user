@@ -143,6 +143,7 @@ Future<void> saveUserData(UserData data,
   if (forceSyncAppConfigurations)
     await setValue(LAST_APP_CONFIGURATION_SYNCED_TIME, 0);
   getAppConfigurations();
+  await appStore.loadBlockedUserIds();
 }
 
 Future<void> clearPreferences() async {
@@ -164,6 +165,7 @@ Future<void> clearPreferences() async {
   await removeKey(LOGIN_TYPE);
 
   await appStore.setLoggedIn(false);
+  appStore.clearBlockedUserIdsOnLogout();
   await appStore.setFirstName('');
   await appStore.setLastName('');
   await appStore.setUserId(0);
@@ -1570,5 +1572,35 @@ Future<List<ChatUserItem>> chatSearchUsers({required String query, int page = 1}
   return data
       .map((e) => ChatUserItem.fromJson(e as Map<String, dynamic>))
       .toList();
+}
+
+Future<Map<String, dynamic>> ugcReportService({
+  required int serviceId,
+  required String reason,
+  String? details,
+}) async {
+  final req = <String, dynamic>{
+    'service_id': serviceId,
+    'reason': reason,
+  };
+  final d = details?.trim();
+  if (d != null && d.isNotEmpty) {
+    req['details'] = d;
+  }
+  return await handleResponse(await buildHttpResponse(
+    'ugc/report',
+    request: req,
+    method: HttpMethodType.POST,
+  )) as Map<String, dynamic>;
+}
+
+Future<Map<String, dynamic>> ugcBlockUser({
+  required int blockedUserId,
+}) async {
+  return await handleResponse(await buildHttpResponse(
+    'ugc/block',
+    request: {'blocked_user_id': blockedUserId},
+    method: HttpMethodType.POST,
+  )) as Map<String, dynamic>;
 }
 //endregion

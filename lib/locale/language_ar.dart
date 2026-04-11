@@ -2649,4 +2649,47 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get descriptionHeading => 'Description';
+
+  @override
+  String get ugcReportService => 'الإبلاغ عن الخدمة';
+
+  @override
+  String get ugcBlockProvider => 'حظر مقدم الخدمة';
+
+  @override
+  String get ugcReportTitle => 'الإبلاغ عن هذه الخدمة';
+
+  @override
+  String get ugcSelectReason => 'السبب';
+
+  @override
+  String get ugcDetailsOptional => 'تفاصيل (اختياري)';
+
+  @override
+  String get ugcSubmitReport => 'إرسال البلاغ';
+
+  @override
+  String get ugcBlockConfirmTitle => 'حظر مقدم الخدمة؟';
+
+  @override
+  String get ugcBlockConfirmMessage =>
+      'لن تظهر لك خدمات هذا المقدم بعد الآن. المتابعة؟';
+
+  @override
+  String get ugcProviderBlockedMessage => 'لقد حظرتَ مقدم الخدمة هذا.';
+
+  @override
+  String get ugcReasonSpam => 'بريد مزعج';
+
+  @override
+  String get ugcReasonHarassment => 'تحرش';
+
+  @override
+  String get ugcReasonInappropriate => 'محتوى غير لائق';
+
+  @override
+  String get ugcReasonFraud => 'احتيال';
+
+  @override
+  String get ugcReasonOther => 'أخرى';
 }

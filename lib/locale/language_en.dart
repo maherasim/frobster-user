@@ -2685,4 +2685,47 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get descriptionHeading => 'Description';
+
+  @override
+  String get ugcReportService => 'Report service';
+
+  @override
+  String get ugcBlockProvider => 'Block provider';
+
+  @override
+  String get ugcReportTitle => 'Report this service';
+
+  @override
+  String get ugcSelectReason => 'Reason';
+
+  @override
+  String get ugcDetailsOptional => 'Details (optional)';
+
+  @override
+  String get ugcSubmitReport => 'Submit report';
+
+  @override
+  String get ugcBlockConfirmTitle => 'Block provider?';
+
+  @override
+  String get ugcBlockConfirmMessage =>
+      'You will stop seeing this provider’s services. Continue?';
+
+  @override
+  String get ugcProviderBlockedMessage => 'You blocked this provider.';
+
+  @override
+  String get ugcReasonSpam => 'Spam';
+
+  @override
+  String get ugcReasonHarassment => 'Harassment';
+
+  @override
+  String get ugcReasonInappropriate => 'Inappropriate';
+
+  @override
+  String get ugcReasonFraud => 'Fraud';
+
+  @override
+  String get ugcReasonOther => 'Other';
 }

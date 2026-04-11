@@ -16,6 +16,7 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
+import 'package:booking_system_flutter/utils/ugc_blocked_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:intl/intl.dart';
@@ -25,6 +26,7 @@ import '../../../model/city_list_model.dart';
 import '../../newDashboard/dashboard_1/component/service_dashboard_component_1.dart';
 import '../../newDashboard/dashboard_2/component/service_dashboard_component_2.dart';
 import '../../newDashboard/dashboard_3/component/service_dashboard_component_3.dart';
+import 'service_ugc_menu.dart';
 
 class ServiceComponent extends StatefulWidget {
   final ServiceData serviceData;
@@ -201,6 +203,19 @@ class ServiceComponentState extends State<ServiceComponent> {
     }
   }
 
+  bool get _showUgcOnListing {
+    return widget.isFromFeatured ||
+        widget.isFromService ||
+        widget.isFromDashboard ||
+        widget.isFromViewAllService;
+  }
+
+  bool get _isOwnService {
+    final pid = widget.serviceData.providerId;
+    if (pid == null) return false;
+    return pid == appStore.userId;
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget buildServiceComponent() {
@@ -222,9 +237,15 @@ class ServiceComponentState extends State<ServiceComponent> {
       });
     }
 
+    final cardBody = buildServiceComponent();
+
     return GestureDetector(
       onTap: () {
         hideKeyboard(context);
+        if (shouldBlockServiceTap(widget.serviceData)) {
+          toast(language.ugcProviderBlockedMessage);
+          return;
+        }
         ServiceDetailScreen(
           serviceId: widget.isFavouriteService
               ? widget.serviceData.serviceId.validate().toInt()
@@ -234,7 +255,28 @@ class ServiceComponentState extends State<ServiceComponent> {
           widget.onUpdate?.call();
         });
       },
-      child: buildServiceComponent(),
+      child: Stack(
+        clipBehavior: Clip.none,
+        children: [
+          cardBody,
+          Observer(
+            builder: (_) {
+              if (!appStore.isLoggedIn || !_showUgcOnListing || _isOwnService) {
+                return const SizedBox.shrink();
+              }
+              return Positioned(
+                top: 8,
+                right: widget.isFavouriteService ? 52 : 8,
+                child: ServiceUgcMenuButton(
+                  serviceData: widget.serviceData,
+                  isFavouriteService: widget.isFavouriteService,
+                  showMenu: true,
+                ),
+              );
+            },
+          ),
+        ],
+      ),
     );
   }
 
