@@ -12,6 +12,7 @@ import '../../component/loader_widget.dart';
 import '../../model/service_detail_response.dart';
 import '../../network/rest_apis.dart';
 import '../../utils/images.dart';
+import '../booking/component/report_review_dialog.dart';
 import '../review/shimmer/ratting_shimmer.dart';
 import '../service/service_detail_screen.dart';
 
@@ -127,6 +128,36 @@ class _CustomerRatingScreenState extends State<CustomerRatingScreen> {
                                   Text(language.lblYourComment,
                                           style: boldTextStyle())
                                       .expand(),
+                                  Observer(
+                                    builder: (_) {
+                                      final rid = data.id;
+                                      if (!appStore.isLoggedIn ||
+                                          rid == null ||
+                                          rid <= 0) {
+                                        return const SizedBox.shrink();
+                                      }
+                                      return IconButton(
+                                        visualDensity: VisualDensity.compact,
+                                        tooltip: language.ugcReportReviewTitle,
+                                        icon: Icon(
+                                          Icons.flag_outlined,
+                                          color: context.primaryColor,
+                                          size: 20,
+                                        ),
+                                        onPressed: () {
+                                          showDialog<void>(
+                                            context: context,
+                                            barrierDismissible: true,
+                                            builder: (ctx) =>
+                                                ReportReviewDialog(
+                                              reviewId: rid,
+                                              reviewType: 'customer_rating',
+                                            ),
+                                          );
+                                        },
+                                      );
+                                    },
+                                  ),
                                   // ic_edit_square
                                   //     .iconImage(size: 16)
                                   //     .paddingAll(8)

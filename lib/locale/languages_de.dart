@@ -2352,6 +2352,17 @@ class LanguageDe extends BaseLanguage {
   String get ugcReportProfileTitle => 'Dieses Profil melden';
 
   @override
+  String get ugcReportReviewTitle => 'Diese Bewertung melden';
+
+  @override
+  String get ugcReportReviewSuccess =>
+      'Vielen Dank. Ihre Meldung zu dieser Bewertung wurde erhalten.';
+
+  @override
+  String get ugcCannotReportOwnReview =>
+      'Sie können Ihre eigene Bewertung nicht melden.';
+
+  @override
   String get ugcSelectReason => 'Grund';
 
   @override

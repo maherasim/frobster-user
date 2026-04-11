@@ -2338,6 +2338,17 @@ class LanguageFr extends BaseLanguage {
   String get ugcReportProfileTitle => 'Signaler ce profil';
 
   @override
+  String get ugcReportReviewTitle => 'Signaler cet avis';
+
+  @override
+  String get ugcReportReviewSuccess =>
+      'Merci. Votre signalement concernant cet avis a bien été reçu.';
+
+  @override
+  String get ugcCannotReportOwnReview =>
+      'Vous ne pouvez pas signaler votre propre avis.';
+
+  @override
   String get ugcSelectReason => 'Motif';
 
   @override

@@ -2318,6 +2318,17 @@ class LanguageEn extends BaseLanguage {
   String get ugcReportProfileTitle => 'Report this profile';
 
   @override
+  String get ugcReportReviewTitle => 'Report this review';
+
+  @override
+  String get ugcReportReviewSuccess =>
+      'Thank you. Your report about this review was received.';
+
+  @override
+  String get ugcCannotReportOwnReview =>
+      'You cannot report your own review.';
+
+  @override
   String get ugcSelectReason => 'Reason';
 
   @override

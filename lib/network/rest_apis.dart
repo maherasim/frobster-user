@@ -1638,4 +1638,28 @@ Future<Map<String, dynamic>> ugcReportProfile({
     method: HttpMethodType.POST,
   )) as Map<String, dynamic>;
 }
+
+/// Report someone else's review (POST /ugc/report-review).
+/// Use [reviewType] `customer_rating` for provider→customer rows; `booking_rating` for customer→service (default).
+Future<Map<String, dynamic>> ugcReportReview({
+  required int reviewId,
+  String reviewType = 'booking_rating',
+  required String reason,
+  String? details,
+}) async {
+  final req = <String, dynamic>{
+    'review_id': reviewId,
+    'reason': reason,
+    'review_type': reviewType,
+  };
+  final d = details?.trim();
+  if (d != null && d.isNotEmpty) {
+    req['details'] = d;
+  }
+  return await handleResponse(await buildHttpResponse(
+    'ugc/report-review',
+    request: req,
+    method: HttpMethodType.POST,
+  )) as Map<String, dynamic>;
+}
 //endregion

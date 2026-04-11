@@ -2282,6 +2282,17 @@ class LanguageAr extends BaseLanguage {
   String get ugcReportProfileTitle => 'الإبلاغ عن هذا الملف الشخصي';
 
   @override
+  String get ugcReportReviewTitle => 'الإبلاغ عن هذه المراجعة';
+
+  @override
+  String get ugcReportReviewSuccess =>
+      'شكرًا لك. تم استلام بلاغك بخصوص هذه المراجعة.';
+
+  @override
+  String get ugcCannotReportOwnReview =>
+      'لا يمكنك الإبلاغ عن مراجعتك الخاصة.';
+
+  @override
   String get ugcSelectReason => 'السبب';
 
   @override

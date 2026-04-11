@@ -2317,6 +2317,17 @@ class LanguageHi extends BaseLanguage {
   String get ugcReportProfileTitle => 'इस प्रोफ़ाइल की रिपोर्ट करें';
 
   @override
+  String get ugcReportReviewTitle => 'इस समीक्षा की रिपोर्ट करें';
+
+  @override
+  String get ugcReportReviewSuccess =>
+      'धन्यवाद। इस समीक्षा के बारे में आपकी रिपोर्ट प्राप्त हो गई।';
+
+  @override
+  String get ugcCannotReportOwnReview =>
+      'आप अपनी खुद की समीक्षा की रिपोर्ट नहीं कर सकते।';
+
+  @override
   String get ugcSelectReason => 'कारण';
 
   @override

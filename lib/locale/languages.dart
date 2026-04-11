@@ -1480,6 +1480,13 @@ abstract class BaseLanguage {
 
   String get ugcReportProfileTitle;
 
+  String get ugcReportReviewTitle;
+
+  String get ugcReportReviewSuccess;
+
+  /// Shown when user tries to report their own review (not allowed).
+  String get ugcCannotReportOwnReview;
+
   String get ugcSelectReason;
 
   String get ugcDetailsOptional;
