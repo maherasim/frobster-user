@@ -778,7 +778,15 @@ class LanguageEn extends BaseLanguage {
   String get myReviews => "My Reviews";
 
   @override
-  String get reviewFromProvider => "Review from provider";
+  String get reviewFromProvider => "Review from Employer";
+
+  @override
+  String get jobBidReviewFromEmployerSubtitle =>
+      "Rating and comments from the employer about you.";
+
+  @override
+  String get jobBidYourReviewOfEmployerSubtitle =>
+      "Your rating and review of the employer.";
 
   @override
   String get noCategoryFound => "No Category Found";

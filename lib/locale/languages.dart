@@ -513,6 +513,12 @@ abstract class BaseLanguage {
   /// Provider's review of the customer (booking detail `customer_rating`).
   String get reviewFromProvider;
 
+  /// Post-job bid detail: employer's review of you (API `provider_review`).
+  String get jobBidReviewFromEmployerSubtitle;
+
+  /// Post-job bid detail: your review of the employer (API `customer_review`).
+  String get jobBidYourReviewOfEmployerSubtitle;
+
   String get noCategoryFound;
 
   String get noProviderFound;

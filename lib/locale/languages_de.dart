@@ -788,6 +788,14 @@ class LanguageDe extends BaseLanguage {
   String get reviewFromProvider => "Bewertung vom Anbieter";
 
   @override
+  String get jobBidReviewFromEmployerSubtitle =>
+      "Bewertung und Kommentare des Arbeitgebers über Sie.";
+
+  @override
+  String get jobBidYourReviewOfEmployerSubtitle =>
+      "Ihre Bewertung und Ihr Kommentar zum Arbeitgeber.";
+
+  @override
   String get noCategoryFound => "Keine Kategorie gefunden";
 
   @override

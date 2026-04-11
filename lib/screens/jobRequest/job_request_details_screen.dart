@@ -10,6 +10,7 @@ import 'package:booking_system_flutter/network/rest_apis.dart';
 // removed old firebase chat import
 import 'package:booking_system_flutter/screens/chat/api_chat_screen.dart';
 import 'package:booking_system_flutter/model/chat_api_models.dart';
+import 'package:booking_system_flutter/screens/booking/component/report_review_dialog.dart';
 import 'package:booking_system_flutter/screens/jobRequest/components/payment_dialog.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
@@ -36,6 +37,9 @@ class JobRequestDetailsScreen extends StatefulWidget {
 }
 
 class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
+  /// Employer→you bid ratings (API `provider_review`); same UGC type as booking `customer_rating`.
+  static const String _employerReviewOfYouUgcType = 'customer_rating';
+
   Future<JobRequestDetailResponse?>? future;
   JobRequestDetailResponse? postJobDetail;
 
@@ -526,9 +530,19 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               // Extra Charges Breakdown
               _buildExtraChargesBreakdown(),
 
-              // Employer Review & Customer Review (from API)
-              _buildReviewsSection('Employer Review', postJobDetail!.providerReview),
-              _buildReviewsSection('Customer Review', postJobDetail!.customerReview),
+              // `provider_review` = employer's review of you (reportable).
+              // `customer_review` = your review of the employer (not reportable as own content).
+              _buildReviewsSection(
+                language.reviewFromProvider,
+                postJobDetail!.providerReview,
+                subtitle: language.jobBidReviewFromEmployerSubtitle,
+                reportReviewType: _employerReviewOfYouUgcType,
+              ),
+              _buildReviewsSection(
+                language.yourReview,
+                postJobDetail!.customerReview,
+                subtitle: language.jobBidYourReviewOfEmployerSubtitle,
+              ),
               24.height,
             ],
           ),
@@ -980,13 +994,26 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     );
   }
 
-  /// Builds a section for Employer Review or Customer Review from API (provider_review / customer_review).
-  Widget _buildReviewsSection(String title, List<BidReview> reviews) {
+  /// Bid detail lists: [provider_review] from employer about you; [customer_review] your review of employer.
+  /// [reportReviewType] when set shows report flag (employer's review of you only).
+  Widget _buildReviewsSection(
+    String title,
+    List<BidReview> reviews, {
+    String? subtitle,
+    String? reportReviewType,
+  }) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         24.height,
         Text(title, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        if (subtitle != null && subtitle.trim().isNotEmpty) ...[
+          8.height,
+          Text(
+            subtitle.trim(),
+            style: secondaryTextStyle(size: 12),
+          ),
+        ],
         16.height,
         if (reviews.isEmpty)
           Container(
@@ -1002,12 +1029,14 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
             ),
           )
         else
-          ...reviews.map((r) => _buildReviewCard(r)).toList(),
+          ...reviews
+              .map((r) => _buildReviewCard(r, reportReviewType: reportReviewType))
+              .toList(),
       ],
     );
   }
 
-  Widget _buildReviewCard(BidReview r) {
+  Widget _buildReviewCard(BidReview r, {String? reportReviewType}) {
     final rating = (r.rating ?? 0).clamp(0, 5);
     return Container(
       margin: EdgeInsets.only(bottom: 12),
@@ -1030,6 +1059,39 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   overflow: TextOverflow.ellipsis,
                 ),
               ),
+              if (reportReviewType != null)
+                Observer(
+                  builder: (_) {
+                    final rid = r.id;
+                    if (!appStore.isLoggedIn || rid == null || rid <= 0) {
+                      return const SizedBox.shrink();
+                    }
+                    return IconButton(
+                      visualDensity: VisualDensity.compact,
+                      padding: EdgeInsets.zero,
+                      constraints: const BoxConstraints(
+                        minWidth: 32,
+                        minHeight: 32,
+                      ),
+                      tooltip: language.ugcReportReviewTitle,
+                      icon: Icon(
+                        Icons.flag_outlined,
+                        color: context.primaryColor,
+                        size: 20,
+                      ),
+                      onPressed: () {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (ctx) => ReportReviewDialog(
+                            reviewId: rid,
+                            reviewType: reportReviewType!,
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
               Row(
                 mainAxisSize: MainAxisSize.min,
                 children: List.generate(5, (i) {

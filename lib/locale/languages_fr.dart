@@ -788,6 +788,14 @@ class LanguageFr extends BaseLanguage {
   String get reviewFromProvider => "Avis du prestataire";
 
   @override
+  String get jobBidReviewFromEmployerSubtitle =>
+      "Note et commentaires de l’employeur à votre sujet.";
+
+  @override
+  String get jobBidYourReviewOfEmployerSubtitle =>
+      "Votre note et votre avis sur l’employeur.";
+
+  @override
   String get noCategoryFound => "Aucune catégorie trouvée";
 
   @override
