@@ -785,6 +785,9 @@ class LanguageHi extends BaseLanguage {
   String get myReviews => "मेरी समीक्षा";
 
   @override
+  String get reviewFromProvider => "प्रदाता की समीक्षा";
+
+  @override
   String get noCategoryFound => "कोई श्रेणी नहीं मिली";
 
   @override
@@ -2309,6 +2312,9 @@ class LanguageHi extends BaseLanguage {
 
   @override
   String get ugcReportTitle => 'इस सेवा की रिपोर्ट करें';
+
+  @override
+  String get ugcReportProfileTitle => 'इस प्रोफ़ाइल की रिपोर्ट करें';
 
   @override
   String get ugcSelectReason => 'कारण';

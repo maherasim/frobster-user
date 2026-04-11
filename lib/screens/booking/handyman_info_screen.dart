@@ -19,6 +19,7 @@ import '../../component/empty_error_state_widget.dart';
 import '../../utils/colors.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
+import 'component/report_profile_dialog.dart';
 import '../service/view_all_service_screen.dart';
 
 // NOTE: This screen is READ-ONLY. No edit/update functionality should be added.
@@ -187,6 +188,31 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                         isOnTapEnabled: true,
                         onUpdate: () {},
                       ),
+                      if (appStore.isLoggedIn &&
+                          data.userData?.id != null &&
+                          data.userData!.id != appStore.userId)
+                        Align(
+                          alignment: Alignment.centerRight,
+                          child: IconButton(
+                            visualDensity: VisualDensity.compact,
+                            tooltip: language.ugcReportProfileTitle,
+                            icon: Icon(
+                              Icons.flag_outlined,
+                              color: context.primaryColor,
+                              size: 22,
+                            ),
+                            onPressed: () {
+                              showDialog<void>(
+                                context: context,
+                                barrierDismissible: true,
+                                builder: (ctx) => ReportProfileDialog(
+                                  reportedUserId:
+                                      data.userData!.id.validate(),
+                                ),
+                              );
+                            },
+                          ),
+                        ).paddingOnly(right: 8, top: 4),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                       children: [

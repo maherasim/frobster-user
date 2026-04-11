@@ -785,6 +785,9 @@ class LanguageFr extends BaseLanguage {
   String get myReviews => "Mes critiques";
 
   @override
+  String get reviewFromProvider => "Avis du prestataire";
+
+  @override
   String get noCategoryFound => "Aucune catégorie trouvée";
 
   @override
@@ -2330,6 +2333,9 @@ class LanguageFr extends BaseLanguage {
 
   @override
   String get ugcReportTitle => 'Signaler ce service';
+
+  @override
+  String get ugcReportProfileTitle => 'Signaler ce profil';
 
   @override
   String get ugcSelectReason => 'Motif';

@@ -221,8 +221,10 @@ class RatingData {
       handymanId: json['handyman_id'],
       handymanName: json['handyman_name'],
       handymanProfileImage: json['handyman_profile_image'],
-      customerName: json['customer_name'],
-      customerProfileImage: json['customer_profile_image'],
+      // customer_rating (provider rates customer) uses provider_* for reviewer display
+      customerName: json['customer_name'] ?? json['provider_name'],
+      customerProfileImage:
+          json['customer_profile_image'] ?? json['provider_profile_image'],
       serviceName: json['service_name'],
       attachments: json['attchments'] != null
           ? List<String>.from(json['attchments'])

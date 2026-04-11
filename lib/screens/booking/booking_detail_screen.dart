@@ -947,12 +947,19 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       required RatingData? customerReview,
       required BookingData bookingDetail,
       required BookingDetailResponse bookingDetailResponse}) {
-    // Filter out customer's own review from ratingList to avoid duplication
-    // If customerReview exists, exclude it from the general reviews list
-    // This prevents the same review from appearing in both "My Reviews" and "Review (count)" sections
-    final List<RatingData> filteredRatingList = customerReview != null
-        ? ratingList.where((review) => review.id != customerReview.id).toList()
-        : ratingList;
+    // Filter out customer's own review and provider's customer-rating row from ratingList to avoid duplication
+    final RatingData? providerReviewOfCustomer =
+        bookingDetailResponse.customerRating;
+    final List<RatingData> filteredRatingList = ratingList.where((review) {
+      if (customerReview != null && review.id == customerReview.id) {
+        return false;
+      }
+      if (providerReviewOfCustomer != null &&
+          review.id == providerReviewOfCustomer.id) {
+        return false;
+      }
+      return true;
+    }).toList();
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1064,6 +1071,18 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
               ],
             ],
           ),
+        if (bookingDetailResponse.customerRating != null) ...[
+          24.height,
+          Text(
+            language.reviewFromProvider,
+            style: boldTextStyle(size: LABEL_TEXT_SIZE),
+          ).paddingSymmetric(horizontal: 16),
+          16.height,
+          ReviewWidget(
+            data: bookingDetailResponse.customerRating!,
+            isCustomer: true,
+          ),
+        ],
         16.height,
         if (filteredRatingList.isNotEmpty)
           ViewAllLabel(

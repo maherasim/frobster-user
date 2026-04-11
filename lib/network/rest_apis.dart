@@ -24,6 +24,7 @@ import 'package:booking_system_flutter/model/service_response.dart';
 import 'package:booking_system_flutter/model/service_review_response.dart';
 import 'package:booking_system_flutter/model/state_list_model.dart';
 import 'package:booking_system_flutter/model/transaction_request_data.dart';
+import 'package:booking_system_flutter/model/ugc_report_reason.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/model/user_wallet_history.dart';
 import 'package:booking_system_flutter/model/verify_transaction_response.dart';
@@ -1601,6 +1602,39 @@ Future<Map<String, dynamic>> ugcBlockUser({
   return await handleResponse(await buildHttpResponse(
     'ugc/block',
     request: {'blocked_user_id': blockedUserId},
+    method: HttpMethodType.POST,
+  )) as Map<String, dynamic>;
+}
+
+/// Public list of profile-report reasons (labels for UI, values for POST).
+Future<List<UgcReportReason>> getUgcReportReasons() async {
+  final res = await handleResponse(
+    await buildHttpResponse('ugc/report-reasons', method: HttpMethodType.GET),
+  ) as Map<String, dynamic>;
+  final raw = res['reasons'] as List? ?? const [];
+  return raw
+      .map((e) => UgcReportReason.fromJson(e as Map<String, dynamic>))
+      .where((r) => r.value.isNotEmpty)
+      .toList();
+}
+
+/// Report another user’s profile (POST /ugc/report-profile).
+Future<Map<String, dynamic>> ugcReportProfile({
+  required int reportedUserId,
+  required String reason,
+  String? details,
+}) async {
+  final req = <String, dynamic>{
+    'reported_user_id': reportedUserId,
+    'reason': reason,
+  };
+  final d = details?.trim();
+  if (d != null && d.isNotEmpty) {
+    req['details'] = d;
+  }
+  return await handleResponse(await buildHttpResponse(
+    'ugc/report-profile',
+    request: req,
     method: HttpMethodType.POST,
   )) as Map<String, dynamic>;
 }

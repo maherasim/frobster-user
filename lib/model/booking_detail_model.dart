@@ -16,6 +16,8 @@ class BookingDetailResponse {
   List<RatingData>? ratingData;
   ServiceData? service;
   RatingData? customerReview;
+  /// Provider's rating/review of the customer (API: `customer_rating`).
+  RatingData? customerRating;
   List<TaxData>? taxes;
   List<ServiceProof>? serviceProof;
   PostJobData? postRequestDetail;
@@ -35,6 +37,7 @@ class BookingDetailResponse {
     this.service,
     this.ratingData,
     this.customerReview,
+    this.customerRating,
     this.taxes,
     this.serviceProof,
     this.postRequestDetail,
@@ -87,7 +90,10 @@ class BookingDetailResponse {
           ? ServiceData.fromJson(json['service'])
           : null,
       customerReview: json['customer_review'] != null
-          ? RatingData.fromJson(json['customer_review'])
+          ? RatingData.fromJson(json['customer_review'] as Map<String, dynamic>)
+          : null,
+      customerRating: json['customer_rating'] != null
+          ? RatingData.fromJson(json['customer_rating'] as Map<String, dynamic>)
           : null,
       serviceProof: json['service_proof'] != null
           ? (json['service_proof'] as List)
@@ -143,6 +149,9 @@ class BookingDetailResponse {
     }
     if (this.customerReview != null) {
       data['customer_review'] = this.customerReview!.toJson();
+    }
+    if (this.customerRating != null) {
+      data['customer_rating'] = this.customerRating!.toJson();
     }
     if (this.serviceProof != null) {
       data['service_proof'] =

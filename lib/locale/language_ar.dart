@@ -774,6 +774,9 @@ class LanguageAr extends BaseLanguage {
   String get myReviews => "تقييماتي";
 
   @override
+  String get reviewFromProvider => "مراجعة من مقدم الخدمة";
+
+  @override
   String get noCategoryFound => "لم يتم العثور على فئة";
 
   @override
@@ -2274,6 +2277,9 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get ugcReportTitle => 'الإبلاغ عن هذه الخدمة';
+
+  @override
+  String get ugcReportProfileTitle => 'الإبلاغ عن هذا الملف الشخصي';
 
   @override
   String get ugcSelectReason => 'السبب';
