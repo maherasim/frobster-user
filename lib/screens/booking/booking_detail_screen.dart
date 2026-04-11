@@ -27,6 +27,7 @@ import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart
 import 'package:booking_system_flutter/screens/booking/shimmer/booking_detail_shimmer.dart';
 import 'package:booking_system_flutter/screens/booking/time_slots_list.dart';
 import 'package:booking_system_flutter/screens/booking/track_location.dart';
+import 'package:booking_system_flutter/screens/booking/component/report_review_dialog.dart';
 import 'package:booking_system_flutter/screens/payment/payment_screen.dart';
 import 'package:booking_system_flutter/screens/booking/component/booking_payment_dialog.dart';
 import 'package:booking_system_flutter/screens/review/components/review_widget.dart';
@@ -44,6 +45,7 @@ import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -947,12 +949,19 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       required RatingData? customerReview,
       required BookingData bookingDetail,
       required BookingDetailResponse bookingDetailResponse}) {
-    // Filter out customer's own review from ratingList to avoid duplication
-    // If customerReview exists, exclude it from the general reviews list
-    // This prevents the same review from appearing in both "My Reviews" and "Review (count)" sections
-    final List<RatingData> filteredRatingList = customerReview != null
-        ? ratingList.where((review) => review.id != customerReview.id).toList()
-        : ratingList;
+    // Filter out customer's own review and provider's customer-rating row from ratingList to avoid duplication
+    final RatingData? providerReviewOfCustomer =
+        bookingDetailResponse.customerRating;
+    final List<RatingData> filteredRatingList = ratingList.where((review) {
+      if (customerReview != null && review.id == customerReview.id) {
+        return false;
+      }
+      if (providerReviewOfCustomer != null &&
+          review.id == providerReviewOfCustomer.id) {
+        return false;
+      }
+      return true;
+    }).toList();
     
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -1064,6 +1073,56 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
               ],
             ],
           ),
+        if (bookingDetailResponse.customerRating != null) ...[
+          24.height,
+          Padding(
+            padding: EdgeInsets.symmetric(horizontal: 16),
+            child: Row(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Expanded(
+                  child: Text(
+                    language.reviewFromProvider,
+                    style: boldTextStyle(size: LABEL_TEXT_SIZE),
+                  ),
+                ),
+                Observer(
+                  builder: (_) {
+                    final cr = bookingDetailResponse.customerRating!;
+                    final rid = cr.id;
+                    if (!appStore.isLoggedIn || rid == null || rid <= 0) {
+                      return const SizedBox.shrink();
+                    }
+                    return IconButton(
+                      visualDensity: VisualDensity.compact,
+                      tooltip: language.ugcReportReviewTitle,
+                      icon: Icon(
+                        Icons.flag_outlined,
+                        color: context.primaryColor,
+                        size: 22,
+                      ),
+                      onPressed: () {
+                        showDialog<void>(
+                          context: context,
+                          barrierDismissible: true,
+                          builder: (ctx) => ReportReviewDialog(
+                            reviewId: rid,
+                            reviewType: 'customer_rating',
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ],
+            ),
+          ),
+          16.height,
+          ReviewWidget(
+            data: bookingDetailResponse.customerRating!,
+            isCustomer: true,
+          ),
+        ],
         16.height,
         if (filteredRatingList.isNotEmpty)
           ViewAllLabel(

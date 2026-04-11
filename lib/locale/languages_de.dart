@@ -794,6 +794,9 @@ class LanguageDe extends BaseLanguage {
   String get myReviews => "Meine Bewertungen";
 
   @override
+  String get reviewFromProvider => "Bewertung vom Anbieter";
+
+  @override
   String get noCategoryFound => "Keine Kategorie gefunden";
 
   @override
@@ -2736,6 +2739,20 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get ugcReportTitle => 'Diese Dienstleistung melden';
+
+  @override
+  String get ugcReportProfileTitle => 'Dieses Profil melden';
+
+  @override
+  String get ugcReportProfileSuccess =>
+      'Vielen Dank. Ihre Meldung wurde erhalten.';
+
+  @override
+  String get ugcReportReviewTitle => 'Diese Bewertung melden';
+
+  @override
+  String get ugcReportReviewSuccess =>
+      'Vielen Dank. Ihre Meldung zu dieser Bewertung wurde erhalten.';
 
   @override
   String get ugcSelectReason => 'Grund';

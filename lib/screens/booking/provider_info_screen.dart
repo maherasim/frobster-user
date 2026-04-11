@@ -20,6 +20,7 @@ import '../../utils/constant.dart';
 import '../service/view_all_service_screen.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
+import 'component/report_profile_dialog.dart';
 
 /// Format raw availability value for display (e.g. full_time → Full Time, part_time → Part Time).
 String _availabilityDisplay(String? raw) {
@@ -238,12 +239,65 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                     physics: AlwaysScrollableScrollPhysics(),
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      UserInfoWidget(
-                        data: data.userData!,
-                        isOnTapEnabled: true,
-                        onUpdate: () {
-                          widget.onUpdate?.call();
-                        },
+                      Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          UserInfoWidget(
+                            data: data.userData!,
+                            isOnTapEnabled: true,
+                            onUpdate: () {
+                              widget.onUpdate?.call();
+                            },
+                          ),
+                          // Same header band as favourite: visible on cover image (MobX + fallback id).
+                          Observer(
+                            builder: (_) {
+                              final reportedId =
+                                  data.userData?.id ?? widget.providerId;
+                              if (!appStore.isLoggedIn ||
+                                  reportedId == null ||
+                                  reportedId.validate() <= 0 ||
+                                  reportedId.validate() == appStore.userId) {
+                                return const SizedBox.shrink();
+                              }
+                              return Positioned(
+                                top: 15,
+                                right: 58,
+                                child: Material(
+                                  elevation: 4,
+                                  shadowColor: Colors.black26,
+                                  color: context.cardColor,
+                                  shape: const CircleBorder(),
+                                  clipBehavior: Clip.antiAlias,
+                                  child: IconButton(
+                                    visualDensity: VisualDensity.compact,
+                                    padding: const EdgeInsets.all(8),
+                                    constraints: const BoxConstraints(
+                                      minWidth: 38,
+                                      minHeight: 38,
+                                    ),
+                                    tooltip: language.ugcReportProfileTitle,
+                                    icon: Icon(
+                                      Icons.flag_outlined,
+                                      color: context.primaryColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () {
+                                      showDialog<void>(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (ctx) => ReportProfileDialog(
+                                          reportedUserId:
+                                              reportedId.validate(),
+                                        ),
+                                      );
+                                    },
+                                  ),
+                                ),
+                              );
+                            },
+                          ),
+                        ],
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,

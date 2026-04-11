@@ -517,6 +517,9 @@ abstract class BaseLanguage {
 
   String get myReviews;
 
+  /// Provider's review of the customer (booking detail `customer_rating`).
+  String get reviewFromProvider;
+
   String get noCategoryFound;
 
   String get noProviderFound;
@@ -1645,6 +1648,16 @@ abstract class BaseLanguage {
   String get ugcBlockProvider;
 
   String get ugcReportTitle;
+
+  String get ugcReportProfileTitle;
+
+  /// Toast after successful POST /ugc/report-profile (prefer over API English message).
+  String get ugcReportProfileSuccess;
+
+  String get ugcReportReviewTitle;
+
+  /// Toast after successful POST /ugc/report-review.
+  String get ugcReportReviewSuccess;
 
   String get ugcSelectReason;
 
