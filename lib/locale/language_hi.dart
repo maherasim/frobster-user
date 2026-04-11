@@ -797,6 +797,14 @@ class LanguageHi extends BaseLanguage {
   String get reviewFromProvider => "प्रदाता की समीक्षा";
 
   @override
+  String get jobBidReviewFromEmployerSubtitle =>
+      "नियोक्ता की ओर से आपके बारे में रेटिंग और टिप्पणियाँ।";
+
+  @override
+  String get jobBidYourReviewOfEmployerSubtitle =>
+      "नियोक्ता पर आपकी रेटिंग और समीक्षा।";
+
+  @override
   String get noCategoryFound => "कोई श्रेणी नहीं मिली";
 
   @override

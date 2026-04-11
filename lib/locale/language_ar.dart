@@ -786,6 +786,14 @@ class LanguageAr extends BaseLanguage {
   String get reviewFromProvider => "مراجعة من مقدم الخدمة";
 
   @override
+  String get jobBidReviewFromEmployerSubtitle =>
+      "التقييم والتعليقات من صاحب العمل عنك.";
+
+  @override
+  String get jobBidYourReviewOfEmployerSubtitle =>
+      "تقييمك ومراجعتك عن صاحب العمل.";
+
+  @override
   String get noCategoryFound => "لم يتم العثور على فئة";
 
   @override
