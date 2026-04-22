@@ -37,8 +37,8 @@ class JobRequestDetailsScreen extends StatefulWidget {
 }
 
 class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
-  /// Employer→you bid ratings (API `provider_review`); same UGC type as booking `customer_rating`.
-  static const String _employerReviewOfYouUgcType = 'customer_rating';
+  /// Bid `customer_review` rows (your review of employer); `review_type` for POST /ugc/report-review.
+  static const String _yourReviewOfEmployerUgcType = 'customer_review';
 
   Future<JobRequestDetailResponse?>? future;
   JobRequestDetailResponse? postJobDetail;
@@ -530,18 +530,18 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               // Extra Charges Breakdown
               _buildExtraChargesBreakdown(),
 
-              // `provider_review` = employer's review of you (reportable).
-              // `customer_review` = your review of the employer (not reportable as own content).
+              // `provider_review` = employer's review of you (no report flag on this list).
+              // `customer_review` = your review of the employer (report flag on cards).
               _buildReviewsSection(
                 language.reviewFromProvider,
                 postJobDetail!.providerReview,
                 subtitle: language.jobBidReviewFromEmployerSubtitle,
-                reportReviewType: _employerReviewOfYouUgcType,
               ),
               _buildReviewsSection(
                 language.yourReview,
                 postJobDetail!.customerReview,
                 subtitle: language.jobBidYourReviewOfEmployerSubtitle,
+                reportReviewType: _yourReviewOfEmployerUgcType,
               ),
               24.height,
             ],
@@ -995,7 +995,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   }
 
   /// Bid detail lists: [provider_review] from employer about you; [customer_review] your review of employer.
-  /// [reportReviewType] when set shows report flag (employer's review of you only).
+  /// [reportReviewType] when set shows report flag on each card (e.g. `customer_review` list only).
   Widget _buildReviewsSection(
     String title,
     List<BidReview> reviews, {

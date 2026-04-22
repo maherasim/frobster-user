@@ -20,7 +20,6 @@ import '../../utils/constant.dart';
 import '../service/view_all_service_screen.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
-import 'component/report_profile_dialog.dart';
 
 /// Format raw availability value for display (e.g. full_time → Full Time, part_time → Part Time).
 String _availabilityDisplay(String? raw) {
@@ -242,35 +241,11 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                       UserInfoWidget(
                         data: data.userData!,
                         isOnTapEnabled: true,
+                        showReportProfileFlag: true,
                         onUpdate: () {
                           widget.onUpdate?.call();
                         },
                       ),
-                      if (appStore.isLoggedIn &&
-                          data.userData?.id != null &&
-                          data.userData!.id != appStore.userId)
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: IconButton(
-                            visualDensity: VisualDensity.compact,
-                            tooltip: language.ugcReportProfileTitle,
-                            icon: Icon(
-                              Icons.flag_outlined,
-                              color: context.primaryColor,
-                              size: 22,
-                            ),
-                            onPressed: () {
-                              showDialog<void>(
-                                context: context,
-                                barrierDismissible: true,
-                                builder: (ctx) => ReportProfileDialog(
-                                  reportedUserId:
-                                      data.userData!.id.validate(),
-                                ),
-                              );
-                            },
-                          ),
-                        ).paddingOnly(right: 8, top: 4),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

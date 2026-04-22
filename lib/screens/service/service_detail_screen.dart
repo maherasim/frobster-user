@@ -21,6 +21,7 @@ import 'package:booking_system_flutter/screens/review/components/review_widget.d
 import 'package:booking_system_flutter/screens/review/rating_view_all_screen.dart';
 import 'package:booking_system_flutter/screens/service/component/service_detail_header_component.dart';
 import 'package:booking_system_flutter/screens/service/component/service_faq_widget.dart';
+import 'package:booking_system_flutter/screens/service/component/service_ugc_menu.dart';
 import 'package:booking_system_flutter/screens/service/package/package_component.dart';
 import 'package:booking_system_flutter/screens/service/shimmer/service_detail_shimmer.dart';
 import 'package:booking_system_flutter/store/service_addon_store.dart';
@@ -128,64 +129,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
   }
 
   //region Widgets
-  Widget availableWidget({required ServiceData data, UserData? provider}) {
-    if (data.serviceAddressMapping.validate().isEmpty) return Offstage();
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        8.height,
-        Text(language.lblAvailableAt,
-            style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-        8.height,
-        Align(
-          alignment: Alignment.centerLeft,
-          child: Wrap(
-            crossAxisAlignment: WrapCrossAlignment.start,
-            alignment: WrapAlignment.start,
-            spacing: 8,
-            direction: Axis.vertical,
-            runSpacing: 8,
-            children: List.generate(
-              data.serviceAddressMapping!.length,
-              (index) {
-                ServiceAddressMapping value =
-                    data.serviceAddressMapping![index];
-                if (value.providerAddressMapping == null) return Offstage();
-                // Display only - no selection functionality
-                return Container(
-                  decoration: BoxDecoration(
-                            gradient: appPrimaryGradient,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(
-                          vertical: 8.0, horizontal: 10),
-                      child: Text(
-                        (() {
-                          final addr = value.providerAddressMapping?.address.validate() ?? '';
-                          if (addr.trim().isNotEmpty) return addr;
-                          final city = value.cityName.validate();
-                          final country = value.countryName.validate();
-                          if (city.isEmpty && country.isEmpty) return 'N/A';
-                          return '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
-                        })(),
-                        style: boldTextStyle(
-                          color: Colors.white),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ),
-        8.height,
-      ],
-    );
-  }
-
   Widget providerWidget({required UserData data}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
@@ -193,7 +136,10 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
         Text(language.lblAboutProvider,
             style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
-        BookingDetailProviderWidget(providerData: data).onTap(() async {
+        BookingDetailProviderWidget(
+          providerData: data,
+          showProfileReportFlag: true,
+        ).onTap(() async {
           await ProviderInfoScreen(providerId: data.id).launch(context);
           setStatusBarColor(Colors.transparent);
         }),
@@ -456,10 +402,52 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           ],
                         ),
                         12.height,
-                        Text(
-                          snap.data!.serviceDetail!.name.validate(),
-                          style: primaryTextStyle(
-                              weight: FontWeight.bold, size: 16),
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Expanded(
+                              child: Text(
+                                snap.data!.serviceDetail!.name.validate(),
+                                style: primaryTextStyle(
+                                    weight: FontWeight.bold, size: 16),
+                              ),
+                            ),
+                            Observer(
+                              builder: (_) {
+                                final detail = snap.data!.serviceDetail!;
+                                final pid =
+                                    detail.providerId?.validate().toInt();
+                                final isOwn =
+                                    pid != null && pid == appStore.userId;
+                                final sid = detail.id.validate().toInt();
+                                if (!appStore.isLoggedIn ||
+                                    isOwn ||
+                                    sid <= 0) {
+                                  return const SizedBox.shrink();
+                                }
+                                return IconButton(
+                                  visualDensity: VisualDensity.compact,
+                                  padding: EdgeInsets.zero,
+                                  constraints: const BoxConstraints(
+                                    minWidth: 36,
+                                    minHeight: 36,
+                                  ),
+                                  tooltip: language.ugcReportService,
+                                  icon: Icon(
+                                    Icons.flag_outlined,
+                                    color: context.primaryColor,
+                                    size: 22,
+                                  ),
+                                  onPressed: () {
+                                    showReportServiceDialog(
+                                      context,
+                                      serviceId: sid,
+                                    );
+                                  },
+                                );
+                              },
+                            ),
+                          ],
                         ),
                         10.height,
                         if ((snap.data?.serviceDetail?.serviceCityName
@@ -768,7 +756,6 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             isSlotAvailable:
                                 snap.data!.serviceDetail!.isSlotAvailable,
                           ),
-                          availableWidget(data: snap.data!.serviceDetail!, provider: snap.data!.provider),
                         ],
                       ),
                     ).paddingSymmetric(horizontal: 16, vertical: 8),

@@ -778,11 +778,11 @@ class LanguageEn extends BaseLanguage {
   String get myReviews => "My Reviews";
 
   @override
-  String get reviewFromProvider => "Review from Employer";
+  String get reviewFromProvider => "Review for Employer";
 
   @override
   String get jobBidReviewFromEmployerSubtitle =>
-      "Rating and comments from the employer about you.";
+      "Rating and comments .";
 
   @override
   String get jobBidYourReviewOfEmployerSubtitle =>

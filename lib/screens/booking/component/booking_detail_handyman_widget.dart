@@ -10,19 +10,24 @@ import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import 'report_profile_dialog.dart';
 
 class BookingDetailHandymanWidget extends StatefulWidget {
   final UserData handymanData;
   final ServiceData serviceDetail;
   final BookingData bookingDetail;
   final Function() onUpdate;
+  final bool showProfileReportFlag;
 
   BookingDetailHandymanWidget(
       {required this.handymanData,
       required this.serviceDetail,
       required this.bookingDetail,
-      required this.onUpdate});
+      required this.onUpdate,
+      this.showProfileReportFlag = false});
 
   @override
   BookingDetailHandymanWidgetState createState() =>
@@ -114,6 +119,40 @@ class BookingDetailHandymanWidgetState
                               .visible(widget.handymanData.isVerifyHandyman == 1),
                         ],
                       ).expand(),
+                      if (widget.showProfileReportFlag)
+                        Observer(
+                          builder: (_) {
+                            final hid = widget.handymanData.id;
+                            if (!appStore.isLoggedIn ||
+                                hid == null ||
+                                hid == appStore.userId) {
+                              return const SizedBox.shrink();
+                            }
+                            return IconButton(
+                              visualDensity: VisualDensity.compact,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 32,
+                                minHeight: 32,
+                              ),
+                              tooltip: language.ugcReportProfileTitle,
+                              icon: Icon(
+                                Icons.flag_outlined,
+                                color: context.primaryColor,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (ctx) => ReportProfileDialog(
+                                    reportedUserId: hid.validate(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                     ],
                   ),
                   4.height,

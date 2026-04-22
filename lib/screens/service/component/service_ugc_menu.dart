@@ -3,6 +3,7 @@ import 'dart:math' as math;
 import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
+import 'package:booking_system_flutter/model/ugc_report_reason.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
@@ -35,11 +36,7 @@ class ServiceUgcMenuButton extends StatelessWidget {
   }
 
   Future<void> _openReport(BuildContext context) async {
-    await showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (ctx) => _ReportServiceDialog(serviceId: _serviceId),
-    );
+    showReportServiceDialog(context, serviceId: _serviceId);
   }
 
   Future<void> _openBlock(BuildContext context) async {
@@ -119,31 +116,54 @@ class ServiceUgcMenuButton extends StatelessWidget {
   }
 }
 
-class _ReportServiceDialog extends StatefulWidget {
-  final int serviceId;
-
-  const _ReportServiceDialog({required this.serviceId});
-
-  @override
-  State<_ReportServiceDialog> createState() => _ReportServiceDialogState();
+/// Report a listing (POST /ugc/report); reasons from [getUgcReportReasons].
+void showReportServiceDialog(BuildContext context, {required int serviceId}) {
+  showDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    builder: (ctx) => ReportServiceDialog(serviceId: serviceId),
+  );
 }
 
-class _ReportServiceDialogState extends State<_ReportServiceDialog> {
-  static const _reasonKeys = [
-    'spam',
-    'harassment',
-    'inappropriate',
-    'fraud',
-    'other',
-  ];
+class ReportServiceDialog extends StatefulWidget {
+  final int serviceId;
 
-  late String _reason;
+  const ReportServiceDialog({super.key, required this.serviceId});
+
+  @override
+  State<ReportServiceDialog> createState() => _ReportServiceDialogState();
+}
+
+class _ReportServiceDialogState extends State<ReportServiceDialog> {
+  List<UgcReportReason> _reasons = [];
+  String? _selectedValue;
   final TextEditingController _details = TextEditingController();
+  bool _loading = true;
+  String? _loadError;
 
   @override
   void initState() {
     super.initState();
-    _reason = _reasonKeys.first;
+    _fetchReasons();
+  }
+
+  Future<void> _fetchReasons() async {
+    try {
+      final list = await getUgcReportReasons();
+      if (!mounted) return;
+      setState(() {
+        _reasons = list;
+        _selectedValue = list.isNotEmpty ? list.first.value : null;
+        _loading = false;
+        _loadError = null;
+      });
+    } catch (e) {
+      if (!mounted) return;
+      setState(() {
+        _loading = false;
+        _loadError = e.toString();
+      });
+    }
   }
 
   @override
@@ -152,30 +172,18 @@ class _ReportServiceDialogState extends State<_ReportServiceDialog> {
     super.dispose();
   }
 
-  String _reasonLabel(String key) {
-    switch (key) {
-      case 'spam':
-        return language.ugcReasonSpam;
-      case 'harassment':
-        return language.ugcReasonHarassment;
-      case 'inappropriate':
-        return language.ugcReasonInappropriate;
-      case 'fraud':
-        return language.ugcReasonFraud;
-      case 'other':
-        return language.ugcReasonOther;
-      default:
-        return key;
-    }
-  }
-
   Future<void> _submit() async {
+    final reason = _selectedValue;
+    if (reason == null || reason.isEmpty) {
+      toast(language.somethingWentWrong);
+      return;
+    }
     hideKeyboard(context);
     appStore.setLoading(true);
     try {
       final res = await ugcReportService(
         serviceId: widget.serviceId,
-        reason: _reason,
+        reason: reason,
         details: _details.text,
       );
       appStore.setLoading(false);
@@ -244,33 +252,55 @@ class _ReportServiceDialogState extends State<_ReportServiceDialog> {
                 style: secondaryTextStyle(size: 11),
               ),
               4.height,
-              DropdownButtonFormField<String>(
-                // ignore: deprecated_member_use
-                value: _reason,
-                isDense: true,
-                isExpanded: true,
-                decoration: inputDecoration(context).copyWith(
-                  contentPadding: const EdgeInsets.symmetric(
-                    horizontal: 10,
-                    vertical: 8,
+              if (_loading)
+                const Padding(
+                  padding: EdgeInsets.symmetric(vertical: 16),
+                  child: Center(child: CircularProgressIndicator(strokeWidth: 2)),
+                )
+              else if (_loadError != null)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    _loadError!,
+                    style: secondaryTextStyle(size: 12, color: Colors.red),
                   ),
-                ),
-                items: _reasonKeys
-                    .map(
-                      (k) => DropdownMenuItem(
-                        value: k,
-                        child: Text(
-                          _reasonLabel(k),
-                          overflow: TextOverflow.ellipsis,
-                          style: primaryTextStyle(size: 13),
+                )
+              else if (_reasons.isEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 8),
+                  child: Text(
+                    language.somethingWentWrong,
+                    style: secondaryTextStyle(size: 12),
+                  ),
+                )
+              else
+                DropdownButtonFormField<String>(
+                  // ignore: deprecated_member_use
+                  value: _selectedValue,
+                  isDense: true,
+                  isExpanded: true,
+                  decoration: inputDecoration(context).copyWith(
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 8,
+                    ),
+                  ),
+                  items: _reasons
+                      .map(
+                        (r) => DropdownMenuItem(
+                          value: r.value,
+                          child: Text(
+                            r.label,
+                            overflow: TextOverflow.ellipsis,
+                            style: primaryTextStyle(size: 13),
+                          ),
                         ),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (v) {
-                  if (v != null) setState(() => _reason = v);
-                },
-              ),
+                      )
+                      .toList(),
+                  onChanged: (v) {
+                    if (v != null) setState(() => _selectedValue = v);
+                  },
+                ),
               8.height,
               AppTextField(
                 controller: _details,
@@ -308,7 +338,10 @@ class _ReportServiceDialogState extends State<_ReportServiceDialog> {
                       vertical: 8,
                     ),
                     borderRadius: 8,
-                    onPressed: _submit,
+                    onPressed: () {
+                      if (_loading || _reasons.isEmpty) return;
+                      _submit();
+                    },
                     child: Text(
                       language.ugcSubmitReport,
                       style: boldTextStyle(color: white, size: 13),

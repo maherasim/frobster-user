@@ -2,7 +2,9 @@ import 'package:booking_system_flutter/component/image_border_component.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
 import 'package:booking_system_flutter/utils/common.dart';
+import 'package:booking_system_flutter/screens/booking/component/report_review_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../../utils/images.dart';
@@ -10,8 +12,16 @@ import '../../../utils/images.dart';
 class ReviewWidget extends StatelessWidget {
   final RatingData data;
   final bool isCustomer;
+  /// Report this review row (e.g. customer_rating from employer).
+  final int? reportReviewId;
+  final String reportReviewType;
 
-  ReviewWidget({required this.data, this.isCustomer = false});
+  ReviewWidget({
+    required this.data,
+    this.isCustomer = false,
+    this.reportReviewId,
+    this.reportReviewType = 'booking_rating',
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -38,11 +48,54 @@ class ReviewWidget extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Text(data.customerName.validate(),
-                              style: boldTextStyle(),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis)
-                          .flexible(),
+                      Expanded(
+                        child: Row(
+                          children: [
+                            Expanded(
+                              child: Text(data.customerName.validate(),
+                                  style: boldTextStyle(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis),
+                            ),
+                            if (reportReviewId != null &&
+                                reportReviewId.validate() > 0)
+                              Observer(
+                                builder: (_) {
+                                  final rid = reportReviewId;
+                                  if (!appStore.isLoggedIn ||
+                                      rid == null ||
+                                      rid.validate() <= 0) {
+                                    return const SizedBox.shrink();
+                                  }
+                                  return IconButton(
+                                    visualDensity: VisualDensity.compact,
+                                    padding: EdgeInsets.zero,
+                                    constraints: const BoxConstraints(
+                                      minWidth: 32,
+                                      minHeight: 32,
+                                    ),
+                                    tooltip: language.ugcReportReviewTitle,
+                                    icon: Icon(
+                                      Icons.flag_outlined,
+                                      color: context.primaryColor,
+                                      size: 20,
+                                    ),
+                                    onPressed: () {
+                                      showDialog<void>(
+                                        context: context,
+                                        barrierDismissible: true,
+                                        builder: (ctx) => ReportReviewDialog(
+                                          reviewId: rid.validate(),
+                                          reviewType: reportReviewType,
+                                        ),
+                                      );
+                                    },
+                                  );
+                                },
+                              ),
+                          ],
+                        ),
+                      ),
                       Container(
                         decoration: BoxDecoration(
                             color: appStore.isDarkMode

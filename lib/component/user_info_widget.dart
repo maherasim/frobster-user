@@ -1,10 +1,12 @@
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/screens/auth/sign_in_screen.dart';
+import 'package:booking_system_flutter/screens/booking/component/report_profile_dialog.dart';
 import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../main.dart';
@@ -22,12 +24,15 @@ class UserInfoWidget extends StatefulWidget {
   final bool? isOnTapEnabled;
   final bool forProvider;
   final VoidCallback? onUpdate;
+  /// When true, show report-profile flag next to the name (e.g. provider info screen).
+  final bool showReportProfileFlag;
 
   UserInfoWidget({
     required this.data,
     this.isOnTapEnabled,
     this.forProvider = true,
     this.onUpdate,
+    this.showReportProfileFlag = false,
   });
 
   @override
@@ -269,6 +274,40 @@ class _UserInfoWidgetState extends State<UserInfoWidget> {
                       'assets/icons/free-membership.jpg',
                       width: 20,
                       height: 20,
+                    ),
+                  if (widget.showReportProfileFlag)
+                    Observer(
+                      builder: (_) {
+                        final uid = widget.data.id;
+                        if (!appStore.isLoggedIn ||
+                            uid == null ||
+                            uid == appStore.userId) {
+                          return const SizedBox.shrink();
+                        }
+                        return IconButton(
+                          visualDensity: VisualDensity.compact,
+                          padding: EdgeInsets.zero,
+                          constraints: const BoxConstraints(
+                            minWidth: 32,
+                            minHeight: 32,
+                          ),
+                          tooltip: language.ugcReportProfileTitle,
+                          icon: Icon(
+                            Icons.flag_outlined,
+                            color: context.primaryColor,
+                            size: 20,
+                          ),
+                          onPressed: () {
+                            showDialog<void>(
+                              context: context,
+                              barrierDismissible: true,
+                              builder: (ctx) => ReportProfileDialog(
+                                reportedUserId: uid.validate(),
+                              ),
+                            );
+                          },
+                        );
+                      },
                     ),
                 ],
               ).expand(),
