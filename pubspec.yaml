@@ -108,7 +108,6 @@ dependencies:
   async: any
   uuid: any
   flutter_widget_from_html: ^0.16.0
-  flutter_launcher_icons: ^0.14.4
 dependency_overrides:
   intl: ^0.20.2
 
@@ -117,18 +116,33 @@ dev_dependencies:
     sdk: flutter
   build_runner: ^2.4.13
   mobx_codegen: ^2.6.2
+  flutter_launcher_icons: ^0.14.4
+  flutter_native_splash: ^2.4.4
+  image: ^4.3.0
   #flutter packages pub run build_runner build --delete-conflicting-outputs
 
 flutter_launcher_icons:
   android: "launcher_icon"
   ios: true
-  image_path: "assets/ic_launcher-playstore.png"
+  image_path: "assets/branding/persotel_app_icon.png"
   remove_alpha_ios: true
   min_sdk_android: 21 # android min sdk min:16, default 21
+
+flutter_native_splash:
+  color: "#FFFFFF"
+  image: assets/branding/persotel_app_icon.png
+  android: true
+  ios: true
+  ios_content_mode: center
+  android_12:
+    color: "#FFFFFF"
+    image: assets/branding/persotel_app_icon.png
+    icon_background_color: "#FFFFFF"
 
 flutter:
   uses-material-design: true
   assets:
+    - assets/branding/
     - assets/icons/
     - assets/
     - assets/flag/

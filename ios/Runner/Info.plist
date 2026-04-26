@@ -3,7 +3,7 @@
 <plist version="1.0">
 	<dict>
 		<key>CADisableMinimumFrameDurationOnPhone</key>
-		<true />
+		<true/>
 		<key>CFBundleDevelopmentRegion</key>
 		<string>$(DEVELOPMENT_LANGUAGE)</string>
 		<key>CFBundleDisplayName</key>
@@ -54,41 +54,30 @@
 			<string>gpay</string>
 		</array>
 		<key>LSRequiresIPhoneOS</key>
-		<true />
+		<true/>
 		<key>NSAppTransportSecurity</key>
 		<dict>
 			<key>NSAllowsLocalNetworking</key>
-			<true />
+			<true/>
 		</dict>
 		<key>NSAppleMusicUsageDescription</key>
-		<string>Handyman Service app requires access to Apple Music in order to enhance your music
-			experience within the app.</string>
+		<string>Handyman Service app requires access to Apple Music in order to enhance your music experience within the app.</string>
 		<key>NSCameraUsageDescription</key>
-		<string>Handyman Service app requires access to your device's camera to allow you to upload
-			your profile photo.</string>
+		<string>Handyman Service app requires access to your device's camera to allow you to upload your profile photo.</string>
 		<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-		<string>Handyman Service app requires access to your device's location to provide accurate
-			service availability based on your current address.</string>
+		<string>Handyman Service app requires access to your device's location to provide accurate service availability based on your current address.</string>
 		<key>NSLocationAlwaysUsageDescription</key>
-		<string>Handyman Service app requires access to your location to provide location-based
-			services and find nearby service providers.</string>
+		<string>Handyman Service app requires access to your location to provide location-based services and find nearby service providers.</string>
 		<key>NSLocationWhenInUseUsageDescription</key>
-		<string>Handyman Service app needs access to your device's location at all times to ensure
-			seamless service delivery tailored to your precise location, even when the app is
-			running in the background.</string>
+		<string>Handyman Service app needs access to your device's location at all times to ensure seamless service delivery tailored to your precise location, even when the app is running in the background.</string>
 		<key>NSMicrophoneUsageDescription</key>
-		<string>Handyman Service app requires access to your device's microphone when recording your
-			speech using the "Mic" button.</string>
+		<string>Handyman Service app requires access to your device's microphone when recording your speech using the "Mic" button.</string>
 		<key>NSPhotoLibraryUsageDescription</key>
-		<string>Handyman Service app requires access to your device's photo library to enable you to
-			upload your profile photo.</string>
+		<string>Handyman Service app requires access to your device's photo library to enable you to upload your profile photo.</string>
 		<key>NSSpeechRecognitionUsageDescription</key>
-		<string>Handyman Service app requires access to Speech recognition when you will be used to
-			determine which words you speak into this device microphone.</string>
+		<string>Handyman Service app requires access to Speech recognition when you will be used to determine which words you speak into this device microphone.</string>
 		<key>Privacy-Location Usage Description</key>
-		<string>Handyman Service app requires access to your device's location to enhance your
-			experience by providing personalized service recommendations and finding nearby service
-			providers based on your current location.</string>
+		<string>Handyman Service app requires access to your device's location to enhance your experience by providing personalized service recommendations and finding nearby service providers based on your current location.</string>
 		<key>SKAdNetworkItems</key>
 		<array>
 			<dict>
@@ -97,7 +86,7 @@
 			</dict>
 		</array>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
-		<true />
+		<true/>
 		<key>UIBackgroundModes</key>
 		<array>
 			<string>fetch</string>
@@ -121,6 +110,8 @@
 			<string>UIInterfaceOrientationLandscapeRight</string>
 		</array>
 		<key>UIViewControllerBasedStatusBarAppearance</key>
-		<false />
+		<false/>
+		<key>UIStatusBarHidden</key>
+		<false/>
 	</dict>
 </plist>
