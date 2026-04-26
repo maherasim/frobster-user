@@ -27,7 +27,6 @@ import 'package:booking_system_flutter/screens/booking/provider_info_screen.dart
 import 'package:booking_system_flutter/screens/booking/shimmer/booking_detail_shimmer.dart';
 import 'package:booking_system_flutter/screens/booking/time_slots_list.dart';
 import 'package:booking_system_flutter/screens/booking/track_location.dart';
-import 'package:booking_system_flutter/screens/booking/component/report_review_dialog.dart';
 import 'package:booking_system_flutter/screens/payment/payment_screen.dart';
 import 'package:booking_system_flutter/screens/booking/component/booking_payment_dialog.dart';
 import 'package:booking_system_flutter/screens/review/components/review_widget.dart';
@@ -45,7 +44,6 @@ import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
-import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -504,12 +502,12 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         children: [
           24.height,
           Row(
-            mainAxisAlignment:
-                MainAxisAlignment.spaceBetween, // Space between items
             children: [
-              Text(
-                language.lblAboutHandyman,
-                style: boldTextStyle(size: LABEL_TEXT_SIZE),
+              Expanded(
+                child: Text(
+                  language.lblAboutHandyman,
+                  style: boldTextStyle(size: LABEL_TEXT_SIZE),
+                ),
               ),
               GestureDetector(
                 onTap: () {
@@ -522,7 +520,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                   style: TextStyle(
                     fontSize: 14,
                     fontWeight: FontWeight.bold,
-                    color: gradientRed, // Adjust color as needed
+                    color: gradientRed,
                   ),
                 ),
               ),
@@ -535,6 +533,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                 handymanData: e,
                 serviceDetail: serviceDetail,
                 bookingDetail: bookingDetail,
+                showProfileReportFlag: true,
                 onUpdate: () {
                   init();
                   setState(() {});
@@ -568,27 +567,26 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       children: [
         24.height,
         Row(
-          mainAxisAlignment:
-              MainAxisAlignment.spaceBetween, // Space between items
           children: [
-            RichText(
-              text: TextSpan(
-                children: [
-                  TextSpan(
-                    text: language.lblAboutProvider,
-                    style: boldTextStyle(size: LABEL_TEXT_SIZE),
-                  ),
-                  if (res.handymanData.validate().isNotEmpty &&
-                      (res.providerData!.id ==
-                          res.handymanData!.first.id.validate()))
+            Expanded(
+              child: RichText(
+                text: TextSpan(
+                  children: [
                     TextSpan(
-                      text: ' (${language.asHandyman})',
-                      style: secondaryTextStyle(size: LABEL_TEXT_SIZE),
+                      text: language.lblAboutProvider,
+                      style: boldTextStyle(size: LABEL_TEXT_SIZE),
                     ),
-                ],
+                    if (res.handymanData.validate().isNotEmpty &&
+                        (res.providerData!.id ==
+                            res.handymanData!.first.id.validate()))
+                      TextSpan(
+                        text: ' (${language.asHandyman})',
+                        style: secondaryTextStyle(size: LABEL_TEXT_SIZE),
+                      ),
+                  ],
+                ),
               ),
             ),
-            Spacer(),
             GestureDetector(
               onTap: () {
                 ProviderInfoScreen(
@@ -604,7 +602,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                 style: TextStyle(
                   fontSize: 12,
                   fontWeight: FontWeight.bold,
-                  color: gradientRed, // Adjust color as needed
+                  color: gradientRed,
                 ),
               ),
             ),
@@ -616,6 +614,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           canCustomerContact: canCustomerContact,
           providerIsHandyman: providerIsHandyman,
           bookingDetail: res.bookingDetail,
+          showProfileReportFlag: true,
         ).onTap(
           () {
             ProviderInfoScreen(
@@ -1077,50 +1076,17 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
           24.height,
           Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Expanded(
-                  child: Text(
-                    language.reviewFromProvider,
-                    style: boldTextStyle(size: LABEL_TEXT_SIZE),
-                  ),
-                ),
-                Observer(
-                  builder: (_) {
-                    final cr = bookingDetailResponse.customerRating!;
-                    final rid = cr.id;
-                    if (!appStore.isLoggedIn || rid == null || rid <= 0) {
-                      return const SizedBox.shrink();
-                    }
-                    return IconButton(
-                      visualDensity: VisualDensity.compact,
-                      tooltip: language.ugcReportReviewTitle,
-                      icon: Icon(
-                        Icons.flag_outlined,
-                        color: context.primaryColor,
-                        size: 22,
-                      ),
-                      onPressed: () {
-                        showDialog<void>(
-                          context: context,
-                          barrierDismissible: true,
-                          builder: (ctx) => ReportReviewDialog(
-                            reviewId: rid,
-                            reviewType: 'customer_rating',
-                          ),
-                        );
-                      },
-                    );
-                  },
-                ),
-              ],
+            child: Text(
+              language.reviewFromProvider,
+              style: boldTextStyle(size: LABEL_TEXT_SIZE),
             ),
           ),
           16.height,
           ReviewWidget(
             data: bookingDetailResponse.customerRating!,
             isCustomer: true,
+            reportReviewId: bookingDetailResponse.customerRating!.id,
+            reportReviewType: 'customer_rating',
           ),
         ],
         16.height,

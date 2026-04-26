@@ -9,6 +9,7 @@ import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../model/booking_data_model.dart';
@@ -16,18 +17,22 @@ import '../../../model/country_list_model.dart';
 import '../../../network/rest_apis.dart';
 import '../../../utils/model_keys.dart';
 import '../../chat/user_chat_screen.dart';
+import 'report_profile_dialog.dart';
 
 class BookingDetailProviderWidget extends StatefulWidget {
   final UserData providerData;
   final bool canCustomerContact;
   final bool providerIsHandyman;
   final BookingData? bookingDetail;
+  /// When true, show report-profile flag next to the provider name (e.g. service / booking detail).
+  final bool showProfileReportFlag;
 
   BookingDetailProviderWidget(
       {required this.providerData,
       this.canCustomerContact = false,
       this.providerIsHandyman = false,
-      this.bookingDetail});
+      this.bookingDetail,
+      this.showProfileReportFlag = false});
 
   @override
   BookingDetailProviderWidgetState createState() =>
@@ -155,6 +160,40 @@ class BookingDetailProviderWidgetState
                                   widget.providerData.isVerifyProvider == 1),
                         ],
                       ).expand(),
+                      if (widget.showProfileReportFlag)
+                        Observer(
+                          builder: (_) {
+                            final pid = widget.providerData.id;
+                            if (!appStore.isLoggedIn ||
+                                pid == null ||
+                                pid == appStore.userId) {
+                              return const SizedBox.shrink();
+                            }
+                            return IconButton(
+                              visualDensity: VisualDensity.compact,
+                              padding: EdgeInsets.zero,
+                              constraints: const BoxConstraints(
+                                minWidth: 32,
+                                minHeight: 32,
+                              ),
+                              tooltip: language.ugcReportProfileTitle,
+                              icon: Icon(
+                                Icons.flag_outlined,
+                                color: gradientRed,
+                                size: 20,
+                              ),
+                              onPressed: () {
+                                showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: true,
+                                  builder: (ctx) => ReportProfileDialog(
+                                    reportedUserId: pid.validate(),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
                       if (widget.providerIsHandyman &&
                           widget.providerData.isProvider)
                         GestureDetector(

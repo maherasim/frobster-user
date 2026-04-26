@@ -9,6 +9,18 @@ import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
+/// Opens the same report dialog as [ServiceUgcMenuButton] (e.g. inline flag on service detail).
+Future<void> showReportServiceDialog(
+  BuildContext context, {
+  required int serviceId,
+}) async {
+  await showDialog<void>(
+    context: context,
+    barrierDismissible: true,
+    builder: (ctx) => _ReportServiceDialog(serviceId: serviceId),
+  );
+}
+
 /// Overflow menu: report service (POST api/ugc/report) and block provider (POST api/ugc/block).
 class ServiceUgcMenuButton extends StatelessWidget {
   final ServiceData serviceData;
@@ -35,11 +47,7 @@ class ServiceUgcMenuButton extends StatelessWidget {
   }
 
   Future<void> _openReport(BuildContext context) async {
-    await showDialog<void>(
-      context: context,
-      barrierDismissible: true,
-      builder: (ctx) => _ReportServiceDialog(serviceId: _serviceId),
-    );
+    await showReportServiceDialog(context, serviceId: _serviceId);
   }
 
   Future<void> _openBlock(BuildContext context) async {
