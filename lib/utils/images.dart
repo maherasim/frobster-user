@@ -1,4 +1,4 @@
-const appLogo = 'assets/images/app_logo.jpg';
+const appLogo = 'assets/branding/persotel_app_icon.png';
 
 //region NewDashboard
 const grid = "assets/newDashboard/grid.png";
@@ -17,8 +17,6 @@ const chat_default_wallpaper = 'assets/images/default_wallpaper.png';
 const imgForceUpdate = 'assets/images/force_update.png';
 const logout_image = 'assets/images/logout_logo.png';
 const no_rating_bar = 'assets/images/no_rating_bar.png';
-const splash_background = 'assets/images/splash_background.jpg';
-const splash_light_background = 'assets/images/splash_light_background.png';
 const walk_Img1 = 'assets/images/walkthrough_1.png';
 const walk_Img2 = 'assets/images/walkthrough_2.png';
 const walk_Img3 = 'assets/images/walkthrough_3.png';

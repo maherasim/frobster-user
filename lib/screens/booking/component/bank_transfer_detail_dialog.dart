@@ -77,7 +77,7 @@ class BankTransferDetailDialog extends StatelessWidget {
               ),
               Divider(),
               10.height,
-              bankDetailsWidget(language.bankTransferRecipientLabel,"Frobster International",false),
+              bankDetailsWidget(language.bankTransferRecipientLabel,"Persotel International",false),
               bankDetailsWidget(language.bankTransferIbanLabel,"DE02 1001 0178 1361 6331 79",false),
               bankDetailsWidget(language.bankTransferBicLabel,"REVODEB2",false),
               bankDetailsWidget(language.bankTransferBankNameAddressLabel,"Revolut Bank UAB, Zweigniederlassung Deutschland\nFORA Linden Palais, Unter den Linden 40\n10117, Berlin, Germany",false),

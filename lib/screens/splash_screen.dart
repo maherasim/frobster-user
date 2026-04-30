@@ -93,43 +93,49 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Image.asset(
-            appStore.isDarkMode ? splash_background : splash_light_background,
-            height: context.height(),
-            width: context.width(),
-            fit: BoxFit.cover,
-          ),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Image.asset(appLogo, height: 120, width: 120),
-              32.height,
-              Text(APP_NAME,
-                  style: boldTextStyle(
-                      size: 26,
-                      color: appStore.isDarkMode ? Colors.white : Colors.black),
-                  textAlign: TextAlign.center),
-              16.height,
-              if (appNotSynced)
-                Observer(
-                  builder: (_) => appStore.isLoading
-                      ? LoaderWidget().center()
-                      : TextButton(
-                          child: Text(language.reload, style: boldTextStyle()),
-                          onPressed: () {
-                            appStore.setLoading(true);
-                            init();
-                          },
-                        ),
+    return Observer(
+      builder: (_) => Scaffold(
+        backgroundColor: appStore.isDarkMode
+            ? context.scaffoldBackgroundColor
+            : Colors.white,
+        body: Stack(
+          fit: StackFit.expand,
+          children: [
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Image.asset(
+                  appLogo,
+                  height: 120,
+                  width: 120,
+                  fit: BoxFit.contain,
                 ),
-            ],
-          ),
-        ],
+                32.height,
+                Text(APP_NAME,
+                    style: boldTextStyle(
+                        size: 26,
+                        color: appStore.isDarkMode
+                            ? Colors.white
+                            : Colors.black),
+                    textAlign: TextAlign.center),
+                16.height,
+                if (appNotSynced)
+                  Observer(
+                    builder: (_) => appStore.isLoading
+                        ? LoaderWidget().center()
+                        : TextButton(
+                            child: Text(language.reload, style: boldTextStyle()),
+                            onPressed: () {
+                              appStore.setLoading(true);
+                              init();
+                            },
+                          ),
+                  ),
+              ],
+            ),
+          ],
+        ),
       ),
     );
   }
