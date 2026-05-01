@@ -1387,6 +1387,8 @@ PODS:
     - OrderedSet (~> 6.0.3)
   - flutter_local_notifications (0.0.1):
     - Flutter
+  - flutter_native_splash (2.4.3):
+    - Flutter
   - flutter_paystack (0.0.1):
     - Flutter
   - fluttertoast (0.0.2):
@@ -1581,16 +1583,16 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
-  - razorpay-core-pod (1.0.3)
-  - razorpay-pod (1.5.2):
-    - razorpay-core-pod (= 1.0.3)
+  - razorpay-core-pod (1.0.6)
+  - razorpay-pod (1.5.3):
+    - razorpay-core-pod (= 1.0.6)
   - razorpay_flutter (1.1.10):
     - Flutter
     - razorpay-pod
   - RecaptchaInterop (101.0.0)
-  - SDWebImage (5.21.5):
-    - SDWebImage/Core (= 5.21.5)
-  - SDWebImage/Core (5.21.5)
+  - SDWebImage (5.21.7):
+    - SDWebImage/Core (= 5.21.7)
+  - SDWebImage/Core (5.21.7)
   - share_plus (0.0.1):
     - Flutter
   - shared_preferences_foundation (0.0.1):
@@ -1689,6 +1691,7 @@ DEPENDENCIES:
   - flutter_custom_tabs_ios (from `.symlinks/plugins/flutter_custom_tabs_ios/ios`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
+  - flutter_native_splash (from `.symlinks/plugins/flutter_native_splash/ios`)
   - flutter_paystack (from `.symlinks/plugins/flutter_paystack/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
@@ -1801,6 +1804,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
+  flutter_native_splash:
+    :path: ".symlinks/plugins/flutter_native_splash/ios"
   flutter_paystack:
     :path: ".symlinks/plugins/flutter_paystack/ios"
   fluttertoast:
@@ -1890,6 +1895,7 @@ SPEC CHECKSUMS:
   flutter_custom_tabs_ios: 87333f36c33a5971502766aca2f6ff4823b09bda
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
   flutter_local_notifications: 395056b3175ba4f08480a7c5de30cd36d69827e4
+  flutter_native_splash: c32d145d68aeda5502d5f543ee38c192065986cf
   flutter_paystack: 326a709af45c9cce86aab60486a5ddf63d58e5ac
   fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
   geocoding_ios: bcbdaa6bddd7d3129c9bcb8acddc5d8778689768
@@ -1921,11 +1927,11 @@ SPEC CHECKSUMS:
   PhonePePayment: 5a37a381127bfdd635b3a85123ad96a421288b2a
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
-  razorpay-core-pod: ef0309dbf8e3e5a1330f6cad89dcf9226d8ef758
-  razorpay-pod: a9cb6e158aee8754053b147008eff6b4897789c8
+  razorpay-core-pod: 6da5fb4ed280279d665507fdb50e213d793a5fe2
+  razorpay-pod: 4385cf844aa29389313b741e20c72fe668970d49
   razorpay_flutter: 0e98e4fcaae27ad50e011d85f66d85e0a008754a
   RecaptchaInterop: 11e0b637842dfb48308d242afc3f448062325aba
-  SDWebImage: e9c98383c7572d713c1a0d7dd2783b10599b9838
+  SDWebImage: e9fc87c1aab89a8ab1bbd74eba378c6f53be8abf
   share_plus: 50da8cb520a8f0f65671c6c6a99b3617ed10a58a
   shared_preferences_foundation: 9e1978ff2562383bd5676f64ec4e9aa8fa06a6f7
   speech_to_text: 9dc43a5df3cbc2813f8c7cc9bd0fbf94268ed7ac
