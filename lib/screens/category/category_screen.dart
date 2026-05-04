@@ -17,6 +17,36 @@ import '../../component/empty_error_state_widget.dart';
 import '../../utils/constant.dart';
 import '../service/view_all_service_screen.dart';
 
+String _plainTextForSearch(String? raw) {
+  if (raw == null || raw.isEmpty) return '';
+  return raw
+      .replaceAll(RegExp(r'<[^>]*>'), ' ')
+      .replaceAll(RegExp(r'\s+'), ' ')
+      .trim()
+      .toLowerCase();
+}
+
+/// Splits query into keywords; empty list means no filter.
+List<String> _searchTokens(String query) {
+  return query
+      .trim()
+      .toLowerCase()
+      .split(RegExp(r'\s+'))
+      .where((t) => t.isNotEmpty)
+      .toList();
+}
+
+/// Each keyword must appear somewhere on the category. At least one keyword must
+/// appear in the [name], so matches driven only by unrelated description text are dropped.
+bool _categoryMatchesSearch(CategoryData c, List<String> tokens) {
+  if (tokens.isEmpty) return true;
+  final name = _plainTextForSearch(c.name.validate(value: ''));
+  final desc = _plainTextForSearch(c.description.validate(value: ''));
+  final haystack = '$name $desc';
+  if (!tokens.every((t) => haystack.contains(t))) return false;
+  return tokens.any((t) => name.contains(t));
+}
+
 class CategoryScreen extends StatefulWidget {
   @override
   _CategoryScreenState createState() => _CategoryScreenState();
@@ -40,6 +70,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
   int _gridCount = 2; // 2 or 3 columns
   String _sortMode = 'popular'; // 'popular' | 'az'
 
+  @override
   void initState() {
     super.initState();
     init();
@@ -104,13 +135,10 @@ class _CategoryScreenState extends State<CategoryScreen> {
               } else {
                 items.sort((a, b) => a.name.validate(value: '').toLowerCase().compareTo(b.name.validate(value: '').toLowerCase()));
               }
-              if (_searchQuery.isNotEmpty) {
-                final q = _searchQuery.toLowerCase();
-                items = items.where((c) {
-                  final name = c.name.validate(value: '').toLowerCase();
-                  final desc = c.description.validate(value: '').toLowerCase();
-                  return name.contains(q) || desc.contains(q);
-                }).toList();
+              if (_searchQuery.trim().isNotEmpty) {
+                final tokens = _searchTokens(_searchQuery);
+                items =
+                    items.where((c) => _categoryMatchesSearch(c, tokens)).toList();
               }
 
               return AnimatedScrollView(
