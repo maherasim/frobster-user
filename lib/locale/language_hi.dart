@@ -2211,7 +2211,21 @@ class LanguageHi extends BaseLanguage {
   @override
   String get passwordLengthShouldBe =>
       'पासवर्ड की लंबाई 8 से 12 अक्षर होनी चाहिए।';
-      
+
+  @override
+  String get passwordMinLengthEight => 'कम से कम 8 वर्ण';
+
+  @override
+  String get passwordMustIncludeLetter =>
+      'कम से कम एक अक्षर (A–Z या a–z)';
+
+  @override
+  String get passwordMustIncludeNumber => 'कम से कम एक अंक (0–9)';
+
+  @override
+  String get passwordRequirementsHint =>
+      '• कम से कम 8 वर्ण\n• कम से कम एक अक्षर (A–Z या a–z)\n• कम से कम एक अंक (0–9)';
+
   @override
   String get paymentMethodNotSupported => 'भुगतान विधि समर्थित नहीं है। कृपया एक और विधि चुनें।';
 

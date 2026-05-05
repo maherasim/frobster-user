@@ -2236,6 +2236,20 @@ class LanguageDe extends BaseLanguage {
       'Die Länge des Passworts sollte 8 bis 12 Zeichen betragen.';
 
   @override
+  String get passwordMinLengthEight => 'Mindestens 8 Zeichen';
+
+  @override
+  String get passwordMustIncludeLetter =>
+      'Mindestens ein Buchstabe (A–Z oder a–z)';
+
+  @override
+  String get passwordMustIncludeNumber => 'Mindestens eine Ziffer (0–9)';
+
+  @override
+  String get passwordRequirementsHint =>
+      '• Mindestens 8 Zeichen\n• Mindestens ein Buchstabe (A–Z oder a–z)\n• Mindestens eine Ziffer (0–9)';
+
+  @override
   String get paymentMethodNotSupported => 'Zahlungsmethode nicht unterstützt';
 
   @override

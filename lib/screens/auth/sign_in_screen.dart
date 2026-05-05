@@ -1,4 +1,5 @@
 import 'package:booking_system_flutter/component/back_widget.dart';
+import 'package:booking_system_flutter/component/password_requirements_tracker.dart';
 import 'package:booking_system_flutter/component/base_scaffold_body.dart';
 import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -297,18 +298,13 @@ class _SignInScreenState extends State<SignInScreen> {
                                 labelText: language.hintPasswordTxt),
                             autoFillHints: [AutofillHints.password],
                             isValidationRequired: true,
-                            validator: (val) {
-                              if (val == null || val.isEmpty) {
-                                return language.requiredText;
-                              } else if (val.length < 8 || val.length > 12) {
-                                return language.passwordLengthShouldBe;
-                              }
-                              return null;
-                            },
+                            validator: validatePasswordClient,
                             onFieldSubmitted: (s) {
                               _handleLogin();
                             },
                           ),
+                          8.height,
+                          PasswordRequirementsTracker(controller: passwordCont),
                         ],
                       ),
                     ),

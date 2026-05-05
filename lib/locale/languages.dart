@@ -1414,6 +1414,15 @@ abstract class BaseLanguage {
 
   String get passwordLengthShouldBe;
 
+  String get passwordMinLengthEight;
+
+  String get passwordMustIncludeLetter;
+
+  String get passwordMustIncludeNumber;
+
+  /// Shown under password fields (sign-in / sign-up).
+  String get passwordRequirementsHint;
+
   String get paymentMethodNotSupported;
 
   String get hintSelectType;

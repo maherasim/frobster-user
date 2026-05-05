@@ -47,6 +47,23 @@ bool get isLoginTypeApple => appStore.loginType == LOGIN_TYPE_APPLE;
 
 bool get isLoginTypeOTP => appStore.loginType == LOGIN_TYPE_OTP;
 
+/// Client-side only: min 8 characters, at least one letter, one digit.
+String? validatePasswordClient(String? val) {
+  if (val == null || val.isEmpty) {
+    return language.requiredText;
+  }
+  if (val.length < 8) {
+    return language.passwordMinLengthEight;
+  }
+  if (!RegExp(r'[A-Za-z]').hasMatch(val)) {
+    return language.passwordMustIncludeLetter;
+  }
+  if (!RegExp(r'[0-9]').hasMatch(val)) {
+    return language.passwordMustIncludeNumber;
+  }
+  return null;
+}
+
 ThemeMode get appThemeMode =>
     appStore.isDarkMode ? ThemeMode.dark : ThemeMode.light;
 

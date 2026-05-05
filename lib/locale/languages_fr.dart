@@ -2231,7 +2231,21 @@ class LanguageFr extends BaseLanguage {
   @override
   String get passwordLengthShouldBe =>
       'La longueur du mot de passe doit être comprise entre 8 et 12 caractères.';
-      
+
+  @override
+  String get passwordMinLengthEight => 'Au moins 8 caractères';
+
+  @override
+  String get passwordMustIncludeLetter =>
+      'Au moins une lettre (A–Z ou a–z)';
+
+  @override
+  String get passwordMustIncludeNumber => 'Au moins un chiffre (0–9)';
+
+  @override
+  String get passwordRequirementsHint =>
+      '• Au moins 8 caractères\n• Au moins une lettre (A–Z ou a–z)\n• Au moins un chiffre (0–9)';
+
   @override
   String get paymentMethodNotSupported => 'Méthode de paiement non prise en charge';
 

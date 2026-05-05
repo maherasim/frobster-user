@@ -1,4 +1,5 @@
 import 'package:booking_system_flutter/component/back_widget.dart';
+import 'package:booking_system_flutter/component/password_requirements_tracker.dart';
 import 'package:booking_system_flutter/component/gradient_button.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/selected_item_widget.dart';
@@ -49,6 +50,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController userNameCont = TextEditingController();
   TextEditingController mobileCont = TextEditingController();
   TextEditingController passwordCont = TextEditingController();
+  TextEditingController confirmPasswordCont = TextEditingController();
 
   FocusNode fNameFocus = FocusNode();
   FocusNode lNameFocus = FocusNode();
@@ -56,6 +58,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   FocusNode userNameFocus = FocusNode();
   FocusNode mobileFocus = FocusNode();
   FocusNode passwordFocus = FocusNode();
+  FocusNode confirmPasswordFocus = FocusNode();
 
   bool isAcceptedTc = false;
 
@@ -326,7 +329,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
               controller: mobileCont,
               focus: mobileFocus,
               errorThisFieldRequired: language.requiredText,
-              nextFocus: passwordFocus,
+              nextFocus: !widget.isOTPLogin ? passwordFocus : null,
               decoration: inputDecoration(context,
                       labelText: "${language.hintContactNumberTxt}")
                   .copyWith(
@@ -348,6 +351,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 textFieldType: TextFieldType.PASSWORD,
                 controller: passwordCont,
                 focus: passwordFocus,
+                nextFocus: confirmPasswordFocus,
                 obscureText: true,
                 readOnly:
                     widget.isOTPLogin.validate() ? widget.isOTPLogin : false,
@@ -359,11 +363,33 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 decoration: inputDecoration(context,
                     labelText: language.hintPasswordTxt),
                 isValidationRequired: true,
+                validator: validatePasswordClient,
+                onFieldSubmitted: (s) {},
+              ),
+              8.height,
+              PasswordRequirementsTracker(controller: passwordCont),
+              12.height,
+              AppTextField(
+                textFieldType: TextFieldType.PASSWORD,
+                controller: confirmPasswordCont,
+                focus: confirmPasswordFocus,
+                obscureText: true,
+                readOnly:
+                    widget.isOTPLogin.validate() ? widget.isOTPLogin : false,
+                suffixPasswordVisibleWidget:
+                    ic_show.iconImage(size: 10).paddingAll(14),
+                suffixPasswordInvisibleWidget:
+                    ic_hide.iconImage(size: 10).paddingAll(14),
+                errorThisFieldRequired: language.requiredText,
+                decoration: inputDecoration(context,
+                    labelText: language.hintReenterPasswordTxt),
+                isValidationRequired: true,
                 validator: (val) {
                   if (val == null || val.isEmpty) {
                     return language.requiredText;
-                  } else if (val.length < 8 || val.length > 12) {
-                    return language.passwordLengthShouldBe;
+                  }
+                  if (val != passwordCont.text) {
+                    return language.passwordNotMatch;
                   }
                   return null;
                 },

@@ -2179,7 +2179,21 @@ class LanguageAr extends BaseLanguage {
   @override
   String get passwordLengthShouldBe =>
       'يجب أن يكون طول كلمة المرور من 8 إلى 12 حرفًا.';
-      
+
+  @override
+  String get passwordMinLengthEight => 'يجب ألا يقل عن 8 أحرف';
+
+  @override
+  String get passwordMustIncludeLetter =>
+      'حرف واحد على الأقل (A–Z أو a–z)';
+
+  @override
+  String get passwordMustIncludeNumber => 'رقم واحد على الأقل (0–9)';
+
+  @override
+  String get passwordRequirementsHint =>
+      '• 8 أحرف على الأقل\n• حرف واحد على الأقل (A–Z أو a–z)\n• رقم واحد على الأقل (0–9)';
+
   @override
   String get paymentMethodNotSupported => 'طريقة الدفع غير مدعومة';
 
