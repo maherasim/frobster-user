@@ -404,7 +404,8 @@ class _ViewAllServiceScreenState extends State<ViewAllServiceScreen> {
 
                       FilterScreen(
                               isFromProvider: widget.isFromProvider,
-                              isFromCategory: widget.isFromCategory)
+                              isFromCategory: widget.isFromCategory,
+                              preselectedCategoryId: widget.categoryId)
                           .launch(context)
                           .then((value) {
                         if (value != null) {

@@ -25,8 +25,14 @@ import 'component/filter_subcategory_component.dart';
 class FilterScreen extends StatefulWidget {
   final bool isFromProvider;
   final bool isFromCategory;
+  /// Parent category when opening filter from [ViewAllServiceScreen] (loads subcategories list).
+  final int? preselectedCategoryId;
 
-  FilterScreen({this.isFromProvider = true, this.isFromCategory = false});
+  FilterScreen({
+    this.isFromProvider = true,
+    this.isFromCategory = false,
+    this.preselectedCategoryId,
+  });
 
   @override
   _FilterScreenState createState() => _FilterScreenState();
@@ -71,23 +77,37 @@ class _FilterScreenState extends State<FilterScreen> {
       });
     }
 
-    // Get all Category List
-    if (!widget.isFromCategory) {
-      await getCategoryList(CATEGORY_LIST_ALL).then((value) {
-        catList = value.categoryList.validate();
-        catList.forEach((element) {
-          if (filterStore.categoryId.contains(element.id)) {
-            element.isSelected = true;
-          }
-        });
-        setState(() {});
-      }).catchError((e) {
-        toast(e.toString());
+    // Get all Category List (always load; `isFromCategory` used to skip this and left catList empty)
+    await getCategoryList(CATEGORY_LIST_ALL).then((value) async {
+      catList = value.categoryList.validate();
+      catList.forEach((element) {
+        if (filterStore.categoryId.contains(element.id)) {
+          element.isSelected = true;
+        }
       });
+      final preId = widget.preselectedCategoryId;
+      if (preId != null) {
+        for (final element in catList) {
+          if (element.id == preId) {
+            element.isSelected = true;
+            break;
+          }
+        }
+        await getSubCategoryList(catId: preId).then((subValue) {
+          subCatList = subValue.categoryList.validate();
+          subCatList.forEach((element) {
+            if (filterStore.selectedSubCategoryId == element.id) {
+              element.isSelected = true;
+            }
+          });
+        }).catchError((e) {
+          toast(e.toString());
+        });
+      }
 
       filterStore.categoryId.forEach(
-        (catId) async => await getSubCategoryList(catId: catId).then((value) {
-          subCatList = value.categoryList.validate();
+        (catId) async => await getSubCategoryList(catId: catId).then((subValue) {
+          subCatList = subValue.categoryList.validate();
           subCatList.forEach((element) {
             if (filterStore.selectedSubCategoryId == element.id) {
               element.isSelected = true;
@@ -98,7 +118,10 @@ class _FilterScreenState extends State<FilterScreen> {
           toast(e.toString());
         }),
       );
-    }
+      setState(() {});
+    }).catchError((e) {
+      toast(e.toString());
+    });
 
     await getCountryList().then((value) {
       countryList = value.validate();
