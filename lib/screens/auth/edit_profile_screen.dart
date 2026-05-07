@@ -239,6 +239,21 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     });
   }
 
+  Widget buildRequiredLabel(String label) {
+    return RichText(
+      text: TextSpan(
+        text: label,
+        style: secondaryTextStyle(),
+        children: [
+          TextSpan(
+            text: ' *',
+            style: boldTextStyle(color: Colors.red, size: 16),
+          ),
+        ],
+      ),
+    );
+  }
+
   Future<void> getCountry() async {
     await getCountryList().then((value) async {
       countryList.clear();
@@ -322,10 +337,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     }
     if (mobileCont.text.trim().isEmpty) {
       toast(language.requiredText);
-      return;
-    }
-    if (selectedCareerLevel == CareerLevel.notSpecified) {
-      toast('${language.careerLevel}: ${language.requiredText}');
       return;
     }
 
@@ -694,7 +705,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: lNameFocus,
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
-                      labelText: '${language.hintFirstNameTxt} *'),
+                      label: buildRequiredLabel(language.hintFirstNameTxt)),
                   suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
                 ),
                 16.height,
@@ -706,7 +717,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: userNameFocus,
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
-                      labelText: '${language.hintLastNameTxt} *'),
+                      label: buildRequiredLabel(language.hintLastNameTxt)),
                   suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
                 ),
                 16.height,
@@ -718,7 +729,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   errorThisFieldRequired: language.requiredText,
                   nextFocus: emailFocus,
                   decoration: inputDecoration(context,
-                      labelText: '${language.hintUserNameTxt} *'),
+                      label: buildRequiredLabel(language.hintUserNameTxt)),
                   suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
                 ),
                 16.height,
@@ -740,7 +751,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: mobileFocus,
                   errorThisFieldRequired: language.requiredText,
                   decoration: inputDecoration(context,
-                      labelText: '${language.hintEmailTxt} *'),
+                      label: buildRequiredLabel(language.hintEmailTxt)),
                   suffix: ic_message.iconImage(size: 10).paddingAll(14),
                   autoFillHints: [AutofillHints.email],
                   onFieldSubmitted: (email) async {
@@ -849,7 +860,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         isValidationRequired: true,
                         errorThisFieldRequired: language.requiredText,
                         decoration: inputDecoration(context,
-                            labelText: '${language.hintContactNumberTxt} *'),
+                            label: buildRequiredLabel(language.hintContactNumberTxt)),
                         maxLength: 15,
                         suffix: ic_calling.iconImage(size: 10).paddingAll(14),
                         validator: (v) {
@@ -867,7 +878,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     DropdownButtonFormField<int>(
                       decoration: inputDecoration(context,
-                          labelText: '${language.lblStatus} *'),
+                          label: buildRequiredLabel(language.lblStatus)),
                       isExpanded: true,
                       initialValue: selectedUserStatus,
                       dropdownColor: context.cardColor,
@@ -900,7 +911,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     DropdownButtonFormField<String>(
                       decoration: inputDecoration(context,
-                          labelText: 'Select Availability *'),
+                          labelText: 'Select Availability'),
                       isExpanded: true,
                       initialValue: selectedAvailability,
                       dropdownColor: context.cardColor,
@@ -940,7 +951,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     DropdownButtonFormField<CountryListResponse>(
                       decoration: inputDecoration(context,
-                          labelText: '${language.selectCountry} *'),
+                          label: buildRequiredLabel(language.selectCountry)),
                       isExpanded: true,
                       initialValue: selectedCountry,
                       dropdownColor: context.cardColor,
@@ -972,7 +983,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     if (stateList.isNotEmpty)
                       DropdownButtonFormField<StateListResponse>(
                         decoration: inputDecoration(context,
-                            labelText: '${language.selectState} *'),
+                            label: buildRequiredLabel(language.selectState)),
                         isExpanded: true,
                         dropdownColor: context.cardColor,
                         initialValue: selectedState,
@@ -1002,7 +1013,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 if (cityList.isNotEmpty)
                   DropdownButtonFormField<CityListResponse>(
                     decoration: inputDecoration(context,
-                        labelText: '${language.selectCity} *'),
+                        label: buildRequiredLabel(language.selectCity)),
                     isExpanded: true,
                     initialValue: selectedCity,
                     dropdownColor: context.cardColor,
@@ -1054,7 +1065,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   textFieldType: TextFieldType.ADDRESS,
                   maxLines: 5,
                   decoration:
-                      inputDecoration(context, labelText: '${language.hintAddress} *'),
+                      inputDecoration(context, label: buildRequiredLabel(language.hintAddress)),
                   suffix: ic_location.iconImage(size: 10).paddingAll(14),
                   isValidationRequired: true,
                   errorThisFieldRequired: language.requiredText,
@@ -1064,7 +1075,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   onTap: isLoginTypeApple ? null : () => _showLanguagePicker(),
                   child: InputDecorator(
                     decoration: inputDecoration(context,
-                        labelText: '${language.knownLanguages} *',
+                        label: buildRequiredLabel(language.knownLanguages),
                         hintText: selectedLanguages.isEmpty
                             ? 'Tap to select languages'
                             : null),
@@ -1118,7 +1129,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 16.height,
                 DropdownButtonFormField<CareerLevel>(
                   decoration: inputDecoration(context,
-                      labelText: '${language.careerLevel} *'),
+                      labelText: language.careerLevel),
                   isExpanded: true,
                   initialValue: CareerLevel.values.contains(selectedCareerLevel) ? selectedCareerLevel : CareerLevel.notSpecified,
                   dropdownColor: context.cardColor,
