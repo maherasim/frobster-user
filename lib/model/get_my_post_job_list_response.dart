@@ -274,9 +274,9 @@ class PostJobData {
 
 /// Price Type
 enum PriceType {
-  hourly("Hourly", "hourly"),
-  fixed("Fixed", "fixed"),
-  daily("Daily", "daily");
+  hourly("Stündlich", "hourly"),
+  fixed("Festpreis", "fixed"),
+  daily("Täglich", "daily");
 
   final String displayName;
   final String backendValue;
@@ -286,7 +286,7 @@ enum PriceType {
 
 /// Job Type
 enum JobType {
-  onSite("On Site", "onsite"),
+  onSite("Vor Ort", "onsite"),
   hybrid("Hybrid", "hybrid"),
   remote("Remote", "remote");
 
@@ -298,11 +298,11 @@ enum JobType {
 
 /// Job Schedule
 enum JobSchedule {
-  fullTime("Full-time", "full_time"),
-  partTime("Part-time", "part_time"),
-  contract("Contract", "contract"),
-  temporary("Temporary", "temporary"),
-  internship("Internship", "internship");
+  fullTime("Vollzeit", "full_time"),
+  partTime("Teilzeit", "part_time"),
+  contract("Vertrag", "contract"),
+  temporary("Befristet", "temporary"),
+  internship("Praktikum", "internship");
 
   final String displayName;
   final String backendValue;
@@ -312,7 +312,7 @@ enum JobSchedule {
 
 /// Remote Work Level
 enum RemoteWorkLevel {
-  onsite0("Onsite (100%)", "onsite"),
+  onsite0("Vor Ort (100%)", "onsite"),
   remote25("25% Remote", "25_remote"),
   remote50("50% Remote", "50_remote"),
   remote75("75% Remote", "75_remote"),
@@ -326,17 +326,17 @@ enum RemoteWorkLevel {
 
 /// Career Level
 enum CareerLevel {
-  notSpecified("Not Specified", "not_specified"),
-  entryLevel("Entry Level", "entry_level"),
-  intermediateLevel("Intermediate Level", "intermediate_level"),
-  experienced("Experienced", "experienced"),
-  professional("Professional", "professional"),
-  middleManagement("Middle Management", "middle_management"),
-  executiveManagement("Executive Management", "executive_management"),
+  notSpecified("Nicht angegeben", "not_specified"),
+  entryLevel("Berufseinsteiger", "entry_level"),
+  intermediateLevel("Fortgeschrittenes Niveau", "intermediate_level"),
+  experienced("Erfahren", "experienced"),
+  professional("Professionell", "professional"),
+  middleManagement("Mittleres Management", "middle_management"),
+  executiveManagement("Oberes Management", "executive_management"),
   seniorManagement("Senior Management", "senior_management"),
-  director("Director", "director"),
-  technician("Technician", "technician"),
-  leader("Leader", "leader"),
+  director("Direktor", "director"),
+  technician("Techniker", "technician"),
+  leader("Führungskraft", "leader"),
   manager("Manager", "manager");
 
   final String displayName;
@@ -347,8 +347,8 @@ enum CareerLevel {
 
 /// Travel Requirement
 enum TravelRequirement {
-  no("No", "0","false"),
-  yes("Yes", "1","true");
+  no("Nein", "0","false"),
+  yes("Ja", "1","true");
 
   final String displayName;
   final String backendValue;
@@ -359,20 +359,20 @@ enum TravelRequirement {
 
 /// Education Level
 enum EducationLevel {
-  notSpecified("Not Specified", "not_specified"),
-  anyGraduate("Any Graduate", "any_graduate"),
-  apprenticeshipDegree("Apprenticeship Degree", "apprenticeship_degree"),
-  traineeshipDegree("Traineeship Degree", "traineeship_degree"),
-  secondaryDegree("Secondary Degree", "secondary_degree"),
-  undergraduateDiploma("Undergraduate Diploma", "undergraduate_diploma"),
-  highSchoolGraduate("High school graduate", "high_school_graduate"),
-  associateDegree("Associate degree", "associate_degree"),
-  collegeDegree("College Degree", "college_degree"),
-  universityDegree("University Degree", "university_degree"),
-  bachelorsDegree("Bachelor's Degree", "bachelors_degree"),
-  mastersDegree("Master's Degree", "masters_degree"),
-  doctorateDegree("Doctorate Degree", "doctorate_degree"),
-  professionalDegree("Professional Degree", "professional_degree");
+  notSpecified("Nicht angegeben", "not_specified"),
+  anyGraduate("Beliebiger Abschluss", "any_graduate"),
+  apprenticeshipDegree("Ausbildungsabschluss", "apprenticeship_degree"),
+  traineeshipDegree("Trainee-Abschluss", "traineeship_degree"),
+  secondaryDegree("Sekundarabschluss", "secondary_degree"),
+  undergraduateDiploma("Bachelor-Diplom", "undergraduate_diploma"),
+  highSchoolGraduate("Abitur / Schulabschluss", "high_school_graduate"),
+  associateDegree("Associate Degree", "associate_degree"),
+  collegeDegree("College-Abschluss", "college_degree"),
+  universityDegree("Universitätsabschluss", "university_degree"),
+  bachelorsDegree("Bachelor-Abschluss", "bachelors_degree"),
+  mastersDegree("Master-Abschluss", "masters_degree"),
+  doctorateDegree("Doktorgrad", "doctorate_degree"),
+  professionalDegree("Berufsabschluss", "professional_degree");
 
   final String displayName;
   final String backendValue;
@@ -382,12 +382,12 @@ enum EducationLevel {
 
 /// Years of experience (profile)
 enum YearsOfExperience {
-  lessThan1("Less than 1 Year", "less_than_1"),
-  oneTo3("1 to 3 Years", "1_to_3"),
-  threeTo5("3 to 5 Years", "3_to_5"),
-  fiveTo8("5 to 8 Years", "5_to_8"),
-  eightTo10("8 to 10 Years", "8_to_10"),
-  moreThan10("More than 10 Years", "more_than_10");
+  lessThan1("Weniger als 1 Jahr", "less_than_1"),
+  oneTo3("1 bis 3 Jahre", "1_to_3"),
+  threeTo5("3 bis 5 Jahre", "3_to_5"),
+  fiveTo8("5 bis 8 Jahre", "5_to_8"),
+  eightTo10("8 bis 10 Jahre", "8_to_10"),
+  moreThan10("Mehr als 10 Jahre", "more_than_10");
 
   final String displayName;
   final String backendValue;
@@ -397,21 +397,21 @@ enum YearsOfExperience {
 
 /// Education Level
 enum RequestStatus {
-  requested('Requested','requested',defaultStatus),
-  accepted('Accepted','accepted',accept),
-  pendingAdvance('Advance Payment Pending','Advance Payment Pending',primaryColorWithOpacity),
-  advancePaymentPending('Advance Payment Pending','advance_payment_pending',primaryColorWithOpacity),
-  advancePaid('Advance Paid','advance_paid',primaryColorWithOpacity),
-  inProcess('In Process','in_process',primaryColorWithOpacity),
-  inProgress('In Progress','in_progress',primaryColorWithOpacity),
-  hold('Hold','hold',primaryColorWithOpacity),
-  done('Done','done',primaryColorWithOpacity),
-  confirmDone( 'Confirm Done','confirm_done',primaryColorWithOpacity),
-  completed( 'Completed','completed',primaryColorWithOpacity),
-  remainingPaymentPending('Remaining Payment Pending','remaining_payment_pending',primaryColorWithOpacity),
-  remainingPaid( 'Remaining Paid','remaining_paid',primaryColorWithOpacity),
+  requested('Angefragt','requested',defaultStatus),
+  accepted('Akzeptiert','accepted',accept),
+  pendingAdvance('Anzahlung ausstehend','Advance Payment Pending',primaryColorWithOpacity),
+  advancePaymentPending('Anzahlung ausstehend','advance_payment_pending',primaryColorWithOpacity),
+  advancePaid('Anzahlung geleistet','advance_paid',primaryColorWithOpacity),
+  inProcess('In Bearbeitung','in_process',primaryColorWithOpacity),
+  inProgress('In Arbeit','in_progress',primaryColorWithOpacity),
+  hold('In Wartestellung','hold',primaryColorWithOpacity),
+  done('Fertig','done',primaryColorWithOpacity),
+  confirmDone( 'Erledigung bestätigen','confirm_done',primaryColorWithOpacity),
+  completed( 'Abgeschlossen','completed',primaryColorWithOpacity),
+  remainingPaymentPending('Restzahlung ausstehend','remaining_payment_pending',primaryColorWithOpacity),
+  remainingPaid( 'Restbetrag bezahlt','remaining_paid',primaryColorWithOpacity),
 
-  cancel( 'Cancelled','cancelled',cancelled);
+  cancel( 'Storniert','cancelled',cancelled);
 
   final String displayName;
   final String backendValue;

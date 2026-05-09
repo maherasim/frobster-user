@@ -104,7 +104,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
 
       stripeServiceNew.stripePay().catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_RAZOR) {
       RazorPayServiceNew razorPayServiceNew = RazorPayServiceNew(
@@ -123,7 +123,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
       );
       razorPayServiceNew.razorPayCheckout().catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_FLUTTER_WAVE) {
       FlutterWaveServiceNew flutterWaveServiceNew = FlutterWaveServiceNew();
@@ -171,7 +171,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
 
       cinetPayServices.payWithCinetPay(context: context).catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_SADAD_PAYMENT) {
       SadadServicesNew sadadServices = SadadServicesNew(
@@ -191,7 +191,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
 
       sadadServices.payWithSadad(context).catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_PAYPAL) {
       PayPalService.paypalCheckOut(
@@ -259,7 +259,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
       appStore.setLoading(false);
       paystackServices.checkout().catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_MIDTRANS) {
       MidtransService midtransService = MidtransService();
@@ -284,7 +284,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
       appStore.setLoading(false);
       midtransService.midtransPaymentCheckout().catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_PHONEPE) {
       PhonePeServices peServices = PhonePeServices(
@@ -303,7 +303,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
 
       peServices.phonePeCheckout(context).catchError((e) {
         appStore.setLoading(false);
-        toast(e);
+        toast(e.toString());
       });
     } else if( currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER){
       Map req = {

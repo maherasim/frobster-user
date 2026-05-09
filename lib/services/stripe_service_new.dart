@@ -70,7 +70,7 @@ class StripeServiceNew {
     Stripe.merchantIdentifier = 'merchant.flutter.stripe.test';
     Stripe.publishableKey = stripePaymentPublishKey;
 
-    Stripe.instance.applySettings().catchError((e) {
+    await Stripe.instance.applySettings().catchError((e) {
       toast(e.toString(), print: true);
 
       throw e.toString();
@@ -93,7 +93,7 @@ class StripeServiceNew {
 
     appStore.setLoading(true);
     await request.send().then((value) {
-      http.Response.fromStream(value).then((response) async {
+      return http.Response.fromStream(value).then((response) async {
         if (response.statusCode.isSuccessful()) {
           StripePayModel res =
               StripePayModel.fromJson(jsonDecode(response.body));

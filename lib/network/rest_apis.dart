@@ -471,14 +471,14 @@ Future<List<TransactionRequestData>> getTransactionRequest(int id) async {
     final request = await handleResponse(await buildHttpResponse('transaction-requests/$id', method: HttpMethodType.GET));
     var res = transactionRequestDataFromJson(request['data']);
 
-    res.sort((a,b) => b.createdAt.compareTo(a.createdAt));
+    res.sort((a, b) => b.createdAt.compareTo(a.createdAt));
     appStore.setLoading(false);
     return res;
   } catch (e) {
     appStore.setLoading(false);
-    throw e;
+    // 404 means no transactions yet — return empty list silently
+    return [];
   }
-
 }
 
 //endregion
