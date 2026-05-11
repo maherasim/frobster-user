@@ -181,6 +181,7 @@ List<LanguageDataModel> languageList() {
 
 InputDecoration inputDecoration(BuildContext context,
     {Widget? prefixIcon,
+    Widget? label,
     String? labelText,
     String? hintText,
     double? borderRadius,
@@ -189,11 +190,13 @@ InputDecoration inputDecoration(BuildContext context,
     Color? fillColor}) {
   return InputDecoration(
     contentPadding: EdgeInsets.only(left: 12, bottom: 10, top: 10, right: 10),
+    label: label,
     labelText: labelText,
     labelStyle: secondaryTextStyle(),
     hintText: hintText,
     hintStyle: secondaryTextStyle(),
-    alignLabelWithHint: hintText != null && labelText!=null,
+    alignLabelWithHint:
+        hintText != null && (labelText != null || label != null),
     counterText: counter == false ? "" : counterText,
     prefixIcon: prefixIcon,
     enabledBorder: OutlineInputBorder(
@@ -514,17 +517,20 @@ String convertToHourMinute(String timeStr) {
   final trimmed = timeStr.trim();
 
   // Handle human-readable formats like "2 Days", "1 Day", "3 Hours", "30 Min"
-  final dayMatch = RegExp(r'^(\d+)\s*day(s)?$', caseSensitive: false).firstMatch(trimmed);
+  final dayMatch =
+      RegExp(r'^(\d+)\s*day(s)?$', caseSensitive: false).firstMatch(trimmed);
   if (dayMatch != null) {
     final n = dayMatch.group(1)!;
     return '$n ${int.parse(n) == 1 ? 'Day' : 'Days'}';
   }
-  final hourMatch = RegExp(r'^(\d+)\s*hour(s)?$', caseSensitive: false).firstMatch(trimmed);
+  final hourMatch =
+      RegExp(r'^(\d+)\s*hour(s)?$', caseSensitive: false).firstMatch(trimmed);
   if (hourMatch != null) {
     final n = hourMatch.group(1)!;
     return '$n ${int.parse(n) == 1 ? language.lblHr : language.lblHr}';
   }
-  final minMatch = RegExp(r'^(\d+)\s*min', caseSensitive: false).firstMatch(trimmed);
+  final minMatch =
+      RegExp(r'^(\d+)\s*min', caseSensitive: false).firstMatch(trimmed);
   if (minMatch != null) {
     return '${minMatch.group(1)} ${language.min}';
   }
@@ -848,7 +854,7 @@ Future<void> shareServiceContent({
     final String location = (city.isNotEmpty && country.isNotEmpty)
         ? '$city - $country'
         : (city.isNotEmpty ? city : country);
-    
+
     // Build post text without image URL
     String postText = '''
 $serviceName
@@ -862,7 +868,7 @@ $serviceLink
 
     // Copy the post text to clipboard
     await Clipboard.setData(ClipboardData(text: postText));
-    
+
     // Show toast message
     toast('Content copied! Opening $platformName...');
 
@@ -870,7 +876,7 @@ $serviceLink
     try {
       final Uri platformUri = Uri.parse(platformUrl);
       await launchUrl(platformUri, mode: LaunchMode.externalApplication);
-      
+
       // Wait a moment for the platform to open, then show paste hint
       Future.delayed(Duration(milliseconds: 1500), () {
         toast('Content is copied! Click + icon, then paste and post');
@@ -898,8 +904,9 @@ Future<void> shareToFacebook({
   required String serviceName,
 }) async {
   final String encodedUrl = Uri.encodeComponent(serviceLink);
-  final String facebookUrl = 'https://www.facebook.com/sharer/sharer.php?u=$encodedUrl';
-  
+  final String facebookUrl =
+      'https://www.facebook.com/sharer/sharer.php?u=$encodedUrl';
+
   await shareServiceContent(
     serviceImageUrl: serviceImageUrl,
     serviceLink: serviceLink,
@@ -926,10 +933,9 @@ Future<void> shareToInstagram({
   required String serviceName,
 }) async {
   // Instagram doesn't have a direct share URL, so open the app
-  final String instagramUrl = Platform.isAndroid 
-      ? 'https://www.instagram.com/' 
-      : 'instagram://';
-  
+  final String instagramUrl =
+      Platform.isAndroid ? 'https://www.instagram.com/' : 'instagram://';
+
   await shareServiceContent(
     serviceImageUrl: serviceImageUrl,
     serviceLink: serviceLink,
@@ -959,7 +965,7 @@ Future<void> shareToTwitter({
   final String location = (city.isNotEmpty && country.isNotEmpty)
       ? '$city - $country'
       : (city.isNotEmpty ? city : country);
-  
+
   final String postText = '''
 $serviceName
 
@@ -972,20 +978,21 @@ $serviceLink
 
   // Copy the post text to clipboard
   await Clipboard.setData(ClipboardData(text: postText));
-  
+
   // Show toast message
   toast('Content copied! Opening Twitter...');
 
   // Try Twitter app first, then fall back to web
   final String encodedText = Uri.encodeComponent('$serviceName - $serviceLink');
   final String encodedUrl = Uri.encodeComponent(serviceLink);
-  
+
   // Twitter app URL schemes
   final String twitterAppUrl = 'twitter://post?message=$encodedText';
-  final String twitterWebUrl = 'https://twitter.com/intent/tweet?text=$encodedText&url=$encodedUrl';
-  
+  final String twitterWebUrl =
+      'https://twitter.com/intent/tweet?text=$encodedText&url=$encodedUrl';
+
   bool launched = false;
-  
+
   // Try to open Twitter app first
   try {
     final Uri appUri = Uri.parse(twitterAppUrl);
@@ -999,7 +1006,7 @@ $serviceLink
   } catch (e) {
     log('Twitter app launch failed: $e');
   }
-  
+
   // If app didn't launch, use web version
   if (!launched) {
     try {
@@ -1031,7 +1038,7 @@ Future<void> shareToLinkedIn({
   final String location = (city.isNotEmpty && country.isNotEmpty)
       ? '$city - $country'
       : (city.isNotEmpty ? city : country);
-  
+
   final String postText = '''
 $serviceName
 
@@ -1044,19 +1051,20 @@ $serviceLink
 
   // Copy the post text to clipboard
   await Clipboard.setData(ClipboardData(text: postText));
-  
+
   // Show toast message
   toast('Content copied! Opening LinkedIn...');
 
   // Try LinkedIn app first, then fall back to web
   final String encodedUrl = Uri.encodeComponent(serviceLink);
-  
+
   // LinkedIn app URL schemes
   final String linkedInAppUrl = 'linkedin://shareArticle?url=$encodedUrl';
-  final String linkedInWebUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=$encodedUrl';
-  
+  final String linkedInWebUrl =
+      'https://www.linkedin.com/sharing/share-offsite/?url=$encodedUrl';
+
   bool launched = false;
-  
+
   // Try to open LinkedIn app first
   try {
     final Uri appUri = Uri.parse(linkedInAppUrl);
@@ -1070,7 +1078,7 @@ $serviceLink
   } catch (e) {
     log('LinkedIn app launch failed: $e');
   }
-  
+
   // If app didn't launch, use web version
   if (!launched) {
     try {
@@ -1092,8 +1100,9 @@ Future<List<File>> getMultipleImageSource({bool isCamera = true}) async {
 }
 
 Future<File> getCameraImage({bool isCamera = true}) async {
-  final pickedImage = await ImagePicker()
-      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 85);
+  final pickedImage = await ImagePicker().pickImage(
+      source: isCamera ? ImageSource.camera : ImageSource.gallery,
+      imageQuality: 85);
   return File(pickedImage!.path);
 }
 
