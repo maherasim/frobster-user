@@ -13,7 +13,7 @@ dependencies:
 
   # COMMON
   nb_utils: ^7.0.7
-  google_fonts: ^6.2.1
+  google_fonts: ^6.3.3
   html: ^0.15.4
   http: ^1.2.2
   intl: ^0.20.2
