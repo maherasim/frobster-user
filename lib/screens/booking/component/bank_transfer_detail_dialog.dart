@@ -135,7 +135,7 @@ class BankTransferDetailDialog extends StatelessWidget {
                     ),
                   ),
                   TextSpan(
-                    text: ' billing@frobster.com',
+                    text: ' billing@persotel.de',
                     style: boldTextStyle(size: 14, color: context.primaryColor),
                   ),
                 ],
