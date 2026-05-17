@@ -174,7 +174,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                   ? (() {
                       final skillsStr = data.userData!.skills!.trim();
                       if (skillsStr.isEmpty) return <String>[];
-                      
+
                       // Try JSON array format first
                       if (skillsStr.isJson()) {
                         try {
@@ -187,13 +187,15 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                           // If JSON parsing fails, fall through to comma-separated
                         }
                       }
-                      
+
                       // Handle comma-separated string format
                       return skillsStr
                           .split(',')
                           .map((e) => e
-                              .replaceAll(RegExp(r'[\[\]"]'), '') // Remove brackets and quotes
-                              .replaceAll(RegExp(r',+'), ',') // Remove double commas
+                              .replaceAll(RegExp(r'[\[\]"]'),
+                                  '') // Remove brackets and quotes
+                              .replaceAll(
+                                  RegExp(r',+'), ',') // Remove double commas
                               .trim())
                           .where((e) => e.isNotEmpty)
                           .toList();
@@ -287,8 +289,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                         context: context,
                                         barrierDismissible: true,
                                         builder: (ctx) => ReportProfileDialog(
-                                          reportedUserId:
-                                              reportedId.validate(),
+                                          reportedUserId: reportedId.validate(),
                                         ),
                                       );
                                     },
@@ -314,7 +315,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(language.knownLanguages,
-                                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                        style: boldTextStyle(
+                                            size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -336,7 +338,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                           EdgeInsets.only(right: 8, bottom: 8),
                                       child: Text(e,
                                           style: secondaryTextStyle(
-                                              size: 12, weight: FontWeight.bold)),
+                                              size: 12,
+                                              weight: FontWeight.bold)),
                                     );
                                   }).toList(),
                                 ).paddingSymmetric(
@@ -352,7 +355,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(language.essentialSkills,
-                                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                        style: boldTextStyle(
+                                            size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -375,7 +379,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12, weight: FontWeight.bold)),
+                                                    size: 12,
+                                                    weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -388,7 +393,9 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Erfahrungen', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text('Erfahrungen',
+                                        style: boldTextStyle(
+                                            size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -411,7 +418,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12, weight: FontWeight.bold)),
+                                                    size: 12,
+                                                    weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -424,8 +432,12 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text('Verfuegbarkeit: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                                Text(_availabilityDisplay(data.userData!.availability),
+                                Text('${language.availabilityLabel}: ',
+                                    style:
+                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(
+                                    _availabilityDisplay(
+                                        data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),
@@ -435,7 +447,9 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Mobilitaet', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.mobility,
+                                        style: boldTextStyle(
+                                            size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -458,7 +472,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12, weight: FontWeight.bold)),
+                                                    size: 12,
+                                                    weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -471,7 +486,9 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Zertifizierungen', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text('Zertifizierungen',
+                                        style: boldTextStyle(
+                                            size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -494,7 +511,8 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12, weight: FontWeight.bold)),
+                                                    size: 12,
+                                                    weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -507,9 +525,12 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.educationLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.educationLevel,
+                                    style:
+                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(_educationDisplay(data.userData!.education),
+                                Text(
+                                    _educationDisplay(data.userData!.education),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),
@@ -519,21 +540,30 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.careerLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.careerLevel,
+                                    style:
+                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(_careerLevelDisplay(data.userData!.careerLevel),
+                                Text(
+                                    _careerLevelDisplay(
+                                        data.userData!.careerLevel),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
-                          if (data.userData?.yearsOfExperience != null && data.userData!.yearsOfExperience!.isNotEmpty) ...[
+                          if (data.userData?.yearsOfExperience != null &&
+                              data.userData!.yearsOfExperience!.isNotEmpty) ...[
                             15.height,
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Berufserfahrung (Jahre)', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('Berufserfahrung (Jahre)',
+                                    style:
+                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(_yearsOfExperienceDisplay(data.userData!.yearsOfExperience),
+                                Text(
+                                    _yearsOfExperienceDisplay(
+                                        data.userData!.yearsOfExperience),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),
@@ -602,7 +632,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Abgeschlossene Auftraege:',
+                                  '${language.completedJobsLabel}:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -680,7 +710,9 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Ueber mich', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.aboutMe,
+                                    style:
+                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(data.userData!.aboutMe.validate(),
                                     style: secondaryTextStyle(size: 12)),

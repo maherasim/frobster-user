@@ -4,6 +4,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/chat_api_models.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/chat/api_chat_screen.dart';
+import 'package:booking_system_flutter/utils/common.dart';
 import 'package:flutter/material.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -106,16 +107,18 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
                   : ListView.builder(
                       controller: _controller,
                       padding: EdgeInsets.fromLTRB(12, 12, 12, 24),
-                      itemCount: _conversations.length + (_isLoadingMore ? 1 : 0),
+                      itemCount:
+                          _conversations.length + (_isLoadingMore ? 1 : 0),
                       itemBuilder: (context, index) {
                         if (_isLoadingMore && index == _conversations.length) {
                           return LoaderWidget().paddingAll(16);
                         }
                         final c = _conversations[index];
                         final other = c.otherUser;
-                        final preview = (c.lastSnippet?.trim().isNotEmpty == true)
-                            ? c.lastSnippet!
-                            : (c.lastMessage?.preview ?? '');
+                        final preview = formatChatMessageText(
+                            (c.lastSnippet?.trim().isNotEmpty == true)
+                                ? c.lastSnippet!
+                                : (c.lastMessage?.preview ?? ''));
                         final date = (c.lastAt?.trim().isNotEmpty == true)
                             ? c.lastAt!
                             : (c.lastMessage?.createdAt ?? '');
@@ -124,36 +127,50 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
                           decoration: BoxDecoration(
                             color: context.cardColor,
                             borderRadius: radius(16),
-                            border: Border.all(color: context.dividerColor.withValues(alpha: 0.6)),
+                            border: Border.all(
+                                color: context.dividerColor
+                                    .withValues(alpha: 0.6)),
                           ),
                           child: ListTile(
-                            contentPadding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                            leading: other?.avatarUrl.validate().isNotEmpty == true
-                                ? CachedImageWidget(
-                                    url: other!.avatarUrl.validate(),
-                                    height: 44,
-                                    width: 44,
-                                    circle: true,
-                                  )
-                                : Container(
-                                    height: 44,
-                                    width: 44,
-                                    decoration: BoxDecoration(
-                                      color: context.primaryColor.withValues(alpha: 0.2),
-                                      shape: BoxShape.circle,
-                                    ),
-                                    alignment: Alignment.center,
-                                    child: Text(
-                                      (other?.name.validate().isNotEmpty == true)
-                                          ? other!.name.validate()[0].toUpperCase()
-                                          : (c.title.validate().isNotEmpty
-                                              ? c.title.validate()[0].toUpperCase()
-                                              : '?'),
-                                      style: boldTextStyle(color: context.primaryColor, size: 16),
-                                    ),
-                                  ),
+                            contentPadding: EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 8),
+                            leading:
+                                other?.avatarUrl.validate().isNotEmpty == true
+                                    ? CachedImageWidget(
+                                        url: other!.avatarUrl.validate(),
+                                        height: 44,
+                                        width: 44,
+                                        circle: true,
+                                      )
+                                    : Container(
+                                        height: 44,
+                                        width: 44,
+                                        decoration: BoxDecoration(
+                                          color: context.primaryColor
+                                              .withValues(alpha: 0.2),
+                                          shape: BoxShape.circle,
+                                        ),
+                                        alignment: Alignment.center,
+                                        child: Text(
+                                          (other?.name.validate().isNotEmpty ==
+                                                  true)
+                                              ? other!.name
+                                                  .validate()[0]
+                                                  .toUpperCase()
+                                              : (c.title.validate().isNotEmpty
+                                                  ? c.title
+                                                      .validate()[0]
+                                                      .toUpperCase()
+                                                  : '?'),
+                                          style: boldTextStyle(
+                                              color: context.primaryColor,
+                                              size: 16),
+                                        ),
+                                      ),
                             title: Text(
-                              other?.name.validate().isNotEmpty == true ? other!.name : c.title,
+                              other?.name.validate().isNotEmpty == true
+                                  ? other!.name
+                                  : c.title,
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: primaryTextStyle(),
@@ -172,12 +189,15 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
                                 6.height,
                                 if (c.unreadCount > 0)
                                   Container(
-                                    padding: EdgeInsets.symmetric(horizontal: 6, vertical: 2),
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal: 6, vertical: 2),
                                     decoration: BoxDecoration(
                                       color: context.primaryColor,
                                       borderRadius: radius(12),
                                     ),
-                                    child: Text('${c.unreadCount}', style: boldTextStyle(color: white, size: 10)),
+                                    child: Text('${c.unreadCount}',
+                                        style: boldTextStyle(
+                                            color: white, size: 10)),
                                   ),
                               ],
                             ),
@@ -187,7 +207,9 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
                                 conversationId: c.id,
                                 otherUserId: otherId,
                                 otherUserName:
-                                    (other?.name.validate().isNotEmpty == true) ? other!.name : c.title,
+                                    (other?.name.validate().isNotEmpty == true)
+                                        ? other!.name
+                                        : c.title,
                                 otherUserAvatarUrl: other?.avatarUrl,
                               ).launch(context);
                             },
@@ -200,5 +222,3 @@ class _ApiConversationsScreenState extends State<ApiConversationsScreen> {
     );
   }
 }
-
-

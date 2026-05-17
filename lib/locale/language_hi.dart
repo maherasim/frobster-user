@@ -2216,8 +2216,7 @@ class LanguageHi extends BaseLanguage {
   String get passwordMinLengthEight => 'कम से कम 8 वर्ण';
 
   @override
-  String get passwordMustIncludeLetter =>
-      'कम से कम एक अक्षर (A–Z या a–z)';
+  String get passwordMustIncludeLetter => 'कम से कम एक अक्षर (A–Z या a–z)';
 
   @override
   String get passwordMustIncludeNumber => 'कम से कम एक अंक (0–9)';
@@ -2227,7 +2226,8 @@ class LanguageHi extends BaseLanguage {
       '• कम से कम 8 वर्ण\n• कम से कम एक अक्षर (A–Z या a–z)\n• कम से कम एक अंक (0–9)';
 
   @override
-  String get paymentMethodNotSupported => 'भुगतान विधि समर्थित नहीं है। कृपया एक और विधि चुनें।';
+  String get paymentMethodNotSupported =>
+      'भुगतान विधि समर्थित नहीं है। कृपया एक और विधि चुनें।';
 
   @override
   String get hintSelectType => 'प्रकार चुनें';
@@ -2236,116 +2236,129 @@ class LanguageHi extends BaseLanguage {
   String get lblSelectSubCategory => "उपश्रेणी का चयन करें";
 
   @override
-    String get country => "देश";
-
-    @override
-    String get state => "राज्य";
-
-    @override
-    String get city => "शहर";
-
-    @override
-    String get lblSubCategory => "उपश्रेणी";
-
-    @override
-      String get priceType => 'मूल्य प्रकार';
-
-      @override
-      String get totalBudget => 'कुल बजट';
-
-      @override
-      String get jobType => 'नौकरी का प्रकार';
-
-      @override
-      String get jobSchedule => 'नौकरी अनुसूची';
-
-      @override
-      String get remoteWorkLevel => 'दूरस्थ कार्य स्तर';
-
-      @override
-      String get travelRequirements => 'यात्रा आवश्यकताएँ';
-
-      @override
-      String get careerLevel => 'कैरियर स्तर';
-
-      @override
-      String get educationLevel => 'शिक्षा स्तर';
-
-      @override
-      String get startDate => 'प्रारंभ तिथि';
-
-      @override
-      String get endDate => 'समाप्ति तिथि';
-
-      @override
-      String get totalDays => 'कुल दिन';
-
-      @override
-      String get totalHours => 'कुल घंटे';
-
-      @override
-      String get workingAddress => 'कार्य पता';
-
-      @override
-      String get streetAndHouseNr => 'सड़क और घर नंबर';
-
-      @override
-      String get poboxAndCityCountry => 'पीओ बॉक्स, शहर और देश';
-
-      @override
-      String get skillsAndRequirements => 'कौशल और आवश्यकताएँ';
-
-      @override
-      String get dutiesAndResponsibilities => 'कर्तव्य और जिम्मेदारियां';
-
-      @override
-      String get benefits => 'लाभ';
-
-      @override
-      String get publish => 'प्रकाशित करें';
+  String get country => "देश";
 
   @override
-  String get selectImgNote => "नोट: आप 'jpg','png','jpeg ' एक्सटेंशन के साथ छवियों को अपलोड कर सकते हैं और आप एकाधिक छवियों का चयन कर सकते हैं";
+  String get state => "राज्य";
+
+  @override
+  String get city => "शहर";
+
+  @override
+  String get lblSubCategory => "उपश्रेणी";
+
+  @override
+  String get priceType => 'मूल्य प्रकार';
+
+  @override
+  String get totalBudget => 'कुल बजट';
+
+  @override
+  String get jobType => 'नौकरी का प्रकार';
+
+  @override
+  String get jobSchedule => 'नौकरी अनुसूची';
+
+  @override
+  String get remoteWorkLevel => 'दूरस्थ कार्य स्तर';
+
+  @override
+  String get travelRequirements => 'यात्रा आवश्यकताएँ';
+
+  @override
+  String get careerLevel => 'कैरियर स्तर';
+
+  @override
+  String get educationLevel => 'शिक्षा स्तर';
+
+  @override
+  String get startDate => 'प्रारंभ तिथि';
+
+  @override
+  String get endDate => 'समाप्ति तिथि';
+
+  @override
+  String get totalDays => 'कुल दिन';
+
+  @override
+  String get totalHours => 'कुल घंटे';
+
+  @override
+  String get workingAddress => 'कार्य पता';
+
+  @override
+  String get streetAndHouseNr => 'सड़क और घर नंबर';
+
+  @override
+  String get poboxAndCityCountry => 'पीओ बॉक्स, शहर और देश';
+
+  @override
+  String get skillsAndRequirements => 'कौशल और आवश्यकताएँ';
+
+  @override
+  String get dutiesAndResponsibilities => 'कर्तव्य और जिम्मेदारियां';
+
+  @override
+  String get benefits => 'लाभ';
+
+  @override
+  String get publish => 'प्रकाशित करें';
+
+  @override
+  String get selectImgNote =>
+      "नोट: आप 'jpg','png','jpeg ' एक्सटेंशन के साथ छवियों को अपलोड कर सकते हैं और आप एकाधिक छवियों का चयन कर सकते हैं";
 
   @override
   String get waitingForAdvancePayment => 'अग्रिम भुगतान की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForPaymentApproval => 'भुगतान अनुमोदन की प्रतीक्षा कर रहा है';
+  String get waitingForPaymentApproval =>
+      'भुगतान अनुमोदन की प्रतीक्षा कर रहा है';
 
   // Job Request specific strings
   @override
-  String get waitingForCustomerToConfirm => "ग्राहक की पुष्टि की प्रतीक्षा कर रहा है 'चलिए काम शुरू करते हैं'";
+  String get waitingForCustomerToConfirm =>
+      "ग्राहक की पुष्टि की प्रतीक्षा कर रहा है 'चलिए काम शुरू करते हैं'";
 
   @override
-  String get workInProgressWaitingForProvider => "कार्य प्रगति में है — प्रदाता के अपडेट या पूर्ण होने की प्रतीक्षा कर रहा है";
+  String get workInProgressWaitingForProvider =>
+      "कार्य प्रगति में है — प्रदाता के अपडेट या पूर्ण होने की प्रतीक्षा कर रहा है";
 
   @override
-  String get jobCompletedWaitingForCustomer => "कार्य पूरा हो गया — ग्राहक के शेष राशि भुगतान की प्रतीक्षा कर रहा है";
+  String get jobCompletedWaitingForCustomer =>
+      "कार्य पूरा हो गया — ग्राहक के शेष राशि भुगतान की प्रतीक्षा कर रहा है";
 
   @override
-  String get paymentCompletedDownloadInvoice => "भुगतान पूरा हो गया। आप चालान डाउनलोड कर सकते हैं।";
+  String get paymentCompletedDownloadInvoice =>
+      "भुगतान पूरा हो गया। आप चालान डाउनलोड कर सकते हैं।";
 
   @override
-  String get waitingForCustomerToAcceptTheBid => 'ग्राहक द्वारा बोली स्वीकार करने की प्रतीक्षा कर रहा है';
+  String get waitingForCustomerToAcceptTheBid =>
+      'ग्राहक द्वारा बोली स्वीकार करने की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForProviderToSplitPayment => 'प्रदाता द्वारा भुगतान विभाजित करने की प्रतीक्षा कर रहा है';
+  String get waitingForProviderToSplitPayment =>
+      'प्रदाता द्वारा भुगतान विभाजित करने की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForCustomerToPayAdvancePercentage => 'ग्राहक द्वारा अग्रिम प्रतिशत भुगतान करने की प्रतीक्षा कर रहा है';
+  String get waitingForCustomerToPayAdvancePercentage =>
+      'ग्राहक द्वारा अग्रिम प्रतिशत भुगतान करने की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForCustomerToConfirmWorkDone => 'ग्राहक द्वारा कार्य की पुष्टि करने की प्रतीक्षा कर रहा है';
+  String get waitingForCustomerToConfirmWorkDone =>
+      'ग्राहक द्वारा कार्य की पुष्टि करने की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForProviderToStartWork => 'प्रदाता के काम शुरू करने की प्रतीक्षा कर रहा है';
+  String get waitingForProviderToStartWork =>
+      'प्रदाता के काम शुरू करने की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForProviderToResumeWork => 'प्रदाता के काम फिर से शुरू करने की प्रतीक्षा कर रहा है';
+  String get waitingForProviderToResumeWork =>
+      'प्रदाता के काम फिर से शुरू करने की प्रतीक्षा कर रहा है';
 
   @override
-  String get waitingForProviderToMarkBidAsCompleted => 'प्रदाता के बोली को पूरा के रूप में चिह्नित करने की प्रतीक्षा कर रहा है';
+  String get waitingForProviderToMarkBidAsCompleted =>
+      'प्रदाता के बोली को पूरा के रूप में चिह्नित करने की प्रतीक्षा कर रहा है';
 
   // Bank details / profile / map (screens) - fallback English
   @override
@@ -2381,7 +2394,6 @@ class LanguageHi extends BaseLanguage {
   @override
   String get essentialSkillsLabel => 'Essential skills';
 
-  @override
   String get experience => 'Experience';
 
   @override
@@ -2398,23 +2410,26 @@ class LanguageHi extends BaseLanguage {
 
   // Booking slot / time labels - fallback English
   @override
-  String get startTime => 'Start Time';
+  String get startTime => 'प्रारंभ समय';
 
   @override
-  String get endTime => 'End Time';
+  String get endTime => 'समाप्ति समय';
 
   // Payment / webview messages - fallback English
   @override
-  String get invalidResponseTryAgain => 'Invalid response from server. Please try again.';
+  String get invalidResponseTryAgain =>
+      'Invalid response from server. Please try again.';
 
   @override
-  String get paymentEndpointNotFound => 'Payment endpoint not found. Please contact support.';
+  String get paymentEndpointNotFound =>
+      'Payment endpoint not found. Please contact support.';
 
   @override
   String get paypalErrorLoadingPage => 'Error loading PayPal page';
 
   @override
-  String get paymentVerificationMissingToken => 'Payment verification failed: Missing token';
+  String get paymentVerificationMissingToken =>
+      'Payment verification failed: Missing token';
 
   @override
   String get verifyingPayment => 'Verifying payment...';
@@ -2434,7 +2449,8 @@ class LanguageHi extends BaseLanguage {
   String get errorProcessingPayment => 'Error processing payment';
 
   @override
-  String get failedToGetPaypalUrl => 'Failed to get PayPal payment URL. Please try again.';
+  String get failedToGetPaypalUrl =>
+      'Failed to get PayPal payment URL. Please try again.';
 
   // Chat policy - fallback English
   @override
@@ -2456,22 +2472,27 @@ class LanguageHi extends BaseLanguage {
       'Waiting for admin approval. Please wait.';
 
   @override
-  String get invalidPaymentAmount => 'Invalid payment amount. Please try again.';
+  String get invalidPaymentAmount =>
+      'Invalid payment amount. Please try again.';
 
   @override
   String get paypalPaymentError => 'PayPal payment error';
 
   @override
-  String get failedToShareToFacebook => 'Failed to share to Facebook. Please try again.';
+  String get failedToShareToFacebook =>
+      'Failed to share to Facebook. Please try again.';
 
   @override
-  String get failedToShareToInstagram => 'Failed to share to Instagram. Please try again.';
+  String get failedToShareToInstagram =>
+      'Failed to share to Instagram. Please try again.';
 
   @override
-  String get failedToShareToTwitter => 'Failed to share to Twitter. Please try again.';
+  String get failedToShareToTwitter =>
+      'Failed to share to Twitter. Please try again.';
 
   @override
-  String get failedToShareToLinkedIn => 'Failed to share to LinkedIn. Please try again.';
+  String get failedToShareToLinkedIn =>
+      'Failed to share to LinkedIn. Please try again.';
 
   // Common UI labels / placeholders (screens) - fallback English
   @override
@@ -2542,7 +2563,8 @@ class LanguageHi extends BaseLanguage {
   String get bankTransferPayAmountSuffix => ' using the details below.';
 
   @override
-  String get bankTransferLocalInternationalTitle => 'Local / international transfer';
+  String get bankTransferLocalInternationalTitle =>
+      'Local / international transfer';
 
   @override
   String get bankTransferRecipientLabel => 'Recipient';
@@ -2703,6 +2725,12 @@ class LanguageHi extends BaseLanguage {
 
   @override
   String get totalBookingsLabel => 'कुल बुकिंग';
+
+  @override
+  String get availabilityLabel => 'उपलब्धता';
+
+  @override
+  String get completedJobsLabel => 'पूरे किए गए कार्य';
 
   @override
   String get travelRequiredLabel => 'यात्रा आवश्यक';

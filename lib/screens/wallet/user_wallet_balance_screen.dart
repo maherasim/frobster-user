@@ -59,8 +59,6 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
     init();
   }
 
-
-
   void init() async {
     future = getPaymentGateways(requireCOD: false, requireWallet: false);
     fetchTransactionRequestHistory(isInit: true);
@@ -68,9 +66,9 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
   }
 
   fetchTransactionRequestHistory({bool isInit = false}) async {
-    transactionList =  await getTransactionRequest(appStore.userId);
+    transactionList = await getTransactionRequest(appStore.userId);
     setState(() {});
-    if(!isInit) {
+    if (!isInit) {
       appStore.setLoading(true);
       setState(() {});
       await Future.delayed(2.seconds);
@@ -78,7 +76,6 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
         finish(context, true);
       }
     }
-
   }
 
   void _handleClick() async {
@@ -305,14 +302,14 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
         appStore.setLoading(false);
         toast(e.toString());
       });
-    } else if( currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER){
+    } else if (currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER) {
       Map req = {
         "user_id": appStore.userId,
         "amount": walletAmountCont.text.toDouble(),
         "status": "pending",
         "transaction_type": "Add wallet balance"
       };
-      walletTopUpApi(request: req,endPoint: 'transaction-requests');
+      walletTopUpApi(request: req, endPoint: 'transaction-requests');
     }
   }
 
@@ -335,15 +332,15 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
       return paystack_logo;
     } else if (value == PAYMENT_METHOD_PHONEPE) {
       return phonepe_logo;
-    } else if(value == PAYMENT_METHOD_BANK_TRANSFER){
+    } else if (value == PAYMENT_METHOD_BANK_TRANSFER) {
       return bank_transfer_logo;
     }
 
     return '';
   }
 
-  walletTopUpApi({required Map request,String? endPoint}) {
-    walletTopUp(request,endPoint: endPoint).then((value) {
+  walletTopUpApi({required Map request, String? endPoint}) {
+    walletTopUp(request, endPoint: endPoint).then((value) {
       fetchTransactionRequestHistory();
     });
   }
@@ -373,8 +370,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                     child: Row(
                       children: [
                         Text(language.balance,
-                                style:
-                                    boldTextStyle(color: gradientRed))
+                                style: boldTextStyle(color: gradientRed))
                             .expand(),
                         Observer(
                             builder: (context) => PriceWidget(
@@ -482,9 +478,11 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                         ),
                       ),
                       16.height,
-                      Text(language.paymentMethod,style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                      Text(language.paymentMethod,
+                          style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                       4.height,
-                      Text(language.selectYourPaymentMethodToAddBalance, style: secondaryTextStyle()),
+                      Text(language.selectYourPaymentMethodToAddBalance,
+                          style: secondaryTextStyle()),
                       4.height,
                       SnapHelperWidget<List<PaymentSetting>>(
                         future: future,
@@ -492,7 +490,8 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                           return AnimatedWrap(
                             itemCount: list.length,
                             listAnimationType: ListAnimationType.FadeIn,
-                            fadeInConfiguration:FadeInConfiguration(duration: 2.seconds),
+                            fadeInConfiguration:
+                                FadeInConfiguration(duration: 2.seconds),
                             spacing: 8,
                             runSpacing: 16,
                             itemBuilder: (context, index) {
@@ -505,7 +504,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                               if (value.status.validate() == 0)
                                 return Offstage();
                               String icon =
-                              getPaymentMethodIcon(value.type.validate());
+                                  getPaymentMethodIcon(value.type.validate());
 
                               return Stack(
                                 children: [
@@ -525,17 +524,27 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                                       child: icon.isNotEmpty
                                           ? Image.asset(icon)
                                           : Text(value.type.validate(),
-                                          style: primaryTextStyle(color: Colors.black)),
+                                              style: primaryTextStyle(
+                                                  color: Colors.black)),
                                     ).onTap(() {
                                       currentPaymentMethod = value;
-                                      if (value.type == PAYMENT_METHOD_BANK_TRANSFER) {
+                                      if (value.type ==
+                                          PAYMENT_METHOD_BANK_TRANSFER) {
                                         showInDialog(
                                           context,
                                           barrierDismissible: true,
-                                          insetPadding: EdgeInsets.symmetric(horizontal: 10),
+                                          insetPadding: EdgeInsets.symmetric(
+                                              horizontal: 10),
                                           builder: (p0) {
-                                            return  BankTransferDetailDialog(
-                                              bookingAmount: walletAmountCont.text.toDouble() == 0.0 ? null : walletAmountCont.text.toDouble().toPriceFormat(),
+                                            return BankTransferDetailDialog(
+                                              bookingAmount: walletAmountCont
+                                                          .text
+                                                          .toDouble() ==
+                                                      0.0
+                                                  ? null
+                                                  : walletAmountCont.text
+                                                      .toDouble()
+                                                      .toPriceFormat(),
                                             );
                                           },
                                         );
@@ -554,7 +563,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                                           color: gradientRed),
                                       child: currentPaymentMethod == value
                                           ? Icon(Icons.done,
-                                          size: 16, color: Colors.white)
+                                              size: 16, color: Colors.white)
                                           : Offstage(),
                                     ),
                                   ),
@@ -565,16 +574,25 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                         },
                       ),
                       16.height,
-                      Text(language.recentTransactionRequests,style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                      Text(language.recentTransactionRequests,
+                          style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                       4.height,
                       SingleChildScrollView(
                         scrollDirection: Axis.horizontal,
                         child: DataTable(
                           columns: [
-                            DataColumn(label: Text(language.amountLabel,style: boldTextStyle())),
-                            DataColumn(label: Text(language.lblStatus,style: boldTextStyle())),
-                            DataColumn(label: Text(language.transactionTypeLabel,style: boldTextStyle())),
-                            DataColumn(label: Text(language.createdAtLabel,style: boldTextStyle())),
+                            DataColumn(
+                                label: Text(language.amountLabel,
+                                    style: boldTextStyle())),
+                            DataColumn(
+                                label: Text(language.lblStatus,
+                                    style: boldTextStyle())),
+                            DataColumn(
+                                label: Text(language.transactionTypeLabel,
+                                    style: boldTextStyle())),
+                            DataColumn(
+                                label: Text(language.createdAtLabel,
+                                    style: boldTextStyle())),
                           ],
                           rows: transactionList.map((tx) {
                             Color statusColor;
@@ -587,17 +605,23 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                             }
                             return DataRow(
                               cells: [
-                                DataCell(Text("${appConfigurationStore.currencySymbol}${tx.amount}")),
+                                DataCell(Text(
+                                    "${appConfigurationStore.currencySymbol}${tx.amount}")),
                                 DataCell(Container(
                                   decoration: BoxDecoration(
                                     color: statusColor,
                                     borderRadius: BorderRadius.circular(4),
                                   ),
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                                  child: Text(tx.status),
+                                  padding: EdgeInsets.symmetric(
+                                      horizontal: 8, vertical: 4),
+                                  child: Text(formatTransactionStatusDisplay(
+                                      tx.status)),
                                 )),
-                                DataCell(Text(tx.transactionType)),
-                                DataCell(Text(formatDate(tx.createdAt.toIso8601String(), showDateWithTime: true))),
+                                DataCell(Text(formatTransactionTypeDisplay(
+                                    tx.transactionType))),
+                                DataCell(Text(formatDate(
+                                    tx.createdAt.toIso8601String(),
+                                    showDateWithTime: true))),
                               ],
                             );
                           }).toList(),
@@ -619,7 +643,8 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
                 hideKeyboard(context);
                 _handleClick();
               },
-              child: Text(language.proceedToTopUp, style: boldTextStyle(color: white)),
+              child: Text(language.proceedToTopUp,
+                  style: boldTextStyle(color: white)),
             ).withWidth(context.width()),
           ),
         ],

@@ -1652,6 +1652,10 @@ abstract class BaseLanguage {
 
   String get totalBookingsLabel;
 
+  String get availabilityLabel;
+
+  String get completedJobsLabel;
+
   String get travelRequiredLabel;
 
   /// Section title for job/post description (not the input hint).
@@ -1695,5 +1699,4 @@ abstract class BaseLanguage {
   String get ugcReasonFraud;
 
   String get ugcReasonOther;
-
 }

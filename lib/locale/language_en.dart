@@ -2205,8 +2205,7 @@ class LanguageEn extends BaseLanguage {
   String get passwordMinLengthEight => 'At least 8 characters';
 
   @override
-  String get passwordMustIncludeLetter =>
-      'At least one letter (A–Z or a–z)';
+  String get passwordMustIncludeLetter => 'At least one letter (A–Z or a–z)';
 
   @override
   String get passwordMustIncludeNumber => 'At least one number (0–9)';
@@ -2382,7 +2381,6 @@ class LanguageEn extends BaseLanguage {
   @override
   String get essentialSkillsLabel => 'Essential skills';
 
-  @override
   String get experience => 'Experience';
 
   @override
@@ -2406,16 +2404,19 @@ class LanguageEn extends BaseLanguage {
 
   // Payment / webview messages
   @override
-  String get invalidResponseTryAgain => 'Invalid response from server. Please try again.';
+  String get invalidResponseTryAgain =>
+      'Invalid response from server. Please try again.';
 
   @override
-  String get paymentEndpointNotFound => 'Payment endpoint not found. Please contact support.';
+  String get paymentEndpointNotFound =>
+      'Payment endpoint not found. Please contact support.';
 
   @override
   String get paypalErrorLoadingPage => 'Error loading PayPal page';
 
   @override
-  String get paymentVerificationMissingToken => 'Payment verification failed: Missing token';
+  String get paymentVerificationMissingToken =>
+      'Payment verification failed: Missing token';
 
   @override
   String get verifyingPayment => 'Verifying payment...';
@@ -2435,7 +2436,8 @@ class LanguageEn extends BaseLanguage {
   String get errorProcessingPayment => 'Error processing payment';
 
   @override
-  String get failedToGetPaypalUrl => 'Failed to get PayPal payment URL. Please try again.';
+  String get failedToGetPaypalUrl =>
+      'Failed to get PayPal payment URL. Please try again.';
 
   // Chat policy
   @override
@@ -2457,22 +2459,27 @@ class LanguageEn extends BaseLanguage {
       'Waiting for admin approval. Please wait.';
 
   @override
-  String get invalidPaymentAmount => 'Invalid payment amount. Please try again.';
+  String get invalidPaymentAmount =>
+      'Invalid payment amount. Please try again.';
 
   @override
   String get paypalPaymentError => 'PayPal payment error';
 
   @override
-  String get failedToShareToFacebook => 'Failed to share to Facebook. Please try again.';
+  String get failedToShareToFacebook =>
+      'Failed to share to Facebook. Please try again.';
 
   @override
-  String get failedToShareToInstagram => 'Failed to share to Instagram. Please try again.';
+  String get failedToShareToInstagram =>
+      'Failed to share to Instagram. Please try again.';
 
   @override
-  String get failedToShareToTwitter => 'Failed to share to Twitter. Please try again.';
+  String get failedToShareToTwitter =>
+      'Failed to share to Twitter. Please try again.';
 
   @override
-  String get failedToShareToLinkedIn => 'Failed to share to LinkedIn. Please try again.';
+  String get failedToShareToLinkedIn =>
+      'Failed to share to LinkedIn. Please try again.';
 
   // Common UI labels / placeholders (screens)
   @override
@@ -2543,7 +2550,8 @@ class LanguageEn extends BaseLanguage {
   String get bankTransferPayAmountSuffix => ' using the details below.';
 
   @override
-  String get bankTransferLocalInternationalTitle => 'Local / international transfer';
+  String get bankTransferLocalInternationalTitle =>
+      'Local / international transfer';
 
   @override
   String get bankTransferRecipientLabel => 'Recipient';
@@ -2706,6 +2714,12 @@ class LanguageEn extends BaseLanguage {
   String get totalBookingsLabel => 'Total bookings';
 
   @override
+  String get availabilityLabel => 'Availability';
+
+  @override
+  String get completedJobsLabel => 'Completed jobs';
+
+  @override
   String get travelRequiredLabel => 'Travel required';
 
   @override
@@ -2724,8 +2738,7 @@ class LanguageEn extends BaseLanguage {
   String get ugcReportProfileTitle => 'Report this profile';
 
   @override
-  String get ugcReportProfileSuccess =>
-      'Thank you. Your report was received.';
+  String get ugcReportProfileSuccess => 'Thank you. Your report was received.';
 
   @override
   String get ugcReportReviewTitle => 'Report this review';

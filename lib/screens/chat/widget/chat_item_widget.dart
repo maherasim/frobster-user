@@ -54,7 +54,7 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
   }
 
   void copyMessage() {
-    widget.chatItemData.message.validate().copyToClipboard();
+    formatChatMessageText(widget.chatItemData.message).copyToClipboard();
     toast(language.copied);
   }
 
@@ -99,7 +99,7 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
                   : CrossAxisAlignment.start,
               children: [
                 Text(
-                  widget.chatItemData.message!,
+                  formatChatMessageText(widget.chatItemData.message),
                   style: primaryTextStyle(
                       color: widget.chatItemData.isMe!
                           ? Colors.white
@@ -139,7 +139,7 @@ class _ChatItemWidgetState extends State<ChatItemWidget> {
                   children: [
                     ...filesComponent(),
                     Text(
-                      widget.chatItemData.message!,
+                      formatChatMessageText(widget.chatItemData.message),
                       style: primaryTextStyle(
                           color: widget.chatItemData.isMe!
                               ? Colors.white

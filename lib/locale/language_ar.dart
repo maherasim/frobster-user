@@ -515,12 +515,12 @@ class LanguageAr extends BaseLanguage {
   String get lblNoRateYet => "حاليا لم تقيم أي خدمات";
 
   @override
-  String get lblMemberSince => "عضو منdذ ذلك الحين" ;
+  String get lblMemberSince => "عضو منdذ ذلك الحين";
 
   @override
   String get lblFilterBy => "تصنيف بواسطة";
 
-  @override 
+  @override
   String get lblClearFilter => "حذف التصنيف";
 
   @override
@@ -2184,8 +2184,7 @@ class LanguageAr extends BaseLanguage {
   String get passwordMinLengthEight => 'يجب ألا يقل عن 8 أحرف';
 
   @override
-  String get passwordMustIncludeLetter =>
-      'حرف واحد على الأقل (A–Z أو a–z)';
+  String get passwordMustIncludeLetter => 'حرف واحد على الأقل (A–Z أو a–z)';
 
   @override
   String get passwordMustIncludeNumber => 'رقم واحد على الأقل (0–9)';
@@ -2204,73 +2203,74 @@ class LanguageAr extends BaseLanguage {
   String get lblSelectSubCategory => "حدد الفئة الفرعية";
 
   @override
-    String get country => "بلد";
-
-    @override
-    String get state => "ولاية";
-
-    @override
-    String get city => "مدينة";
-
-    @override
-    String get lblSubCategory => "الفئة الفرعية";
-
-    @override
-      String get priceType => "نوع السعر";
-
-      @override
-      String get totalBudget => "إجمالي الميزانية";
-
-      @override
-      String get jobType => "نوع الوظيفة";
-
-      @override
-      String get jobSchedule => "جدول العمل";
-
-      @override
-      String get remoteWorkLevel => "مستوى العمل عن بعد";
-
-      @override
-      String get travelRequirements => "متطلبات السفر";
-
-      @override
-      String get careerLevel => "المستوى الوظيفي";
-
-      @override
-      String get educationLevel => "المستوى التعليمي";
-
-      @override
-      String get startDate => "تاريخ البدء";
-
-      @override
-      String get endDate => "تاريخ الانتهاء";
-
-      @override
-      String get totalDays => "إجمالي الأيام";
-
-      @override
-      String get totalHours => "إجمالي الساعات";
-
-      @override
-      String get workingAddress => "عنوان العمل";
-
-      @override
-      String get streetAndHouseNr => "الشارع ورقم المنزل";
-
-      @override
-      String get poboxAndCityCountry => "صندوق البريد، المدينة والدولة";
-
-      @override
-      String get skillsAndRequirements => "المهارات والمتطلبات";
-
-      @override
-      String get dutiesAndResponsibilities => "الواجبات والمسؤوليات";
-
-      @override
-      String get benefits => "الفوائد";
+  String get country => "بلد";
 
   @override
-  String get selectImgNote => "ملاحظة: يمكنك تحميل الصور من نوع \ 'jpg \'، \ 'png \'، \ 'jpeg \' extensions & يمكنك تحديد صور متعددة";
+  String get state => "ولاية";
+
+  @override
+  String get city => "مدينة";
+
+  @override
+  String get lblSubCategory => "الفئة الفرعية";
+
+  @override
+  String get priceType => "نوع السعر";
+
+  @override
+  String get totalBudget => "إجمالي الميزانية";
+
+  @override
+  String get jobType => "نوع الوظيفة";
+
+  @override
+  String get jobSchedule => "جدول العمل";
+
+  @override
+  String get remoteWorkLevel => "مستوى العمل عن بعد";
+
+  @override
+  String get travelRequirements => "متطلبات السفر";
+
+  @override
+  String get careerLevel => "المستوى الوظيفي";
+
+  @override
+  String get educationLevel => "المستوى التعليمي";
+
+  @override
+  String get startDate => "تاريخ البدء";
+
+  @override
+  String get endDate => "تاريخ الانتهاء";
+
+  @override
+  String get totalDays => "إجمالي الأيام";
+
+  @override
+  String get totalHours => "إجمالي الساعات";
+
+  @override
+  String get workingAddress => "عنوان العمل";
+
+  @override
+  String get streetAndHouseNr => "الشارع ورقم المنزل";
+
+  @override
+  String get poboxAndCityCountry => "صندوق البريد، المدينة والدولة";
+
+  @override
+  String get skillsAndRequirements => "المهارات والمتطلبات";
+
+  @override
+  String get dutiesAndResponsibilities => "الواجبات والمسؤوليات";
+
+  @override
+  String get benefits => "الفوائد";
+
+  @override
+  String get selectImgNote =>
+      "ملاحظة: يمكنك تحميل الصور من نوع \ 'jpg \'، \ 'png \'، \ 'jpeg \' extensions & يمكنك تحديد صور متعددة";
 
   @override
   String get waitingForAdvancePayment => 'في انتظار الدفع المسبق';
@@ -2280,37 +2280,46 @@ class LanguageAr extends BaseLanguage {
 
   // Job Request specific strings
   @override
-  String get waitingForCustomerToConfirm => "في انتظار تأكيد العميل 'دعنا نبدأ العمل'";
+  String get waitingForCustomerToConfirm =>
+      "في انتظار تأكيد العميل 'دعنا نبدأ العمل'";
 
   @override
-  String get workInProgressWaitingForProvider => "العمل قيد التقدم — في انتظار صاحب العمل للتحديث أو الإنجاز";
+  String get workInProgressWaitingForProvider =>
+      "العمل قيد التقدم — في انتظار صاحب العمل للتحديث أو الإنجاز";
 
   @override
-  String get jobCompletedWaitingForCustomer => "تم إنجاز المهمة — في انتظار العميل لدفع المبلغ المتبقي";
+  String get jobCompletedWaitingForCustomer =>
+      "تم إنجاز المهمة — في انتظار العميل لدفع المبلغ المتبقي";
 
   @override
-  String get paymentCompletedDownloadInvoice => "تم الدفع. يمكنك تحميل الفاتورة.";
+  String get paymentCompletedDownloadInvoice =>
+      "تم الدفع. يمكنك تحميل الفاتورة.";
 
   @override
   String get waitingForCustomerToAcceptTheBid => 'في انتظار قبول العميل للعرض';
 
   @override
-  String get waitingForProviderToSplitPayment => 'في انتظار صاحب العمل لتقسيم الدفع';
+  String get waitingForProviderToSplitPayment =>
+      'في انتظار صاحب العمل لتقسيم الدفع';
 
   @override
-  String get waitingForCustomerToPayAdvancePercentage => 'في انتظار دفع العميل للنسبة المقدمة';
+  String get waitingForCustomerToPayAdvancePercentage =>
+      'في انتظار دفع العميل للنسبة المقدمة';
 
   @override
-  String get waitingForCustomerToConfirmWorkDone => 'في انتظار تأكيد العميل لإنجاز العمل';
+  String get waitingForCustomerToConfirmWorkDone =>
+      'في انتظار تأكيد العميل لإنجاز العمل';
 
   @override
   String get waitingForProviderToStartWork => 'في انتظار صاحب العمل لبدء العمل';
 
   @override
-  String get waitingForProviderToResumeWork => 'في انتظار صاحب العمل لاستئناف العمل';
+  String get waitingForProviderToResumeWork =>
+      'في انتظار صاحب العمل لاستئناف العمل';
 
   @override
-  String get waitingForProviderToMarkBidAsCompleted => 'في انتظار صاحب العمل لتمييز العرض كمكتمل';
+  String get waitingForProviderToMarkBidAsCompleted =>
+      'في انتظار صاحب العمل لتمييز العرض كمكتمل';
 
   // Bank details / profile / map (screens) - fallback English
   @override
@@ -2346,7 +2355,6 @@ class LanguageAr extends BaseLanguage {
   @override
   String get essentialSkillsLabel => 'Essential skills';
 
-  @override
   String get experience => 'Experience';
 
   @override
@@ -2363,23 +2371,26 @@ class LanguageAr extends BaseLanguage {
 
   // Booking slot / time labels - fallback English
   @override
-  String get startTime => 'Start Time';
+  String get startTime => 'وقت البدء';
 
   @override
-  String get endTime => 'End Time';
+  String get endTime => 'وقت الانتهاء';
 
   // Payment / webview messages - fallback English
   @override
-  String get invalidResponseTryAgain => 'Invalid response from server. Please try again.';
+  String get invalidResponseTryAgain =>
+      'Invalid response from server. Please try again.';
 
   @override
-  String get paymentEndpointNotFound => 'Payment endpoint not found. Please contact support.';
+  String get paymentEndpointNotFound =>
+      'Payment endpoint not found. Please contact support.';
 
   @override
   String get paypalErrorLoadingPage => 'Error loading PayPal page';
 
   @override
-  String get paymentVerificationMissingToken => 'Payment verification failed: Missing token';
+  String get paymentVerificationMissingToken =>
+      'Payment verification failed: Missing token';
 
   @override
   String get verifyingPayment => 'Verifying payment...';
@@ -2399,7 +2410,8 @@ class LanguageAr extends BaseLanguage {
   String get errorProcessingPayment => 'Error processing payment';
 
   @override
-  String get failedToGetPaypalUrl => 'Failed to get PayPal payment URL. Please try again.';
+  String get failedToGetPaypalUrl =>
+      'Failed to get PayPal payment URL. Please try again.';
 
   // Chat policy - fallback English
   @override
@@ -2421,22 +2433,27 @@ class LanguageAr extends BaseLanguage {
       'Waiting for admin approval. Please wait.';
 
   @override
-  String get invalidPaymentAmount => 'Invalid payment amount. Please try again.';
+  String get invalidPaymentAmount =>
+      'Invalid payment amount. Please try again.';
 
   @override
   String get paypalPaymentError => 'PayPal payment error';
 
   @override
-  String get failedToShareToFacebook => 'Failed to share to Facebook. Please try again.';
+  String get failedToShareToFacebook =>
+      'Failed to share to Facebook. Please try again.';
 
   @override
-  String get failedToShareToInstagram => 'Failed to share to Instagram. Please try again.';
+  String get failedToShareToInstagram =>
+      'Failed to share to Instagram. Please try again.';
 
   @override
-  String get failedToShareToTwitter => 'Failed to share to Twitter. Please try again.';
+  String get failedToShareToTwitter =>
+      'Failed to share to Twitter. Please try again.';
 
   @override
-  String get failedToShareToLinkedIn => 'Failed to share to LinkedIn. Please try again.';
+  String get failedToShareToLinkedIn =>
+      'Failed to share to LinkedIn. Please try again.';
 
   // Common UI labels / placeholders (screens) - fallback English
   @override
@@ -2507,7 +2524,8 @@ class LanguageAr extends BaseLanguage {
   String get bankTransferPayAmountSuffix => ' using the details below.';
 
   @override
-  String get bankTransferLocalInternationalTitle => 'Local / international transfer';
+  String get bankTransferLocalInternationalTitle =>
+      'Local / international transfer';
 
   @override
   String get bankTransferRecipientLabel => 'Recipient';
@@ -2670,6 +2688,12 @@ class LanguageAr extends BaseLanguage {
   String get totalBookingsLabel => 'إجمالي الحجوزات';
 
   @override
+  String get availabilityLabel => 'التوفر';
+
+  @override
+  String get completedJobsLabel => 'الأعمال المكتملة';
+
+  @override
   String get travelRequiredLabel => 'التنقل مطلوب';
 
   @override
@@ -2688,8 +2712,7 @@ class LanguageAr extends BaseLanguage {
   String get ugcReportProfileTitle => 'الإبلاغ عن هذا الملف الشخصي';
 
   @override
-  String get ugcReportProfileSuccess =>
-      'شكرًا لك. تم استلام بلاغك.';
+  String get ugcReportProfileSuccess => 'شكرًا لك. تم استلام بلاغك.';
 
   @override
   String get ugcReportReviewTitle => 'الإبلاغ عن هذه المراجعة';

@@ -70,13 +70,10 @@ class BookingHistoryListWidget extends StatelessWidget {
             TextIcon(
               expandedText: true,
               edgeInsets: EdgeInsets.only(right: 4, left: 4, bottom: 4),
-              text: data.activityType
-                  .validate()
-                  .replaceAll('_', ' ')
-                  .capitalizeFirstLetter(),
+              text: formatBookingActivityText(data.activityType),
             ),
             Text(
-              data.activityMessage.validate().replaceAll('_', ' '),
+              formatBookingActivityText(data.activityMessage),
               style: secondaryTextStyle(),
             ).paddingOnly(left: 4),
           ],

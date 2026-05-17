@@ -195,7 +195,7 @@ InputDecoration inputDecoration(BuildContext context,
     labelStyle: secondaryTextStyle(),
     hintText: hintText,
     hintStyle: secondaryTextStyle(),
-    alignLabelWithHint: hintText != null && labelText!=null,
+    alignLabelWithHint: hintText != null && labelText != null,
     counterText: counter == false ? "" : counterText,
     prefixIcon: prefixIcon,
     enabledBorder: OutlineInputBorder(
@@ -516,17 +516,20 @@ String convertToHourMinute(String timeStr) {
   final trimmed = timeStr.trim();
 
   // Handle human-readable formats like "2 Days", "1 Day", "3 Hours", "30 Min"
-  final dayMatch = RegExp(r'^(\d+)\s*day(s)?$', caseSensitive: false).firstMatch(trimmed);
+  final dayMatch =
+      RegExp(r'^(\d+)\s*day(s)?$', caseSensitive: false).firstMatch(trimmed);
   if (dayMatch != null) {
     final n = dayMatch.group(1)!;
     return '$n ${int.parse(n) == 1 ? 'Day' : 'Days'}';
   }
-  final hourMatch = RegExp(r'^(\d+)\s*hour(s)?$', caseSensitive: false).firstMatch(trimmed);
+  final hourMatch =
+      RegExp(r'^(\d+)\s*hour(s)?$', caseSensitive: false).firstMatch(trimmed);
   if (hourMatch != null) {
     final n = hourMatch.group(1)!;
     return '$n ${int.parse(n) == 1 ? language.lblHr : language.lblHr}';
   }
-  final minMatch = RegExp(r'^(\d+)\s*min', caseSensitive: false).firstMatch(trimmed);
+  final minMatch =
+      RegExp(r'^(\d+)\s*min', caseSensitive: false).firstMatch(trimmed);
   if (minMatch != null) {
     return '${minMatch.group(1)} ${language.min}';
   }
@@ -600,19 +603,102 @@ String getPaymentStatusText(String? status, String? method) {
   }
 }
 
-/// Format payment method from DB (e.g. bank_transfer) to display (e.g. Bank Transfer).
+/// Format payment method from DB (e.g. bank_transfer) to display.
 String formatPaymentMethodDisplay(String? method) {
   if (method == null || method.isEmpty) return method.validate();
   final lower = method.trim().toLowerCase();
-  if (lower == 'Bank_transfer') return 'Bank Transfer';
+  if (lower == PAYMENT_METHOD_BANK_TRANSFER) {
+    return ['de', 'fr'].contains(appStore.selectedLanguageCode)
+        ? language.bankTransferDetailsTitle
+        : 'Bank Transfer';
+  }
   if (lower == 'paypal') return 'PayPal';
   if (lower == 'stripe') return 'Stripe';
-  if (lower == 'wallet') return 'Wallet';
-  if (lower == 'cash') return 'Cash';
+  if (lower == PAYMENT_METHOD_FROM_WALLET) return language.wallet;
+  if (lower == PAYMENT_METHOD_COD) {
+    return appStore.selectedLanguageCode == 'de' ? 'Barzahlung' : 'Cash';
+  }
   return method.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
   }).join(' ');
+}
+
+String formatBookingActivityText(String? value) {
+  final text = value.validate().replaceAll('_', ' ').trim();
+  if (text.isEmpty) return '';
+
+  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+  if (appStore.selectedLanguageCode == 'de') {
+    final advanceBidMatch = RegExp(
+      r'^advance payment of (.+) for bid #?(\d+) has been paid$',
+      caseSensitive: false,
+    ).firstMatch(text);
+    if (advanceBidMatch != null) {
+      return 'Anzahlung von ${advanceBidMatch.group(1)} für Gebot #${advanceBidMatch.group(2)} wurde bezahlt';
+    }
+
+    if (normalized == 'customer send provider' ||
+        normalized == 'customer sent provider') {
+      return 'Kunde hat an Anbieter gesendet';
+    }
+  }
+
+  return text.capitalizeFirstLetter();
+}
+
+String formatTransactionStatusDisplay(String? status) {
+  final text = status.validate().replaceAll('_', ' ').trim();
+  if (text.isEmpty) return '';
+
+  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+  if (normalized == 'completed') return language.completed;
+  if (normalized == 'paid') return language.paid;
+  if (normalized == 'advance' || normalized == 'advanced') {
+    return language.advancePayment;
+  }
+  if (normalized == 'advanced paid' || normalized == 'advance paid') {
+    return language.advancePaid;
+  }
+  if (normalized == 'pending') return language.lblPending;
+  if (normalized == 'pending by admin') {
+    return '${language.lblPending} ${language.by} Admin';
+  }
+
+  return text.capitalizeFirstLetter();
+}
+
+String formatTransactionTypeDisplay(String? type) {
+  final text = type.validate().replaceAll('_', ' ').trim();
+  if (text.isEmpty) return '';
+
+  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+  if (normalized == 'bank transfer') return language.bankTransferDetailsTitle;
+  if (normalized == 'wallet') return language.wallet;
+  if (normalized == 'advance' || normalized == 'advance payment') {
+    return language.advancePayment;
+  }
+  if (normalized == 'remaining' || normalized == 'remaining payment') {
+    return language.remainingAmount;
+  }
+  if (normalized == 'top up' || normalized == 'topup')
+    return language.topUpWallet;
+  if (normalized == 'withdraw') return language.withdraw;
+
+  return text.capitalizeFirstLetter();
+}
+
+String formatChatMessageText(String? value) {
+  final text = value.validate().trim();
+  if (text.isEmpty) return '';
+
+  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
+  if (normalized == 'message hidden due to policy' ||
+      normalized == 'message hidden due to policy violation') {
+    return language.messageHiddenDueToPolicy;
+  }
+
+  return text;
 }
 
 String buildPaymentStatusWithMethod(String status, String method) {
@@ -749,7 +835,9 @@ class OptionListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
+      runSpacing: 6,
       children: List.generate(
         optionList.length,
         (index) => Row(
@@ -850,7 +938,7 @@ Future<void> shareServiceContent({
     final String location = (city.isNotEmpty && country.isNotEmpty)
         ? '$city - $country'
         : (city.isNotEmpty ? city : country);
-    
+
     // Build post text without image URL
     String postText = '''
 $serviceName
@@ -864,7 +952,7 @@ $serviceLink
 
     // Copy the post text to clipboard
     await Clipboard.setData(ClipboardData(text: postText));
-    
+
     // Show toast message
     toast('Content copied! Opening $platformName...');
 
@@ -872,7 +960,7 @@ $serviceLink
     try {
       final Uri platformUri = Uri.parse(platformUrl);
       await launchUrl(platformUri, mode: LaunchMode.externalApplication);
-      
+
       // Wait a moment for the platform to open, then show paste hint
       Future.delayed(Duration(milliseconds: 1500), () {
         toast('Content is copied! Click + icon, then paste and post');
@@ -900,8 +988,9 @@ Future<void> shareToFacebook({
   required String serviceName,
 }) async {
   final String encodedUrl = Uri.encodeComponent(serviceLink);
-  final String facebookUrl = 'https://www.facebook.com/sharer/sharer.php?u=$encodedUrl';
-  
+  final String facebookUrl =
+      'https://www.facebook.com/sharer/sharer.php?u=$encodedUrl';
+
   await shareServiceContent(
     serviceImageUrl: serviceImageUrl,
     serviceLink: serviceLink,
@@ -928,10 +1017,9 @@ Future<void> shareToInstagram({
   required String serviceName,
 }) async {
   // Instagram doesn't have a direct share URL, so open the app
-  final String instagramUrl = Platform.isAndroid 
-      ? 'https://www.instagram.com/' 
-      : 'instagram://';
-  
+  final String instagramUrl =
+      Platform.isAndroid ? 'https://www.instagram.com/' : 'instagram://';
+
   await shareServiceContent(
     serviceImageUrl: serviceImageUrl,
     serviceLink: serviceLink,
@@ -961,7 +1049,7 @@ Future<void> shareToTwitter({
   final String location = (city.isNotEmpty && country.isNotEmpty)
       ? '$city - $country'
       : (city.isNotEmpty ? city : country);
-  
+
   final String postText = '''
 $serviceName
 
@@ -974,20 +1062,21 @@ $serviceLink
 
   // Copy the post text to clipboard
   await Clipboard.setData(ClipboardData(text: postText));
-  
+
   // Show toast message
   toast('Content copied! Opening Twitter...');
 
   // Try Twitter app first, then fall back to web
   final String encodedText = Uri.encodeComponent('$serviceName - $serviceLink');
   final String encodedUrl = Uri.encodeComponent(serviceLink);
-  
+
   // Twitter app URL schemes
   final String twitterAppUrl = 'twitter://post?message=$encodedText';
-  final String twitterWebUrl = 'https://twitter.com/intent/tweet?text=$encodedText&url=$encodedUrl';
-  
+  final String twitterWebUrl =
+      'https://twitter.com/intent/tweet?text=$encodedText&url=$encodedUrl';
+
   bool launched = false;
-  
+
   // Try to open Twitter app first
   try {
     final Uri appUri = Uri.parse(twitterAppUrl);
@@ -1001,7 +1090,7 @@ $serviceLink
   } catch (e) {
     log('Twitter app launch failed: $e');
   }
-  
+
   // If app didn't launch, use web version
   if (!launched) {
     try {
@@ -1033,7 +1122,7 @@ Future<void> shareToLinkedIn({
   final String location = (city.isNotEmpty && country.isNotEmpty)
       ? '$city - $country'
       : (city.isNotEmpty ? city : country);
-  
+
   final String postText = '''
 $serviceName
 
@@ -1046,19 +1135,20 @@ $serviceLink
 
   // Copy the post text to clipboard
   await Clipboard.setData(ClipboardData(text: postText));
-  
+
   // Show toast message
   toast('Content copied! Opening LinkedIn...');
 
   // Try LinkedIn app first, then fall back to web
   final String encodedUrl = Uri.encodeComponent(serviceLink);
-  
+
   // LinkedIn app URL schemes
   final String linkedInAppUrl = 'linkedin://shareArticle?url=$encodedUrl';
-  final String linkedInWebUrl = 'https://www.linkedin.com/sharing/share-offsite/?url=$encodedUrl';
-  
+  final String linkedInWebUrl =
+      'https://www.linkedin.com/sharing/share-offsite/?url=$encodedUrl';
+
   bool launched = false;
-  
+
   // Try to open LinkedIn app first
   try {
     final Uri appUri = Uri.parse(linkedInAppUrl);
@@ -1072,7 +1162,7 @@ $serviceLink
   } catch (e) {
     log('LinkedIn app launch failed: $e');
   }
-  
+
   // If app didn't launch, use web version
   if (!launched) {
     try {
@@ -1094,8 +1184,9 @@ Future<List<File>> getMultipleImageSource({bool isCamera = true}) async {
 }
 
 Future<File> getCameraImage({bool isCamera = true}) async {
-  final pickedImage = await ImagePicker()
-      .pickImage(source: isCamera ? ImageSource.camera : ImageSource.gallery, imageQuality: 85);
+  final pickedImage = await ImagePicker().pickImage(
+      source: isCamera ? ImageSource.camera : ImageSource.gallery,
+      imageQuality: 85);
   return File(pickedImage!.path);
 }
 

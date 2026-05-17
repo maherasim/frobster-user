@@ -39,7 +39,12 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
     final upper = trimmed.toUpperCase();
     switch (upper) {
       case 'ON_SITE':
-        return 'Onsite';
+      case 'ONSITE':
+        return language.visitTypeOnsite;
+      case 'REMOTE':
+        return 'Remote';
+      case 'HYBRID':
+        return 'Hybrid';
       default:
         final normalized = trimmed.replaceAll('_', ' ').replaceAll('-', ' ');
         final parts = normalized.split(RegExp(r'\s+'));
@@ -49,6 +54,47 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                 : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}')
             .join(' ');
     }
+  }
+
+  String _formatBookingStatusLabel() {
+    final status = widget.bookingData.status.validate();
+    final paymentStatus = widget.bookingData.paymentStatus.validate();
+
+    if (status == BookingStatusKeys.accept &&
+        (paymentStatus.isEmpty || paymentStatus == 'pending')) {
+      return language.waitingForAdvancePayment;
+    }
+
+    final normalized =
+        status.trim().toLowerCase().replaceAll(RegExp(r'[\s-]+'), '_');
+
+    if (normalized.contains('waiting_for_customer') ||
+        normalized.contains('customer_confirm')) {
+      return language.waitingForCustomerToConfirmWorkDone;
+    }
+    if (normalized.contains('waiting') &&
+        normalized.contains('payment') &&
+        normalized.contains('approval')) {
+      return language.waitingForPaymentApproval;
+    }
+
+    return status.toBookingStatus();
+  }
+
+  String _formatBookingAddressLabel() {
+    final address = widget.bookingData.address.validate();
+    if (address.isEmpty) return 'N/A';
+
+    final normalized =
+        address.trim().toLowerCase().replaceAll(RegExp(r'[\s_-]+'), ' ');
+
+    if (normalized == 'available after payment confirm' ||
+        normalized == 'available after payment confirmation' ||
+        normalized == 'available after payment confirmed') {
+      return 'Nach Zahlungsbestätigung verfügbar';
+    }
+
+    return address;
   }
 
   @override
@@ -90,6 +136,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
       }
     }
   }
+
   Widget _buildEditBookingWidget() {
     if (widget.bookingData.status == BookingStatusKeys.pending &&
         isDateTimeAfterNow) {
@@ -178,8 +225,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
           children: [
             Container(
               decoration: BoxDecoration(
-                border: Border.all(
-                    color: context.dividerColor, width: 1),
+                border: Border.all(color: context.dividerColor, width: 1),
                 shape: BoxShape.circle,
               ),
               child: CachedImageWidget(
@@ -198,7 +244,9 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                 Row(
                   children: [
                     // Verified/Not Verified Icon (dynamic from API)
-                    if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
+                    if (widget.bookingData.verifiedStickerIcon
+                        .validate()
+                        .isNotEmpty)
                       CachedImageWidget(
                         url: widget.bookingData.verifiedStickerIcon.validate(),
                         width: 20,
@@ -325,15 +373,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                 horizontal: 12, vertical: 2),
                             margin: EdgeInsets.only(left: 4),
                             decoration: BoxDecoration(
-                              color:
-                                  gradientRed.withValues(alpha: 0.1),
+                              color: gradientRed.withValues(alpha: 0.1),
                               borderRadius: radius(16),
                               border: Border.all(color: gradientRed),
                             ),
                             child: Text(
                               '#${widget.bookingData.id.validate()}',
-                              style: boldTextStyle(
-                                  color: gradientRed, size: 12),
+                              style:
+                                  boldTextStyle(color: gradientRed, size: 12),
                             ),
                           ).flexible(),
                           5.width,
@@ -353,18 +400,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                             ),
                             child: Marquee(
                               child: Text(
-                                widget.bookingData.status ==
-                                            BookingStatusKeys.accept &&
-                                        (widget.bookingData.paymentStatus ==
-                                                null ||
-                                            widget.bookingData.paymentStatus ==
-                                                '' ||
-                                            widget.bookingData.paymentStatus ==
-                                                'pending')
-                                    ? 'Waiting for advance payment'
-                                    : widget.bookingData.status
-                                        .validate()
-                                        .toBookingStatus(),
+                                _formatBookingStatusLabel(),
                                 style: boldTextStyle(
                                   color: widget.bookingData.status
                                       .validate()
@@ -380,15 +416,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                   horizontal: 12, vertical: 2),
                               margin: EdgeInsets.only(left: 4),
                               decoration: BoxDecoration(
-                                color:
-                                    gradientRed.withValues(alpha: 0.1),
+                                color: gradientRed.withValues(alpha: 0.1),
                                 border: Border.all(color: gradientRed),
                                 borderRadius: radius(16),
                               ),
                               child: Text(
                                 language.postJob,
-                                style: boldTextStyle(
-                                    color: gradientRed, size: 12),
+                                style:
+                                    boldTextStyle(color: gradientRed, size: 12),
                               ),
                             ),
                           if (widget.bookingData.isPackageBooking)
@@ -397,15 +432,14 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                   horizontal: 12, vertical: 2),
                               margin: EdgeInsets.only(left: 4),
                               decoration: BoxDecoration(
-                                color:
-                                    gradientRed.withValues(alpha: 0.1),
+                                color: gradientRed.withValues(alpha: 0.1),
                                 border: Border.all(color: gradientRed),
                                 borderRadius: radius(16),
                               ),
                               child: Text(
                                 language.package,
-                                style: boldTextStyle(
-                                    color: gradientRed, size: 12),
+                                style:
+                                    boldTextStyle(color: gradientRed, size: 12),
                               ),
                             ),
                         ],
@@ -438,8 +472,8 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                     );
                   }),
                   8.height,
-                if (widget.bookingData.bookingPackage != null)
-                  PriceWidget(
+                  if (widget.bookingData.bookingPackage != null)
+                    PriceWidget(
                       price: widget.bookingData.amount.validate(),
                       color: gradientRed,
                       isHourlyService: widget.bookingData.isHourlyService,
@@ -460,8 +494,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                               PriceWidget(
                                 isFreeService: widget.bookingData.type ==
                                     SERVICE_TYPE_FREE,
-                                price:
-                                    widget.bookingData.amount.validate(),
+                                price: widget.bookingData.amount.validate(),
                                 color: gradientRed,
                                 isHourlyService:
                                     widget.bookingData.isHourlyService,
@@ -487,7 +520,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                   6.height,
                   if (widget.bookingData.visitType.validate().isNotEmpty)
                     Text(
-                      'Job type: ${_formatVisitType(widget.bookingData.visitType.validate())}',
+                      '${language.jobType}: ${_formatVisitType(widget.bookingData.visitType.validate())}',
                       style: primaryTextStyle(size: 12),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,
@@ -518,14 +551,12 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                     ).expand(flex: 2),
                     8.width,
                     Marquee(
-                        child: Text(
-                        widget.bookingData.address.validate().isNotEmpty
-                            ? widget.bookingData.address.validate()
-                            : 'N/A',
-                          maxLines: 2,
-                          style: boldTextStyle(size: 12),
-                          textAlign: TextAlign.left,
-                        ),
+                      child: Text(
+                        _formatBookingAddressLabel(),
+                        maxLines: 2,
+                        style: boldTextStyle(size: 12),
+                        textAlign: TextAlign.left,
+                      ),
                     ).expand(flex: 5),
                   ],
                 ).paddingAll(8),
@@ -683,7 +714,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
 
                     // Provider card - always show
                     _buildProviderCard(),
-                    
+
                     // Handyman/Worker card - show if handyman exists and is different from provider
                     if (widget.bookingData.handyman!.isNotEmpty &&
                         !widget.bookingData.isProviderAndHandymanSame) ...[
@@ -699,8 +730,9 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                         behavior: HitTestBehavior.opaque,
                         onTap: () {
                           HandymanInfoScreen(
-                            handymanId: widget.bookingData.handyman!.first
-                                .handyman!.id.validate(),
+                            handymanId: widget
+                                .bookingData.handyman!.first.handyman!.id
+                                .validate(),
                           ).launch(context);
                         },
                         child: Padding(
@@ -731,9 +763,13 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                   Row(
                                     children: [
                                       // Verified/Not Verified Icon (dynamic from API)
-                                      if (widget.bookingData.verifiedStickerIcon.validate().isNotEmpty)
+                                      if (widget.bookingData.verifiedStickerIcon
+                                          .validate()
+                                          .isNotEmpty)
                                         CachedImageWidget(
-                                          url: widget.bookingData.verifiedStickerIcon.validate(),
+                                          url: widget
+                                              .bookingData.verifiedStickerIcon
+                                              .validate(),
                                           width: 20,
                                           height: 20,
                                           fit: BoxFit.contain,
@@ -746,9 +782,12 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                         ),
                                       SizedBox(width: 6),
                                       // Membership Icon (dynamic from API)
-                                      if (widget.bookingData.membershipIcon.validate().isNotEmpty)
+                                      if (widget.bookingData.membershipIcon
+                                          .validate()
+                                          .isNotEmpty)
                                         CachedImageWidget(
-                                          url: widget.bookingData.membershipIcon.validate(),
+                                          url: widget.bookingData.membershipIcon
+                                              .validate(),
                                           width: 20,
                                           height: 20,
                                           fit: BoxFit.contain,
@@ -803,7 +842,8 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                     final city = h?.cityName.validate() ?? '';
                                     final country =
                                         h?.countryName.validate() ?? '';
-                                    final label = (city.isEmpty && country.isEmpty)
+                                    final label = (city.isEmpty &&
+                                            country.isEmpty)
                                         ? 'N/A'
                                         : "${city}${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}${country}";
                                     return Text(
@@ -818,8 +858,8 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                             ],
                           ),
                         ),
-                                      ),
-                                  ],
+                      ),
+                    ],
                   ],
                 ),
               ],

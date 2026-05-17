@@ -121,9 +121,7 @@ class _PaymentInfoComponentState extends State<PaymentInfoComponent> {
                             ),
                             DataCell(
                               Text(
-                                data.paymentMethod
-                                    .validate()
-                                    .capitalizeFirstLetter(),
+                                formatPaymentMethodDisplay(data.paymentMethod),
                               ),
                             ),
                             DataCell(
