@@ -1581,6 +1581,9 @@ class LanguageHi extends BaseLanguage {
   String get chooseDateTime => 'दिनांक और समय चुनें';
 
   @override
+  String get addMoreDates => 'Add more dates';
+
+  @override
   String get airtelMoneyPayment => 'एयरटेल मुद्रा भुगतान';
 
   @override

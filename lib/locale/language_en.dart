@@ -1575,6 +1575,9 @@ class LanguageEn extends BaseLanguage {
   String get chooseDateTime => 'Choose Date & Time';
 
   @override
+  String get addMoreDates => 'Add more dates';
+
+  @override
   String get airtelMoneyPayment => 'Airtel Money Payment';
 
   @override

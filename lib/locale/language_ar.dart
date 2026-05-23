@@ -1564,6 +1564,9 @@ class LanguageAr extends BaseLanguage {
   String get chooseDateTime => 'اختر التاريخ والوقت';
 
   @override
+  String get addMoreDates => 'Add more dates';
+
+  @override
   String get airtelMoneyPayment => 'Airtel الدفع المال';
 
   @override

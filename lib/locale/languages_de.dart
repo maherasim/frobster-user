@@ -1596,6 +1596,9 @@ class LanguageDe extends BaseLanguage {
   String get chooseDateTime => 'Datum und Uhrzeit auswählen';
 
   @override
+  String get addMoreDates => 'Weitere Daten hinzufügen';
+
+  @override
   String get airtelMoneyPayment => 'Airtel-Zahlung';
 
   @override

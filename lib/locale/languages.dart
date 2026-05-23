@@ -1018,6 +1018,8 @@ abstract class BaseLanguage {
 
   String get chooseDateTime;
 
+  String get addMoreDates;
+
   String get airtelMoneyPayment;
 
   String get recommendedForYou;
