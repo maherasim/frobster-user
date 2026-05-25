@@ -2437,6 +2437,24 @@ class LanguageFr extends BaseLanguage {
   @override
   String get endTime => 'Heure de fin';
 
+  @override
+  String get selectHour => 'Selectionner une heure';
+
+  @override
+  String get hourPickerOnlyHours => 'Heures uniquement (minutes a 00)';
+
+  @override
+  String get durationDay => 'jour';
+
+  @override
+  String get durationDays => 'jours';
+
+  @override
+  String get durationHour => 'heure';
+
+  @override
+  String get durationHours => 'heures';
+
   // Payment / webview messages - fallback English
   @override
   String get invalidResponseTryAgain =>

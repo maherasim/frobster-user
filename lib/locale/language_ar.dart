@@ -2379,6 +2379,24 @@ class LanguageAr extends BaseLanguage {
   @override
   String get endTime => 'وقت الانتهاء';
 
+  @override
+  String get selectHour => 'Select hour';
+
+  @override
+  String get hourPickerOnlyHours => 'Only hours (minutes set to 00)';
+
+  @override
+  String get durationDay => 'Day';
+
+  @override
+  String get durationDays => 'Days';
+
+  @override
+  String get durationHour => 'Hour';
+
+  @override
+  String get durationHours => 'Hours';
+
   // Payment / webview messages - fallback English
   @override
   String get invalidResponseTryAgain =>

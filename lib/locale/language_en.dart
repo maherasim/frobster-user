@@ -2405,6 +2405,24 @@ class LanguageEn extends BaseLanguage {
   @override
   String get endTime => 'End Time';
 
+  @override
+  String get selectHour => 'Select hour';
+
+  @override
+  String get hourPickerOnlyHours => 'Only hours (minutes set to 00)';
+
+  @override
+  String get durationDay => 'Day';
+
+  @override
+  String get durationDays => 'Days';
+
+  @override
+  String get durationHour => 'Hour';
+
+  @override
+  String get durationHours => 'Hours';
+
   // Payment / webview messages
   @override
   String get invalidResponseTryAgain =>

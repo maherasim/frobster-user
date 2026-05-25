@@ -2438,6 +2438,24 @@ class LanguageDe extends BaseLanguage {
   @override
   String get endTime => 'Endzeit';
 
+  @override
+  String get selectHour => 'Stunde auswaehlen';
+
+  @override
+  String get hourPickerOnlyHours => 'Nur volle Stunden (Minuten auf 00)';
+
+  @override
+  String get durationDay => 'Tag';
+
+  @override
+  String get durationDays => 'Tage';
+
+  @override
+  String get durationHour => 'Stunde';
+
+  @override
+  String get durationHours => 'Stunden';
+
   // Payment / webview messages
   @override
   String get invalidResponseTryAgain =>

@@ -51,6 +51,18 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
   int totalDays = 0;
   int totalHours = 0;
 
+  String _durationUnit(String unit, int value) {
+    if (unit == 'day') {
+      return value == 1 ? language.durationDay : language.durationDays;
+    }
+
+    return value == 1 ? language.durationHour : language.durationHours;
+  }
+
+  String _formatDurationValue(int value, String unit) {
+    return '$value ${_durationUnit(unit, value)}';
+  }
+
   /// Show hour-only picker (no minutes). Returns selected hour 0-23 or null. Tap an hour to select.
   Future<int?> _showHourPicker(BuildContext context, {int? initialHour}) async {
     return showModalBottomSheet<int>(
@@ -59,7 +71,8 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
       builder: (ctx) {
         return Container(
           decoration: boxDecorationWithRoundedCorners(
-            borderRadius: radiusOnly(topLeft: defaultRadius, topRight: defaultRadius),
+            borderRadius:
+                radiusOnly(topLeft: defaultRadius, topRight: defaultRadius),
             backgroundColor: context.cardColor,
           ),
           padding: EdgeInsets.all(16),
@@ -68,12 +81,12 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Select hour',
+                language.selectHour,
                 style: boldTextStyle(size: LABEL_TEXT_SIZE),
               ),
               4.height,
               Text(
-                'Only hours (minutes set to 00)',
+                language.hourPickerOnlyHours,
                 style: secondaryTextStyle(size: 12),
               ),
               12.height,
@@ -111,27 +124,31 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
         ? (selStartTime?.hour ?? DateTime.now().hour)
         : (selEndTime?.hour ?? DateTime.now().hour);
 
-    final int? pickedHour = await _showHourPicker(context, initialHour: initialHour);
+    final int? pickedHour =
+        await _showHourPicker(context, initialHour: initialHour);
 
     if (pickedHour != null) {
       // Use selected date if available, otherwise use today. Only hours, minutes = 0.
       final baseDate = selDate ?? DateTime.now();
-      final selectedDateTime = DateTime(
-          baseDate.year, baseDate.month, baseDate.day, pickedHour, 0);
+      final selectedDateTime =
+          DateTime(baseDate.year, baseDate.month, baseDate.day, pickedHour, 0);
 
       setState(() {
         if (isStartTime) {
           selStartTime = selectedDateTime;
-          startTimeCont.text = selStartTime!.formatDateTime(formate: 'HH:mm'); // "HH:00"
+          startTimeCont.text =
+              selStartTime!.formatDateTime(formate: 'HH:mm'); // "HH:00"
           if (widget.isFixedService) {
             selEndTime = selStartTime?.add(
                 parseDuration(widget.data!.serviceDetail!.duration.validate()));
             // Keep end time on the hour (no minutes)
-            selEndTime = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day, selEndTime!.hour, 0);
+            selEndTime = DateTime(selEndTime!.year, selEndTime!.month,
+                selEndTime!.day, selEndTime!.hour, 0);
             endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
           } else if (widget.isDailyService) {
             selEndTime = selStartTime?.add(Duration(hours: 8));
-            selEndTime = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day, selEndTime!.hour, 0);
+            selEndTime = DateTime(selEndTime!.year, selEndTime!.month,
+                selEndTime!.day, selEndTime!.hour, 0);
             endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
           }
         } else {
@@ -146,7 +163,8 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
           } else {
             endDateTime = selectedDateTime;
           }
-          selEndTime = DateTime(endDateTime.year, endDateTime.month, endDateTime.day, endDateTime.hour, 0);
+          selEndTime = DateTime(endDateTime.year, endDateTime.month,
+              endDateTime.day, endDateTime.hour, 0);
           endTimeCont.text = selEndTime!.formatDateTime(formate: 'HH:mm');
         }
 
@@ -157,8 +175,10 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
             totalHours += 1;
           }
           if (widget.isHourlyService) {
-            DateTime startDate = DateTime(selStartTime!.year, selStartTime!.month, selStartTime!.day);
-            DateTime endDate = DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day);
+            DateTime startDate = DateTime(
+                selStartTime!.year, selStartTime!.month, selStartTime!.day);
+            DateTime endDate =
+                DateTime(selEndTime!.year, selEndTime!.month, selEndTime!.day);
             int daysDifference = endDate.difference(startDate).inDays;
             totalDays = daysDifference + 1;
           } else if (widget.isDailyService) {
@@ -166,8 +186,8 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
           } else {
             totalDays = (totalHours / 8).ceil();
           }
-          totalDaysCont.text = '$totalDays Days';
-          totalHoursCont.text = '$totalHours Hours';
+          totalDaysCont.text = _formatDurationValue(totalDays, 'day');
+          totalHoursCont.text = _formatDurationValue(totalHours, 'hour');
         }
       });
     }
@@ -183,12 +203,14 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
       lastDate: DateTime.now().add(Duration(days: 365)),
       builder: (_, child) {
         return Theme(
-          data: appStore.isDarkMode ? ThemeData.dark() : AppTheme.lightTheme().copyWith(
-            colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
-              primary: gradientRed,
-              onPrimary: Colors.white,
-            ),
-          ),
+          data: appStore.isDarkMode
+              ? ThemeData.dark()
+              : AppTheme.lightTheme().copyWith(
+                  colorScheme: AppTheme.lightTheme().colorScheme.copyWith(
+                        primary: gradientRed,
+                        onPrimary: Colors.white,
+                      ),
+                ),
           child: child!,
         );
       },
@@ -343,16 +365,16 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                     16.width,
                     GradientButton(
                       onPressed: () {
-                          final timeSlotModel = TimeSlotModel(
-                            startTime: selStartTime!
-                                .formatDateTime(formate: 'HH:mm:ss'),
-                            selectedDate: selDate!,
-                            endTime:
-                                selEndTime!.formatDateTime(formate: 'HH:mm:ss'),
-                            totalDays: totalDays,
-                            totalHours: totalHours,
-                          );
-                          widget.onApplyClick(timeSlotModel);
+                        final timeSlotModel = TimeSlotModel(
+                          startTime:
+                              selStartTime!.formatDateTime(formate: 'HH:mm:ss'),
+                          selectedDate: selDate!,
+                          endTime:
+                              selEndTime!.formatDateTime(formate: 'HH:mm:ss'),
+                          totalDays: totalDays,
+                          totalHours: totalHours,
+                        );
+                        widget.onApplyClick(timeSlotModel);
                       },
                       child: Text(
                         language.lblApply,

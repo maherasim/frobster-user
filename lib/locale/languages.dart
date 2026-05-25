@@ -1523,6 +1523,12 @@ abstract class BaseLanguage {
   // Booking slot / time labels
   String get startTime;
   String get endTime;
+  String get selectHour;
+  String get hourPickerOnlyHours;
+  String get durationDay;
+  String get durationDays;
+  String get durationHour;
+  String get durationHours;
 
   // Payment / webview messages
   String get invalidResponseTryAgain;
