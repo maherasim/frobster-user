@@ -91,6 +91,8 @@ dependencies:
 
   # MAP
   google_maps_flutter: ^2.10.0
+  google_maps_flutter_android: ^2.16.1
+  google_maps_flutter_platform_interface: ^2.12.1
   geolocator: ^11.1.0
   geocoding: ^3.0.0
 

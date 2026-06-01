@@ -76,7 +76,6 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   GoogleMapController? mapController;
   LatLng? _currentPosition;
   bool isLocationLoader = false;
-  LatLng _initialLocation = const LatLng(0.0, 0.0);
   String bookingStatus = "";
   int providerLocationRefreshPeriodInSeconds = 30;
 
@@ -84,7 +83,6 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   void initState() {
     super.initState();
     init(isLoading: false);
-    createCustomIcon();
     WidgetsBinding.instance.addObserver(this);
   }
 
@@ -1126,14 +1124,24 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
     ));
   }
 
+  bool _hasValidCoordinates(num lat, num lng) {
+    return lat != 0.0 &&
+        lng != 0.0 &&
+        lat >= -90 &&
+        lat <= 90 &&
+        lng >= -180 &&
+        lng <= 180;
+  }
+
   Widget locationTrackWidget(
     List<UserData> handymanList,
     BookingDetailResponse res,
   ) {
-    // When location section is shown and we don't have location yet, fetch it once
     final hasValidLocation = providerLocation != null &&
-        providerLocation!.data.latitude != 0.0 &&
-        providerLocation!.data.longitude != 0.0;
+        _hasValidCoordinates(
+          providerLocation!.data.latitude,
+          providerLocation!.data.longitude,
+        );
     final initialTarget = hasValidLocation
         ? LatLng(providerLocation!.data.latitude.toDouble(),
             providerLocation!.data.longitude.toDouble())
@@ -1190,29 +1198,21 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       () => VerticalDragGestureRecognizer())),
                 onMapCreated: (GoogleMapController controller) {
                   mapController = controller;
-                  // As soon as the map is ready, move to provider location if we have it
-                  if (_currentPosition != null) {
-                    WidgetsBinding.instance.addPostFrameCallback((_) {
-                      _moveMapToProviderLocation();
-                    });
-                  }
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    _moveMapToProviderLocation();
+                  });
                   setState(() {});
                 },
                 markers: () {
                   if (providerLocation == null) return <Marker>{};
                   final lat = providerLocation!.data.latitude;
                   final lng = providerLocation!.data.longitude;
-                  if (lat != 0.0 &&
-                      lng != 0.0 &&
-                      lat >= -90 &&
-                      lat <= 90 &&
-                      lng >= -180 &&
-                      lng <= 180) {
+                  if (_hasValidCoordinates(lat, lng)) {
                     return <Marker>{
                       Marker(
                         markerId: MarkerId('Location'),
                         position: LatLng(lat.toDouble(), lng.toDouble()),
-                        icon: customIcon ?? BitmapDescriptor.defaultMarker,
+                        icon: BitmapDescriptor.defaultMarker,
                       ),
                     };
                   }
@@ -2630,32 +2630,25 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       // Validate coordinates before using them
       final lat = providerLocation!.data.latitude;
       final lng = providerLocation!.data.longitude;
+      log('refreshProviderLocation parsed coordinates: lat=$lat, lng=$lng');
 
       // Check if coordinates are valid (not 0,0 and within valid range)
-      if (lat != 0.0 &&
-          lng != 0.0 &&
-          lat >= -90 &&
-          lat <= 90 &&
-          lng >= -180 &&
-          lng <= 180) {
+      if (_hasValidCoordinates(lat, lng)) {
         _currentPosition = LatLng(lat.toDouble(), lng.toDouble());
-        _initialLocation = _currentPosition!;
+        log('refreshProviderLocation updating map camera to $_currentPosition');
 
-        // Update map camera position
-        mapController?.animateCamera(CameraUpdate.newCameraPosition(
-          CameraPosition(
-            target: _currentPosition!,
-            zoom: 15.0,
-          ),
-        ));
+        WidgetsBinding.instance.addPostFrameCallback((_) {
+          _moveMapToProviderLocation();
+        });
       } else {
         // Invalid coordinates - show error message
         log('Invalid location coordinates: lat=$lat, lng=$lng');
         toast(language.somethingWentWrong);
       }
       setState(() {});
-    }).catchError((error) {
+    }).catchError((error, stackTrace) {
       log('Error fetching provider location: ${error.toString()}');
+      log('StackTrace: $stackTrace');
       // Silently handle location fetch errors - don't show misleading payment messages
       // Location fetching is a background operation and errors are expected
       setState(() {});
@@ -2666,6 +2659,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   }
 
   void startLocationUpdates() {
+    stopLocationUpdates();
     _locationUpdateTimer = Timer.periodic(
       Duration(seconds: providerLocationRefreshPeriodInSeconds),
       (Timer timer) async {
@@ -2678,6 +2672,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
 
   void stopLocationUpdates() {
     _locationUpdateTimer?.cancel();
+    _locationUpdateTimer = null;
   }
 
   Future<void> createCustomIcon() async {
@@ -2702,7 +2697,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   void didChangeAppLifecycleState(AppLifecycleState state) {
     if (state == AppLifecycleState.paused) {
       stopLocationUpdates();
-    } else if (state == AppLifecycleState.resumed) {
+    } else if (state == AppLifecycleState.resumed &&
+        bookingStatus == BookingStatusKeys.onGoing) {
       refreshProviderLocation();
       startLocationUpdates();
     }
@@ -2716,6 +2712,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
   @override
   void dispose() {
     stopLocationUpdates();
+    mapController?.dispose();
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
   }

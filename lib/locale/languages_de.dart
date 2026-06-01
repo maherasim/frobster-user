@@ -36,10 +36,10 @@ class LanguageDe extends BaseLanguage {
   String get hintUserNameTxt => 'Nutzername';
 
   @override
-  String get hintPasswordTxt => "Passwort eingeben";
+  String get hintPasswordTxt => "Neues Passwort eingeben";
 
   @override
-  String get hintReenterPasswordTxt => "Passwortes wiederholen";
+  String get hintReenterPasswordTxt => "Passwort wiederholen";
 
   @override
   String get confirm => "Bestätigen";
@@ -123,7 +123,7 @@ class LanguageDe extends BaseLanguage {
   String get hintOldPasswordTxt => "Altes Passwort eingeben";
 
   @override
-  String get hintAddress => "Adresse eingeben";
+  String get hintAddress => "Einsatzort";
 
   @override
   String get lblGallery => "Galerie";
@@ -162,7 +162,7 @@ class LanguageDe extends BaseLanguage {
   String get priceSuffixDaily => '/Tag';
 
   @override
-  String get priceSuffixFixed => '/Fest';
+  String get priceSuffixFixed => '/Pauschal';
 
   @override
   String get payment => "Zahlung";
@@ -240,7 +240,7 @@ class LanguageDe extends BaseLanguage {
   String get markAsRead => "Alle als gelesen markieren";
 
   @override
-  String get lblYes => "Jawohl";
+  String get lblYes => "Ja";
 
   @override
   String get lblNo => "Nein";
@@ -300,7 +300,7 @@ class LanguageDe extends BaseLanguage {
   String get lblCall => "Anruf";
 
   @override
-  String get lblRateHandyman => "Fackkraft Bewerten";
+  String get lblRateHandyman => "Fachkraft Bewerten";
 
   @override
   String get msgForLocationOn => 'Ihr Standort ist aktiviert. Finden Sie passende Fachkräfte in Ihrer Nähe';
@@ -321,7 +321,7 @@ class LanguageDe extends BaseLanguage {
   String get lblAppSetting => "App-Einstellung.";
 
   @override
-  String get lblSubTotal => "Steuern";
+  String get lblSubTotal => "Zwischensumme";
 
   @override
   String get lblImage => "Bild";
@@ -333,7 +333,7 @@ class LanguageDe extends BaseLanguage {
   String get lblAudio => "Audio";
 
   @override
-  String get lblChangePwdTitle => "Ihr neues Passwort muss sich von dem vorherigen verwendeten Kennwort unterscheiden";
+  String get lblChangePwdTitle => "Ihr neues Passwort muss sich vom vorherigen verwendeten Passwort unterscheiden";
 
   @override
   String get lblForgotPwdSubtitle => "Eine RESET-Kennwortzurücksetzung Link wird an die oben eingegebene E-Mail-Adresse gesendet";
@@ -376,7 +376,7 @@ class LanguageDe extends BaseLanguage {
   String get lblEnterDescription => "Beschreibung eingeben";
 
   @override
-  String get lblPrice => "Honorar (Brutto)";
+  String get lblPrice => "Honorar";
 
   @override
   String get lblTax => "Steuer";
@@ -433,7 +433,7 @@ class LanguageDe extends BaseLanguage {
   String get lblDate => "Datum";
 
   @override
-  String get lblAboutHandyman => "Über Fackkraft.";
+  String get lblAboutHandyman => "Über Fachkraft.";
 
   @override
   String get lblAboutProvider => "Über Dienstleister.";
@@ -577,7 +577,7 @@ class LanguageDe extends BaseLanguage {
   String get lblWalkThroughSubTitle => "Persotel - Ihre All-in-One-Services Lösung";
 
   @override
-  String get textHandyman => "Fackkraft";
+  String get textHandyman => "Fachkraft";
 
   @override
   String get lblChooseFromMap => "Auf Karte wählen";
@@ -772,10 +772,8 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get noBookingSubTitle => "Sie haben derzeit noch keine Services gebucht.";
-
   @override
   String get myBookings => "Meine Buchungen";
-
   @override
   String get myReviews => "Meine Bewertungen";
 
@@ -783,10 +781,10 @@ class LanguageDe extends BaseLanguage {
   String get reviewFromProvider => "Bewertung des Dienstleisters";
 
   @override
-  String get jobBidReviewFromEmployerSubtitle => "Bewertung und Kommentare des Dienstleisters über Sie.";
+  String get jobBidReviewFromEmployerSubtitle => "Bewertung durch den Dienstleister.";
 
   @override
-  String get jobBidYourReviewOfEmployerSubtitle => "Ihre Bewertung & Ihr Kommentar zum Dienstleister.";
+  String get jobBidYourReviewOfEmployerSubtitle => "Ihre Bewertung des Dienstleisters.";
 
   @override
   String get noCategoryFound => "Keine Kategorie gefunden";
@@ -816,7 +814,7 @@ class LanguageDe extends BaseLanguage {
   String get postJobDescription => "Beschreibung";
 
   @override
-  String get services => "Leistungen";
+  String get services => "Services";
 
   @override
   String get myPostJobList => "Meine Aufträge";
@@ -864,7 +862,7 @@ class LanguageDe extends BaseLanguage {
   String get accept => 'Annehmen';
 
   @override
-  String get price => 'Honorar (Brutto)';
+  String get price => 'Honorar';
 
   @override
   String get remove => 'Löschen';
@@ -897,7 +895,7 @@ class LanguageDe extends BaseLanguage {
   String get bidder => 'Bewerber';
 
   @override
-  String get assignedProvider => 'Zugewiesener Fackkraft';
+  String get assignedProvider => 'Zugewiesener Fachkraft';
 
   @override
   String get myPostDetail => 'Auftragsdetail';
@@ -1080,7 +1078,7 @@ class LanguageDe extends BaseLanguage {
   String get lblConfirmationForDeleteMsg => 'Möchten Sie diese Nachricht löschen?';
 
   @override
-  String get favouriteProvider => 'Meine Fachkräfte';
+  String get favouriteProvider => 'Favoriten Dienstleister';
 
   @override
   String get noProviderFoundMessage => 'Hier erscheinen Ihre favorisierten Fachkräfte';
@@ -1149,7 +1147,7 @@ class LanguageDe extends BaseLanguage {
   String get inProgress => 'Im Progress';
 
   @override
-  String get cancelled => 'Abgesagt';
+  String get cancelled => 'Storniert';
 
   @override
   String get rejected => 'Abgelehnt';
@@ -1185,7 +1183,7 @@ class LanguageDe extends BaseLanguage {
   String get walletBalance => 'Wallet';
 
   @override
-  String get payAdvance => 'Anzahlung';
+  String get payAdvance => 'Anzahlungsbetrag';
 
   @override
   String get advancePaymentMessage => 'Leisten Sie eine Anzahlung, um die Buchung abzuschließen';
@@ -1398,7 +1396,7 @@ class LanguageDe extends BaseLanguage {
   String get at => 'am';
 
   @override
-  String get appliedTaxes => 'Angewandte Steuern';
+  String get appliedTaxes => 'Steuern';
 
   @override
   String get accessDeniedContactYourAdmin => 'Zugriff abgelehnt. Wenden Sie sich an Ihren Administrator, um Unterstützung zu erhalten.';
@@ -1479,10 +1477,10 @@ class LanguageDe extends BaseLanguage {
   String get whyChooseMe => 'Warum mich wählen?';
 
   @override
-  String get useThisCodeToGet => 'Mit diesem Code erhalten Sie';
+  String get useThisCodeToGet => 'Verwenden Sie diesen Code, um zu erhalten';
 
   @override
-  String get off => 'Rabatt';
+  String get off => 'aus';
 
   @override
   String get applied => 'Angewandt';
@@ -1985,7 +1983,7 @@ class LanguageDe extends BaseLanguage {
   String get cancellationFee => 'Stornogebühr';
 
   @override
-  String get advancedPayment => 'Anzahlung';
+  String get advancedPayment => 'Anzahlungbetrag';
 
   @override
   String get hoursOfTheScheduled => 'Geplante Stunden';
@@ -2097,7 +2095,7 @@ class LanguageDe extends BaseLanguage {
   String get selectStartDateEndDate => 'Start- & Enddatum auswählen';
 
   @override
-  String get handymanNotFound => 'Fackkraft nicht gefunden';
+  String get handymanNotFound => 'Fachkraft nicht gefunden';
 
   @override
   String get providerNotFound => 'Dienstleister nicht gefunden';
@@ -2124,7 +2122,7 @@ class LanguageDe extends BaseLanguage {
   String get chooseYourDateRange => 'Zeitraum eingeben';
 
   @override
-  String get asHandyman => 'Als Fackkraft';
+  String get asHandyman => 'Als Fachkraft';
 
   @override
   String get passwordLengthShouldBe => 'Die Länge des Passworts sollte min. 8 Zeichen betragen.';
@@ -2274,7 +2272,7 @@ class LanguageDe extends BaseLanguage {
   String get bicSwiftCode => 'BIC / SWIFT-Code';
 
   @override
-  String get stripeAccount => 'Stripe-Konto';
+  String get stripeAccount => 'Stripe-Konto (Optional)';
 
   @override
   String get companyName => 'Firmenname';
@@ -2301,7 +2299,7 @@ class LanguageDe extends BaseLanguage {
   String get yearsOfExperience => 'Berufserfahrung';
 
   @override
-  String get certification => 'Zertifizierung (Kommagetrennt)';
+  String get certification => 'Zertifizierung';
 
   @override
   String get aboutMe => 'Über mich';
@@ -2559,7 +2557,7 @@ class LanguageDe extends BaseLanguage {
   String get netAmountLabel => 'Nettobetrag';
 
   @override
-  String get netAmountSubtext => '(Zwischensumme − Steuer)';
+  String get netAmountSubtext => '(Ohne Steuern)';
 
   @override
   String get grandTotalAmountLabel => 'Gesamtsumme';
@@ -2583,10 +2581,10 @@ class LanguageDe extends BaseLanguage {
   String get jobBidProgressAccept => 'Akzeptiert';
 
   @override
-  String get jobBidProgressAdvance => 'Anzahlung';
+  String get jobBidProgressAdvance => 'Anzahlungbetrag';
 
   @override
-  String get jobBidProgressAdvancePaid => 'Anzahlung OK';
+  String get jobBidProgressAdvancePaid => 'Anzahlung bestätigt';
 
   @override
   String get jobBidProgressLetsStart => 'Starten';
@@ -2607,10 +2605,10 @@ class LanguageDe extends BaseLanguage {
   String get jobBidProgressPaid => 'Bezahlt';
 
   @override
-  String get serviceTypeDaily => 'Täglich';
+  String get serviceTypeDaily => 'Tag';
 
   @override
-  String get serviceTypeFixed => 'Festpreis';
+  String get serviceTypeFixed => 'Pauschal';
 
   @override
   String get visitTypeOnsite => 'Vor Ort';
