@@ -784,6 +784,9 @@ class LanguageEn extends BaseLanguage {
   String get noBookingSubTitle => "Looks like you haven't book your order yet";
 
   @override
+  String get myBookings => "My Bookings";
+
+  @override
   String get myReviews => "My Reviews";
 
   @override

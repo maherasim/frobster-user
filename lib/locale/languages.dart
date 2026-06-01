@@ -515,6 +515,8 @@ abstract class BaseLanguage {
 
   String get noBookingSubTitle;
 
+  String get myBookings => 'My Bookings';
+
   String get myReviews;
 
   /// Provider's review of the customer (booking detail `customer_rating`).

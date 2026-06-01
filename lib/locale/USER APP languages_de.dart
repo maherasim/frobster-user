@@ -774,9 +774,6 @@ class LanguageDe extends BaseLanguage {
   String get noBookingSubTitle => "Sie haben derzeit noch keine Services gebucht.";
 
   @override
-  String get myBookings => "Meine Buchungen";
-
-  @override
   String get myReviews => "Meine Bewertungen";
 
   @override

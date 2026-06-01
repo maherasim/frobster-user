@@ -12,7 +12,6 @@ import '../../../model/bank_list_response.dart';
 import '../../../model/base_response_model.dart';
 import '../../../model/static_data_model.dart';
 import '../../../network/network_utils.dart';
-import '../../../utils/colors.dart';
 import '../../../utils/common.dart';
 import '../../../utils/constant.dart';
 import '../../../utils/images.dart';
@@ -35,11 +34,8 @@ class _AddBankScreenState extends State<AddBankScreen> {
   TextEditingController accNumberCont = TextEditingController();
   TextEditingController accountHolderCont = TextEditingController();
   TextEditingController contactNumberCont = TextEditingController();
-  TextEditingController ibanNoCont = TextEditingController();
   TextEditingController bicNumberCont = TextEditingController();
   TextEditingController ifscCodeCont = TextEditingController();
-  TextEditingController aadharCardNumberCont = TextEditingController();
-  TextEditingController panNumberCont = TextEditingController();
   TextEditingController stripeAccountCont = TextEditingController();
 
   FocusNode bankNameFocus = FocusNode();
@@ -47,11 +43,8 @@ class _AddBankScreenState extends State<AddBankScreen> {
   FocusNode accNumberFocus = FocusNode();
   FocusNode accountHolderFocus = FocusNode();
   FocusNode contactNumberFocus = FocusNode();
-  FocusNode ibanNoFocus = FocusNode();
   FocusNode bicNumberFocus = FocusNode();
   FocusNode ifscCodeFocus = FocusNode();
-  FocusNode aadharCardNumberFocus = FocusNode();
-  FocusNode panNumberFocus = FocusNode();
   FocusNode stripeAccountFocus = FocusNode();
 
   Future<void> update() async {
@@ -77,20 +70,11 @@ class _AddBankScreenState extends State<AddBankScreen> {
     if (contactNumberCont.text.trim().isNotEmpty) {
       multiPartRequest.fields[BankServiceKey.mobileNo] = contactNumberCont.text.trim();
     }
-    if (ibanNoCont.text.trim().isNotEmpty) {
-      multiPartRequest.fields[BankServiceKey.ibanNo] = ibanNoCont.text.trim();
-    }
     if (bicNumberCont.text.trim().isNotEmpty) {
       multiPartRequest.fields[BankServiceKey.bicNumber] = bicNumberCont.text.trim();
     }
     if (ifscCodeCont.text.trim().isNotEmpty) {
       multiPartRequest.fields[BankServiceKey.ifscNo] = ifscCodeCont.text.trim();
-    }
-    if (aadharCardNumberCont.text.trim().isNotEmpty) {
-      multiPartRequest.fields[BankServiceKey.aadharNo] = aadharCardNumberCont.text.trim();
-    }
-    if (panNumberCont.text.trim().isNotEmpty) {
-      multiPartRequest.fields[BankServiceKey.panNo] = panNumberCont.text.trim();
     }
     if (stripeAccountCont.text.trim().isNotEmpty) {
       multiPartRequest.fields[BankServiceKey.stripeAccount] = stripeAccountCont.text.trim();
@@ -157,9 +141,7 @@ class _AddBankScreenState extends State<AddBankScreen> {
       accNumberCont.text = widget.data!.accountNo.validate();
       ifscCodeCont.text = widget.data!.ifscNo.validate();
       contactNumberCont.text = widget.data!.mobileNo.validate();
-      aadharCardNumberCont.text = widget.data!.aadharNo.validate();
-      panNumberCont.text = widget.data!.panNo.validate();
-      // Note: New fields (accountHolder, ibanNo, bicNumber, stripeAccount) 
+      // Note: New fields (accountHolder, bicNumber, stripeAccount)
       // may not be in existing data, so they'll remain empty
     }
     setState(() {});
@@ -235,26 +217,14 @@ class _AddBankScreenState extends State<AddBankScreen> {
                       textFieldType: TextFieldType.PHONE,
                       controller: contactNumberCont,
                       focus: contactNumberFocus,
-                      nextFocus: ibanNoFocus,
+                      nextFocus: bicNumberFocus,
                       decoration: inputDecoration(context,
                           hintText: language.hintContactNumberTxt, counter: false),
                       suffix: ic_calling.iconImage(size: 10).paddingAll(14),
                       isValidationRequired: false,
                     ),
                     16.height,
-                    // 6. IBAN Number (Optional)
-                    AppTextField(
-                      textFieldType: TextFieldType.NAME,
-                      controller: ibanNoCont,
-                      focus: ibanNoFocus,
-                      nextFocus: bicNumberFocus,
-                      decoration: inputDecoration(context,
-                          hintText: language.ibanNumber, counter: false),
-                      suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
-                      isValidationRequired: false,
-                    ),
-                    16.height,
-                    // 7. BIC / SWIFT Code (Optional)
+                    // 6. BIC / SWIFT Code (Optional)
                     AppTextField(
                       textFieldType: TextFieldType.NAME,
                       controller: bicNumberCont,
@@ -266,43 +236,19 @@ class _AddBankScreenState extends State<AddBankScreen> {
                       isValidationRequired: false,
                     ),
                     16.height,
-                    // 8. IFSC Code (Optional)
+                    // 7. IFSC Code (Optional)
                     AppTextField(
                       textFieldType: TextFieldType.NAME,
                       controller: ifscCodeCont,
                       focus: ifscCodeFocus,
-                      nextFocus: aadharCardNumberFocus,
+                      nextFocus: stripeAccountFocus,
                       decoration: inputDecoration(context,
                           hintText: language.iFSCCode, counter: false),
                       suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
                       isValidationRequired: false,
                     ),
                     16.height,
-                    // 9. Aadhar Number (Optional)
-                    AppTextField(
-                      textFieldType: TextFieldType.NAME,
-                      controller: aadharCardNumberCont,
-                      focus: aadharCardNumberFocus,
-                      nextFocus: panNumberFocus,
-                      decoration: inputDecoration(context,
-                          hintText: language.aadharNumber, counter: false),
-                      suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
-                      isValidationRequired: false,
-                    ),
-                    16.height,
-                    // 10. PAN Number (Optional)
-                    AppTextField(
-                      textFieldType: TextFieldType.NAME,
-                      controller: panNumberCont,
-                      focus: panNumberFocus,
-                      nextFocus: stripeAccountFocus,
-                      decoration: inputDecoration(context,
-                          hintText: language.panNumber, counter: false),
-                      suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
-                      isValidationRequired: false,
-                    ),
-                    16.height,
-                    // 11. Stripe Account (Optional)
+                    // 8. Stripe Account (Optional)
                     AppTextField(
                       textFieldType: TextFieldType.NAME,
                       controller: stripeAccountCont,
@@ -313,7 +259,7 @@ class _AddBankScreenState extends State<AddBankScreen> {
                       isValidationRequired: false,
                     ),
                     16.height,
-                    // 12. Status (Required)
+                    // 9. Status (Required)
                     DropdownButtonFormField<StaticDataModel>(
                       isExpanded: true,
                       dropdownColor: context.cardColor,

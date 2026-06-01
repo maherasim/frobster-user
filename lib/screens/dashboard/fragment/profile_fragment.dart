@@ -1,13 +1,16 @@
 import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
+import 'package:booking_system_flutter/component/theme_selection_dialog.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/about_screen.dart';
+import 'package:booking_system_flutter/screens/auth/change_password_screen.dart';
 import 'package:booking_system_flutter/screens/auth/edit_profile_screen.dart';
 import 'package:booking_system_flutter/screens/auth/sign_in_screen.dart';
 import 'package:booking_system_flutter/screens/blog/view/blog_list_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/customer_rating_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
+import 'package:booking_system_flutter/screens/language_screen.dart';
 import 'package:booking_system_flutter/screens/service/favourite_service_screen.dart';
 import 'package:booking_system_flutter/screens/setting_screen.dart';
 import 'package:booking_system_flutter/screens/wallet/user_wallet_balance_screen.dart';
@@ -148,17 +151,20 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                     Marquee(
                                         child: Text(appStore.userFullName,
                                             style: boldTextStyle(
-                                                color: cs.onPrimary, size: 18))),
+                                                color: cs.onPrimary,
+                                                size: 18))),
                                     4.height,
                                     Marquee(
                                         child: Text(appStore.userEmail,
                                             style: secondaryTextStyle(
-                                                color: cs.onPrimary.withOpacity(0.9)))),
+                                                color: cs.onPrimary
+                                                    .withOpacity(0.9)))),
                                   ],
                                 ),
                               ),
                               IconButton(
-                                icon: Icon(Icons.edit_outlined, color: cs.onPrimary),
+                                icon: Icon(Icons.edit_outlined,
+                                    color: cs.onPrimary),
                                 onPressed: () {
                                   EditProfileScreen().launch(context);
                                 },
@@ -177,7 +183,8 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                     .withHeight(20),
                                 8.width,
                                 Text(language.walletBalance,
-                                        style: boldTextStyle(color: cs.onPrimary))
+                                        style:
+                                            boldTextStyle(color: cs.onPrimary))
                                     .onTap(() {
                                   if (appConfigurationStore
                                       .onlinePaymentStatus) {
@@ -211,7 +218,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             decoration: BoxDecoration(color: context.cardColor),
                             leading: ic_wallet_history.iconImage(
                                 size: SETTING_ICON_SIZE,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                             title: language.walletHistory,
                             titleTextStyle: boldTextStyle(size: 12),
                             padding:
@@ -227,7 +236,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           decoration: BoxDecoration(color: context.cardColor),
                           leading: ic_ticket.iconImage(
                               size: SETTING_ICON_SIZE,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.bookingHistory,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
@@ -241,7 +252,11 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             rolesAndPermissionStore.bankList)
                           SettingItemWidget(
                             decoration: BoxDecoration(color: context.cardColor),
-                            leading: ic_card.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                            leading: ic_card.iconImage(
+                                size: SETTING_ICON_SIZE,
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                             title: language.lblBankDetails,
                             titleTextStyle: boldTextStyle(size: 12),
                             trailing: trailing,
@@ -254,7 +269,11 @@ class ProfileFragmentState extends State<ProfileFragment> {
 
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_heart.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          leading: ic_heart.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.lblFavorite,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -270,7 +289,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           decoration: BoxDecoration(color: context.cardColor),
                           leading: ic_profile2.iconImage(
                               size: SETTING_ICON_SIZE,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.favouriteProvider,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -284,7 +305,11 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         ),
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: Icon(Icons.work_outline_rounded, size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          leading: Icon(Icons.work_outline_rounded,
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.myPostJobList,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -300,7 +325,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             decoration: BoxDecoration(color: context.cardColor),
                             leading: ic_document.iconImage(
                                 size: SETTING_ICON_SIZE,
-                                color: Theme.of(context).colorScheme.onSurfaceVariant),
+                                color: Theme.of(context)
+                                    .colorScheme
+                                    .onSurfaceVariant),
                             title: language.blogs,
                             titleTextStyle: boldTextStyle(size: 12),
                             trailing: trailing,
@@ -313,7 +340,11 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         // .visible(rolesAndPermissionStore.blogList),
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_star.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          leading: ic_star.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.rateUs,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -371,7 +402,8 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
                           leading: ic_help_desk.iconImage(
-                              size: SETTING_ICON_SIZE, color: cs.onSurfaceVariant),
+                              size: SETTING_ICON_SIZE,
+                              color: cs.onSurfaceVariant),
                           title: language.helpDesk,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
@@ -400,6 +432,89 @@ class ProfileFragmentState extends State<ProfileFragment> {
                     ).paddingAll(16);
                   }),
                   SettingSection(
+                    title: Text(language.lblAppSetting.toUpperCase(),
+                        style: boldTextStyle(color: gradientRed)),
+                    headingDecoration: BoxDecoration(
+                        gradient: LinearGradient(
+                          begin: Alignment.centerLeft,
+                          end: Alignment.centerRight,
+                          colors: [
+                            gradientRed.withValues(alpha: 0.14),
+                            brandAccentColor.withValues(alpha: 0.10),
+                          ],
+                        ),
+                        borderRadius: BorderRadiusDirectional.vertical(
+                            top: Radius.circular(16))),
+                    divider: Offstage(),
+                    headerPadding: EdgeInsets.only(
+                        bottom: 14, right: 14, left: 16, top: 14),
+                    items: [
+                      8.height,
+                      SettingItemWidget(
+                        decoration: BoxDecoration(color: context.cardColor),
+                        leading: ic_dark_mode.iconImage(
+                            size: SETTING_ICON_SIZE,
+                            color: cs.onSurfaceVariant),
+                        title: language.appTheme,
+                        titleTextStyle: boldTextStyle(size: 12),
+                        trailing: trailing,
+                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
+                        onTap: () async {
+                          await showInDialog(
+                            context,
+                            builder: (context) => ThemeSelectionDaiLog(),
+                            contentPadding: EdgeInsets.zero,
+                          );
+                        },
+                      ),
+                      SettingItemWidget(
+                        decoration: BoxDecoration(color: context.cardColor),
+                        leading: ic_language.iconImage(
+                            size: SETTING_ICON_SIZE,
+                            color: cs.onSurfaceVariant),
+                        title: language.language,
+                        titleTextStyle: boldTextStyle(size: 12),
+                        trailing: trailing,
+                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
+                        onTap: () {
+                          LanguagesScreen().launch(context).then((value) {
+                            setState(() {});
+                          });
+                        },
+                      ),
+                      if (isLoginTypeUser)
+                        SettingItemWidget(
+                          decoration: BoxDecoration(color: context.cardColor),
+                          leading: ic_lock.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: cs.onSurfaceVariant),
+                          title: language.changePassword,
+                          titleTextStyle: boldTextStyle(size: 12),
+                          trailing: trailing,
+                          padding:
+                              EdgeInsets.only(top: 20, left: 16, right: 16),
+                          onTap: () {
+                            doIfLoggedIn(context, () {
+                              ChangePasswordScreen().launch(context);
+                            });
+                          },
+                        ),
+                      SettingItemWidget(
+                        decoration: BoxDecoration(
+                            color: context.cardColor,
+                            borderRadius: BorderRadiusDirectional.vertical(
+                                bottom: Radius.circular(16))),
+                        title: '',
+                        titleTextStyle: boldTextStyle(size: 0),
+                        highlightColor: Colors.transparent,
+                        splashColor: Colors.transparent,
+                        padding: EdgeInsets.only(
+                            bottom: 6, right: 16, left: 16, top: 6),
+                        onTap: () {},
+                      ),
+                    ],
+                  ).paddingSymmetric(horizontal: 16),
+                  SettingSection(
                     title: Text(language.lblAboutApp.toUpperCase(),
                         style: boldTextStyle(color: gradientRed)),
                     headingDecoration: BoxDecoration(
@@ -420,17 +535,23 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       8.height,
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_about_us.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        leading: ic_about_us.iconImage(
+                            size: SETTING_ICON_SIZE,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.lblAboutApp,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
                         onTap: () {
                           AboutScreen().launch(context);
                         },
-                      ).visible(rolesAndPermissionStore.aboutUs),
+                      ),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_shield_done.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        leading: ic_shield_done.iconImage(
+                            size: SETTING_ICON_SIZE,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.privacyPolicy,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -442,7 +563,10 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       ).visible(rolesAndPermissionStore.privacyPolicy),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_document.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        leading: ic_document.iconImage(
+                            size: SETTING_ICON_SIZE,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.termsCondition,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -454,7 +578,10 @@ class ProfileFragmentState extends State<ProfileFragment> {
                       ).visible(rolesAndPermissionStore.termCondition),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_refund.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                        leading: ic_refund.iconImage(
+                            size: SETTING_ICON_SIZE,
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant),
                         title: language.refundPolicy,
                         titleTextStyle: boldTextStyle(size: 12),
                         padding: EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -469,7 +596,11 @@ class ProfileFragmentState extends State<ProfileFragment> {
                           rolesAndPermissionStore.helpAndSupport)
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_helpAndSupport.iconImage(size: SETTING_ICON_SIZE, color: Theme.of(context).colorScheme.onSurfaceVariant),
+                          leading: ic_helpAndSupport.iconImage(
+                              size: SETTING_ICON_SIZE,
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.helpSupport,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
@@ -498,7 +629,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                           bottom: Radius.circular(16))),
                           leading: ic_calling.iconImage(
                               size: SETTING_ICON_SIZE,
-                              color: Theme.of(context).colorScheme.onSurfaceVariant),
+                              color: Theme.of(context)
+                                  .colorScheme
+                                  .onSurfaceVariant),
                           title: language.lblHelplineNumber,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding: EdgeInsets.only(
@@ -521,7 +654,9 @@ class ProfileFragmentState extends State<ProfileFragment> {
                                     bottom: Radius.circular(16)))
                             : BoxDecoration(color: context.cardColor),
                         leading: Icon(MaterialCommunityIcons.logout,
-                            color: Theme.of(context).colorScheme.onSurfaceVariant, size: SETTING_ICON_SIZE),
+                            color:
+                                Theme.of(context).colorScheme.onSurfaceVariant,
+                            size: SETTING_ICON_SIZE),
                         title: language.signIn,
                         titleTextStyle: boldTextStyle(size: 12),
                         onTap: () {

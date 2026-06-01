@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-import '../../component/cached_image_widget.dart';
 import '../../component/disabled_rating_bar_widget.dart';
 import '../../component/empty_error_state_widget.dart';
 import '../../component/loader_widget.dart';
@@ -13,6 +12,7 @@ import '../../model/service_detail_response.dart';
 import '../../network/rest_apis.dart';
 import '../../utils/images.dart';
 import '../booking/component/report_review_dialog.dart';
+import '../gallery/gallery_component.dart';
 import '../review/shimmer/ratting_shimmer.dart';
 import '../service/service_detail_screen.dart';
 
@@ -70,52 +70,37 @@ class _CustomerRatingScreenState extends State<CustomerRatingScreen> {
                     decoration: boxDecorationDefault(color: context.cardColor),
                     child: Column(
                       children: [
-                        Container(
-                          child: Column(
+                        if (data.serviceId.validate() > 0) ...[
+                          Row(
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Row(
+                              Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  CachedImageWidget(
-                                    url: data.attachments.validate().isNotEmpty
-                                        ? data.attachments!.first
-                                        : '',
-                                    height: 75,
-                                    width: 75,
-                                    fit: BoxFit.cover,
-                                    radius: defaultRadius,
+                                  Text('${data.serviceName.validate()}',
+                                      style: boldTextStyle(
+                                          size: LABEL_TEXT_SIZE),
+                                      maxLines: 3,
+                                      overflow: TextOverflow.ellipsis),
+                                  TextButton(
+                                    style: ButtonStyle(
+                                        padding: WidgetStateProperty.all(
+                                            EdgeInsets.all(0))),
+                                    onPressed: () {
+                                      ServiceDetailScreen(
+                                              serviceId:
+                                                  data.serviceId.validate())
+                                          .launch(context);
+                                    },
+                                    child: Text(language.viewDetail,
+                                        style: secondaryTextStyle()),
                                   ),
-                                  16.width,
-                                  Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: [
-                                      Text('${data.serviceName.validate()}',
-                                          style: boldTextStyle(
-                                              size: LABEL_TEXT_SIZE),
-                                          maxLines: 3,
-                                          overflow: TextOverflow.ellipsis),
-                                      TextButton(
-                                        style: ButtonStyle(
-                                            padding: WidgetStateProperty.all(
-                                                EdgeInsets.all(0))),
-                                        onPressed: () {
-                                          ServiceDetailScreen(
-                                                  serviceId:
-                                                      data.serviceId.validate())
-                                              .launch(context);
-                                        },
-                                        child: Text(language.viewDetail,
-                                            style: secondaryTextStyle()),
-                                      ),
-                                    ],
-                                  ).flexible()
                                 ],
-                              ),
+                              ).flexible()
                             ],
                           ),
-                        ),
-                        16.height,
+                          16.height,
+                        ],
                         Container(
                           decoration: boxDecorationDefault(
                               color: context.scaffoldBackgroundColor),
@@ -237,6 +222,20 @@ class _CustomerRatingScreenState extends State<CustomerRatingScreen> {
                               8.height,
                               Text(data.review.validate(),
                                   style: secondaryTextStyle()),
+                              if (data.images.validate().isNotEmpty)
+                                Wrap(
+                                  spacing: 8,
+                                  runSpacing: 8,
+                                  children: List.generate(
+                                    data.images!.length,
+                                    (index) => GalleryComponent(
+                                      images: data.images!,
+                                      index: index,
+                                      height: 72,
+                                      width: 72,
+                                    ),
+                                  ),
+                                ).paddingTop(12),
                             ],
                           ),
                         )
