@@ -22,12 +22,14 @@ class CouponCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final double cardHeight = context.height() * 0.17;
+
     return Stack(
       children: [
         Container(
           alignment: Alignment.center,
           width: context.width(),
-          height: context.height() * 0.16,
+          height: cardHeight,
           padding: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
           decoration: BoxDecoration(
             gradient: appPrimaryGradient,
@@ -148,7 +150,7 @@ class CouponCardWidget extends StatelessWidget {
           left: -sideDotsSize,
           child: Column(
             children: List.generate(
-              countOfSideCuts(context),
+              countOfSideCuts(cardHeight),
               (index) => CircleAvatar(
                 radius: sideDotsSize,
                 backgroundColor: context.scaffoldBackgroundColor,
@@ -160,7 +162,7 @@ class CouponCardWidget extends StatelessWidget {
           right: -sideDotsSize,
           child: Column(
             children: List.generate(
-              countOfSideCuts(context),
+              countOfSideCuts(cardHeight),
               (index) => CircleAvatar(
                 radius: sideDotsSize,
                 backgroundColor: context.scaffoldBackgroundColor,
@@ -172,7 +174,7 @@ class CouponCardWidget extends StatelessWidget {
           top: -sideDotsSize * 1.8,
           child: SizedBox(
             width: context.width(),
-            height: context.height() * 0.16 + (sideDotsSize * 2 * 1.8),
+            height: cardHeight + (sideDotsSize * 2 * 1.8),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -214,9 +216,9 @@ class CouponCardWidget extends StatelessWidget {
     );
   }
 
-  int countOfSideCuts(BuildContext context) {
+  int countOfSideCuts(double cardHeight) {
     num dotCount = 0;
-    dotCount = (context.height() * 0.16) / sideDotsSize;
+    dotCount = cardHeight / sideDotsSize;
     return dotCount.round();
   }
 }

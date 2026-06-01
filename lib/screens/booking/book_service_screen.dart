@@ -162,7 +162,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
       selectedPackage: widget.selectedPackage,
       couponBasePrice: widget.selectedPackage != null
           ? widget.selectedPackage!.price.validate()
-          : initialPrice.validate(),
+          : null,
     );
 
     if (bookingAmountModel.finalSubTotal.isNegative) {

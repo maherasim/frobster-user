@@ -1479,10 +1479,10 @@ class LanguageDe extends BaseLanguage {
   String get whyChooseMe => 'Warum mich wählen?';
 
   @override
-  String get useThisCodeToGet => 'Verwenden Sie diesen Code, um zu erhalten';
+  String get useThisCodeToGet => 'Mit diesem Code erhalten Sie';
 
   @override
-  String get off => 'aus';
+  String get off => 'Rabatt';
 
   @override
   String get applied => 'Angewandt';
