@@ -41,7 +41,11 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
     LiveStream().on(LIVESTREAM_UPDATE_HELP_DESK_LIST, (value) {
       page = 1;
       appStore.setLoading(true);
-      getHelpDeskListAPI(status: value.toString());
+      selectedTab = helpDeskStatus.firstWhere(
+        (tab) => tab.apiStatus == value.toString().toLowerCase(),
+        orElse: () => selectedTab,
+      );
+      getHelpDeskListAPI(status: selectedTab.apiStatus);
 
       setState(() {});
     });
@@ -51,18 +55,21 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
     helpDeskStatus = [
       HelpDeskStatusModel(
           status: HelpDeskStatus.all,
-          name: language.lblAll.capitalizeFirstLetter()),
+          name: language.lblAll.capitalizeFirstLetter(),
+          apiStatus: 'all'),
       HelpDeskStatusModel(
           status: HelpDeskStatus.open,
-          name: language.open.capitalizeFirstLetter()),
+          name: language.open.capitalizeFirstLetter(),
+          apiStatus: OPEN),
       HelpDeskStatusModel(
           status: HelpDeskStatus.closed,
-          name: language.closed.capitalizeFirstLetter()),
+          name: language.closed.capitalizeFirstLetter(),
+          apiStatus: CLOSED),
     ];
 
     if (helpDeskStatus.isNotEmpty) {
       selectedTab = helpDeskStatus.first;
-      getHelpDeskListAPI(status: selectedTab.name);
+      getHelpDeskListAPI(status: selectedTab.apiStatus);
     }
   }
 
@@ -93,7 +100,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
               selectedTab = helpDeskStatus.first;
               page = 1;
               appStore.setLoading(true);
-              getHelpDeskListAPI(status: selectedTab.name);
+              getHelpDeskListAPI(status: selectedTab.apiStatus);
               setState(() {});
             }).launch(context);
           },
@@ -148,7 +155,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                               selectedTab = helpDeskStatus[index];
                               page = 1;
                               appStore.setLoading(true);
-                              getHelpDeskListAPI(status: selectedTab.name);
+                              getHelpDeskListAPI(status: selectedTab.apiStatus);
                               setState(() {});
                             },
                           ),
@@ -195,7 +202,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                                         page = 1;
                                         appStore.setLoading(true);
                                         getHelpDeskListAPI(
-                                            status: selectedTab.name);
+                                            status: selectedTab.apiStatus);
 
                                         setState(() {});
                                       }).launch(context);
@@ -209,14 +216,14 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                         page++;
                         appStore.setLoading(true);
 
-                        getHelpDeskListAPI(status: selectedTab.name);
+                        getHelpDeskListAPI(status: selectedTab.apiStatus);
                         setState(() {});
                       }
                     },
                     onSwipeRefresh: () async {
                       page = 1;
 
-                      getHelpDeskListAPI(status: selectedTab.name);
+                      getHelpDeskListAPI(status: selectedTab.apiStatus);
                       setState(() {});
 
                       return await 2.seconds.delay;
@@ -237,7 +244,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                       page = 1;
                       appStore.setLoading(true);
 
-                      getHelpDeskListAPI(status: selectedTab.name);
+                      getHelpDeskListAPI(status: selectedTab.apiStatus);
                       setState(() {});
                     },
                   );
