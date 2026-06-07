@@ -2178,10 +2178,10 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordLengthShouldBe =>
-      'Password length should be 8 to 12 characters.';
+      'Password length should be 12 to 20 characters.';
 
   @override
-  String get passwordMinLengthEight => 'At least 8 characters';
+  String get passwordMinLengthEight => 'At least 12 characters';
 
   @override
   String get passwordMustIncludeLetter =>
@@ -2192,7 +2192,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordRequirementsHint =>
-      '• At least 8 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
+      '• At least 12 to 20 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
 
   @override
   String get paymentMethodNotSupported => 'Payment method not supported';
