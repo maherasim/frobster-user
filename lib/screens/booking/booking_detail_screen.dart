@@ -1563,39 +1563,24 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.inProgress) {
-      return AppButton(
-        text: language.lblHold,
-        color: hold,
-        textColor: Colors.white,
-        onTap: () {
-                _handleHoldClick(status: bookingResponse);
-              },
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(color: context.cardColor),
+        child: Text(language.workInProgressWaitingForProvider,
+                style: boldTextStyle())
+            .center(),
       );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.hold) {
-      return Row(
-        children: [
-          GradientButton(
-            onPressed: () {
-              _handleResumeClick(status: bookingResponse);
-            },
-            child: Text(language.lblResume),
-          ).expand(),
-          // 16.width,
-          // AppButton(
-          //   text: language.lblCancel,
-          //   textColor: Colors.white,
-          //   color: cancelled,
-          //   onTap: () {
-          //     _handleCancelClick(
-          //         status: bookingResponse,
-          //         isDurationMode: checkTimeDifference(
-          //             inputDateTime: DateTime.parse(
-          //                 bookingResponse.bookingDetail!.date.validate())));
-          //   },
-          // ).expand(),
-        ],
-      ).paddingOnly(bottom: 16);
+      return Container(
+        width: double.infinity,
+        padding: EdgeInsets.all(16),
+        decoration: BoxDecoration(color: context.cardColor),
+        child: Text(language.waitingForProviderToResumeWork,
+                style: boldTextStyle())
+            .center(),
+      );
     } else if (bookingResponse.bookingDetail!.status ==
         BookingStatusKeys.doneByProvider) {
       return GradientButton(
@@ -2448,101 +2433,6 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         );
       },
     );
-  }
-
-  void _handleResumeClick({required BookingDetailResponse status}) {
-    showInDialog(
-      context,
-      contentPadding: EdgeInsets.zero,
-      backgroundColor: context.scaffoldBackgroundColor,
-      builder: (context) {
-        return AppCommonDialog(
-      title: language.lblConFirmResumeService,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              24.height,
-              Row(
-                children: [
-                  AppButton(
-                    text: language.lblNo,
-                    color: context.scaffoldBackgroundColor,
-                    textColor: context.iconColor,
-                    onTap: () {
-                      finish(context);
-                    },
-                  ).expand(),
-                  16.width,
-                  GradientButton(
-                    onPressed: () async {
-                      finish(context);
-        Map request = {
-          CommonKeys.id: status.bookingDetail!.id.validate(),
-          BookingUpdateKeys.startAt: formatBookingDate(
-            DateTime.now().toString(),
-            format: BOOKING_SAVE_FORMAT,
-            isLanguageNeeded: false,
-          ),
-          BookingUpdateKeys.endAt: '',
-          BookingUpdateKeys.durationDiff:
-              status.bookingDetail!.durationDiff.toInt(),
-          BookingUpdateKeys.reason: "",
-          CommonKeys.status: BookingStatusKeys.inProgress,
-          BookingUpdateKeys.paymentStatus:
-              status.bookingDetail!.isAdvancePaymentDone
-                  ? SERVICE_PAYMENT_STATUS_ADVANCE_PAID
-                  : status.bookingDetail!.paymentStatus.validate(),
-        };
-
-        appStore.setLoading(true);
-
-        await updateBooking(request).then((res) async {
-          toast(res.message!);
-          commonStartTimer(
-              isHourlyService: status.bookingDetail!.isHourlyService,
-              status: BookingStatusKeys.inProgress,
-              timeInSec: status.bookingDetail!.durationDiff.validate().toInt());
-          init();
-          setState(() {});
-        }).catchError((e) {
-          appStore.setLoading(false);
-          toast(e.toString(), print: true);
-        });
-                    },
-                    child: Text(language.lblYes),
-                  ).expand(),
-                ],
-              ).paddingSymmetric(horizontal: 16),
-              16.height,
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  void _handleHoldClick({required BookingDetailResponse status}) {
-    if (status.bookingDetail!.status == BookingStatusKeys.inProgress) {
-      showInDialog(
-        context,
-        contentPadding: EdgeInsets.zero,
-        backgroundColor: context.scaffoldBackgroundColor,
-        builder: (context) {
-          return AppCommonDialog(
-            title: language.lblConfirmService,
-            child: ReasonDialog(
-              status: status,
-              currentStatus: BookingStatusKeys.hold,
-            ),
-          );
-        },
-      ).then((value) async {
-        if (value != null) {
-          init();
-          setState(() {});
-        }
-      });
-    }
   }
 
   void _handleCancelClick(

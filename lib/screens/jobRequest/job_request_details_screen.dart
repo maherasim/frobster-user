@@ -139,11 +139,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       case RequestStatus.accepted:
         message = language.waitingForProviderToSplitPayment;
         break;
-      case RequestStatus.pendingAdvance:
-        message = language.waitingForCustomerToPayAdvancePercentage;
-        break;
       case RequestStatus.advancePaymentPending:
-        message = 'Waiting for admin approval';
+        message = language.waitingForCustomerToPayAdvancePercentage;
         break;
       case RequestStatus.advancePaid:
         message = language.waitingForProviderToStartWork;
@@ -174,6 +171,12 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         break;
       case RequestStatus.cancel:
         message = "This bid was cancelled";
+        break;
+      case RequestStatus.pending:
+        message = language.waitingForProviderToReviewRequest;
+        break;
+      case RequestStatus.assigned:
+        message = language.bidAssignedToHandyman;
         break;
     }
 
@@ -267,33 +270,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ],
                   ),
                 ),
-              // Show "waiting for admin approval" message when status is advancePaymentPending (advance_payment_pending)
-              if (postJobDetail!.status == RequestStatus.advancePaymentPending)
-                Container(
-                  width: double.infinity,
-                  padding: EdgeInsets.all(12),
-                  decoration: boxDecorationWithRoundedCorners(
-                    backgroundColor: hold.withValues(alpha: 0.1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Row(
-                    children: [
-                      Icon(Icons.hourglass_bottom, color: hold, size: 20),
-                      8.width,
-                      Expanded(
-                        child: _MarqueeText(
-                          text: 'Waiting for admin approval',
-                          textStyle: secondaryTextStyle(color: hold, size: 14),
-                          velocity: 40, // px per second
-                          gap: 40,
-                        ),
-                      ),
-                    ],
-                  ),
-                ).paddingTop(12),
-              // Bank transfer pending approval banner (for pendingAdvance with bank transfer)
-              if (_isAwaitingBankTransferApproval() && 
-                  (postJobDetail!.status == RequestStatus.pendingAdvance))
+              // Bank transfer pending approval banner
+              if (_isAwaitingBankTransferApproval() &&
+                  postJobDetail!.status == RequestStatus.advancePaymentPending)
                 Container(
                   width: double.infinity,
                   padding: EdgeInsets.all(12),
@@ -342,11 +321,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 ).paddingTop(12),
               24.height,
 
-              // Job Details Grid - Reduced to essential cards only
-              // Always show grid when postRequest is available OR when status is inProcess, pendingAdvance, or advancePaymentPending
-              if (postJobDetail!.postRequest != null || 
+              // Job Details Grid
+              if (postJobDetail!.postRequest != null ||
                   postJobDetail!.status == RequestStatus.inProcess ||
-                  postJobDetail!.status == RequestStatus.pendingAdvance ||
                   postJobDetail!.status == RequestStatus.advancePaymentPending)
                 Padding(
                   padding: EdgeInsets.zero,
@@ -570,9 +547,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   },
                   child: Text('Cancel', style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
-              // Show Pay Advance button when status is pendingAdvance ("Advance Payment Pending" with spaces)
-              // Do NOT show for advancePaymentPending ("advance_payment_pending" - waiting for admin approval)
-              if (postJobDetail!.status == RequestStatus.pendingAdvance)
+              if (postJobDetail!.status == RequestStatus.advancePaymentPending)
                 GradientButton(
                   onPressed: () async {
                     // Don't allow payment if bank transfer is awaiting approval
@@ -1343,7 +1318,6 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   Widget _buildStatusProgress(RequestStatus status) {
     final steps = <RequestStatus>[
       RequestStatus.accepted,
-      RequestStatus.pendingAdvance,
       RequestStatus.advancePaymentPending,
       RequestStatus.advancePaid,
       RequestStatus.inProcess,
@@ -1399,8 +1373,6 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     switch (s) {
       case RequestStatus.accepted:
         return 'Accept';
-      case RequestStatus.pendingAdvance:
-        return 'Advance';
       case RequestStatus.advancePaymentPending:
         return 'Advance';
       case RequestStatus.advancePaid:

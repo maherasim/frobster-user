@@ -76,6 +76,10 @@ Future<LoginResponse> loginUser(Map request,
         appStore.setLoading(false);
         throw language.contactAdmin;
       }
+      if (res.userData!.emailVerified == 0) {
+        appStore.setLoading(false);
+        throw language.emailNotVerified;
+      }
     }
     return res;
   } on Exception catch (e) {

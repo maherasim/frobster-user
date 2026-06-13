@@ -207,7 +207,6 @@ class PostJobData {
     "type": type?.backendValue,
     "start_date": startDate,
     "end_date": endDate,
-    "total_day": totalDays,
     "total_days": totalDays,
     "total_hours": totalHours,
     "total_budget": totalBudget,
@@ -245,11 +244,11 @@ class PostJobData {
     "category_id": categoryId,
     "subcategory_id": subCategoryId,
     "price_type": priceType?.backendValue,
+    "job_price": priceType?.backendValue,
     "price": price,
     "type": type?.backendValue,
     "start_date": startDate,
     "end_date": endDate,
-    "total_day": totalDays,
     "total_days": totalDays,
     "total_hours": totalHours,
     "total_budget": totalBudget,
@@ -397,9 +396,10 @@ enum YearsOfExperience {
 
 /// Education Level
 enum RequestStatus {
+  pending('Pending','pending',defaultStatus),
+  assigned('Assigned','assigned',primaryColorWithOpacity),
   requested('Requested','requested',defaultStatus),
   accepted('Accepted','accepted',accept),
-  pendingAdvance('Advance Payment Pending','Advance Payment Pending',primaryColorWithOpacity),
   advancePaymentPending('Advance Payment Pending','advance_payment_pending',primaryColorWithOpacity),
   advancePaid('Advance Paid','advance_paid',primaryColorWithOpacity),
   inProcess('In Process','in_process',primaryColorWithOpacity),

@@ -10,6 +10,7 @@ import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart'
 import 'package:booking_system_flutter/model/city_list_model.dart';
 import 'package:booking_system_flutter/model/country_list_model.dart';
 import 'package:booking_system_flutter/model/login_model.dart';
+import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/model/state_list_model.dart';
 import 'package:booking_system_flutter/network/network_utils.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
@@ -54,6 +55,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   TextEditingController fNameCont = TextEditingController();
   TextEditingController lNameCont = TextEditingController();
+  TextEditingController designationCont = TextEditingController();
   TextEditingController cNameCont = TextEditingController();
   TextEditingController vatNumCont = TextEditingController();
   TextEditingController experienceCont = TextEditingController();
@@ -62,6 +64,9 @@ class EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController skillsCont = TextEditingController();
   TextEditingController certificationCont = TextEditingController();
   TextEditingController aboutMeCont = TextEditingController();
+  TextEditingController whyChooseTitleCont = TextEditingController();
+  TextEditingController whyChooseDescCont = TextEditingController();
+  List<TextEditingController> whyChooseReasonConts = [TextEditingController()];
   TextEditingController emailCont = TextEditingController();
   TextEditingController userNameCont = TextEditingController();
   TextEditingController mobileCont = TextEditingController();
@@ -69,6 +74,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
 
   FocusNode fNameFocus = FocusNode();
   FocusNode lNameFocus = FocusNode();
+  FocusNode designationFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
   FocusNode cNameFocus = FocusNode();
   FocusNode userNameFocus = FocusNode();
@@ -173,6 +179,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       setValue(IS_EMAIL_VERIFIED, isEmailVerified);
 
       // Populate form from user-detail API so existing data shows when editing
+      designationCont.text = value.designation.validate();
       vatNumCont.text = value.vatNumber.validate();
       cNameCont.text = value.companyName.validate();
       mobilityCont.text = value.mobility.validate();
@@ -204,6 +211,16 @@ class EditProfileScreenState extends State<EditProfileScreen> {
       experienceCont.text = value.experience.validate();
       certificationCont.text = value.certification.validate();
       aboutMeCont.text = value.aboutMe.validate();
+      final wcm = value.whyChooseMeObj;
+      whyChooseTitleCont.text = wcm.title;
+      whyChooseDescCont.text = wcm.aboutDescription;
+      if (wcm.reason.isNotEmpty) {
+        whyChooseReasonConts = wcm.reason.map((r) {
+          final c = TextEditingController();
+          c.text = r;
+          return c;
+        }).toList();
+      }
 
       selectedUserStatus = value.status == 0 ? 0 : 1;
 
@@ -359,6 +376,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
         '${fNameCont.text.validate() + " " + lNameCont.text.validate()}';
     multiPartRequest.fields[UserKeys.status] = selectedUserStatus.toString();
 
+    multiPartRequest.fields['designation'] = designationCont.text.validate();
     multiPartRequest.fields['company_name'] = cNameCont.text.validate();
     multiPartRequest.fields['vat_number'] = vatNumCont.text.validate();
     multiPartRequest.fields['mobility'] = mobilityCont.text.validate();
@@ -372,6 +390,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     multiPartRequest.fields['years_of_experience'] = selectedYearsOfExperience.backendValue;
     multiPartRequest.fields['certification'] = certificationCont.text.validate();
     multiPartRequest.fields['about_me'] = aboutMeCont.text.validate();
+    final whyChooseMeData = WhyChooseMe(
+      title: whyChooseTitleCont.text.trim(),
+      aboutDescription: whyChooseDescCont.text.trim(),
+      reason: whyChooseReasonConts.map((c) => c.text.trim()).where((s) => s.isNotEmpty).toList(),
+    );
+    multiPartRequest.fields['why_choose_me'] = jsonEncode(whyChooseMeData.toJson());
     multiPartRequest.fields['availability'] =
         selectedAvailability == 'Hybrid' ? 'hybrid' : 'full_time';
     if (serviceAddressId != null) {
@@ -714,10 +738,20 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   controller: lNameCont,
                   focus: lNameFocus,
                   errorThisFieldRequired: language.requiredText,
-                  nextFocus: userNameFocus,
+                  nextFocus: designationFocus,
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
                       label: buildRequiredLabel(language.hintLastNameTxt)),
+                  suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
+                ),
+                16.height,
+                AppTextField(
+                  textFieldType: TextFieldType.NAME,
+                  controller: designationCont,
+                  focus: designationFocus,
+                  nextFocus: userNameFocus,
+                  isValidationRequired: false,
+                  decoration: inputDecoration(context, labelText: language.designation),
                   suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
                 ),
                 16.height,
@@ -871,39 +905,6 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         },
                       ),
                     ),
-                  ],
-                ),
-                16.height,
-                Row(
-                  children: [
-                    DropdownButtonFormField<int>(
-                      decoration: inputDecoration(context,
-                          label: buildRequiredLabel(language.lblStatus)),
-                      isExpanded: true,
-                      initialValue: selectedUserStatus,
-                      dropdownColor: context.cardColor,
-                      items: [
-                        DropdownMenuItem<int>(
-                          value: 1,
-                          child: Text(language.active,
-                              style: primaryTextStyle(),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                        DropdownMenuItem<int>(
-                          value: 0,
-                          child: Text(language.inactive,
-                              style: primaryTextStyle(),
-                              maxLines: 1,
-                              overflow: TextOverflow.ellipsis),
-                        ),
-                      ],
-                      onChanged: (int? value) async {
-                        hideKeyboard(context);
-                        selectedUserStatus = value ?? 1;
-                        setState(() {});
-                      },
-                    ).expand(),
                   ],
                 ),
                 16.height,
@@ -1208,6 +1209,60 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   isValidationRequired: false,
                   maxLines: 4,
                   decoration: inputDecoration(context, labelText: 'About me'),
+                ),
+                24.height,
+                // Why Choose Me section
+                Text('Why Choose Me', style: boldTextStyle(size: 16)),
+                12.height,
+                AppTextField(
+                  textFieldType: TextFieldType.NAME,
+                  controller: whyChooseTitleCont,
+                  isValidationRequired: false,
+                  decoration: inputDecoration(context, labelText: 'Section Title'),
+                ),
+                12.height,
+                AppTextField(
+                  textFieldType: TextFieldType.NAME,
+                  controller: whyChooseDescCont,
+                  isValidationRequired: false,
+                  maxLines: 3,
+                  decoration: inputDecoration(context, labelText: 'About Description'),
+                ),
+                12.height,
+                Text('Reasons', style: boldTextStyle()),
+                8.height,
+                ...List.generate(whyChooseReasonConts.length, (i) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 8),
+                    child: Row(
+                      children: [
+                        AppTextField(
+                          textFieldType: TextFieldType.NAME,
+                          controller: whyChooseReasonConts[i],
+                          isValidationRequired: false,
+                          decoration: inputDecoration(context, labelText: 'Reason ${i + 1}'),
+                        ).expand(),
+                        if (whyChooseReasonConts.length > 1)
+                          IconButton(
+                            icon: Icon(Icons.remove_circle_outline, color: Colors.red),
+                            onPressed: () {
+                              setState(() {
+                                whyChooseReasonConts.removeAt(i);
+                              });
+                            },
+                          ),
+                      ],
+                    ),
+                  );
+                }),
+                TextButton.icon(
+                  onPressed: () {
+                    setState(() {
+                      whyChooseReasonConts.add(TextEditingController());
+                    });
+                  },
+                  icon: Icon(Icons.add),
+                  label: Text('Add Reason'),
                 ),
                 40.height,
                 GradientButton(

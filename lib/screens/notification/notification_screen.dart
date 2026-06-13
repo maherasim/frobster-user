@@ -132,12 +132,12 @@ class _NotificationScreenState extends State<NotificationScreen> {
                     setState(() {});
                   } else if (notificationType.contains(NOTIFICATION_TYPE_POST_JOB) ||
                       type.contains('provider_send_bid') ||
-                      type.contains('post_job') ||
                       type.contains('job_request')) {
-                    // Handle job request notifications
-                    if (data.data!.id != null) {
+                    // Use explicit post_request_id when available (bid notifications set id to bid ID)
+                    final resolvedId = data.data!.postRequestId ?? data.data!.id;
+                    if (resolvedId != null) {
                       await MyPostDetailScreen(
-                              postRequestId: data.data!.id.validate(),
+                              postRequestId: resolvedId,
                               callback: () {})
                           .launch(context);
                       init();

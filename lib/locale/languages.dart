@@ -20,6 +20,8 @@ abstract class BaseLanguage {
 
   String get hintLastNameTxt;
 
+  String get designation;
+
   String get hintContactNumberTxt;
 
   String get hintEmailAddressTxt;
@@ -99,6 +101,8 @@ abstract class BaseLanguage {
   String get bookTheService;
 
   String get contactAdmin;
+
+  String get emailNotVerified;
 
   String get allServices;
 
@@ -1473,6 +1477,10 @@ abstract class BaseLanguage {
   String get paymentCompletedDownloadInvoice;
 
   String get waitingForCustomerToAcceptTheBid;
+
+  String get waitingForProviderToReviewRequest;
+
+  String get bidAssignedToHandyman;
 
   String get waitingForProviderToSplitPayment;
 

@@ -431,9 +431,8 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
       CommonKeys.dateTime: DateFormat(BOOKING_SAVE_FORMAT).format(DateTime.now()),
     };
 
-    if (paymentMethod == PAYMENT_METHOD_BANK_TRANSFER) {
-      request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
-    }
+    // Always send type field so backend can use a single detection path
+    request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
 
     if (widget.bookings.service != null &&
         widget.bookings.service!.isAdvancePayment &&

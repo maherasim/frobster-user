@@ -198,7 +198,7 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
       return data.where((e) =>
       e.status == RequestStatus.requested ||
           e.status == RequestStatus.accepted ||
-          e.status == RequestStatus.pendingAdvance).toList();
+          e.status == RequestStatus.advancePaymentPending).toList();
     } else if (index == 2) {
       // In Progress
       return data.where((e) =>

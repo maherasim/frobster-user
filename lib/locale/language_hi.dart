@@ -28,6 +28,9 @@ class LanguageHi extends BaseLanguage {
   String get hintLastNameTxt => 'अपना अंतिम नाम दर्ज करें';
 
   @override
+  String get designation => 'पदनाम';
+
+  @override
   String get hintContactNumberTxt => 'अपना संपर्क नंबर दर्ज करें';
 
   @override
@@ -146,6 +149,9 @@ class LanguageHi extends BaseLanguage {
 
   @override
   String get contactAdmin => "कृपया व्यवस्थापक से संपर्क करें";
+
+  @override
+  String get emailNotVerified => 'आपका ईमेल सत्यापित नहीं है। जारी रखने के लिए कृपया सत्यापित करें।';
 
   @override
   String get allServices => 'सभी सेवाएं';
@@ -2307,6 +2313,12 @@ class LanguageHi extends BaseLanguage {
 
   @override
   String get waitingForCustomerToAcceptTheBid => 'ग्राहक द्वारा बोली स्वीकार करने की प्रतीक्षा कर रहा है';
+
+  @override
+  String get waitingForProviderToReviewRequest => 'प्रदाता द्वारा अनुरोध की समीक्षा की प्रतीक्षा कर रहा है';
+
+  @override
+  String get bidAssignedToHandyman => 'बोली हैंडीमैन को सौंपी गई';
 
   @override
   String get waitingForProviderToSplitPayment => 'प्रदाता द्वारा भुगतान विभाजित करने की प्रतीक्षा कर रहा है';

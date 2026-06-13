@@ -28,6 +28,9 @@ class LanguageAr extends BaseLanguage {
   String get hintLastNameTxt => 'أدخل اسم العائلة';
 
   @override
+  String get designation => 'تعيين';
+
+  @override
   String get hintContactNumberTxt => 'أدخل رقم الاتصال الخاص بك';
 
   @override
@@ -146,6 +149,9 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get contactAdmin => "يرجى الاتصال مع المسؤول";
+
+  @override
+  String get emailNotVerified => 'بريدك الإلكتروني غير مُحقَّق. يرجى التحقق للمتابعة.';
 
   @override
   String get allServices => 'جميع الخدمات';
@@ -2272,6 +2278,12 @@ class LanguageAr extends BaseLanguage {
 
   @override
   String get waitingForCustomerToAcceptTheBid => 'في انتظار قبول العميل للعرض';
+
+  @override
+  String get waitingForProviderToReviewRequest => 'في انتظار مراجعة مزود الخدمة للطلب';
+
+  @override
+  String get bidAssignedToHandyman => 'تم تعيين العطاء لعامل الصيانة';
 
   @override
   String get waitingForProviderToSplitPayment => 'في انتظار صاحب العمل لتقسيم الدفع';

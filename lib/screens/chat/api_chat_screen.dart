@@ -54,7 +54,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     super.initState();
     _fetchInitial();
     _scrollController.addListener(_onScroll);
-    _pollTimer = Timer.periodic(const Duration(seconds: 7), (_) => _fetchNew());
+    _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _fetchNew());
   }
 
   @override

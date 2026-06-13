@@ -457,10 +457,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       CommonKeys.dateTime: DateFormat(BOOKING_SAVE_FORMAT).format(DateTime.now()),
     };
 
-    // Add type field for bank transfer payments (backend expects 'advance_payment' or 'remaining')
-    if (paymentMethod == PAYMENT_METHOD_BANK_TRANSFER) {
-      request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
-    }
+    // Always send type field so backend can use a single detection path
+    request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
 
     if (widget.bookings.service != null && widget.bookings.service!.isAdvancePayment && widget.bookings.bookingDetail!.bookingPackage == null) {
       // For remaining payment, set advance_paid_amount to null; for advance payment, set the advance amount

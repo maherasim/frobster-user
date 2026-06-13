@@ -27,6 +27,9 @@ class LanguageEn extends BaseLanguage {
   String get hintLastNameTxt => 'Last Name';
 
   @override
+  String get designation => 'Designation';
+
+  @override
   String get hintContactNumberTxt => 'Contact Number';
 
   @override
@@ -145,6 +148,9 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get contactAdmin => "Please contact with Admin";
+
+  @override
+  String get emailNotVerified => 'Your email is not verified. Please verify your email to continue.';
 
   @override
   String get allServices => 'All Services';
@@ -2302,6 +2308,12 @@ class LanguageEn extends BaseLanguage {
   @override
   String get waitingForCustomerToAcceptTheBid =>
       'Waiting for customer to accept the bid';
+
+  @override
+  String get waitingForProviderToReviewRequest => 'Waiting for provider to review the request';
+
+  @override
+  String get bidAssignedToHandyman => 'Bid assigned to handyman';
 
   @override
   String get waitingForProviderToSplitPayment =>

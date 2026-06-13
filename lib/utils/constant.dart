@@ -57,7 +57,7 @@ const PAYMENT_STATUS_PAID = 'paid';
 const PAYMENT_STATUS_DEBIT = 'debit';
 
 const NOTIFICATION_TYPE_BOOKING = 'booking';
-const NOTIFICATION_TYPE_POST_JOB = 'post_Job';
+const NOTIFICATION_TYPE_POST_JOB = 'post_job';
 const NOTIFICATION_TYPE_WALLET = 'update_wallet';
 const SERVICE_ATTACHMENT = 'service_attachment';
 const IS_EMAIL_VERIFIED = 'IS_EMAIL_VERIFIED';

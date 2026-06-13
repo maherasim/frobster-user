@@ -27,6 +27,9 @@ class LanguageDe extends BaseLanguage {
   String get hintLastNameTxt => "Geben Sie Ihren Nachnamen ein";
 
   @override
+  String get designation => 'Bezeichnung';
+
+  @override
   String get hintContactNumberTxt => "Geben Sie Ihre Kontaktnummer ein";
 
   @override
@@ -146,6 +149,9 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get contactAdmin => "Bitte wenden Sie sich an den Administrator";
+
+  @override
+  String get emailNotVerified => 'Ihre E-Mail ist nicht verifiziert. Bitte verifizieren Sie Ihre E-Mail, um fortzufahren.';
 
   @override
   String get allServices => "Alle dienstleistungen.";
@@ -2336,6 +2342,12 @@ class LanguageDe extends BaseLanguage {
   @override
   String get waitingForCustomerToAcceptTheBid =>
       'Warten auf die Annahme des Gebots durch den Kunden';
+
+  @override
+  String get waitingForProviderToReviewRequest => 'Warten auf Überprüfung der Anfrage durch den Anbieter';
+
+  @override
+  String get bidAssignedToHandyman => 'Gebot dem Handwerker zugewiesen';
 
   @override
   String get waitingForProviderToSplitPayment =>
