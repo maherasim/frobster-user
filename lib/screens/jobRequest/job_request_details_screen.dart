@@ -1244,7 +1244,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
           }
         }
       },
-      child: Text('Chat', style: boldTextStyle(color: white, size: 16)),
+      child: Text(language.lblChat, style: boldTextStyle(color: white, size: 16)),
     ).withWidth(context.width());
   }
 
@@ -1464,7 +1464,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                           children: [
                             Row(
                               children: [
-                                Text('Your Rating', style: boldTextStyle()),
+                                Text(language.lblYourRating, style: boldTextStyle()),
                                 Text("*", style: secondaryTextStyle(color: Colors.red)),
                               ],
                             ),
@@ -1488,7 +1488,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                               ),
                             ),
                             16.height,
-                            Text('Your Comment', style: boldTextStyle()),
+                            Text(language.lblYourComment, style: boldTextStyle()),
                             16.height,
                             AppTextField(
                               controller: reviewCont,

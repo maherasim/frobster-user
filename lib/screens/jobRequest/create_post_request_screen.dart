@@ -1211,7 +1211,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                   child: Container(
                     padding: EdgeInsets.symmetric(horizontal: 16, vertical: 14),
                     child: Center(
-                      child: Text('Back', style: boldTextStyle(color: gradientRed)),
+                      child: Text(language.back, style: boldTextStyle(color: gradientRed)),
                     ),
                   ),
                 ),

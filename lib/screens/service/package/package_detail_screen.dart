@@ -109,9 +109,8 @@ class _PackageDetailScreenState extends State<PackageDetailScreen> {
                     style: secondaryTextStyle(),
                   ),
                   32.height,
-                  Text("Service included in this package",
-                      style: boldTextStyle(
-                          size: LABEL_TEXT_SIZE)), //Todo translate
+                  Text(language.lblServiceIncluded,
+                      style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                   4.height,
                   if (widget.packageData.serviceList != null)
                     ListView.builder(

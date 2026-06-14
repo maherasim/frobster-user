@@ -542,7 +542,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
               expand: false,
               builder: (_, scrollController) => Column(
                 children: [
-                  Text('Select languages', style: boldTextStyle(size: 18))
+                  Text(language.selectLanguages, style: boldTextStyle(size: 18))
                       .paddingOnly(top: 16, bottom: 8),
                   AppTextField(
                     controller: searchCont,
@@ -593,7 +593,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           Expanded(
                             child: OutlinedButton(
                               onPressed: () => finish(context),
-                              child: Text('Cancel',
+                              child: Text(language.lblCancel,
                                   style: boldTextStyle(
                                       color: context.primaryColor)),
                             ),
@@ -612,7 +612,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                                 });
                                 finish(context);
                               },
-                              child: Text('Apply',
+                              child: Text(language.confirm,
                                   style: boldTextStyle(color: white)),
                             ),
                           ),
@@ -1043,7 +1043,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     initialValue: serviceAddressId,
                     dropdownColor: context.cardColor,
                     items: [
-                      DropdownMenuItem<int?>(value: null, child: Text('Select Service address', style: primaryTextStyle())),
+                      DropdownMenuItem<int?>(value: null, child: Text(language.selectServiceAddress, style: primaryTextStyle())),
                       ...serviceAddressList.map((e) {
                         final id = e['id'] as int?;
                         final name = e['name'] as String?;
@@ -1212,7 +1212,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 24.height,
                 // Why Choose Me section
-                Text('Why Choose Me', style: boldTextStyle(size: 16)),
+                Text(language.whyChooseMe, style: boldTextStyle(size: 16)),
                 12.height,
                 AppTextField(
                   textFieldType: TextFieldType.NAME,
@@ -1229,7 +1229,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   decoration: inputDecoration(context, labelText: 'About Description'),
                 ),
                 12.height,
-                Text('Reasons', style: boldTextStyle()),
+                Text(language.lblReasons, style: boldTextStyle()),
                 8.height,
                 ...List.generate(whyChooseReasonConts.length, (i) {
                   return Padding(
@@ -1262,7 +1262,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     });
                   },
                   icon: Icon(Icons.add),
-                  label: Text('Add Reason'),
+                  label: Text(language.lblAddReason),
                 ),
                 40.height,
                 GradientButton(

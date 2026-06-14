@@ -1679,4 +1679,10 @@ abstract class BaseLanguage {
   String get minimumOrdersLabel;
   String get customerReviewTitle;
   String get employerReviewTitle;
+  String get lblTotal;
+  String get lblReasons;
+  String get lblAddReason;
+  String get lblServiceIncluded;
+  String get lblPreferences;
+  String get lblLoadingPayPal;
 }

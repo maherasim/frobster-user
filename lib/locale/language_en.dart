@@ -2191,14 +2191,14 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordMustIncludeLetter =>
-      'At least one letter (Aâ€“Z or aâ€“z)';
+      'At least one letter (AÃ¢â‚¬â€œZ or aÃ¢â‚¬â€œz)';
 
   @override
-  String get passwordMustIncludeNumber => 'At least one number (0â€“9)';
+  String get passwordMustIncludeNumber => 'At least one number (0Ã¢â‚¬â€œ9)';
 
   @override
   String get passwordRequirementsHint =>
-      'â€¢ At least 12 to 20 characters\nâ€¢ At least one letter (Aâ€“Z or aâ€“z)\nâ€¢ At least one number (0â€“9)';
+      'Ã¢â‚¬Â¢ At least 12 to 20 characters\nÃ¢â‚¬Â¢ At least one letter (AÃ¢â‚¬â€œZ or aÃ¢â‚¬â€œz)\nÃ¢â‚¬Â¢ At least one number (0Ã¢â‚¬â€œ9)';
 
   @override
   String get paymentMethodNotSupported => 'Payment method not supported';
@@ -2295,11 +2295,11 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get workInProgressWaitingForProvider =>
-      "Work in progress â€” waiting for provider to update or mark done";
+      "Work in progress Ã¢â‚¬â€ waiting for provider to update or mark done";
 
   @override
   String get jobCompletedWaitingForCustomer =>
-      "Job is completed â€” waiting for customer to pay remaining amount";
+      "Job is completed Ã¢â‚¬â€ waiting for customer to pay remaining amount";
 
   @override
   String get paymentCompletedDownloadInvoice =>
@@ -2376,7 +2376,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get ugcBlockConfirmMessage =>
-      'You will stop seeing this providerâ€™s services. Continue?';
+      'You will stop seeing this providerÃ¢â‚¬â„¢s services. Continue?';
 
   @override
   String get ugcProviderBlockedMessage => 'You blocked this provider.';
@@ -2809,4 +2809,22 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get employerReviewTitle => 'Employer Review';
+
+  @override
+  String get lblTotal => 'Total';
+
+  @override
+  String get lblReasons => 'Reasons';
+
+  @override
+  String get lblAddReason => 'Add Reason';
+
+  @override
+  String get lblServiceIncluded => 'Service included in this package';
+
+  @override
+  String get lblPreferences => 'PREFERENCES';
+
+  @override
+  String get lblLoadingPayPal => 'Loading PayPal...';
 }

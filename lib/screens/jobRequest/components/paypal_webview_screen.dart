@@ -425,7 +425,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
                 children: [
                   CircularProgressIndicator(),
                   16.height,
-                  Text('Loading PayPal...', style: secondaryTextStyle()),
+                  Text(language.lblLoadingPayPal, style: secondaryTextStyle()),
                 ],
               ),
             ),
