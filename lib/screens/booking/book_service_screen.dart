@@ -719,7 +719,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 Divider(height: 26, color: context.dividerColor),
                 Row(
                   children: [
-                    Text('Total', style: secondaryTextStyle(size: 14)).expand(),
+                    Text(language.lblTotal, style: secondaryTextStyle(size: 14)).expand(),
                     16.width,
                     Marquee(
                       child: Row(

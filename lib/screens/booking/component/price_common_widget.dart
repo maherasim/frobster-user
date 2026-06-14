@@ -202,7 +202,7 @@ class PriceCommonWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text('Total', style: secondaryTextStyle(size: 14)).expand(),
+                    Text(language.lblTotal, style: secondaryTextStyle(size: 14)).expand(),
                     16.width,
                     Marquee(
                       child: Row(

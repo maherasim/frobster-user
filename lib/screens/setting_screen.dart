@@ -102,7 +102,7 @@ class _SettingScreenState extends State<SettingScreen> {
           // PREFERENCES
           SettingSection(
             title:
-                Text('PREFERENCES', style: boldTextStyle(color: gradientRed)),
+                Text(language.lblPreferences, style: boldTextStyle(color: gradientRed)),
             headingDecoration: BoxDecoration(
               gradient: LinearGradient(
                 begin: Alignment.centerLeft,
