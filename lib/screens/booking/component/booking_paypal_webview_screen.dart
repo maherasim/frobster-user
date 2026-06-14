@@ -333,7 +333,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
                     if (paymentData!['txn_id'] != null)
                       _buildInfoRow('Transaction ID', paymentData!['txn_id'].toString()),
                     if (paymentData!['amount'] != null)
-                      _buildInfoRow('Amount', (paymentData!['amount'] is num 
+                      _buildInfoRow(language.amountLabel, (paymentData!['amount'] is num
                           ? (paymentData!['amount'] as num) 
                           : (num.tryParse(paymentData!['amount'].toString()) ?? 0)).toPriceFormat()),
                     if (paymentData!['payment_type'] != null)

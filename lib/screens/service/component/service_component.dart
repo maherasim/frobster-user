@@ -232,7 +232,7 @@ class ServiceComponentState extends State<ServiceComponent> {
           case DASHBOARD_4:
             return ServiceDashboardComponent4(serviceData: widget.serviceData);
             default:
-            return Center(child: Text("Invalid Dashboard Type"));
+            return Center(child: Text(language.invalidDashboardType));
         }
       });
     }

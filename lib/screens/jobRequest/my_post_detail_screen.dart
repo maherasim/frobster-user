@@ -216,7 +216,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Description Section - Simple and Clean (like service detail screen)
         if (data.description.validate().isNotEmpty) ...[
           24.height,
-          Text('Description',
+          Text(language.descriptionHeading,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
@@ -228,7 +228,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Skills & Requirements Section - Simple and Clean
         if (data.requirement.validate().isNotEmpty) ...[
           24.height,
-          Text('Skills & Requirements',
+          Text(language.skillsAndRequirements,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
@@ -252,7 +252,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Benefits Section - Simple and Clean
         if (data.benefits.validate().isNotEmpty) ...[
           24.height,
-          Text('Benefits',
+          Text(language.benefits,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(

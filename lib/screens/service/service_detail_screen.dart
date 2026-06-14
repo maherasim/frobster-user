@@ -151,7 +151,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Text('Cancelation Policy', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        Text(language.cancellationPolicyTitle, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
         HtmlWidget(
           policy.validate(),
@@ -720,7 +720,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             !snap.data!.serviceDetail!.isFreeService)
                           16.height,
                         // Description right after attributes
-                        Text('Description',
+                        Text(language.descriptionHeading,
                                 style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                         16.height,
                         (snap.data!.serviceDetail!.description

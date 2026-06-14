@@ -706,7 +706,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text('Quantity', style: secondaryTextStyle(size: 14))
+                        Text(language.quantityLabel, style: secondaryTextStyle(size: 14))
                             .flexible(fit: FlexFit.loose),
                         // 16.width,
                         Text(
