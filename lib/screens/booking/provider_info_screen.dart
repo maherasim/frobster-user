@@ -335,7 +335,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Experiences', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.experienceLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -371,7 +371,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.availabilityLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                               ],
@@ -382,7 +382,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Mobility', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.mobility, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -418,7 +418,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Certification', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.certification, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -454,7 +454,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.educationLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_educationDisplay(data.userData!.education),
                                     style: secondaryTextStyle(size: 12)),
@@ -466,7 +466,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Career Level', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.careerLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_careerLevelDisplay(data.userData!.careerLevel),
                                     style: secondaryTextStyle(size: 12)),
@@ -478,7 +478,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Years of Experience', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.yearsOfExperience, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(_yearsOfExperienceDisplay(data.userData!.yearsOfExperience),
                                     style: secondaryTextStyle(size: 12)),
@@ -627,7 +627,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('About Me', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.aboutMe, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(data.userData!.aboutMe.validate(),
                                     style: secondaryTextStyle(size: 12)),

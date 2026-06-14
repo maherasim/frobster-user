@@ -1532,4 +1532,151 @@ abstract class BaseLanguage {
 
   String get ugcReasonOther;
 
+
+  // *** new words (U-01)
+  // Bank transfer UI
+  String get bankTransferDetailsTitle;
+  String get bankTransferIbanLabel;
+  String get bankTransferBicLabel;
+  String get bankTransferRecipientLabel;
+  String get bankTransferBankNameAddressLabel;
+  String get bankTransferSenderBankBicLabel;
+  String get bankTransferLocalInternationalTitle;
+  String get bankTransferInstructionsTitle;
+  String get bankTransferMentionBookingIdPrefix;
+  String get bankTransferMentionBookingIdSuffix;
+  String get bankTransferPayAmountPrefix;
+  String get bankTransferPayAmountSuffix;
+  String get bankTransferSendProofPrefix;
+  String get ibanNumber;
+  String get bicSwiftCode;
+
+  // Job bid progress
+  String get jobBidProgressAccept;
+  String get jobBidProgressAdvance;
+  String get jobBidProgressAdvancePaid;
+  String get jobBidProgressLetsStart;
+  String get jobBidProgressPaid;
+  String get jobBidProgressRemaining;
+  String get jobBidProgressWork;
+  String get jobBidProgressDone;
+  String get jobBidProgressCompleted;
+  String get waitingForAdminApproval;
+  String get waitingForAdminApprovalPleaseWait;
+  String get waitingForCustomerPayRemainingAmount;
+  String get bidDetailsTitle;
+  String get bidLabelColon;
+  String get bidCancelledShort;
+  String get bidCancelledDetailsUnavailable;
+  String get hireProvider;
+  String get hireAndContinue;
+  String get viewProposal;
+  String get rateEmployer;
+  String get proposals;
+
+  // Payment errors
+  String get invalidPaymentAmount;
+  String get invalidResponseTryAgain;
+  String get paymentEndpointNotFound;
+  String get paypalPaymentError;
+  String get paypalErrorLoadingPage;
+  String get paymentVerificationMissingToken;
+  String get paymentVerificationServerError;
+  String get errorProcessingPayment;
+  String get failedToGetPaypalUrl;
+  String get paymentMayHaveBeenProcessed;
+  String get paymentCompletedSuccessfully;
+  String get verifyingPayment;
+
+  // Profile / provider info
+  String get aboutMe;
+  String get experience;
+  String get experienceLabel;
+  String get certification;
+  String get certificationHint;
+  String get mobility;
+  String get yearsOfExperience;
+  String get essentialSkillsLabel;
+  String get essentialSkillsHint;
+  String get knownLanguagesLabel;
+  String get selectLanguages;
+  String get tapToSelectLanguages;
+  String get selectServiceAddress;
+  String get serviceAddress;
+  String get vatNumberOptional;
+  String get companyName;
+  String get availabilityLabel;
+  String get selectAvailability;
+  String get travelRequiredLabel;
+  String get onsiteFullPresenceLabel;
+  String get visitTypeOnsite;
+  String get visitTypeHybrid;
+
+  // Booking / service UI
+  String get quantityLabel;
+  String get rateUnitPrice;
+  String get lineTotalAmount;
+  String get netAmountLabel;
+  String get netAmountSubtext;
+  String get grandTotalAmountLabel;
+  String get extraChargesBreakdownTitle;
+  String get descriptionHeading;
+  String get cancellationPolicyTitle;
+  String get download;
+  String get confirmDone;
+  String get letsStartWork;
+  String get payRemaining;
+  String get startTime;
+  String get endTime;
+  String get addMoreDates;
+  String get durationHour;
+  String get durationHours;
+  String get durationDay;
+  String get durationDays;
+  String get selectHour;
+  String get hourPickerOnlyHours;
+  String get myBookings;
+  String get noReviewsYet;
+  String get ratingSubmittedSuccessfully;
+
+  // Sort / navigation / misc
+  String get sort;
+  String get sortAZ;
+  String get sortPopular;
+  String get startSearchingYourService;
+  String get transactionTypeLabel;
+  String get createdAtLabel;
+  String get amountLabel;
+  String get anonymous;
+  String get accountHolderName;
+  String get priceSuffixHourly;
+  String get priceSuffixDaily;
+  String get priceSuffixFixed;
+  String get serviceTypeFixed;
+  String get serviceTypeDaily;
+  String get invalidDashboardType;
+  String get ugcReportProfileSuccess;
+  String get messageHiddenDueToPolicy;
+  String get failedToShareToFacebook;
+  String get failedToShareToInstagram;
+  String get failedToShareToLinkedIn;
+  String get failedToShareToTwitter;
+  String get querySubmittedSuccessfully;
+  String get mapStartLabel;
+  String get noCityFound;
+  String get noStateFound;
+  String get locationLabel;
+  String get titleLabel;
+  String get employerLabel;
+  String get customerLabel;
+  String get stripeAccount;
+  String get advancePercentWord;
+  String get percentOffSuffix;
+  String get remoteWorkShareSuffix;
+  String get bookingsLabel;
+  String get totalBookingsLabel;
+  String get completedJobsLabel;
+  String get minimumOrdersLabel;
+  String get customerReviewTitle;
+  String get employerReviewTitle;
 }

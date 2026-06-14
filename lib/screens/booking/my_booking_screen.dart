@@ -89,7 +89,7 @@ class _BookingFragmentState extends State<MyBookingsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('My Bookings',
+        title: Text(language.myBookings,
             style: boldTextStyle(color: white, size: APP_BAR_TEXT_SIZE)),
         backgroundColor: Colors.transparent,
         elevation: 0.0,

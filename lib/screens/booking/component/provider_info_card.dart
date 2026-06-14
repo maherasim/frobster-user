@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -46,7 +47,7 @@ class ProviderInfoCard extends StatelessWidget {
           child: Column(
             children: [
               titleWidget(
-                title: 'Skills',
+                title: language.essentialSkills,
                 detail: userData.skills.validate(),
                 detailTextStyle: boldTextStyle(),
               ),

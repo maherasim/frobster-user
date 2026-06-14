@@ -2191,14 +2191,14 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordMustIncludeLetter =>
-      'At least one letter (A–Z or a–z)';
+      'At least one letter (Aâ€“Z or aâ€“z)';
 
   @override
-  String get passwordMustIncludeNumber => 'At least one number (0–9)';
+  String get passwordMustIncludeNumber => 'At least one number (0â€“9)';
 
   @override
   String get passwordRequirementsHint =>
-      '• At least 12 to 20 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
+      'â€¢ At least 12 to 20 characters\nâ€¢ At least one letter (Aâ€“Z or aâ€“z)\nâ€¢ At least one number (0â€“9)';
 
   @override
   String get paymentMethodNotSupported => 'Payment method not supported';
@@ -2295,11 +2295,11 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get workInProgressWaitingForProvider =>
-      "Work in progress — waiting for provider to update or mark done";
+      "Work in progress â€” waiting for provider to update or mark done";
 
   @override
   String get jobCompletedWaitingForCustomer =>
-      "Job is completed — waiting for customer to pay remaining amount";
+      "Job is completed â€” waiting for customer to pay remaining amount";
 
   @override
   String get paymentCompletedDownloadInvoice =>
@@ -2376,7 +2376,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get ugcBlockConfirmMessage =>
-      'You will stop seeing this provider’s services. Continue?';
+      'You will stop seeing this providerâ€™s services. Continue?';
 
   @override
   String get ugcProviderBlockedMessage => 'You blocked this provider.';
@@ -2395,4 +2395,418 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get ugcReasonOther => 'Other';
+
+  // *** new words (U-01)
+  // Bank transfer UI
+  @override
+  String get bankTransferDetailsTitle => 'Bank Transfer Details';
+
+  @override
+  String get bankTransferIbanLabel => 'IBAN';
+
+  @override
+  String get bankTransferBicLabel => 'BIC/SWIFT';
+
+  @override
+  String get bankTransferRecipientLabel => 'Recipient';
+
+  @override
+  String get bankTransferBankNameAddressLabel => 'Bank Name & Address';
+
+  @override
+  String get bankTransferSenderBankBicLabel => 'Your Bank BIC';
+
+  @override
+  String get bankTransferLocalInternationalTitle => 'Local / International Transfer';
+
+  @override
+  String get bankTransferInstructionsTitle => 'Transfer Instructions';
+
+  @override
+  String get bankTransferMentionBookingIdPrefix => 'Please mention booking ID';
+
+  @override
+  String get bankTransferMentionBookingIdSuffix => 'in the transfer description';
+
+  @override
+  String get bankTransferPayAmountPrefix => 'Pay exactly';
+
+  @override
+  String get bankTransferPayAmountSuffix => 'to the account above';
+
+  @override
+  String get bankTransferSendProofPrefix => 'After transfer, send proof to';
+
+  @override
+  String get ibanNumber => 'IBAN Number';
+
+  @override
+  String get bicSwiftCode => 'BIC/SWIFT Code';
+
+  // Job bid progress
+  @override
+  String get jobBidProgressAccept => 'Accept';
+
+  @override
+  String get jobBidProgressAdvance => 'Pay Advance';
+
+  @override
+  String get jobBidProgressAdvancePaid => 'Advance Paid';
+
+  @override
+  String get jobBidProgressLetsStart => "Let's Start Work";
+
+  @override
+  String get jobBidProgressPaid => 'Paid';
+
+  @override
+  String get jobBidProgressRemaining => 'Pay Remaining';
+
+  @override
+  String get jobBidProgressWork => 'Work';
+
+  @override
+  String get jobBidProgressDone => 'Done';
+
+  @override
+  String get jobBidProgressCompleted => 'Completed';
+
+  @override
+  String get waitingForAdminApproval => 'Waiting for admin approval';
+
+  @override
+  String get waitingForAdminApprovalPleaseWait =>
+      'Waiting for admin approval. Please wait.';
+
+  @override
+  String get waitingForCustomerPayRemainingAmount =>
+      'Waiting for customer to pay remaining amount';
+
+  @override
+  String get bidDetailsTitle => 'Bid Details';
+
+  @override
+  String get bidLabelColon => 'Bid:';
+
+  @override
+  String get bidCancelledShort => 'Cancelled';
+
+  @override
+  String get bidCancelledDetailsUnavailable => 'Bid details unavailable';
+
+  @override
+  String get hireProvider => 'Hire Provider';
+
+  @override
+  String get hireAndContinue => 'Hire & Continue';
+
+  @override
+  String get viewProposal => 'View Proposal';
+
+  @override
+  String get rateEmployer => 'Rate Employer';
+
+  @override
+  String get proposals => 'Proposals';
+
+  // Payment errors
+  @override
+  String get invalidPaymentAmount => 'Invalid payment amount';
+
+  @override
+  String get invalidResponseTryAgain => 'Invalid response. Please try again.';
+
+  @override
+  String get paymentEndpointNotFound => 'Payment endpoint not found';
+
+  @override
+  String get paypalPaymentError => 'PayPal payment error';
+
+  @override
+  String get paypalErrorLoadingPage => 'Error loading PayPal page';
+
+  @override
+  String get paymentVerificationMissingToken =>
+      'Payment verification failed: missing token';
+
+  @override
+  String get paymentVerificationServerError =>
+      'Payment verification server error';
+
+  @override
+  String get errorProcessingPayment => 'Error processing payment';
+
+  @override
+  String get failedToGetPaypalUrl => 'Failed to get PayPal URL';
+
+  @override
+  String get paymentMayHaveBeenProcessed =>
+      'Payment may have been processed. Please check your account.';
+
+  @override
+  String get paymentCompletedSuccessfully => 'Payment completed successfully';
+
+  @override
+  String get verifyingPayment => 'Verifying payment...';
+
+  // Profile / provider info
+  @override
+  String get aboutMe => 'About Me';
+
+  @override
+  String get experience => 'Experience';
+
+  @override
+  String get experienceLabel => 'Experiences';
+
+  @override
+  String get certification => 'Certification';
+
+  @override
+  String get certificationHint => 'Enter your certifications';
+
+  @override
+  String get mobility => 'Mobility';
+
+  @override
+  String get yearsOfExperience => 'Years of Experience';
+
+  @override
+  String get essentialSkillsLabel => 'Essential Skills';
+
+  @override
+  String get essentialSkillsHint => 'Enter your skills';
+
+  @override
+  String get knownLanguagesLabel => 'Known Languages';
+
+  @override
+  String get selectLanguages => 'Select Languages';
+
+  @override
+  String get tapToSelectLanguages => 'Tap to select languages';
+
+  @override
+  String get selectServiceAddress => 'Select Service Address';
+
+  @override
+  String get serviceAddress => 'Service Address';
+
+  @override
+  String get vatNumberOptional => 'VAT Number (Optional)';
+
+  @override
+  String get companyName => 'Company Name';
+
+  @override
+  String get availabilityLabel => 'Availability: ';
+
+  @override
+  String get selectAvailability => 'Select Availability';
+
+  @override
+  String get travelRequiredLabel => 'Travel Required';
+
+  @override
+  String get onsiteFullPresenceLabel => 'Onsite (Full Presence)';
+
+  @override
+  String get visitTypeOnsite => 'Onsite';
+
+  @override
+  String get visitTypeHybrid => 'Hybrid';
+
+  // Booking / service UI
+  @override
+  String get quantityLabel => 'Quantity';
+
+  @override
+  String get rateUnitPrice => 'Rate (Unit Price)';
+
+  @override
+  String get lineTotalAmount => 'Total Amount';
+
+  @override
+  String get netAmountLabel => 'Net Amount';
+
+  @override
+  String get netAmountSubtext => '(Subtotal - Tax)';
+
+  @override
+  String get grandTotalAmountLabel => 'Grand Total Amount';
+
+  @override
+  String get extraChargesBreakdownTitle => 'Extra Charges Breakdown';
+
+  @override
+  String get descriptionHeading => 'Description';
+
+  @override
+  String get cancellationPolicyTitle => 'Cancelation Policy';
+
+  @override
+  String get download => 'Download';
+
+  @override
+  String get confirmDone => 'Confirm Done';
+
+  @override
+  String get letsStartWork => "Let's Start Work";
+
+  @override
+  String get payRemaining => 'Pay Remaining';
+
+  @override
+  String get startTime => 'Start Time';
+
+  @override
+  String get endTime => 'End Time';
+
+  @override
+  String get addMoreDates => 'Add More Dates';
+
+  @override
+  String get durationHour => 'Hour';
+
+  @override
+  String get durationHours => 'Hours';
+
+  @override
+  String get durationDay => 'Day';
+
+  @override
+  String get durationDays => 'Days';
+
+  @override
+  String get selectHour => 'Select Hour';
+
+  @override
+  String get hourPickerOnlyHours => 'Hours Only';
+
+  @override
+  String get myBookings => 'My Bookings';
+
+  @override
+  String get noReviewsYet => 'No reviews yet';
+
+  @override
+  String get ratingSubmittedSuccessfully => 'Rating submitted successfully';
+
+  // Sort / navigation / misc
+  @override
+  String get sort => 'Sort';
+
+  @override
+  String get sortAZ => 'A - Z';
+
+  @override
+  String get sortPopular => 'Popular';
+
+  @override
+  String get startSearchingYourService => 'Start searching your service';
+
+  @override
+  String get transactionTypeLabel => 'Transaction Type';
+
+  @override
+  String get createdAtLabel => 'Created At';
+
+  @override
+  String get amountLabel => 'Amount';
+
+  @override
+  String get anonymous => 'Anonymous';
+
+  @override
+  String get accountHolderName => 'Account Holder Name';
+
+  @override
+  String get priceSuffixHourly => '/hr';
+
+  @override
+  String get priceSuffixDaily => '/day';
+
+  @override
+  String get priceSuffixFixed => 'Fixed';
+
+  @override
+  String get serviceTypeFixed => 'Fixed';
+
+  @override
+  String get serviceTypeDaily => 'Daily';
+
+  @override
+  String get invalidDashboardType => 'Invalid Dashboard Type';
+
+  @override
+  String get ugcReportProfileSuccess => 'Report submitted successfully';
+
+  @override
+  String get messageHiddenDueToPolicy => 'Message hidden due to policy';
+
+  @override
+  String get failedToShareToFacebook => 'Failed to share to Facebook';
+
+  @override
+  String get failedToShareToInstagram => 'Failed to share to Instagram';
+
+  @override
+  String get failedToShareToLinkedIn => 'Failed to share to LinkedIn';
+
+  @override
+  String get failedToShareToTwitter => 'Failed to share to Twitter';
+
+  @override
+  String get querySubmittedSuccessfully => 'Query submitted successfully';
+
+  @override
+  String get mapStartLabel => 'Start';
+
+  @override
+  String get noCityFound => 'No city found';
+
+  @override
+  String get noStateFound => 'No state found';
+
+  @override
+  String get locationLabel => 'Location';
+
+  @override
+  String get titleLabel => 'Title';
+
+  @override
+  String get employerLabel => 'Employer';
+
+  @override
+  String get customerLabel => 'Customer';
+
+  @override
+  String get stripeAccount => 'Stripe Account';
+
+  @override
+  String get advancePercentWord => 'Advance';
+
+  @override
+  String get percentOffSuffix => '% off';
+
+  @override
+  String get remoteWorkShareSuffix => '% Remote';
+
+  @override
+  String get bookingsLabel => 'Bookings';
+
+  @override
+  String get totalBookingsLabel => 'Total Bookings';
+
+  @override
+  String get completedJobsLabel => 'Completed Jobs';
+
+  @override
+  String get minimumOrdersLabel => 'Minimum Orders';
+
+  @override
+  String get customerReviewTitle => 'Customer Review';
+
+  @override
+  String get employerReviewTitle => 'Employer Review';
 }

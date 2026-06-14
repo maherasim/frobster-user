@@ -338,13 +338,13 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.h_mobiledata,
                         iconColor: gradientRed,
-                        title: 'Title',
+                        title: language.titleLabel,
                         value: postJobDetail!.postRequest?.title?.validate() ?? 'N/A',
                       ),
                       _buildInfoCard(
                         icon: Icons.location_on,
                         iconColor: Colors.green,
-                        title: 'Location',
+                        title: language.locationLabel,
                         value: postJobDetail!.postRequest != null
                             ? "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}"
                             : 'N/A',
@@ -352,7 +352,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.business_center,
                         iconColor: _getJobTypeIconColor(postJobDetail!.postRequest?.type),
-                        title: 'Job Type nice',
+                        title: language.jobType,
                         value: (postJobDetail!.postRequest?.type != null)
                             ? postJobDetail!.postRequest!.type.displayName.validate()
                             : 'N/A',
@@ -405,14 +405,14 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.person,
                         iconColor: Colors.indigo,
-                        title: 'Employer',
+                        title: language.employerLabel,
                         value:
                             postJobDetail!.provider?.displayName.validate() ?? 'N/A',
                       ),
                       _buildInfoCard(
                         icon: Icons.person_outline,
                         iconColor: Colors.green,
-                        title: 'Customer',
+                        title: language.customerLabel,
                         value:
                             postJobDetail!.customer?.displayName.validate() ?? 'N/A',
                       ),
@@ -492,7 +492,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               if (postJobDetail!.postRequest != null && 
                   (postJobDetail!.postRequest?.description.validate().isNotEmpty ?? false)) ...[
                 24.height,
-                Text('Description',
+                Text(language.descriptionHeading,
                     style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                 16.height,
                 HtmlWidget(
@@ -538,21 +538,21 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       widget.callback?.call();
                     }
                   },
-                  child: Text('Accept', style: boldTextStyle(color: white, size: 16)),
+                  child: Text(language.accept, style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.accepted)
                 GradientButton(
                   onPressed: () async {
                     confirmationRequestDialog(context, RequestStatus.cancel);
                   },
-                  child: Text('Cancel', style: boldTextStyle(color: white, size: 16)),
+                  child: Text(language.lblCancel, style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
               if (postJobDetail!.status == RequestStatus.advancePaymentPending)
                 GradientButton(
                   onPressed: () async {
                     // Don't allow payment if bank transfer is awaiting approval
                     if (_isAwaitingBankTransferApproval()) {
-                      toast('Waiting for admin approval. Please wait.');
+                      toast(language.waitingForAdminApprovalPleaseWait);
                       return;
                     }
                     final bidId = postJobDetail?.id;
@@ -577,7 +577,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       setState(() {});
                     }
                   },
-                  child: Text('Pay Advance (\$${advance})', style: boldTextStyle(color: white, size: 16)),
+                  child: Text('${language.jobBidProgressAdvance} (\$${advance})', style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
               // Show "Let's Start Work" button when status is inProcess
               // Only hide if bank transfer is awaiting approval (for advance payment, not for inProcess)
@@ -591,7 +591,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         onPressed: () async {
                           confirmationRequestDialog(context, RequestStatus.inProgress);
                         },
-                        child: Text("Let's Start Work", style: boldTextStyle(color: white, size: 16)),
+                        child: Text(language.letsStartWork, style: boldTextStyle(color: white, size: 16)),
                       ).withWidth(context.width()),
                     ),
                   ],
@@ -607,7 +607,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         onPressed: () async {
                           confirmationRequestDialog(context, RequestStatus.confirmDone);
                         },
-                        child: Text('Confirm Done', style: boldTextStyle(color: white, size: 16)),
+                        child: Text(language.confirmDone, style: boldTextStyle(color: white, size: 16)),
                       ).withWidth(context.width()),
                     ),
                   ],
@@ -642,7 +642,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             setState(() {});
                           }
                         },
-                        child: Text('Pay remaining (\$${remaining})', style: boldTextStyle(color: white, size: 16)),
+                        child: Text('${language.jobBidProgressRemaining} (\$${remaining})', style: boldTextStyle(color: white, size: 16)),
                       ).withWidth(context.width()),
                     ),
                   ],
@@ -677,7 +677,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                 toast(e.toString());
                               });
                             },
-                            child: Text('Download', style: boldTextStyle(color: white, size: 16)),
+                            child: Text(language.download, style: boldTextStyle(color: white, size: 16)),
                           ).withWidth(context.width()),
                         ),
                       ],
@@ -689,7 +689,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         onPressed: () {
                           _showEmployerRatingDialog();
                         },
-                        child: Text('Rate Employer', style: boldTextStyle(color: white, size: 16)),
+                        child: Text(language.rateEmployer, style: boldTextStyle(color: white, size: 16)),
                       ).withWidth(context.width()),
                     ],
                   ],
@@ -766,7 +766,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         24.height,
-        Text('Price Details', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+        Text(language.priceDetail, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
         Container(
           padding: EdgeInsets.all(16),
@@ -779,7 +779,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Text('Rate (Unit Price)', style: secondaryTextStyle(size: 14))
+                  Text(language.rateUnitPrice, style: secondaryTextStyle(size: 14))
                       .expand(),
                   16.width,
                   PriceWidget(
@@ -795,7 +795,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Quantity', style: secondaryTextStyle(size: 14))
+                  Text(language.quantityLabel, style: secondaryTextStyle(size: 14))
                       .flexible(fit: FlexFit.loose),
                   16.width,
                   Text(quantity.toString(), style: boldTextStyle(size: 16)),
@@ -806,7 +806,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               // Total calculation row
               Row(
                 children: [
-                  Text('Total Amount', style: secondaryTextStyle(size: 14))
+                  Text(language.lineTotalAmount, style: secondaryTextStyle(size: 14))
                       .expand(),
                   16.width,
                   PriceWidget(
@@ -819,7 +819,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
 
               Row(
                 children: [
-                  Text('Extra Charges', style: secondaryTextStyle(size: 14))
+                  Text(language.extraCharges, style: secondaryTextStyle(size: 14))
                       .expand(),
                   16.width,
                   PriceWidget(
@@ -834,7 +834,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Subtotal', style: boldTextStyle(size: 14))
+                  Text(language.lblSubTotal, style: boldTextStyle(size: 14))
                       .flexible(fit: FlexFit.loose),
                   PriceWidget(
                     price: subTotal,
@@ -851,8 +851,8 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                   Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text('Net Amount', style: boldTextStyle(size: 14)),
-                      Text('(Subtotal - Tax)',
+                      Text(language.netAmountLabel, style: boldTextStyle(size: 14)),
+                      Text(language.netAmountSubtext,
                           style: secondaryTextStyle(size: 12)),
                     ],
                   ).flexible(fit: FlexFit.loose),
@@ -896,7 +896,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Grand Total Amount', style: boldTextStyle(size: 14)),
+                  Text(language.grandTotalAmountLabel, style: boldTextStyle(size: 14)),
                   16.width,
                   PriceWidget(
                     price: subTotal,
@@ -926,7 +926,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               ),
               Row(
                 children: [
-                  Text('Remaining Amount', style: boldTextStyle(size: 14))
+                  Text(language.remainingAmount, style: boldTextStyle(size: 14))
                       .expand(),
                   16.width,
                   PriceWidget(
@@ -949,7 +949,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         24.height,
-        Text('Extra Charges Breakdown',
+        Text(language.extraChargesBreakdownTitle,
             style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
         Container(
@@ -1284,7 +1284,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 runSpacing: 2,
                 crossAxisAlignment: WrapCrossAlignment.center,
                 children: [
-                  Text('Bid:', style: secondaryTextStyle(size: 12)),
+                  Text(language.bidLabelColon, style: secondaryTextStyle(size: 12)),
                   PriceWidget(
                     price: data.price.validate(),
                     color: textPrimaryColorGlobal,
@@ -1445,7 +1445,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         ),
                         child: Row(
                           children: [
-                            Text('Rate Employer',
+                            Text(language.rateEmployer,
                                     style: boldTextStyle(color: Colors.white))
                                 .expand(),
                             IconButton(

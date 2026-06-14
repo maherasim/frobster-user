@@ -277,7 +277,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Experiences', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.experienceLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -313,7 +313,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.availabilityLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                       ],
@@ -324,7 +324,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                                Text('Mobility', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.mobility, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -360,7 +360,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Certification', style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                Text(language.certification, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                         8.height,
                                 Wrap(
@@ -396,7 +396,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.educationLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(data.userData!.education.validate(),
                                     style: secondaryTextStyle(size: 12)),
@@ -471,7 +471,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text('About Me', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(language.aboutMe, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(data.userData!.aboutMe.validate(),
                                     style: secondaryTextStyle(size: 12)),
