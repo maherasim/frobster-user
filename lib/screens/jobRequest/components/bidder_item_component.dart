@@ -159,7 +159,7 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                       finish(context);
                     }
                   },
-                  child: Text(language.viewProposal, style: boldTextStyle(color: white, size: 12)),
+                  child: Text("View Proposal", style: boldTextStyle(color: white, size: 12)),
                 ),
               ),
               // 16.width,
@@ -200,28 +200,28 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
             children: [
               Row(
                 children: [
-                  Text(language.hireProvider, style: boldTextStyle(size: 18)).expand(),
+                  Text('Hire Provider', style: boldTextStyle(size: 18)).expand(),
                   IconButton(icon: Icon(Icons.close), onPressed: () => finish(ctx)),
                 ],
               ),
               8.height,
               Row(
                 children: [
-                  Text(language.rateUnitPrice, style: secondaryTextStyle()).expand(),
+                  Text('Rate (unit)', style: secondaryTextStyle()).expand(),
                   PriceWidget(price: unitPrice, color: textPrimaryColorGlobal),
                 ],
               ),
               8.height,
               Row(
                 children: [
-                  Text(language.quantityLabel, style: secondaryTextStyle()).expand(),
+                  Text('Quantity', style: secondaryTextStyle()).expand(),
                   Text(quantity.toString(), style: primaryTextStyle()),
                 ],
               ),
               8.height,
               Row(
                 children: [
-                  Text(language.lblSubTotal, style: boldTextStyle()).expand(),
+                  Text('Subtotal', style: boldTextStyle()).expand(),
                   PriceWidget(price: subTotal, color: textPrimaryColorGlobal),
                 ],
               ),
@@ -244,7 +244,7 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                     finish(context);
                   }
                 },
-                child: Text(language.hireAndContinue, style: boldTextStyle(color: white)),
+                child: Text('Hire & Continue', style: boldTextStyle(color: white)),
               ).withWidth(context.width()),
             ],
           ),

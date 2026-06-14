@@ -7,13 +7,13 @@ import 'package:booking_system_flutter/model/chat_message_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/chat/widget/chat_item_widget.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
-import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/cached_image_widget.dart';
+import '../../component/gradient_icon.dart';
 
 class ApiChatScreen extends StatefulWidget {
   final int conversationId;
@@ -54,7 +54,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     super.initState();
     _fetchInitial();
     _scrollController.addListener(_onScroll);
-    _pollTimer = Timer.periodic(const Duration(seconds: 7), (_) => _fetchNew());
+    _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _fetchNew());
   }
 
   @override
@@ -110,8 +110,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       if (msgs.isNotEmpty) {
         // Deduplicate based on ID to prevent race conditions showing "twice send"
         final existingIds = _apiMessages.map((e) => e.id).toSet();
-        final newUnique =
-            msgs.where((m) => !existingIds.contains(m.id)).toList();
+        final newUnique = msgs.where((m) => !existingIds.contains(m.id)).toList();
 
         if (newUnique.isNotEmpty) {
           _apiMessages.addAll(newUnique);
@@ -152,7 +151,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
   Future<void> _sendMessage() async {
     // Prevent double-sending - check and set flag atomically
     if (_isSending) return;
-
+    
     final text = messageCont.text.trim();
     if (text.isEmpty) {
       messageFocus.requestFocus();
@@ -163,10 +162,10 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     setState(() {
       _isSending = true;
     });
-
+    
     // Clear message immediately for instant feedback (like WhatsApp)
     messageCont.clear();
-
+    
     try {
       // Send message in background - no blocking loader for better UX
       final res = await chatSendMessage(
@@ -176,7 +175,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       await _fetchNew();
       if (res.flagged) {
         final reason = res.piiTypes.join('/');
-        toast('${language.messageHiddenDueToPolicy} (${reason})');
+        toast('Message hidden due to policy (${reason})');
       }
     } catch (e) {
       toast(e.toString());
@@ -200,9 +199,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       } catch (_) {
         createdAtMs = DateTime.now().millisecondsSinceEpoch;
       }
-      final text = e.hidden
-          ? language.messageHiddenDueToPolicy
-          : formatChatMessageText(e.message);
+      final text = e.hidden ? 'Message hidden due to policy' : (e.message ?? '');
       final m = ChatMessageModel(
         senderId: isMe ? appStore.uid : widget.otherUserId.toString(),
         receiverId: isMe ? widget.otherUserId.toString() : appStore.uid,
@@ -221,7 +218,9 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     return Container(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
       decoration: BoxDecoration(
-        color: appStore.isDarkMode ? context.cardColor : Colors.grey.shade200,
+        color: appStore.isDarkMode
+            ? context.cardColor
+            : Colors.grey.shade200,
         borderRadius: radius(defaultRadius),
       ),
       child: Row(
@@ -259,8 +258,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
                 border: InputBorder.none,
                 enabledBorder: InputBorder.none,
                 focusedBorder: InputBorder.none,
-                contentPadding:
-                    EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                contentPadding: EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               ),
             ),
           ).expand(),
@@ -381,10 +379,9 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
                     Expanded(
                       child: ListView.builder(
                         controller: _scrollController,
-                        padding: EdgeInsets.only(
-                            left: 8, top: 8, right: 8, bottom: 80),
-                        itemCount:
-                            _uiMessages.length + (_isLoadingMore ? 1 : 0),
+                        padding:
+                            EdgeInsets.only(left: 8, top: 8, right: 8, bottom: 80),
+                        itemCount: _uiMessages.length + (_isLoadingMore ? 1 : 0),
                         itemBuilder: (context, index) {
                           if (_isLoadingMore && index == 0) {
                             return LoaderWidget().paddingBottom(8);
@@ -411,3 +408,5 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     );
   }
 }
+
+

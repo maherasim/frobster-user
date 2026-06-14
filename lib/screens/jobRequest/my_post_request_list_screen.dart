@@ -96,10 +96,10 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
         unselectedLabelColor: Colors.white70,
         indicatorColor: Colors.white,
         tabs: [
-          Tab(text: language.lblAll),
-          Tab(text: language.open),
-          Tab(text: language.inProgress),
-          Tab(text: language.completed),
+          Tab(text: 'All'),
+          Tab(text: 'Open'),
+          Tab(text: language.inProgress.validate(value: 'In Progress')),
+          Tab(text: language.completed.validate(value: 'Completed')),
         ],
       ),
       child: Stack(
@@ -198,7 +198,7 @@ class _MyPostRequestListScreenState extends State<MyPostRequestListScreen> with 
       return data.where((e) =>
       e.status == RequestStatus.requested ||
           e.status == RequestStatus.accepted ||
-          e.status == RequestStatus.pendingAdvance).toList();
+          e.status == RequestStatus.advancePaymentPending).toList();
     } else if (index == 2) {
       // In Progress
       return data.where((e) =>

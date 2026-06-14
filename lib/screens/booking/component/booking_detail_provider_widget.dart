@@ -24,8 +24,7 @@ class BookingDetailProviderWidget extends StatefulWidget {
   final bool canCustomerContact;
   final bool providerIsHandyman;
   final BookingData? bookingDetail;
-
-  /// When true, show report-profile flag next to the provider name (e.g. service / booking detail).
+  /// When true (e.g. service detail), show report-profile flag next to provider name.
   final bool showProfileReportFlag;
 
   BookingDetailProviderWidget(
@@ -107,22 +106,12 @@ class BookingDetailProviderWidgetState
                   Row(
                     children: [
                       // Verified/Not Verified Icon (dynamic from API - check bookingDetail first, then providerData)
-                      if ((widget.bookingDetail?.verifiedStickerIcon
-                                  .validate()
-                                  .isNotEmpty ==
-                              true) ||
-                          (widget.providerData.verifiedStickerIcon
-                              .validate()
-                              .isNotEmpty))
+                      if ((widget.bookingDetail?.verifiedStickerIcon.validate().isNotEmpty == true) ||
+                          (widget.providerData.verifiedStickerIcon.validate().isNotEmpty))
                         CachedImageWidget(
-                          url: (widget.bookingDetail?.verifiedStickerIcon
-                                      .validate()
-                                      .isNotEmpty ==
-                                  true)
-                              ? widget.bookingDetail!.verifiedStickerIcon
-                                  .validate()
-                              : widget.providerData.verifiedStickerIcon
-                                  .validate(),
+                          url: (widget.bookingDetail?.verifiedStickerIcon.validate().isNotEmpty == true)
+                              ? widget.bookingDetail!.verifiedStickerIcon.validate()
+                              : widget.providerData.verifiedStickerIcon.validate(),
                           width: 20,
                           height: 20,
                           fit: BoxFit.contain,
@@ -135,18 +124,10 @@ class BookingDetailProviderWidgetState
                         ),
                       SizedBox(width: 6),
                       // Membership Icon (dynamic from API - check bookingDetail first, then providerData)
-                      if ((widget.bookingDetail?.membershipIcon
-                                  .validate()
-                                  .isNotEmpty ==
-                              true) ||
-                          (widget.providerData.membershipIcon
-                              .validate()
-                              .isNotEmpty))
+                      if ((widget.bookingDetail?.membershipIcon.validate().isNotEmpty == true) ||
+                          (widget.providerData.membershipIcon.validate().isNotEmpty))
                         CachedImageWidget(
-                          url: (widget.bookingDetail?.membershipIcon
-                                      .validate()
-                                      .isNotEmpty ==
-                                  true)
+                          url: (widget.bookingDetail?.membershipIcon.validate().isNotEmpty == true)
                               ? widget.bookingDetail!.membershipIcon.validate()
                               : widget.providerData.membershipIcon.validate(),
                           width: 20,
@@ -198,7 +179,7 @@ class BookingDetailProviderWidgetState
                               tooltip: language.ugcReportProfileTitle,
                               icon: Icon(
                                 Icons.flag_outlined,
-                                color: gradientRed,
+                                color: context.primaryColor,
                                 size: 20,
                               ),
                               onPressed: () {
@@ -267,14 +248,14 @@ class BookingDetailProviderWidgetState
                   Row(
                     children: [
                       Text(
-                        '${language.service}: ${widget.providerData.totalServices.validate()}',
+                        'Services : ${widget.providerData.totalServices.validate()}',
                         style: primaryTextStyle(size: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
                       ).flexible(),
                       12.width,
                       Text(
-                        '${language.bookingsLabel}: ${widget.providerData.totalBooking.validate()}',
+                        'Bookings: ${widget.providerData.totalBooking.validate()}',
                         style: primaryTextStyle(size: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -322,7 +303,7 @@ class BookingDetailProviderWidgetState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${language.completedJobsLabel}:',
+                        'Completed Jobs:',
                         style: boldTextStyle(
                             size: 12,
                             color: appStore.isDarkMode
@@ -352,7 +333,7 @@ class BookingDetailProviderWidgetState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          '${language.knownLanguages}:',
+                          'Languages:',
                           style: boldTextStyle(
                               size: 12,
                               color: appStore.isDarkMode

@@ -200,12 +200,11 @@ class _PaymentDialogState extends State<PaymentDialog> {
             paymentType: paymentType,
           ).launch(context);
 
-          // If payment was successful, save the payment
+          // Backend already processed payment via postjob/paypal/success callback.
+          // Just close the dialog so the parent screen refreshes.
           if (result == true) {
-            // Payment was successful, now save it
-            // The backend should have already processed the payment via the success callback
-            // But we still need to call savePay to update the job request status
-            savePay(paymentMethod: PAYMENT_METHOD_PAYPAL);
+            appStore.setLoading(false);
+            finish(context, true);
           } else {
             appStore.setLoading(false);
             // Payment was cancelled or failed - dialog stays open for user to retry
@@ -217,15 +216,15 @@ class _PaymentDialogState extends State<PaymentDialog> {
         }
       } else {
         appStore.setLoading(false);
-        toast(language.invalidResponseTryAgain);
+        toast('Invalid response from server. Please try again.');
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast(language.paymentEndpointNotFound);
+        toast('Payment endpoint not found. Please contact support.');
       } else {
-        toast('${language.paypalPaymentError}: ${e.toString()}');
+        toast('PayPal payment error: ${e.toString()}');
       }
     }
   }
@@ -241,11 +240,6 @@ class _PaymentDialogState extends State<PaymentDialog> {
      case PAYMENT_METHOD_STRIPE:
        // Use confirm endpoint to let server verify PaymentIntent and record payment
        endpoint = 'postjob/stripe/confirm/${widget.bidId}';
-       break;
-     case PAYMENT_METHOD_PAYPAL:
-       // PayPal payment is processed via webview success callback
-       // This endpoint may update status or be handled by backend
-       endpoint = 'postjob/paypal/create/${widget.bidId}';
        break;
      case PAYMENT_METHOD_FROM_WALLET:
        endpoint = 'paythrough/wallet/${widget.bidId}';
@@ -267,7 +261,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
      final errMsg = e.toString().trim().toLowerCase();
      // Backend may return 404 (e.g. stripe confirm route). Show static message and close so screen refreshes.
      if (errMsg.contains('page not found') || errMsg.contains('404')) {
-       toast(language.paymentMayHaveBeenProcessed);
+       toast('Payment may have been successful. Refreshing...');
        finish(context, true);
      } else {
        toast(e.toString().validate());

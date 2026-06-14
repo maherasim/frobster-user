@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 
 /// True if this listing belongs to a user blocked via [POST api/ugc/block].
+/// Matches either [ServiceData.userId] or [ServiceData.providerId] against stored ids.
 bool isServiceFromBlockedProvider(
   ServiceData s,
   Iterable<int> blockedIds,
@@ -24,6 +25,7 @@ List<ServiceData> filterOutBlockedServices(
       .toList();
 }
 
+/// When logged in, block opening detail if this provider was blocked via UGC.
 bool shouldBlockServiceTap(ServiceData s) {
   if (!appStore.isLoggedIn) return false;
   return isServiceFromBlockedProvider(s, appStore.blockedUserIds);

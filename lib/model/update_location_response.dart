@@ -9,10 +9,8 @@ class UpdateLocationResponse {
 
   factory UpdateLocationResponse.fromJson(Map<String, dynamic> json) {
     return UpdateLocationResponse(
-      data: json['data'] != null && json['data'] is Map
-          ? Data.fromJson(Map<String, dynamic>.from(json['data'] as Map))
-          : Data(),
-      message: json['message']?.toString() ?? "",
+      data: json['data'] is Map ? Data.fromJson(json['data']) : Data(),
+      message: json['message'] is String ? json['message'] : "",
     );
   }
 
@@ -28,6 +26,7 @@ class Data {
   String bookingId;
   num latitude;
   num longitude;
+
   String datetime;
 
   Data({
@@ -39,14 +38,10 @@ class Data {
 
   factory Data.fromJson(Map<String, dynamic> json) {
     return Data(
-      bookingId: json['booking_id']?.toString() ?? "",
-      latitude: json['latitude'] != null
-          ? num.tryParse(json['latitude'].toString()) ?? 0.0
-          : 0.0,
-      longitude: json['longitude'] != null
-          ? num.tryParse(json['longitude'].toString()) ?? 0.0
-          : 0.0,
-      datetime: json['datetime']?.toString() ?? "",
+      bookingId: json['booking_id'] is String ? json['booking_id'] : "",
+      latitude: json['latitude'] is num ? json['latitude'] : 0.0,
+      longitude: json['longitude'] is num ? json['longitude'] : 0.0,
+      datetime: json['datetime'] is String ? json['datetime'] : "",
     );
   }
 

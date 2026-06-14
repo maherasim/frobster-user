@@ -27,6 +27,9 @@ class LanguageEn extends BaseLanguage {
   String get hintLastNameTxt => 'Last Name';
 
   @override
+  String get designation => 'Designation';
+
+  @override
   String get hintContactNumberTxt => 'Contact Number';
 
   @override
@@ -147,6 +150,9 @@ class LanguageEn extends BaseLanguage {
   String get contactAdmin => "Please contact with Admin";
 
   @override
+  String get emailNotVerified => 'Your email is not verified. Please verify your email to continue.';
+
+  @override
   String get allServices => 'All Services';
 
   @override
@@ -154,15 +160,6 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get hourly => "hourly";
-
-  @override
-  String get priceSuffixHourly => '/Hour';
-
-  @override
-  String get priceSuffixDaily => '/Day';
-
-  @override
-  String get priceSuffixFixed => '/Fix';
 
   @override
   String get payment => "Payment";
@@ -784,17 +781,14 @@ class LanguageEn extends BaseLanguage {
   String get noBookingSubTitle => "Looks like you haven't book your order yet";
 
   @override
-  String get myBookings => "My Bookings";
-
-  @override
   String get myReviews => "My Reviews";
 
   @override
-  String get reviewFromProvider => "Review from provider";
+  String get reviewFromProvider => "Review for Employer";
 
   @override
   String get jobBidReviewFromEmployerSubtitle =>
-      "Rating and comments from the employer about you.";
+      "Rating and comments .";
 
   @override
   String get jobBidYourReviewOfEmployerSubtitle =>
@@ -1129,18 +1123,6 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get views => 'Views';
-
-  @override
-  String get proposals => 'Proposals';
-
-  @override
-  String get viewProposal => 'View Proposal';
-
-  @override
-  String get hireProvider => 'Hire Provider';
-
-  @override
-  String get hireAndContinue => 'Hire & Continue';
 
   @override
   String get blogs => 'Blogs';
@@ -1576,9 +1558,6 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get chooseDateTime => 'Choose Date & Time';
-
-  @override
-  String get addMoreDates => 'Add more dates';
 
   @override
   String get airtelMoneyPayment => 'Airtel Money Payment';
@@ -2205,20 +2184,21 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordLengthShouldBe =>
-      'Password length should be 8 to 12 characters.';
+      'Password length should be 12 to 20 characters.';
 
   @override
-  String get passwordMinLengthEight => 'At least 8 characters';
+  String get passwordMinLengthEight => 'At least 12 characters';
 
   @override
-  String get passwordMustIncludeLetter => 'At least one letter (A–Z or a–z)';
+  String get passwordMustIncludeLetter =>
+      'At least one letter (A–Z or a–z)';
 
   @override
   String get passwordMustIncludeNumber => 'At least one number (0–9)';
 
   @override
   String get passwordRequirementsHint =>
-      '• At least 8 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
+      '• At least 12 to 20 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
 
   @override
   String get paymentMethodNotSupported => 'Payment method not supported';
@@ -2330,6 +2310,12 @@ class LanguageEn extends BaseLanguage {
       'Waiting for customer to accept the bid';
 
   @override
+  String get waitingForProviderToReviewRequest => 'Waiting for provider to review the request';
+
+  @override
+  String get bidAssignedToHandyman => 'Bid assigned to handyman';
+
+  @override
   String get waitingForProviderToSplitPayment =>
       'Waiting for Employer to split payment';
 
@@ -2353,404 +2339,8 @@ class LanguageEn extends BaseLanguage {
   String get waitingForProviderToMarkBidAsCompleted =>
       'Waiting for Employer to mark the bid as completed';
 
-  // Bank details / profile / map (screens)
   @override
-  String get accountHolderName => 'Account Holder Name';
-
-  @override
-  String get ibanNumber => 'IBAN Number';
-
-  @override
-  String get bicSwiftCode => 'BIC / SWIFT Code';
-
-  @override
-  String get stripeAccount => 'Stripe Account';
-
-  @override
-  String get companyName => 'Company Name';
-
-  @override
-  String get vatNumberOptional => 'VAT Number (optional)';
-
-  @override
-  String get selectAvailability => 'Select Availability';
-
-  @override
-  String get mobility => 'Mobility';
-
-  @override
-  String get serviceAddress => 'Service address';
-
-  @override
-  String get knownLanguagesLabel => 'Known languages';
-
-  @override
-  String get essentialSkillsLabel => 'Essential skills';
-
-  String get experience => 'Experience';
-
-  @override
-  String get yearsOfExperience => 'Years of experience';
-
-  @override
-  String get certification => 'Certification';
-
-  @override
-  String get aboutMe => 'About me';
-
-  @override
-  String get mapStartLabel => 'Start';
-
-  // Booking slot / time labels
-  @override
-  String get startTime => 'Start Time';
-
-  @override
-  String get endTime => 'End Time';
-
-  @override
-  String get selectHour => 'Select hour';
-
-  @override
-  String get hourPickerOnlyHours => 'Only hours (minutes set to 00)';
-
-  @override
-  String get durationDay => 'Day';
-
-  @override
-  String get durationDays => 'Days';
-
-  @override
-  String get durationHour => 'Hour';
-
-  @override
-  String get durationHours => 'Hours';
-
-  // Payment / webview messages
-  @override
-  String get invalidResponseTryAgain =>
-      'Invalid response from server. Please try again.';
-
-  @override
-  String get paymentEndpointNotFound =>
-      'Payment endpoint not found. Please contact support.';
-
-  @override
-  String get paypalErrorLoadingPage => 'Error loading PayPal page';
-
-  @override
-  String get paymentVerificationMissingToken =>
-      'Payment verification failed: Missing token';
-
-  @override
-  String get verifyingPayment => 'Verifying payment...';
-
-  @override
-  String get paymentVerificationServerError =>
-      'Payment verification failed due to server error. Please check your payment status or contact support.';
-
-  @override
-  String get paymentMayHaveBeenProcessed =>
-      'Payment may have been processed. Please verify your payment status.';
-
-  @override
-  String get paymentCompletedSuccessfully => 'Payment completed successfully';
-
-  @override
-  String get errorProcessingPayment => 'Error processing payment';
-
-  @override
-  String get failedToGetPaypalUrl =>
-      'Failed to get PayPal payment URL. Please try again.';
-
-  // Chat policy
-  @override
-  String get messageHiddenDueToPolicy => 'Message hidden due to policy';
-
-  // Help desk
-  @override
-  String get querySubmittedSuccessfully => 'Query submitted successfully';
-
-  // Service search / sharing / admin approval
-  @override
-  String get startSearchingYourService => 'Start searching your service';
-
-  @override
-  String get waitingForAdminApproval => 'Waiting for admin approval';
-
-  @override
-  String get waitingForAdminApprovalPleaseWait =>
-      'Waiting for admin approval. Please wait.';
-
-  @override
-  String get invalidPaymentAmount =>
-      'Invalid payment amount. Please try again.';
-
-  @override
-  String get paypalPaymentError => 'PayPal payment error';
-
-  @override
-  String get failedToShareToFacebook =>
-      'Failed to share to Facebook. Please try again.';
-
-  @override
-  String get failedToShareToInstagram =>
-      'Failed to share to Instagram. Please try again.';
-
-  @override
-  String get failedToShareToTwitter =>
-      'Failed to share to Twitter. Please try again.';
-
-  @override
-  String get failedToShareToLinkedIn =>
-      'Failed to share to LinkedIn. Please try again.';
-
-  // Common UI labels / placeholders (screens)
-  @override
-  String get invalidDashboardType => 'Invalid Dashboard Type';
-
-  @override
-  String get amountLabel => 'Amount';
-
-  @override
-  String get transactionTypeLabel => 'Transaction Type';
-
-  @override
-  String get createdAtLabel => 'Created At';
-
-  @override
-  String get selectServiceAddress => 'Select Service address';
-
-  @override
-  String get tapToSelectLanguages => 'Tap to select languages';
-
-  @override
-  String get selectLanguages => 'Select languages';
-
-  @override
-  String get essentialSkillsHint => 'e.g. Skill 1, Skill 2 (comma-separated)';
-
-  @override
-  String get experienceLabel => 'Experience';
-
-  @override
-  String get certificationHint => 'e.g. Cert 1, Cert 2 (comma-separated)';
-
-  @override
-  String get titleLabel => 'Title';
-
-  @override
-  String get locationLabel => 'Location';
-
-  @override
-  String get employerLabel => 'Employer';
-
-  @override
-  String get customerLabel => 'Customer';
-
-  @override
-  String get bidCancelledDetailsUnavailable =>
-      'This bid was cancelled. Job details are no longer available.';
-
-  @override
-  String get ratingSubmittedSuccessfully => 'Rating submitted successfully';
-
-  @override
-  String get sort => 'Sort';
-
-  @override
-  String get sortPopular => 'Popular';
-
-  @override
-  String get sortAZ => 'A–Z';
-
-  @override
-  String get bankTransferDetailsTitle => 'Bank transfer details';
-
-  @override
-  String get bankTransferPayAmountPrefix => 'Please pay';
-
-  @override
-  String get bankTransferPayAmountSuffix => ' using the details below.';
-
-  @override
-  String get bankTransferLocalInternationalTitle =>
-      'Local / international transfer';
-
-  @override
-  String get bankTransferRecipientLabel => 'Recipient';
-
-  @override
-  String get bankTransferIbanLabel => 'IBAN';
-
-  @override
-  String get bankTransferBicLabel => 'BIC';
-
-  @override
-  String get bankTransferBankNameAddressLabel => 'Bank name & address';
-
-  @override
-  String get bankTransferSenderBankBicLabel => 'Your bank BIC';
-
-  @override
-  String get bankTransferInstructionsTitle => 'Instructions';
-
-  @override
-  String get bankTransferMentionBookingIdPrefix => 'Mention booking ID';
-
-  @override
-  String get bankTransferMentionBookingIdSuffix => ' in the payment reference.';
-
-  @override
-  String get bankTransferSendProofPrefix => 'Send proof of payment to';
-
-  @override
-  String get noCityFound => 'No city found';
-
-  @override
-  String get noStateFound => 'No state found';
-
-  @override
-  String get bidDetailsTitle => 'Bid details';
-
-  @override
-  String get waitingForCustomerPayRemainingAmount =>
-      'Waiting for customer to pay remaining amount';
-
-  @override
-  String get bidCancelledShort => 'This bid was cancelled';
-
-  @override
-  String get holdReasonPrefix => 'Hold reason:';
-
-  @override
-  String get employerReviewTitle => 'Employer review';
-
-  @override
-  String get customerReviewTitle => 'Customer review';
-
-  @override
-  String get letsStartWork => "Let's start work";
-
-  @override
-  String get confirmDone => 'Confirm done';
-
-  @override
-  String get payRemaining => 'Pay remaining';
-
-  @override
-  String get download => 'Download';
-
-  @override
-  String get rateEmployer => 'Rate employer';
-
-  @override
-  String get rateUnitPrice => 'Rate (unit price)';
-
-  @override
-  String get quantityLabel => 'Quantity';
-
-  @override
-  String get lineTotalAmount => 'Total amount';
-
-  @override
-  String get netAmountLabel => 'Net amount';
-
-  @override
-  String get netAmountSubtext => '(Subtotal − Tax)';
-
-  @override
-  String get grandTotalAmountLabel => 'Grand total amount';
-
-  @override
-  String get extraChargesBreakdownTitle => 'Extra charges breakdown';
-
-  @override
-  String get noReviewsYet => 'No reviews yet';
-
-  @override
-  String get anonymous => 'Anonymous';
-
-  @override
-  String get bidLabelColon => 'Bid:';
-
-  @override
-  String get advancePercentWord => 'Advance';
-
-  @override
-  String get jobBidProgressAccept => 'Accept';
-
-  @override
-  String get jobBidProgressAdvance => 'Advance';
-
-  @override
-  String get jobBidProgressAdvancePaid => 'Advance paid';
-
-  @override
-  String get jobBidProgressLetsStart => "Let's start";
-
-  @override
-  String get jobBidProgressWork => 'Work';
-
-  @override
-  String get jobBidProgressDone => 'Done';
-
-  @override
-  String get jobBidProgressCompleted => 'Completed';
-
-  @override
-  String get jobBidProgressRemaining => 'Remaining';
-
-  @override
-  String get jobBidProgressPaid => 'Paid';
-
-  @override
-  String get serviceTypeDaily => 'Daily';
-
-  @override
-  String get serviceTypeFixed => 'Fixed';
-
-  @override
-  String get visitTypeOnsite => 'On-site';
-
-  @override
-  String get visitTypeHybrid => 'Hybrid';
-
-  @override
-  String get percentOffSuffix => '% off';
-
-  @override
-  String get bookingsLabel => 'Bookings';
-
-  @override
-  String get onsiteFullPresenceLabel => 'On-site (100%)';
-
-  @override
-  String get remoteWorkShareSuffix => 'Remote';
-
-  @override
-  String get cancellationPolicyTitle => 'Cancellation policy';
-
-  @override
-  String get minimumOrdersLabel => 'Minimum orders';
-
-  @override
-  String get totalBookingsLabel => 'Total bookings';
-
-  @override
-  String get availabilityLabel => 'Availability';
-
-  @override
-  String get completedJobsLabel => 'Completed jobs';
-
-  @override
-  String get travelRequiredLabel => 'Travel required';
-
-  @override
-  String get descriptionHeading => 'Description';
-
-  @override
-  String get ugcReportService => 'Report service';
+  String get ugcReportService => 'Report';
 
   @override
   String get ugcBlockProvider => 'Block provider';
@@ -2762,14 +2352,15 @@ class LanguageEn extends BaseLanguage {
   String get ugcReportProfileTitle => 'Report this profile';
 
   @override
-  String get ugcReportProfileSuccess => 'Thank you. Your report was received.';
-
-  @override
   String get ugcReportReviewTitle => 'Report this review';
 
   @override
   String get ugcReportReviewSuccess =>
       'Thank you. Your report about this review was received.';
+
+  @override
+  String get ugcCannotReportOwnReview =>
+      'You cannot report your own review.';
 
   @override
   String get ugcSelectReason => 'Reason';

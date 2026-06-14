@@ -86,6 +86,7 @@ class PostJobData {
   String? countryName;
   String? cityName;
 
+
   PostJobData({
     this.id,
     this.title,
@@ -125,6 +126,7 @@ class PostJobData {
     this.benefits,
     this.totalBudget,
     this.acceptedBidId,
+
     required this.images,
     this.date,
     this.image,
@@ -135,169 +137,145 @@ class PostJobData {
     this.cityName,
   });
 
+
   factory PostJobData.fromJson(Map<String, dynamic> json) {
     return PostJobData(
       id: json['id'],
       title: json['title'],
-      description: json['description'],
-      reason: json['reason'],
-      price: json['price'],
-      providerId: json['provider_id'],
-      customerId: json['customer_id'],
-      customerProfile: json['customer_profile'],
-      canBid: json['can_bid'],
-      createdAt: json['created_at'],
-      categoryId: json['category_id'],
-      subCategoryId: json['subcategory_id'],
-      countryId: json['country_id'],
-      cityId: json['city_id'],
-      startDate: json['start_date'],
-      endDate: json['end_date'],
-      totalDays: json['total_days'],
-      totalHours: json['total_hours'],
-      requirement: json['requirement'],
-      status: RequestStatus.values.firstWhere(
-          (e) => e.backendValue == (json['status']),
-          orElse: () => RequestStatus.requested),
-      type: JobType.values.firstWhere((e) => e.backendValue == json['type'],
-          orElse: () => JobType.onSite),
-      stateId: json['state_id'],
-      latitude: (json['latitude'] != null)
-          ? double.tryParse(json['latitude'].toString())
-          : null,
-      longitude: (json['longitude'] != null)
-          ? double.tryParse(json['longitude'].toString())
-          : null,
-      priceType: PriceType.values.firstWhere(
-          (e) => e.backendValue == (json['price_type'] ?? json["job_price"]),
-          orElse: () => PriceType.fixed),
-      jobSchedule: JobSchedule.values.firstWhere(
-          (e) => e.backendValue == json['job_schedule'],
-          orElse: () => JobSchedule.fullTime),
-      remoteWorkLevel: RemoteWorkLevel.values.firstWhere(
-        (e) {
-          print(e.backendValue == json['remote_work_level']);
-          print("${e.backendValue} == ${json['remote_work_level']}");
-          return e.backendValue == json['remote_work_level'];
-        },
-        orElse: () => RemoteWorkLevel.onsite0,
-      ),
-      careerLevel: CareerLevel.values.firstWhere(
-          (e) => e.backendValue == json['career_level'],
-          orElse: () => CareerLevel.notSpecified),
-      travelRequired: TravelRequirement.values.firstWhere(
-          (e) =>
-              e.backendValue == json['travel_required'].toString() ||
-              e.alternateBackendValue == json['travel_required'].toString(),
-          orElse: () => TravelRequirement.no),
-      educationLevel: EducationLevel.values.firstWhere(
-          (e) => e.backendValue == json['education_level'],
-          orElse: () => EducationLevel.notSpecified),
-      streetAddress: json['street_address'],
-      houseNumber: json['house_number'],
-      workingAddress: json['working_address'],
-      duties: json['duties'],
-      benefits: json['benefits'],
-      totalBudget: json['total_budget'],
+      description :json['description'],
+      reason :json['reason'],
+      price :json['price'],
+      providerId :json['provider_id'],
+      customerId :json['customer_id'],
+      customerProfile :json['customer_profile'],
+      canBid :json['can_bid'],
+      createdAt :json['created_at'],
+      categoryId :json['category_id'],
+      subCategoryId :json['subcategory_id'],
+      countryId :json['country_id'],
+      cityId :json['city_id'],
+      startDate :json['start_date'],
+      endDate :json['end_date'],
+      totalDays :json['total_days'],
+      totalHours :json['total_hours'],
+      requirement :json['requirement'],
+      status: RequestStatus.values.firstWhere((e) => e.backendValue == (json['status']), orElse: () => RequestStatus.requested),
+      type: JobType.values.firstWhere((e) => e.backendValue == json['type'], orElse: () => JobType.onSite),
+
+      stateId :json['state_id'],
+      latitude: (json['latitude'] != null) ? double.tryParse(json['latitude'].toString()) : null,
+      longitude: (json['longitude'] != null) ? double.tryParse(json['longitude'].toString()) : null,
+      priceType: PriceType.values.firstWhere((e) => e.backendValue == (json['price_type'] ?? json["job_price"]), orElse: () => PriceType.fixed),
+      jobSchedule: JobSchedule.values.firstWhere((e) => e.backendValue == json['job_schedule'], orElse: () => JobSchedule.fullTime),
+      remoteWorkLevel: RemoteWorkLevel.values.firstWhere((e) {
+        print(e.backendValue == json['remote_work_level']);
+        print("${e.backendValue} == ${json['remote_work_level']}");
+        return e.backendValue == json['remote_work_level'];
+      }, orElse: () => RemoteWorkLevel.onsite0,),
+      careerLevel: CareerLevel.values.firstWhere((e) => e.backendValue == json['career_level'], orElse: () => CareerLevel.notSpecified),
+      travelRequired: TravelRequirement.values.firstWhere((e) => e.backendValue == json['travel_required'].toString() || e.alternateBackendValue == json['travel_required'].toString(), orElse: () => TravelRequirement.no),
+      educationLevel: EducationLevel.values.firstWhere((e) => e.backendValue == json['education_level'], orElse: () => EducationLevel.notSpecified),
+      streetAddress :json['street_address'],
+      houseNumber :json['house_number'],
+      workingAddress :json['working_address'],
+      duties :json['duties'],
+      benefits :json['benefits'],
+      totalBudget :json['total_budget'],
       acceptedBidId: json["accepted_bid_id"],
-      service: json['service'] == null
-          ? []
-          : List<ServiceData>.from(
-              json['service'].map((e) => ServiceData.fromJson(e))),
-      images: json["images"] == null
-          ? []
-          : List<String>.from(json["images"]!.map((x) => x)),
+      service: json['service'] == null ? [] : List<ServiceData>.from(json['service'].map((e) => ServiceData.fromJson(e))),
+      images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
       date: json["date"] == null ? null : DateTime.parse(json["date"]),
       image: json["image"],
       totalViews: json["total_views"],
       bidCount: json["bid_count"],
       countryName: json["country"],
       cityName: json["city"],
-      updatedAt: json["updated_at"] == null
-          ? null
-          : DateTime.parse(json["updated_at"]),
+      updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
     );
   }
 
   Map<String, dynamic> toJson() => {
-        "id": id,
-        "title": title,
-        "country_id": countryId,
-        "state_id": stateId,
-        "city_id": cityId,
-        "category_id": categoryId,
-        "subcategory_id": subCategoryId,
-        "price_type": priceType?.backendValue,
-        "price": price,
-        "type": type?.backendValue,
-        "start_date": startDate,
-        "end_date": endDate,
-        "total_day": totalDays,
-        "total_days": totalDays,
-        "total_hours": totalHours,
-        "total_budget": totalBudget,
-        "job_schedule": jobSchedule?.backendValue,
-        "remote_work_level": remoteWorkLevel?.backendValue,
-        "career_level": careerLevel?.backendValue,
-        "education_level": educationLevel?.backendValue,
-        "travel_required": travelRequired?.backendValue,
-        "description": description,
-        "street_address": streetAddress,
-        "house_number": houseNumber,
-        "working_address": workingAddress,
-        "requirement": requirement,
-        "duties": duties,
-        "benefits": benefits,
-        "accepted_bid_id": acceptedBidId,
-        "latitude": latitude,
-        "longitude": longitude,
-        "reason": reason,
-        "provider_id": providerId,
-        "customer_id": customerId,
-        "customer_profile": customerProfile,
-        "status": status,
-        "can_bid": canBid,
-        "service": service?.map((e) => e.toJson()).toList(),
-      };
-  Map<String, dynamic> toJsonForCreate() => {
-        "id": id,
-        "title": title,
-        "country_id": countryId,
-        "state_id": stateId,
-        "city_id": cityId,
-        "category_id": categoryId,
-        "subcategory_id": subCategoryId,
-        "price_type": priceType?.backendValue,
-        "price": price,
-        "type": type?.backendValue,
-        "start_date": startDate,
-        "end_date": endDate,
-        "total_day": totalDays,
-        "total_days": totalDays,
-        "total_hours": totalHours,
-        "total_budget": totalBudget,
-        "job_schedule": jobSchedule?.backendValue,
-        "remote_work_level": remoteWorkLevel?.backendValue,
-        "career_level": careerLevel?.backendValue,
-        "education_level": educationLevel?.backendValue,
-        "travel_required": travelRequired?.backendValue,
-        "description": description,
-        "street_address": streetAddress,
-        "house_number": houseNumber,
-        "working_address": workingAddress,
-        "requirement": requirement,
-        "duties": duties,
-        "benefits": benefits,
-        "latitude": latitude,
-        "longitude": longitude,
-      };
+    "id": id,
+    "title": title,
+    "country_id": countryId,
+    "state_id": stateId,
+    "city_id": cityId,
+    "category_id": categoryId,
+    "subcategory_id": subCategoryId,
+    "price_type": priceType?.backendValue,
+    "price": price,
+    "type": type?.backendValue,
+    "start_date": startDate,
+    "end_date": endDate,
+    "total_days": totalDays,
+    "total_hours": totalHours,
+    "total_budget": totalBudget,
+    "job_schedule": jobSchedule?.backendValue,
+    "remote_work_level": remoteWorkLevel?.backendValue,
+    "career_level": careerLevel?.backendValue,
+    "education_level": educationLevel?.backendValue,
+    "travel_required": travelRequired?.backendValue,
+    "description": description,
+    "street_address": streetAddress,
+    "house_number": houseNumber,
+    "working_address": workingAddress,
+    "requirement": requirement,
+    "duties": duties,
+    "benefits": benefits,
+    "accepted_bid_id": acceptedBidId,
+
+    "latitude": latitude,
+    "longitude": longitude,
+
+    "reason": reason,
+    "provider_id": providerId,
+    "customer_id": customerId,
+    "customer_profile": customerProfile,
+    "status": status,
+    "can_bid": canBid,
+    "service": service?.map((e) => e.toJson()).toList(),
+  };
+  Map<String,dynamic> toJsonForCreate() => {
+    "id": id,
+    "title": title,
+    "country_id": countryId,
+    "state_id": stateId,
+    "city_id": cityId,
+    "category_id": categoryId,
+    "subcategory_id": subCategoryId,
+    "price_type": priceType?.backendValue,
+    "job_price": priceType?.backendValue,
+    "price": price,
+    "type": type?.backendValue,
+    "start_date": startDate,
+    "end_date": endDate,
+    "total_days": totalDays,
+    "total_hours": totalHours,
+    "total_budget": totalBudget,
+    "job_schedule": jobSchedule?.backendValue,
+    "remote_work_level": remoteWorkLevel?.backendValue,
+    "career_level": careerLevel?.backendValue,
+    "education_level": educationLevel?.backendValue,
+    "travel_required": travelRequired?.backendValue,
+    "description": description,
+    "street_address": streetAddress,
+    "house_number": houseNumber,
+    "working_address": workingAddress,
+    "requirement": requirement,
+    "duties": duties,
+    "benefits": benefits,
+
+    "latitude": latitude,
+    "longitude": longitude,
+  };
 }
+
 
 /// Price Type
 enum PriceType {
-  hourly("Stündlich", "hourly"),
-  fixed("Festpreis", "fixed"),
-  daily("Täglich", "daily");
+  hourly("Hourly", "hourly"),
+  fixed("Fixed", "fixed"),
+  daily("Daily", "daily");
 
   final String displayName;
   final String backendValue;
@@ -307,7 +285,7 @@ enum PriceType {
 
 /// Job Type
 enum JobType {
-  onSite("Vor Ort", "onsite"),
+  onSite("On Site", "onsite"),
   hybrid("Hybrid", "hybrid"),
   remote("Remote", "remote");
 
@@ -319,11 +297,11 @@ enum JobType {
 
 /// Job Schedule
 enum JobSchedule {
-  fullTime("Vollzeit", "full_time"),
-  partTime("Teilzeit", "part_time"),
-  contract("Vertrag", "contract"),
-  temporary("Befristet", "temporary"),
-  internship("Praktikum", "internship");
+  fullTime("Full-time", "full_time"),
+  partTime("Part-time", "part_time"),
+  contract("Contract", "contract"),
+  temporary("Temporary", "temporary"),
+  internship("Internship", "internship");
 
   final String displayName;
   final String backendValue;
@@ -333,7 +311,7 @@ enum JobSchedule {
 
 /// Remote Work Level
 enum RemoteWorkLevel {
-  onsite0("Vor Ort (100%)", "onsite"),
+  onsite0("Onsite (100%)", "onsite"),
   remote25("25% Remote", "25_remote"),
   remote50("50% Remote", "50_remote"),
   remote75("75% Remote", "75_remote"),
@@ -347,18 +325,18 @@ enum RemoteWorkLevel {
 
 /// Career Level
 enum CareerLevel {
-  notSpecified("Nicht Relevant", "not_specified"),
-  entryLevel("Berufseinsteiger", "entry_level"),
-  intermediateLevel("Werkstudent", "intermediate_level"),
-  experienced("Mit Berufserfahrung", "experienced"),
-  professional("Fachkraft", "professional"),
-  middleManagement("Spezialist", "middle_management"),
-  executiveManagement("Meister", "executive_management"),
-  seniorManagement("Leiter", "senior_management"),
-  director("Manager", "director"),
-  technician("Führungsebene", "technician"),
-  leader("Geschäftsführer", "leader"),
-  manager("C-Level", "manager");
+  notSpecified("Not Specified", "not_specified"),
+  entryLevel("Entry Level", "entry_level"),
+  intermediateLevel("Intermediate Level", "intermediate_level"),
+  experienced("Experienced", "experienced"),
+  professional("Professional", "professional"),
+  middleManagement("Middle Management", "middle_management"),
+  executiveManagement("Executive Management", "executive_management"),
+  seniorManagement("Senior Management", "senior_management"),
+  director("Director", "director"),
+  technician("Technician", "technician"),
+  leader("Leader", "leader"),
+  manager("Manager", "manager");
 
   final String displayName;
   final String backendValue;
@@ -368,33 +346,32 @@ enum CareerLevel {
 
 /// Travel Requirement
 enum TravelRequirement {
-  no("Nein", "0", "false"),
-  yes("Ja", "1", "true");
+  no("No", "0","false"),
+  yes("Yes", "1","true");
 
   final String displayName;
   final String backendValue;
   final String alternateBackendValue;
 
-  const TravelRequirement(
-      this.displayName, this.backendValue, this.alternateBackendValue);
+  const TravelRequirement(this.displayName, this.backendValue,this.alternateBackendValue);
 }
 
 /// Education Level
 enum EducationLevel {
-  anyGraduate("Kein Schulabschluss", "any_graduate"),
-  apprenticeshipDegree("Grundschule", "apprenticeship_degree"),
-  traineeshipDegree("Gesamtschule", "traineeship_degree"),
-  secondaryDegree("Hauptschulabschluss", "secondary_degree"),
-  undergraduateDiploma("Realschulabschluss", "undergraduate_diploma"),
-  professionalDegree("Abitur", "professional_degree"),
-  highSchoolGraduate("Berufsschule", "high_school_graduate"),
-  associateDegree("Fachschule", "associate_degree"),
-  collegeDegree("Fachhochschulreife", "college_degree"),
-  universityDegree("Uni-Abschluss", "university_degree"),
-  bachelorsDegree("Bachelorabschluss", "bachelors_degree"),
-  mastersDegree("Masterabschluss", "masters_degree"),
-  doctorateDegree("Promotion (Doktor)", "doctorate_degree"),
-  notSpecified("Nicht angegeben", "not_specified");
+  notSpecified("Not Specified", "not_specified"),
+  anyGraduate("Any Graduate", "any_graduate"),
+  apprenticeshipDegree("Apprenticeship Degree", "apprenticeship_degree"),
+  traineeshipDegree("Traineeship Degree", "traineeship_degree"),
+  secondaryDegree("Secondary Degree", "secondary_degree"),
+  undergraduateDiploma("Undergraduate Diploma", "undergraduate_diploma"),
+  highSchoolGraduate("High school graduate", "high_school_graduate"),
+  associateDegree("Associate degree", "associate_degree"),
+  collegeDegree("College Degree", "college_degree"),
+  universityDegree("University Degree", "university_degree"),
+  bachelorsDegree("Bachelor's Degree", "bachelors_degree"),
+  mastersDegree("Master's Degree", "masters_degree"),
+  doctorateDegree("Doctorate Degree", "doctorate_degree"),
+  professionalDegree("Professional Degree", "professional_degree");
 
   final String displayName;
   final String backendValue;
@@ -404,12 +381,12 @@ enum EducationLevel {
 
 /// Years of experience (profile)
 enum YearsOfExperience {
-  lessThan1("Weniger als 1 Jahr", "less_than_1"),
-  oneTo3("1 bis 3 Jahre", "1_to_3"),
-  threeTo5("3 bis 5 Jahre", "3_to_5"),
-  fiveTo8("5 bis 8 Jahre", "5_to_8"),
-  eightTo10("8 bis 10 Jahre", "8_to_10"),
-  moreThan10("Mehr als 10 Jahre", "more_than_10");
+  lessThan1("Less than 1 Year", "less_than_1"),
+  oneTo3("1 to 3 Years", "1_to_3"),
+  threeTo5("3 to 5 Years", "3_to_5"),
+  fiveTo8("5 to 8 Years", "5_to_8"),
+  eightTo10("8 to 10 Years", "8_to_10"),
+  moreThan10("More than 10 Years", "more_than_10");
 
   final String displayName;
   final String backendValue;
@@ -419,30 +396,27 @@ enum YearsOfExperience {
 
 /// Education Level
 enum RequestStatus {
-  requested('Angefragt', 'requested', defaultStatus),
-  accepted('Akzeptiert', 'accepted', accept),
-  pendingAdvance('Anzahlung ausstehend', 'Advance Payment Pending',
-      primaryColorWithOpacity),
-  advancePaymentPending('Anzahlung ausstehend', 'advance_payment_pending',
-      primaryColorWithOpacity),
-  advancePaid('Anzahlung geleistet', 'advance_paid', primaryColorWithOpacity),
-  inProcess('In Bearbeitung', 'in_process', primaryColorWithOpacity),
-  inProgress('In Arbeit', 'in_progress', primaryColorWithOpacity),
-  hold('In Wartestellung', 'hold', primaryColorWithOpacity),
-  done('Fertig', 'done', primaryColorWithOpacity),
-  confirmDone('Erledigung bestätigen', 'confirm_done', primaryColorWithOpacity),
-  completed('Abgeschlossen', 'completed', primaryColorWithOpacity),
-  remainingPaymentPending('Restzahlung ausstehend', 'remaining_payment_pending',
-      primaryColorWithOpacity),
-  remainingPaid(
-      'Restbetrag bezahlt', 'remaining_paid', primaryColorWithOpacity),
+  pending('Pending','pending',defaultStatus),
+  assigned('Assigned','assigned',primaryColorWithOpacity),
+  requested('Requested','requested',defaultStatus),
+  accepted('Accepted','accepted',accept),
+  advancePaymentPending('Advance Payment Pending','advance_payment_pending',primaryColorWithOpacity),
+  advancePaid('Advance Paid','advance_paid',primaryColorWithOpacity),
+  inProcess('In Process','in_process',primaryColorWithOpacity),
+  inProgress('In Progress','in_progress',primaryColorWithOpacity),
+  hold('Hold','hold',primaryColorWithOpacity),
+  done('Done','done',primaryColorWithOpacity),
+  confirmDone( 'Confirm Done','confirm_done',primaryColorWithOpacity),
+  completed( 'Completed','completed',primaryColorWithOpacity),
+  remainingPaymentPending('Remaining Payment Pending','remaining_payment_pending',primaryColorWithOpacity),
+  remainingPaid( 'Remaining Paid','remaining_paid',primaryColorWithOpacity),
 
-  cancel('Storniert', 'cancelled', cancelled);
+  cancel( 'Cancelled','cancelled',cancelled);
 
   final String displayName;
   final String backendValue;
   final Color bgColor;
-  const RequestStatus(this.displayName, this.backendValue, this.bgColor);
+  const RequestStatus(this.displayName,this.backendValue,this.bgColor);
 }
 
 class BidderData {
@@ -478,14 +452,14 @@ class BidderData {
     duration = json['duration'];
     type = json['type'];
     whyChooseMe = json["why_choose_me"];
-    status = json['status'] != null
+    status = json['status'] != null 
         ? RequestStatus.values.firstWhere(
             (e) => e.backendValue == json['status'],
             orElse: () => RequestStatus.requested,
           )
         : null;
     provider =
-        json['provider'] != null ? UserData.fromJson(json['provider']) : null;
+    json['provider'] != null ? UserData.fromJson(json['provider']) : null;
     postJobData = json['post_detail'] != null
         ? PostJobData.fromJson(json['post_detail'])
         : null;
@@ -512,7 +486,6 @@ class BidderData {
     return map;
   }
 }
-
 class EditJobModel {
   PostJobData? postJob;
 
@@ -521,12 +494,10 @@ class EditJobModel {
   });
 
   factory EditJobModel.fromJson(Map<String, dynamic> json) => EditJobModel(
-        postJob: json["postJob"] == null
-            ? null
-            : PostJobData.fromJson(json["postJob"]),
-      );
+    postJob: json["postJob"] == null ? null : PostJobData.fromJson(json["postJob"]),
+  );
 
   Map<String, dynamic> toJson() => {
-        "postJob": postJob?.toJson(),
-      };
+    "postJob": postJob?.toJson(),
+  };
 }

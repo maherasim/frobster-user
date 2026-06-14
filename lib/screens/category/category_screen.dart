@@ -199,89 +199,77 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       12.height,
                       Row(
                         children: [
-                          Flexible(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              alignment: Alignment.centerLeft,
+                          Container(
+                            decoration: BoxDecoration(
+                              color: context.cardColor,
+                              borderRadius: radius(8),
+                              border: Border.all(color: context.dividerColor),
+                            ),
+                            child: Row(
+                              children: [
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.grid_view_rounded,
+                                    color: _isGridView ? primaryColor : appTextSecondaryColor,
+                                  ),
+                                  onPressed: () {
+                                    _isGridView = true;
+                                    setState(() {});
+                                  },
+                                  tooltip: 'Grid',
+                                ),
+                                VerticalDivider(width: 1, thickness: 1).withWidth(1),
+                                IconButton(
+                                  icon: Icon(
+                                    Icons.view_list_rounded,
+                                    color: !_isGridView ? primaryColor : appTextSecondaryColor,
+                                  ),
+                                  onPressed: () {
+                                    _isGridView = false;
+                                    setState(() {});
+                                  },
+                                  tooltip: 'List',
+                                ),
+                              ],
+                            ),
+                          ),
+                          12.width,
+                          if (_isGridView)
+                            Container(
+                              decoration: BoxDecoration(
+                                color: context.cardColor,
+                                borderRadius: radius(8),
+                                border: Border.all(color: context.dividerColor),
+                              ),
                               child: Row(
-                                mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Container(
-                                    decoration: BoxDecoration(
-                                      color: context.cardColor,
-                                      borderRadius: radius(8),
-                                      border: Border.all(color: context.dividerColor),
-                                    ),
-                                    child: Row(
-                                      mainAxisSize: MainAxisSize.min,
-                                      children: [
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.grid_view_rounded,
-                                            color: _isGridView ? primaryColor : appTextSecondaryColor,
-                                          ),
-                                          onPressed: () {
-                                            _isGridView = true;
-                                            setState(() {});
-                                          },
-                                          tooltip: 'Grid',
-                                        ),
-                                        VerticalDivider(width: 1, thickness: 1).withWidth(1),
-                                        IconButton(
-                                          icon: Icon(
-                                            Icons.view_list_rounded,
-                                            color: !_isGridView ? primaryColor : appTextSecondaryColor,
-                                          ),
-                                          onPressed: () {
-                                            _isGridView = false;
-                                            setState(() {});
-                                          },
-                                          tooltip: 'List',
-                                        ),
-                                      ],
+                                  TextButton(
+                                    onPressed: () {
+                                      _gridCount = 2;
+                                      setState(() {});
+                                    },
+                                    child: Text(
+                                      '2x',
+                                      style: primaryTextStyle(color: _gridCount == 2 ? primaryColor : textPrimaryColorGlobal),
                                     ),
                                   ),
-                                  12.width,
-                                  if (_isGridView)
-                                    Container(
-                                      decoration: BoxDecoration(
-                                        color: context.cardColor,
-                                        borderRadius: radius(8),
-                                        border: Border.all(color: context.dividerColor),
-                                      ),
-                                      child: Row(
-                                        mainAxisSize: MainAxisSize.min,
-                                        children: [
-                                          TextButton(
-                                            onPressed: () {
-                                              _gridCount = 2;
-                                              setState(() {});
-                                            },
-                                            child: Text(
-                                              '2x',
-                                              style: primaryTextStyle(color: _gridCount == 2 ? primaryColor : textPrimaryColorGlobal),
-                                            ),
-                                          ),
-                                          VerticalDivider(width: 1, thickness: 1).withWidth(1),
-                                          TextButton(
-                                            onPressed: () {
-                                              _gridCount = 3;
-                                              setState(() {});
-                                            },
-                                            child: Text(
-                                              '3x',
-                                              style: primaryTextStyle(color: _gridCount == 3 ? primaryColor : textPrimaryColorGlobal),
-                                            ),
-                                          ),
-                                        ],
-                                      ),
+                                  VerticalDivider(width: 1, thickness: 1).withWidth(1),
+                                  TextButton(
+                                    onPressed: () {
+                                      _gridCount = 3;
+                                      setState(() {});
+                                    },
+                                    child: Text(
+                                      '3x',
+                                      style: primaryTextStyle(color: _gridCount == 3 ? primaryColor : textPrimaryColorGlobal),
                                     ),
+                                  ),
                                 ],
                               ),
                             ),
-                          ),
+                          Spacer(),
                           PopupMenuButton<String>(
-                            tooltip: language.sort,
+                            tooltip: 'Sort',
                             onSelected: (v) {
                               _sortMode = v;
                               setState(() {});
@@ -293,7 +281,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   children: [
                                     Icon(Icons.trending_up, size: 18),
                                     8.width,
-                                    Text(language.sortPopular),
+                                    Text('Popular'),
                                   ],
                                 ),
                               ),
@@ -303,7 +291,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                   children: [
                                     Icon(Icons.sort_by_alpha, size: 18),
                                     8.width,
-                                    Text(language.sortAZ),
+                                    Text('A - Z'),
                                   ],
                                 ),
                               ),
@@ -320,14 +308,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                                 children: [
                                   Icon(Icons.sort_rounded),
                                   6.width,
-                                  ConstrainedBox(
-                                    constraints: BoxConstraints(maxWidth: 100),
-                                    child: Text(
-                                      language.sort,
-                                      overflow: TextOverflow.ellipsis,
-                                      maxLines: 1,
-                                    ),
-                                  ),
+                                  Text('Sort'),
                                 ],
                               ),
                             ),
@@ -362,9 +343,7 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           duration: 300.milliseconds, delay: 50.milliseconds),
                       itemBuilder: (_, index) {
                         final data = items[index];
-                        // Avoid sub-pixel right overflow in Wrap from floating-point tile widths.
-                        final raw = (context.width() - 16 * 2 - 16 * (_gridCount - 1)) / _gridCount;
-                        final tileWidth = (raw - 0.5).clamp(0.0, double.infinity);
+                        final tileWidth = (context.width() - 16 * 2 - 16 * (_gridCount - 1)) / _gridCount;
                         return SizedBox(
                           width: tileWidth,
                           child: GestureDetector(

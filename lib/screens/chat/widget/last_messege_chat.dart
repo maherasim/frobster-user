@@ -18,7 +18,7 @@ class LastMessageChat extends StatelessWidget {
     switch (type) {
       case TEXT:
         return Text(
-          formatChatMessageText(message.message),
+          "${message.message.validate()}",
           maxLines: 1,
           overflow: TextOverflow.ellipsis,
           style: secondaryTextStyle(size: 14),

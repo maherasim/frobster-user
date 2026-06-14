@@ -423,19 +423,19 @@ class _PaymentScreenState extends State<PaymentScreen> {
         } else {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
-          toast(errorMsg ?? language.failedToGetPaypalUrl);
+          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
         }
       } else {
         appStore.setLoading(false);
-        toast(language.invalidResponseTryAgain);
+        toast('Invalid response from server. Please try again.');
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast(language.paymentEndpointNotFound);
+        toast('Payment endpoint not found. Please contact support.');
       } else {
-        toast('${language.paypalPaymentError}: ${e.toString()}');
+        toast('PayPal payment error: ${e.toString()}');
       }
     }
   }
@@ -457,10 +457,8 @@ class _PaymentScreenState extends State<PaymentScreen> {
       CommonKeys.dateTime: DateFormat(BOOKING_SAVE_FORMAT).format(DateTime.now()),
     };
 
-    // Add type field for bank transfer payments (backend expects 'advance_payment' or 'remaining')
-    if (paymentMethod == PAYMENT_METHOD_BANK_TRANSFER) {
-      request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
-    }
+    // Always send type field so backend can use a single detection path
+    request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
 
     if (widget.bookings.service != null && widget.bookings.service!.isAdvancePayment && widget.bookings.bookingDetail!.bookingPackage == null) {
       // For remaining payment, set advance_paid_amount to null; for advance payment, set the advance amount

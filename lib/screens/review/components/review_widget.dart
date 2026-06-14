@@ -1,8 +1,8 @@
 import 'package:booking_system_flutter/component/image_border_component.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
-import 'package:booking_system_flutter/screens/booking/component/report_review_dialog.dart';
 import 'package:booking_system_flutter/utils/common.dart';
+import 'package:booking_system_flutter/screens/booking/component/report_review_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -12,7 +12,7 @@ import '../../../utils/images.dart';
 class ReviewWidget extends StatelessWidget {
   final RatingData data;
   final bool isCustomer;
-  /// When set, show report-review flag next to the reviewer name (e.g. booking `customer_rating`).
+  /// Report this review row (e.g. customer_rating from employer).
   final int? reportReviewId;
   final String reportReviewType;
 

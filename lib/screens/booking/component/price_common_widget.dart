@@ -40,8 +40,7 @@ class PriceCommonWidget extends StatelessWidget {
         24.height,
         Text(language.priceDetail, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
         16.height,
-        if (bookingPackage != null)
-          Container(
+        if (bookingPackage != null) Container(
             padding: EdgeInsets.all(16),
             width: context.width(),
             decoration: boxDecorationDefault(color: context.cardColor),
@@ -60,8 +59,7 @@ class PriceCommonWidget extends StatelessWidget {
                         isBoldText: true),
                   ],
                 ),
-                if (bookingDetail.totalExtraChargeAmount != 0)
-                  Column(
+                if (bookingDetail.totalExtraChargeAmount != 0) Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       16.height,
@@ -149,10 +147,7 @@ class PriceCommonWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (bookingDetail.bookingType.validate() ==
-                        BOOKING_TYPE_SERVICE ||
-                    bookingDetail.bookingType.validate() ==
-                        BOOKING_TYPE_USER_POST_JOB)
+                if (bookingDetail.bookingType.validate() == BOOKING_TYPE_SERVICE || bookingDetail.bookingType.validate() == BOOKING_TYPE_USER_POST_JOB)
                   Column(
                     children: [
                       Row(
@@ -195,8 +190,7 @@ class PriceCommonWidget extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(language.quantityLabel,
-                                style: secondaryTextStyle(size: 14))
+                        Text('Quantity', style: secondaryTextStyle(size: 14))
                             .flexible(fit: FlexFit.loose),
                         16.width,
                         Text('${bookingDetail.quantity}',
@@ -208,9 +202,7 @@ class PriceCommonWidget extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    Text(language.lineTotalAmount,
-                            style: secondaryTextStyle(size: 14))
-                        .expand(),
+                    Text('Total', style: secondaryTextStyle(size: 14)).expand(),
                     16.width,
                     Marquee(
                       child: Row(
@@ -291,25 +283,24 @@ class PriceCommonWidget extends StatelessWidget {
                     ],
                   ),
 
-                if (bookingDetail.totalExtraChargeAmount != 0)
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        children: [
-                          Text(
-                            language.lblTotalExtraCharges,
-                            style: secondaryTextStyle(size: 14),
-                          ).expand(),
-                          PriceWidget(
-                            price: bookingDetail.totalExtraChargeAmount,
-                            color: textPrimaryColorGlobal,
-                          ),
-                        ],
-                      ),
-                      16.height,
-                    ],
-                  ),
+                if (bookingDetail.totalExtraChargeAmount != 0) Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          language.lblTotalExtraCharges,
+                          style: secondaryTextStyle(size: 14),
+                        ).expand(),
+                        PriceWidget(
+                          price: bookingDetail.totalExtraChargeAmount,
+                          color: textPrimaryColorGlobal,
+                        ),
+                      ],
+                    ),
+                    16.height,
+                  ],
+                ),
 
                 /// Show Service Add-on Price
                 if (bookingDetail.serviceaddon.validate().isNotEmpty)

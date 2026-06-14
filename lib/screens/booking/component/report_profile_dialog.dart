@@ -65,7 +65,7 @@ class _ReportProfileDialogState extends State<ReportProfileDialog> {
     hideKeyboard(context);
     appStore.setLoading(true);
     try {
-      await ugcReportProfile(
+      final res = await ugcReportProfile(
         reportedUserId: widget.reportedUserId,
         reason: reason,
         details: _details.text,
@@ -73,7 +73,9 @@ class _ReportProfileDialogState extends State<ReportProfileDialog> {
       appStore.setLoading(false);
       finish(context);
       toast(
-        parseHtmlString(language.ugcReportProfileSuccess),
+        parseHtmlString(
+          res['message']?.toString() ?? language.success,
+        ),
       );
     } catch (e) {
       appStore.setLoading(false);

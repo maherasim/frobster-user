@@ -59,18 +59,17 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
 
   String visitTypeLabel(String? visitType) {
     final v = visitType.validate().trim().toUpperCase();
-    if (v == 'ONLINE') return language.online;
-    if (v == 'ON_SITE') return language.visitTypeOnsite;
-    if (v == 'HYBRID') return language.visitTypeHybrid;
+    if (v == 'ONLINE') return 'Remote';
+    if (v == 'ON_SITE') return 'Onsite';
+    if (v == 'HYBRID') return 'Hybrid';
     return _titleCase(visitType.validate());
   }
-
   String serviceTypeLabel(String? type) {
     final t = type.validate();
     final lower = t.toLowerCase();
     if (lower == SERVICE_TYPE_HOURLY.toLowerCase()) return language.hourly;
-    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return language.serviceTypeDaily;
-    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return language.serviceTypeFixed;
+    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return 'Daily';
+    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return 'Fixed';
     return t.capitalizeFirstLetter();
   }
 
@@ -253,7 +252,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         6.width,
                         if (widget.serviceData!.discount.validate() > 0)
                           Text(
-                            "${widget.serviceData!.discount.validate()}${language.percentOffSuffix}",
+                            "${widget.serviceData!.discount.validate()}% off",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -284,7 +283,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         );
                       }),
                       Text(
-                        '${language.jobType}: ${visitTypeLabel(widget.serviceData?.visitType)}',
+                        'Job Type : ${visitTypeLabel(widget.serviceData?.visitType)}',
                         style: secondaryTextStyle(
                             size: 10, color: defaultActivityStatus),
                       ),
@@ -292,7 +291,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         children: [
                           Flexible(
                             child: Text(
-                              '${language.bookingsLabel}: ${widget.serviceData!.completedBookings.validate()}',
+                              'Bookings: ${widget.serviceData!.completedBookings.validate()}',
                               style: secondaryTextStyle(
                                   size: 9, color: defaultActivityStatus),
                               overflow: TextOverflow.ellipsis,
@@ -302,7 +301,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                           8.width,
                           Flexible(
                             child: Text(
-                              '${language.views}: ${widget.serviceData!.totalViews.validate()}',
+                              'Views: ${widget.serviceData!.totalViews.validate()}',
                               style: secondaryTextStyle(
                                   size: 9, color: defaultActivityStatus),
                               overflow: TextOverflow.ellipsis,
@@ -329,7 +328,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                               borderRadius: BorderRadius.circular(5),
                             )),
                         child: Text(
-                          language.lblBookNow,
+                          'Book Now',
                           style: TextStyle(
                             fontSize: 12,
                             color: white,

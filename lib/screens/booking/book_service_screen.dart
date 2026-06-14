@@ -706,8 +706,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(language.quantityLabel,
-                                style: secondaryTextStyle(size: 14))
+                        Text('Quantity', style: secondaryTextStyle(size: 14))
                             .flexible(fit: FlexFit.loose),
                         // 16.width,
                         Text(
@@ -720,9 +719,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
                 Divider(height: 26, color: context.dividerColor),
                 Row(
                   children: [
-                    Text(language.lineTotalAmount,
-                            style: secondaryTextStyle(size: 14))
-                        .expand(),
+                    Text('Total', style: secondaryTextStyle(size: 14)).expand(),
                     16.width,
                     Marquee(
                       child: Row(
@@ -1053,7 +1050,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               children: [
                 Icon(Icons.add_circle_outline_rounded, size: 20),
                 Text(
-                  language.addMoreDates,
+                  'Add more Dates',
                   style: secondaryTextStyle(),
                 ),
               ],

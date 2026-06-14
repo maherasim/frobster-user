@@ -46,6 +46,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   TextEditingController fNameCont = TextEditingController();
   TextEditingController lNameCont = TextEditingController();
+  TextEditingController designationCont = TextEditingController();
   TextEditingController emailCont = TextEditingController();
   TextEditingController userNameCont = TextEditingController();
   TextEditingController mobileCont = TextEditingController();
@@ -54,6 +55,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   FocusNode fNameFocus = FocusNode();
   FocusNode lNameFocus = FocusNode();
+  FocusNode designationFocus = FocusNode();
   FocusNode emailFocus = FocusNode();
   FocusNode userNameFocus = FocusNode();
   FocusNode mobileFocus = FocusNode();
@@ -116,6 +118,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ..email = emailCont.text.trim()
           ..firstName = fNameCont.text.trim()
           ..lastName = lNameCont.text.trim()
+          ..designation = designationCont.text.trim()
           ..userType = USER_TYPE_USER
           ..uid = widget.uid.validate()
           ..password = widget.phoneNumber.validate().trim();
@@ -185,6 +188,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           ..contactNumber = buildMobileNumber()
           ..firstName = fNameCont.text.trim()
           ..lastName = lNameCont.text.trim()
+          ..designation = designationCont.text.trim()
           ..userType = USER_TYPE_USER
           ..username = userNameCont.text.trim()
           ..email = emailCont.text.trim()
@@ -263,10 +267,19 @@ class _SignUpScreenState extends State<SignUpScreen> {
           textFieldType: TextFieldType.NAME,
           controller: lNameCont,
           focus: lNameFocus,
-          nextFocus: userNameFocus,
+          nextFocus: designationFocus,
           errorThisFieldRequired: language.requiredText,
           decoration:
               inputDecoration(context, labelText: language.hintLastNameTxt),
+          suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
+        ),
+        16.height,
+        AppTextField(
+          textFieldType: TextFieldType.NAME,
+          controller: designationCont,
+          focus: designationFocus,
+          nextFocus: userNameFocus,
+          decoration: inputDecoration(context, labelText: language.designation),
           suffix: ic_profile2.iconImage(size: 10).paddingAll(14),
         ),
         16.height,

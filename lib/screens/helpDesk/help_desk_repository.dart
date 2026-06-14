@@ -40,10 +40,10 @@ Future<void> saveHelpDeskMultiPart(
     try {
       log("Response: $temp");
       
-      String message = language.querySubmittedSuccessfully;
+      String message = 'Query submitted successfully';
       if (temp.toString().isNotEmpty && temp.toString().isJson()) {
         final jsonResponse = jsonDecode(temp);
-        message = jsonResponse['message']?.toString() ?? language.querySubmittedSuccessfully;
+        message = jsonResponse['message']?.toString() ?? 'Query submitted successfully';
       }
       
       appStore.setLoading(false);
@@ -57,7 +57,7 @@ Future<void> saveHelpDeskMultiPart(
     } catch (e) {
       log('Error parsing response: $e');
       appStore.setLoading(false);
-      toast(language.querySubmittedSuccessfully);
+      toast('Query submitted successfully');
       LiveStream().emit(LIVESTREAM_UPDATE_HELP_DESK_LIST, OPEN);
       finish(getContext, true);
     }

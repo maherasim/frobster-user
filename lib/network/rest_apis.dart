@@ -76,6 +76,10 @@ Future<LoginResponse> loginUser(Map request,
         appStore.setLoading(false);
         throw language.contactAdmin;
       }
+      if (res.userData!.emailVerified == 0) {
+        appStore.setLoading(false);
+        throw language.emailNotVerified;
+      }
     }
     return res;
   } on Exception catch (e) {
@@ -471,14 +475,14 @@ Future<List<TransactionRequestData>> getTransactionRequest(int id) async {
     final request = await handleResponse(await buildHttpResponse('transaction-requests/$id', method: HttpMethodType.GET));
     var res = transactionRequestDataFromJson(request['data']);
 
-    res.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+    res.sort((a,b) => b.createdAt.compareTo(a.createdAt));
     appStore.setLoading(false);
     return res;
   } catch (e) {
     appStore.setLoading(false);
-    // 404 means no transactions yet — return empty list silently
-    return [];
+    throw e;
   }
+
 }
 
 //endregion
@@ -1575,6 +1579,7 @@ Future<List<ChatUserItem>> chatSearchUsers({required String query, int page = 1}
       .toList();
 }
 
+//region UGC (customer: report service, block provider)
 Future<Map<String, dynamic>> ugcReportService({
   required int serviceId,
   required String reason,

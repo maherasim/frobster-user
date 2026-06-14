@@ -75,7 +75,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
 
   Future<void> _handleSubmitClick() async {
     if (currentPaymentMethod == null) {
-      toast(language.chooseAnyOnePayment);
+      toast('Please select a payment method');
       return;
     }
 
@@ -314,7 +314,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
       // Validate amount
       if (widget.amount <= 0) {
         appStore.setLoading(false);
-        toast(language.invalidPaymentAmount);
+        toast('Invalid payment amount. Please try again.');
         log('PayPal Payment Error: Invalid amount - widget.amount=${widget.amount}');
         return;
       }
@@ -388,19 +388,19 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
           log('PayPal API - Missing URL: status=$status, url=$approvalUrl');
-          toast(errorMsg ?? language.failedToGetPaypalUrl);
+          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
         }
       } else {
         appStore.setLoading(false);
-        toast(language.invalidResponseTryAgain);
+        toast('Invalid response from server. Please try again.');
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast(language.paymentEndpointNotFound);
+        toast('Payment endpoint not found. Please contact support.');
       } else {
-        toast('${language.paypalPaymentError}: ${e.toString()}');
+        toast('PayPal payment error: ${e.toString()}');
       }
     }
   }
@@ -431,9 +431,8 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
       CommonKeys.dateTime: DateFormat(BOOKING_SAVE_FORMAT).format(DateTime.now()),
     };
 
-    if (paymentMethod == PAYMENT_METHOD_BANK_TRANSFER) {
-      request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
-    }
+    // Always send type field so backend can use a single detection path
+    request[CommonKeys.type] = widget.isForAdvancePayment ? 'advance_payment' : 'remaining';
 
     if (widget.bookings.service != null &&
         widget.bookings.service!.isAdvancePayment &&

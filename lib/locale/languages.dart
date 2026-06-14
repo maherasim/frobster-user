@@ -20,6 +20,8 @@ abstract class BaseLanguage {
 
   String get hintLastNameTxt;
 
+  String get designation;
+
   String get hintContactNumberTxt;
 
   String get hintEmailAddressTxt;
@@ -100,18 +102,13 @@ abstract class BaseLanguage {
 
   String get contactAdmin;
 
+  String get emailNotVerified;
+
   String get allServices;
 
   String get duration;
 
   String get hourly;
-
-  /// Shown after formatted price (e.g. hourly service cards).
-  String get priceSuffixHourly;
-
-  String get priceSuffixDaily;
-
-  String get priceSuffixFixed;
 
   String get payment;
 
@@ -515,8 +512,6 @@ abstract class BaseLanguage {
 
   String get noBookingSubTitle;
 
-  String get myBookings => 'My Bookings';
-
   String get myReviews;
 
   /// Provider's review of the customer (booking detail `customer_rating`).
@@ -735,14 +730,6 @@ abstract class BaseLanguage {
   String get authorBy;
 
   String get views;
-
-  String get proposals;
-
-  String get viewProposal;
-
-  String get hireProvider;
-
-  String get hireAndContinue;
 
   String get blogs;
 
@@ -1019,8 +1006,6 @@ abstract class BaseLanguage {
   String get doYouWantTo;
 
   String get chooseDateTime;
-
-  String get addMoreDates;
 
   String get airtelMoneyPayment;
 
@@ -1493,6 +1478,10 @@ abstract class BaseLanguage {
 
   String get waitingForCustomerToAcceptTheBid;
 
+  String get waitingForProviderToReviewRequest;
+
+  String get bidAssignedToHandyman;
+
   String get waitingForProviderToSplitPayment;
 
   String get waitingForCustomerToPayAdvancePercentage;
@@ -1505,173 +1494,7 @@ abstract class BaseLanguage {
 
   String get waitingForProviderToMarkBidAsCompleted;
 
-  // Bank details / profile / map (screens)
-  String get accountHolderName;
-  String get ibanNumber;
-  String get bicSwiftCode;
-  String get stripeAccount;
-  String get companyName;
-  String get vatNumberOptional;
-  String get selectAvailability;
-  String get mobility;
-  String get serviceAddress;
-  String get knownLanguagesLabel;
-  String get essentialSkillsLabel;
-  String get yearsOfExperience;
-  String get certification;
-  String get aboutMe;
-  String get mapStartLabel;
-
-  // Booking slot / time labels
-  String get startTime;
-  String get endTime;
-  String get selectHour;
-  String get hourPickerOnlyHours;
-  String get durationDay;
-  String get durationDays;
-  String get durationHour;
-  String get durationHours;
-
-  // Payment / webview messages
-  String get invalidResponseTryAgain;
-  String get paymentEndpointNotFound;
-  String get paypalErrorLoadingPage;
-  String get paymentVerificationMissingToken;
-  String get verifyingPayment;
-  String get paymentVerificationServerError;
-  String get paymentMayHaveBeenProcessed;
-  String get paymentCompletedSuccessfully;
-  String get errorProcessingPayment;
-  String get failedToGetPaypalUrl;
-
-  // Chat policy
-  String get messageHiddenDueToPolicy;
-
-  // Help desk
-  String get querySubmittedSuccessfully;
-
-  // Service search / sharing / admin approval
-  String get startSearchingYourService;
-  String get waitingForAdminApproval;
-  String get waitingForAdminApprovalPleaseWait;
-  String get invalidPaymentAmount;
-  String get paypalPaymentError;
-  String get failedToShareToFacebook;
-  String get failedToShareToInstagram;
-  String get failedToShareToTwitter;
-  String get failedToShareToLinkedIn;
-
-  // Common UI labels / placeholders (screens)
-  String get invalidDashboardType;
-  String get amountLabel;
-  String get transactionTypeLabel;
-  String get createdAtLabel;
-  String get selectServiceAddress;
-  String get tapToSelectLanguages;
-  String get selectLanguages;
-  String get essentialSkillsHint;
-  String get experienceLabel;
-  String get certificationHint;
-  String get titleLabel;
-  String get locationLabel;
-  String get employerLabel;
-  String get customerLabel;
-  String get bidCancelledDetailsUnavailable;
-  String get ratingSubmittedSuccessfully;
-
-  // Category list sort
-  String get sort;
-  String get sortPopular;
-  String get sortAZ;
-
-  // Bank transfer dialog
-  String get bankTransferDetailsTitle;
-  String get bankTransferPayAmountPrefix;
-  String get bankTransferPayAmountSuffix;
-  String get bankTransferLocalInternationalTitle;
-  String get bankTransferRecipientLabel;
-  String get bankTransferIbanLabel;
-  String get bankTransferBicLabel;
-  String get bankTransferBankNameAddressLabel;
-  String get bankTransferSenderBankBicLabel;
-  String get bankTransferInstructionsTitle;
-  String get bankTransferMentionBookingIdPrefix;
-  String get bankTransferMentionBookingIdSuffix;
-  String get bankTransferSendProofPrefix;
-
-  // Filter empty states
-  String get noCityFound;
-  String get noStateFound;
-
-  // Job bid / post job request details screen
-  String get bidDetailsTitle;
-  String get waitingForCustomerPayRemainingAmount;
-  String get bidCancelledShort;
-  String get holdReasonPrefix;
-  String get employerReviewTitle;
-  String get customerReviewTitle;
-  String get letsStartWork;
-  String get confirmDone;
-  String get payRemaining;
-  String get download;
-  String get rateEmployer;
-  String get rateUnitPrice;
-  String get quantityLabel;
-  String get lineTotalAmount;
-  String get netAmountLabel;
-  String get netAmountSubtext;
-  String get grandTotalAmountLabel;
-  String get extraChargesBreakdownTitle;
-  String get noReviewsYet;
-  String get anonymous;
-  String get bidLabelColon;
-  String get advancePercentWord;
-  String get jobBidProgressAccept;
-  String get jobBidProgressAdvance;
-  String get jobBidProgressAdvancePaid;
-  String get jobBidProgressLetsStart;
-  String get jobBidProgressWork;
-  String get jobBidProgressDone;
-  String get jobBidProgressCompleted;
-  String get jobBidProgressRemaining;
-  String get jobBidProgressPaid;
-
-  // Service detail screen (pricing type, visit/remote labels, policy)
-  String get serviceTypeDaily;
-
-  String get serviceTypeFixed;
-
-  String get visitTypeOnsite;
-
-  String get visitTypeHybrid;
-
-  String get onsiteFullPresenceLabel;
-
-  /// Appended after discount number, e.g. "15" + "% off" → "15% off".
-  String get percentOffSuffix;
-
-  /// Short label before completed booking count (e.g. "Bookings: 3").
-  String get bookingsLabel;
-
-  /// Shown after a percentage for hybrid remote, e.g. "50% Remote".
-  String get remoteWorkShareSuffix;
-
-  String get cancellationPolicyTitle;
-
-  String get minimumOrdersLabel;
-
-  String get totalBookingsLabel;
-
-  String get availabilityLabel;
-
-  String get completedJobsLabel;
-
-  String get travelRequiredLabel;
-
-  /// Section title for job/post description (not the input hint).
-  String get descriptionHeading;
-
-  // UGC: report service / block provider (listings)
+  // UGC: report service / block provider (customer listings)
   String get ugcReportService;
 
   String get ugcBlockProvider;
@@ -1680,13 +1503,12 @@ abstract class BaseLanguage {
 
   String get ugcReportProfileTitle;
 
-  /// Toast after successful POST /ugc/report-profile (prefer over API English message).
-  String get ugcReportProfileSuccess;
-
   String get ugcReportReviewTitle;
 
-  /// Toast after successful POST /ugc/report-review.
   String get ugcReportReviewSuccess;
+
+  /// Shown when user tries to report their own review (not allowed).
+  String get ugcCannotReportOwnReview;
 
   String get ugcSelectReason;
 
@@ -1709,4 +1531,5 @@ abstract class BaseLanguage {
   String get ugcReasonFraud;
 
   String get ugcReasonOther;
+
 }

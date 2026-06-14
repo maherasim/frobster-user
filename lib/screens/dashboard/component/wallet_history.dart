@@ -139,8 +139,7 @@ class _UserWalletHistoryScreenState extends State<UserWalletHistoryScreen> {
                               children: [
                                 if (data.activityMessage.validate().isNotEmpty)
                                   Text(
-                                    formatBookingActivityText(
-                                        data.activityMessage),
+                                    data.activityMessage.validate(),
                                     style: boldTextStyle(size: 12),
                                     maxLines: 3,
                                     overflow: TextOverflow.ellipsis,

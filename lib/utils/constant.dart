@@ -57,7 +57,7 @@ const PAYMENT_STATUS_PAID = 'paid';
 const PAYMENT_STATUS_DEBIT = 'debit';
 
 const NOTIFICATION_TYPE_BOOKING = 'booking';
-const NOTIFICATION_TYPE_POST_JOB = 'post_Job';
+const NOTIFICATION_TYPE_POST_JOB = 'post_job';
 const NOTIFICATION_TYPE_WALLET = 'update_wallet';
 const SERVICE_ATTACHMENT = 'service_attachment';
 const IS_EMAIL_VERIFIED = 'IS_EMAIL_VERIFIED';
@@ -129,10 +129,10 @@ const HAS_IN_APP_STORE_REVIEW = 'hasInAppStoreReview1';
 const HAS_IN_PLAY_STORE_REVIEW = 'hasInPlayStoreReview1';
 const HAS_IN_REVIEW = 'hasInReview';
 const AUTO_SLIDER_STATUS = 'AUTO_SLIDER_STATUS';
-const UPDATE_NOTIFY = 'UPDATE_NOTIFY';
 
-/// Per-account comma-separated ids from [ugc/block].
+/// Per-logged-in-user list of ids passed to [ugc/block] (comma-separated).
 const UGC_BLOCKED_USER_IDS_PREFIX = 'UGC_BLOCKED_USER_IDS_';
+const UPDATE_NOTIFY = 'UPDATE_NOTIFY';
 
 const APPLE_EMAIL = 'APPLE_EMAIL';
 const APPLE_UID = 'APPLE_UID';

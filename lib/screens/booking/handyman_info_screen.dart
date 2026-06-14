@@ -2,7 +2,6 @@ import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/user_info_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
 import 'package:booking_system_flutter/main.dart';
-import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/model/provider_info_response.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
@@ -20,7 +19,6 @@ import '../../component/empty_error_state_widget.dart';
 import '../../utils/colors.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
-import 'component/report_profile_dialog.dart';
 import '../service/view_all_service_screen.dart';
 
 // NOTE: This screen is READ-ONLY. No edit/update functionality should be added.
@@ -44,23 +42,12 @@ String _stripHtml(String text) {
 String _availabilityDisplay(String? raw) {
   if (raw == null || raw.isEmpty) return '';
   final v = raw.trim().toLowerCase();
-  if (v == 'full_time') return 'Vollzeit';
-  if (v == 'part_time') return 'Teilzeit';
-  if (v == 'hybrid') return 'Hybrid';
+  if (v == 'full_time') return 'Full Time';
+  if (v == 'part_time') return 'Part Time';
   return raw.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
   }).join(' ');
-}
-
-String _educationDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return '';
-  final v = raw.trim().toLowerCase();
-  final level = EducationLevel.values.firstWhere(
-    (e) => e.backendValue.toLowerCase() == v,
-    orElse: () => EducationLevel.notSpecified,
-  );
-  return level.displayName;
 }
 
 class HandymanInfoScreen extends StatefulWidget {
@@ -149,10 +136,8 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
               final List<String> skills = data.userData?.skills != null
                   ? data.userData!.skillsArray
                       .map((e) => e
-                          .replaceAll(RegExp(r'[\[\]"]'),
-                              '') // Remove brackets and quotes
-                          .replaceAll(
-                              RegExp(r',+'), ',') // Remove double commas
+                          .replaceAll(RegExp(r'[\[\]"]'), '') // Remove brackets and quotes
+                          .replaceAll(RegExp(r',+'), ',') // Remove double commas
                           .trim())
                       .where((e) => e.isNotEmpty)
                       .toList()
@@ -193,71 +178,22 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
               return Stack(
                 children: [
                   AnimatedScrollView(
-                    listAnimationType: ListAnimationType.FadeIn,
-                    physics: AlwaysScrollableScrollPhysics(),
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Stack(
-                        clipBehavior: Clip.none,
-                        children: [
-                          UserInfoWidget(
-                            data: data.userData!,
-                            isOnTapEnabled: true,
-                            onUpdate: () {},
-                          ),
-                          Observer(
-                            builder: (_) {
-                              final reportedId =
-                                  data.userData?.id ?? widget.handymanId;
-                              if (!appStore.isLoggedIn ||
-                                  reportedId == null ||
-                                  reportedId.validate() <= 0 ||
-                                  reportedId.validate() == appStore.userId) {
-                                return const SizedBox.shrink();
-                              }
-                              return Positioned(
-                                top: 15,
-                                right: 58,
-                                child: Material(
-                                  elevation: 4,
-                                  shadowColor: Colors.black26,
-                                  color: context.cardColor,
-                                  shape: const CircleBorder(),
-                                  clipBehavior: Clip.antiAlias,
-                                  child: IconButton(
-                                    visualDensity: VisualDensity.compact,
-                                    padding: const EdgeInsets.all(8),
-                                    constraints: const BoxConstraints(
-                                      minWidth: 38,
-                                      minHeight: 38,
-                                    ),
-                                    tooltip: language.ugcReportProfileTitle,
-                                    icon: Icon(
-                                      Icons.flag_outlined,
-                                      color: context.primaryColor,
-                                      size: 20,
-                                    ),
-                                    onPressed: () {
-                                      showDialog<void>(
-                                        context: context,
-                                        barrierDismissible: true,
-                                        builder: (ctx) => ReportProfileDialog(
-                                          reportedUserId: reportedId.validate(),
-                                        ),
-                                      );
-                                    },
-                                  ),
-                                ),
-                              );
-                            },
-                          ),
-                        ],
+                listAnimationType: ListAnimationType.FadeIn,
+                physics: AlwaysScrollableScrollPhysics(),
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                      UserInfoWidget(
+                        data: data.userData!,
+                        isOnTapEnabled: true,
+                        onUpdate: () {},
+                        forProvider: false,
+                        showReportProfileFlag: true,
                       ),
                       Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
+                      children: [
                           15.height,
-                          Text(
+                        Text(
                             language.personalInfo,
                             style: boldTextStyle(size: 18),
                           ).paddingSymmetric(horizontal: 16),
@@ -268,8 +204,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(language.knownLanguages,
-                                        style: boldTextStyle(
-                                            size: LABEL_TEXT_SIZE))
+                                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -291,15 +226,14 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                           EdgeInsets.only(right: 8, bottom: 8),
                                       child: Text(e,
                                           style: secondaryTextStyle(
-                                              size: 12,
-                                              weight: FontWeight.bold)),
+                                              size: 12, weight: FontWeight.bold)),
                                     );
                                   }).toList(),
                                 ).paddingSymmetric(
                                   horizontal: 16,
-                                ),
-                              ],
-                            ),
+                        ),
+                      ],
+                    ),
                           ],
                           if (skills.isNotEmpty) ...[
                             15.height,
@@ -307,8 +241,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(language.essentialSkills,
-                                        style: boldTextStyle(
-                                            size: LABEL_TEXT_SIZE))
+                                        style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -331,8 +264,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12,
-                                                    weight: FontWeight.bold)),
+                                                    size: 12, weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -345,9 +277,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.experienceLabel,
-                                        style: boldTextStyle(
-                                            size: LABEL_TEXT_SIZE))
+                                Text('Experiences', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -370,8 +300,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12,
-                                                    weight: FontWeight.bold)),
+                                                    size: 12, weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -384,24 +313,18 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text('${language.availabilityLabel}: ',
-                                    style:
-                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
-                                Text(
-                                    _availabilityDisplay(
-                                        data.userData!.availability),
+                                Text('Availability: ', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
-                              ],
+                      ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
                           if (mobilityList.isNotEmpty) ...[
                             15.height,
                             Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(language.mobility,
-                                        style: boldTextStyle(
-                                            size: LABEL_TEXT_SIZE))
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                                Text('Mobility', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
                                 8.height,
                                 Wrap(
@@ -424,8 +347,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12,
-                                                    weight: FontWeight.bold)),
+                                                    size: 12, weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -438,11 +360,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.certification,
-                                        style: boldTextStyle(
-                                            size: LABEL_TEXT_SIZE))
+                                Text('Certification', style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
-                                8.height,
+                        8.height,
                                 Wrap(
                                   children: certifications.map((e) {
                                     return e.isNotEmpty
@@ -463,8 +383,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                                 right: 8, bottom: 8),
                                             child: Text(e,
                                                 style: secondaryTextStyle(
-                                                    size: 12,
-                                                    weight: FontWeight.bold)),
+                                                    size: 12, weight: FontWeight.bold)),
                                           )
                                         : SizedBox.shrink();
                                   }).toList(),
@@ -477,12 +396,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.educationLevel,
-                                    style:
-                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('Education', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(
-                                    _educationDisplay(data.userData!.education),
+                                Text(data.userData!.education.validate(),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),
@@ -493,7 +409,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${language.bookingsLabel}:',
+                                  'Bookings:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -516,13 +432,13 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
-                          if (data.completedJobs != null) ...[
+                          if (data.userData?.totalBooking != null) ...[
                             15.height,
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${language.completedJobsLabel}:',
+                                  'Completed Jobs:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -537,7 +453,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                                   padding: EdgeInsets.symmetric(
                                       horizontal: 16, vertical: 8),
                                   child: Text(
-                                    '${data.completedJobs.validate()}',
+                                    '0',
                                     style: secondaryTextStyle(
                                         size: 12, weight: FontWeight.bold),
                                   ),
@@ -555,25 +471,22 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.aboutMe,
-                                    style:
-                                        boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('About Me', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
                                 Text(data.userData!.aboutMe.validate(),
                                     style: secondaryTextStyle(size: 12)),
-                              ],
+                      ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
                           32.height,
-                          if (data.serviceList != null &&
-                              data.serviceList!.isNotEmpty)
+                          if (data.serviceList != null && data.serviceList!.isNotEmpty)
                             servicesWidget(
                               list: data.serviceList!.take(6).toList(),
                               handymanId: widget.handymanId.validate(),
                               handymanData: data.userData,
                             ).paddingSymmetric(horizontal: 16),
                           32.height,
-                          _buildReviewsSection(data),
+                  _buildReviewsSection(data),
                         ],
                       ),
                     ],
@@ -604,9 +517,9 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                 },
               );
             },
+              ),
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -670,3 +583,4 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
     );
   }
 }
+

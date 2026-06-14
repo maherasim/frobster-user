@@ -8,7 +8,6 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../../component/cached_image_widget.dart';
 import '../../../component/price_widget.dart';
-import '../../withdraw/wallet_request.dart';
 import '../user_wallet_balance_screen.dart';
 
 class WalletCard extends StatefulWidget {
@@ -56,21 +55,6 @@ class _WalletCardState extends State<WalletCard> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
-              TextIcon(
-                onTap: () {
-                  WithdrawRequest(
-                    availableBalance: widget.availableBalance,
-                  ).launch(context).then(widget.callback!);
-                },
-                suffix: CachedImageWidget(
-                  url: ic_plus,
-                  height: 16,
-                  width: 16,
-                  color: white,
-                ),
-                textStyle: secondaryTextStyle(color: white),
-                text: language.withdraw,
-              ),
               TextIcon(
                 onTap: () {
                   UserWalletBalanceScreen(isBackScreen: true)

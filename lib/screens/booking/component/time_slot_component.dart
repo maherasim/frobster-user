@@ -1,4 +1,3 @@
-import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/time_slots_model.dart';
 import 'package:booking_system_flutter/utils/extensions/date_formatter.dart';
 import 'package:flutter/material.dart';
@@ -31,13 +30,13 @@ class TimeSlotComponent extends StatelessWidget {
             spacing: 2,
             children: [
               text(
-                  language.lblDate,
+                  'Date',
                   timeSlotModel.selectedDate
                       .formatDateTime(formate: 'yyyy-MM-dd')),
-              text(language.startTime, timeSlotModel.startTime),
-              text(language.endTime, timeSlotModel.endTime),
-              text(language.totalDays, timeSlotModel.totalDays.toString()),
-              text(language.totalHours, timeSlotModel.totalHours.toString()),
+              text('Start Time', timeSlotModel.startTime),
+              text('End Time', timeSlotModel.endTime),
+              text('Total Days', timeSlotModel.totalDays.toString()),
+              text('Total Hours', timeSlotModel.totalHours.toString()),
             ],
           ),
         ),

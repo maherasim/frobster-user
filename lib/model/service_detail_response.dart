@@ -187,7 +187,6 @@ class RatingData {
   String? customerProfileImage;
   String? serviceName;
   List<String>? attachments;
-  List<String>? images;
 
   RatingData({
     this.bookingId,
@@ -206,7 +205,6 @@ class RatingData {
     this.customerProfileImage,
     this.serviceName,
     this.attachments,
-    this.images,
   });
 
   factory RatingData.fromJson(Map<String, dynamic> json) {
@@ -231,8 +229,6 @@ class RatingData {
       attachments: json['attchments'] != null
           ? List<String>.from(json['attchments'])
           : null,
-      images:
-          json['images'] != null ? List<String>.from(json['images']) : null,
     );
   }
 
@@ -255,9 +251,6 @@ class RatingData {
     data['service_name'] = this.serviceName;
     if (this.attachments != null) {
       data['attchments'] = this.attachments;
-    }
-    if (this.images != null) {
-      data['images'] = this.images;
     }
     return data;
   }

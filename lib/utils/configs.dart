@@ -26,15 +26,15 @@ const IOS_LINK_FOR_USER =
 const DASHBOARD_AUTO_SLIDER_SECOND = 5;
 const OTP_TEXT_FIELD_LENGTH = 6;
 
-const TERMS_CONDITION_URL = 'https://iqonic.design/terms-of-use/';
-const PRIVACY_POLICY_URL = 'https://iqonic.design/privacy-policy/';
-const HELP_AND_SUPPORT_URL = 'https://iqonic.design/privacy-policy/';
+const TERMS_CONDITION_URL = 'https://persotel.de/terms-of-use/';
+const PRIVACY_POLICY_URL = 'https://persotel.de/privacy-policy/';
+const HELP_AND_SUPPORT_URL = 'https://persotel.de/privacy-policy/';
 const REFUND_POLICY_URL =
     'https://iqonic.design/licensing-terms-more/#refund-policy';
-const INQUIRY_SUPPORT_EMAIL = 'hello@iqonic.design';
+const INQUIRY_SUPPORT_EMAIL = 'hello@persotel.de';
 
 /// You can add help line number here for contact. It's demo number
-const HELP_LINE_NUMBER = '+15265897485';
+const HELP_LINE_NUMBER = '+4917620000000';
 
 //Airtel Money Payments
 ///It Supports ["UGX", "NGN", "TZS", "KES", "RWF", "ZMW", "CFA", "XOF", "XAF", "CDF", "USD", "XAF", "SCR", "MGA", "MWK"]
@@ -61,7 +61,7 @@ const STRIPE_CURRENCY_CODE = 'EUR';
 const RAZORPAY_CURRENCY_CODE = 'INR';
 
 /// PAYPAL PAYMENT DETAIL
-const PAYPAL_CURRENCY_CODE = 'USD';
+const PAYPAL_CURRENCY_CODE = 'EURO';
 
 /// SADAD PAYMENT DETAIL
 const SADAD_API_URL = 'https://api-s.sadad.qa';

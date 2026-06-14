@@ -181,8 +181,8 @@ List<LanguageDataModel> languageList() {
 
 InputDecoration inputDecoration(BuildContext context,
     {Widget? prefixIcon,
-    String? labelText,
     Widget? label,
+    String? labelText,
     String? hintText,
     double? borderRadius,
     bool? counter,
@@ -190,12 +190,13 @@ InputDecoration inputDecoration(BuildContext context,
     Color? fillColor}) {
   return InputDecoration(
     contentPadding: EdgeInsets.only(left: 12, bottom: 10, top: 10, right: 10),
-    labelText: labelText,
     label: label,
+    labelText: labelText,
     labelStyle: secondaryTextStyle(),
     hintText: hintText,
     hintStyle: secondaryTextStyle(),
-    alignLabelWithHint: hintText != null && labelText != null,
+    alignLabelWithHint:
+        hintText != null && (labelText != null || label != null),
     counterText: counter == false ? "" : counterText,
     prefixIcon: prefixIcon,
     enabledBorder: OutlineInputBorder(
@@ -603,102 +604,19 @@ String getPaymentStatusText(String? status, String? method) {
   }
 }
 
-/// Format payment method from DB (e.g. bank_transfer) to display.
+/// Format payment method from DB (e.g. bank_transfer) to display (e.g. Bank Transfer).
 String formatPaymentMethodDisplay(String? method) {
   if (method == null || method.isEmpty) return method.validate();
   final lower = method.trim().toLowerCase();
-  if (lower == PAYMENT_METHOD_BANK_TRANSFER) {
-    return ['de', 'fr'].contains(appStore.selectedLanguageCode)
-        ? language.bankTransferDetailsTitle
-        : 'Bank Transfer';
-  }
+  if (lower == 'Bank_transfer') return 'Bank Transfer';
   if (lower == 'paypal') return 'PayPal';
   if (lower == 'stripe') return 'Stripe';
-  if (lower == PAYMENT_METHOD_FROM_WALLET) return language.wallet;
-  if (lower == PAYMENT_METHOD_COD) {
-    return appStore.selectedLanguageCode == 'de' ? 'Barzahlung' : 'Cash';
-  }
+  if (lower == 'wallet') return 'Wallet';
+  if (lower == 'cash') return 'Cash';
   return method.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
   }).join(' ');
-}
-
-String formatBookingActivityText(String? value) {
-  final text = value.validate().replaceAll('_', ' ').trim();
-  if (text.isEmpty) return '';
-
-  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
-  if (appStore.selectedLanguageCode == 'de') {
-    final advanceBidMatch = RegExp(
-      r'^advance payment of (.+) for bid #?(\d+) has been paid$',
-      caseSensitive: false,
-    ).firstMatch(text);
-    if (advanceBidMatch != null) {
-      return 'Anzahlung von ${advanceBidMatch.group(1)} für Gebot #${advanceBidMatch.group(2)} wurde bezahlt';
-    }
-
-    if (normalized == 'customer send provider' ||
-        normalized == 'customer sent provider') {
-      return 'Kunde hat an Anbieter gesendet';
-    }
-  }
-
-  return text.capitalizeFirstLetter();
-}
-
-String formatTransactionStatusDisplay(String? status) {
-  final text = status.validate().replaceAll('_', ' ').trim();
-  if (text.isEmpty) return '';
-
-  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
-  if (normalized == 'completed') return language.completed;
-  if (normalized == 'paid') return language.paid;
-  if (normalized == 'advance' || normalized == 'advanced') {
-    return language.advancePayment;
-  }
-  if (normalized == 'advanced paid' || normalized == 'advance paid') {
-    return language.advancePaid;
-  }
-  if (normalized == 'pending') return language.lblPending;
-  if (normalized == 'pending by admin') {
-    return '${language.lblPending} ${language.by} Admin';
-  }
-
-  return text.capitalizeFirstLetter();
-}
-
-String formatTransactionTypeDisplay(String? type) {
-  final text = type.validate().replaceAll('_', ' ').trim();
-  if (text.isEmpty) return '';
-
-  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
-  if (normalized == 'bank transfer') return language.bankTransferDetailsTitle;
-  if (normalized == 'wallet') return language.wallet;
-  if (normalized == 'advance' || normalized == 'advance payment') {
-    return language.advancePayment;
-  }
-  if (normalized == 'remaining' || normalized == 'remaining payment') {
-    return language.remainingAmount;
-  }
-  if (normalized == 'top up' || normalized == 'topup')
-    return language.topUpWallet;
-  if (normalized == 'withdraw') return language.withdraw;
-
-  return text.capitalizeFirstLetter();
-}
-
-String formatChatMessageText(String? value) {
-  final text = value.validate().trim();
-  if (text.isEmpty) return '';
-
-  final normalized = text.toLowerCase().replaceAll(RegExp(r'\s+'), ' ');
-  if (normalized == 'message hidden due to policy' ||
-      normalized == 'message hidden due to policy violation') {
-    return language.messageHiddenDueToPolicy;
-  }
-
-  return text;
 }
 
 String buildPaymentStatusWithMethod(String status, String method) {
@@ -835,9 +753,7 @@ class OptionListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      crossAxisAlignment: WrapCrossAlignment.center,
-      runSpacing: 6,
+    return Row(
       children: List.generate(
         optionList.length,
         (index) => Row(

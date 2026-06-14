@@ -1,16 +1,13 @@
 import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
-import 'package:booking_system_flutter/component/theme_selection_dialog.dart';
 import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/about_screen.dart';
-import 'package:booking_system_flutter/screens/auth/change_password_screen.dart';
 import 'package:booking_system_flutter/screens/auth/edit_profile_screen.dart';
 import 'package:booking_system_flutter/screens/auth/sign_in_screen.dart';
 import 'package:booking_system_flutter/screens/blog/view/blog_list_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/customer_rating_screen.dart';
 import 'package:booking_system_flutter/screens/dashboard/dashboard_screen.dart';
-import 'package:booking_system_flutter/screens/language_screen.dart';
 import 'package:booking_system_flutter/screens/service/favourite_service_screen.dart';
 import 'package:booking_system_flutter/screens/setting_screen.dart';
 import 'package:booking_system_flutter/screens/wallet/user_wallet_balance_screen.dart';
@@ -239,7 +236,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant),
-                          title: language.bookingHistory,
+                          title: 'My Bookings',
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
                               EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -310,7 +307,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant),
-                          title: language.myPostJobList,
+                          title: 'My Job Requests',
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
                           padding:
@@ -432,89 +429,6 @@ class ProfileFragmentState extends State<ProfileFragment> {
                     ).paddingAll(16);
                   }),
                   SettingSection(
-                    title: Text(language.lblAppSetting.toUpperCase(),
-                        style: boldTextStyle(color: gradientRed)),
-                    headingDecoration: BoxDecoration(
-                        gradient: LinearGradient(
-                          begin: Alignment.centerLeft,
-                          end: Alignment.centerRight,
-                          colors: [
-                            gradientRed.withValues(alpha: 0.14),
-                            brandAccentColor.withValues(alpha: 0.10),
-                          ],
-                        ),
-                        borderRadius: BorderRadiusDirectional.vertical(
-                            top: Radius.circular(16))),
-                    divider: Offstage(),
-                    headerPadding: EdgeInsets.only(
-                        bottom: 14, right: 14, left: 16, top: 14),
-                    items: [
-                      8.height,
-                      SettingItemWidget(
-                        decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_dark_mode.iconImage(
-                            size: SETTING_ICON_SIZE,
-                            color: cs.onSurfaceVariant),
-                        title: language.appTheme,
-                        titleTextStyle: boldTextStyle(size: 12),
-                        trailing: trailing,
-                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
-                        onTap: () async {
-                          await showInDialog(
-                            context,
-                            builder: (context) => ThemeSelectionDaiLog(),
-                            contentPadding: EdgeInsets.zero,
-                          );
-                        },
-                      ),
-                      SettingItemWidget(
-                        decoration: BoxDecoration(color: context.cardColor),
-                        leading: ic_language.iconImage(
-                            size: SETTING_ICON_SIZE,
-                            color: cs.onSurfaceVariant),
-                        title: language.language,
-                        titleTextStyle: boldTextStyle(size: 12),
-                        trailing: trailing,
-                        padding: EdgeInsets.only(top: 20, left: 16, right: 16),
-                        onTap: () {
-                          LanguagesScreen().launch(context).then((value) {
-                            setState(() {});
-                          });
-                        },
-                      ),
-                      if (isLoginTypeUser)
-                        SettingItemWidget(
-                          decoration: BoxDecoration(color: context.cardColor),
-                          leading: ic_lock.iconImage(
-                              size: SETTING_ICON_SIZE,
-                              color: cs.onSurfaceVariant),
-                          title: language.changePassword,
-                          titleTextStyle: boldTextStyle(size: 12),
-                          trailing: trailing,
-                          padding:
-                              EdgeInsets.only(top: 20, left: 16, right: 16),
-                          onTap: () {
-                            doIfLoggedIn(context, () {
-                              ChangePasswordScreen().launch(context);
-                            });
-                          },
-                        ),
-                      SettingItemWidget(
-                        decoration: BoxDecoration(
-                            color: context.cardColor,
-                            borderRadius: BorderRadiusDirectional.vertical(
-                                bottom: Radius.circular(16))),
-                        title: '',
-                        titleTextStyle: boldTextStyle(size: 0),
-                        highlightColor: Colors.transparent,
-                        splashColor: Colors.transparent,
-                        padding: EdgeInsets.only(
-                            bottom: 6, right: 16, left: 16, top: 6),
-                        onTap: () {},
-                      ),
-                    ],
-                  ).paddingSymmetric(horizontal: 16),
-                  SettingSection(
                     title: Text(language.lblAboutApp.toUpperCase(),
                         style: boldTextStyle(color: gradientRed)),
                     headingDecoration: BoxDecoration(
@@ -560,7 +474,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                               context, appConfigurationStore.privacyPolicy,
                               title: language.privacyPolicy);
                         },
-                      ).visible(rolesAndPermissionStore.privacyPolicy),
+                      ),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
                         leading: ic_document.iconImage(
@@ -575,7 +489,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                               context, appConfigurationStore.termConditions,
                               title: language.termsCondition);
                         },
-                      ).visible(rolesAndPermissionStore.termCondition),
+                      ),
                       SettingItemWidget(
                         decoration: BoxDecoration(color: context.cardColor),
                         leading: ic_refund.iconImage(
@@ -592,8 +506,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                         },
                       ).visible(
                           rolesAndPermissionStore.refundAndCancellationPolicy),
-                      if (appConfigurationStore.helpAndSupport.isNotEmpty &&
-                          rolesAndPermissionStore.helpAndSupport)
+                      if (appConfigurationStore.helpAndSupport.isNotEmpty)
                         SettingItemWidget(
                           decoration: BoxDecoration(color: context.cardColor),
                           leading: ic_helpAndSupport.iconImage(

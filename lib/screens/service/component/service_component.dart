@@ -98,11 +98,11 @@ class ServiceComponentState extends State<ServiceComponent> {
     } else {
       priceText = widget.serviceData.price.validate().toPriceFormat();
       if (widget.serviceData.isHourlyService) {
-        priceText += language.priceSuffixHourly;
+        priceText += '/Hour';
       } else if (widget.serviceData.isDailyService) {
-        priceText += language.priceSuffixDaily;
+        priceText += '/Day';
       } else if (widget.serviceData.isFixedService) {
-        priceText += language.priceSuffixFixed;
+        priceText += '/Fix';
       }
     }
 
@@ -142,7 +142,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to Facebook: $e');
-      toast(language.failedToShareToFacebook);
+      toast('Failed to share to Facebook. Please try again.');
     }
   }
 
@@ -161,7 +161,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to Instagram: $e');
-      toast(language.failedToShareToInstagram);
+      toast('Failed to share to Instagram. Please try again.');
     }
   }
 
@@ -180,7 +180,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to Twitter: $e');
-      toast(language.failedToShareToTwitter);
+      toast('Failed to share to Twitter. Please try again.');
     }
   }
 
@@ -199,7 +199,7 @@ class ServiceComponentState extends State<ServiceComponent> {
       );
     } catch (e) {
       log('Error sharing to LinkedIn: $e');
-      toast(language.failedToShareToLinkedIn);
+      toast('Failed to share to LinkedIn. Please try again.');
     }
   }
 
@@ -211,7 +211,7 @@ class ServiceComponentState extends State<ServiceComponent> {
   }
 
   bool get _isOwnService {
-    final pid = widget.serviceData.providerId;
+    final pid = widget.serviceData.providerId?.validate().toInt();
     if (pid == null) return false;
     return pid == appStore.userId;
   }
@@ -231,8 +231,8 @@ class ServiceComponentState extends State<ServiceComponent> {
             return ServiceDashboardComponent3(serviceData: widget.serviceData);
           case DASHBOARD_4:
             return ServiceDashboardComponent4(serviceData: widget.serviceData);
-          default:
-            return Center(child: Text(language.invalidDashboardType));
+            default:
+            return Center(child: Text("Invalid Dashboard Type"));
         }
       });
     }
@@ -304,7 +304,7 @@ class ServiceComponentState extends State<ServiceComponent> {
     }
     
     final String cityCountry = (mappedCity.isEmpty && mappedCountry.isEmpty)
-        ? language.notAvailable
+        ? 'N/A'
         : (mappedCity.isNotEmpty && mappedCountry.isNotEmpty
             ? '${mappedCity} - ${mappedCountry}'
             : '${mappedCity}${mappedCountry}');
@@ -556,7 +556,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              '${language.services}: ${widget.serviceData.providerTotalServices ?? 0}',
+                              'Services: ${widget.serviceData.providerTotalServices ?? 0}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),
@@ -564,7 +564,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              '${language.views}: ${widget.serviceData.totalViews ?? NumberFormat("#,###").format(randomNumber)}',
+                              'Views: ${widget.serviceData.totalViews ?? NumberFormat("#,###").format(randomNumber)}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),

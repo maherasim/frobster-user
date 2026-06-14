@@ -72,6 +72,11 @@ class _TrackLocationState extends State<TrackLocation>
   }
 
   allLocation() async {
+    try {
+      await _loadCustomIcon();
+    } catch (e) {
+      log("Error loading custom icon: $e");
+    }
     await setLocationfuns();
     _startLocationUpdates();
   }
@@ -181,7 +186,7 @@ class _TrackLocationState extends State<TrackLocation>
           gmaps.Marker(
             markerId: gmaps.MarkerId('providerLocation'),
             position: gmaps.LatLng(lat, lng),
-            icon: gmaps.BitmapDescriptor.defaultMarker,
+            icon: customIcon ?? gmaps.BitmapDescriptor.defaultMarker,
           ),
         };
       });
@@ -220,7 +225,7 @@ class _TrackLocationState extends State<TrackLocation>
           gmaps.Marker(
             markerId: gmaps.MarkerId('providerLocation'),
             position: gmaps.LatLng(lat, lng),
-            icon: gmaps.BitmapDescriptor.defaultMarker,
+            icon: customIcon ?? gmaps.BitmapDescriptor.defaultMarker,
           ),
         };
       });

@@ -108,6 +108,7 @@ abstract class _AppStore with Store {
   @observable
   double expansionDynamicHeight = 65;
 
+  /// User or provider ids blocked via UGC (persisted per account).
   @observable
   List<int> blockedUserIds = ObservableList();
 

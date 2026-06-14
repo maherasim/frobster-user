@@ -9,10 +9,11 @@ import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/images.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
-import 'package:booking_system_flutter/screens/booking/component/report_profile_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
 import 'package:nb_utils/nb_utils.dart';
+
+import 'report_profile_dialog.dart';
 
 class BookingDetailHandymanWidget extends StatefulWidget {
   final UserData handymanData;
@@ -101,23 +102,21 @@ class BookingDetailHandymanWidgetState
                   ),
                   5.height,
                   Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Row(
                         children: [
                           Text(
-                                  widget.handymanData.displayName
-                                          .validate()
-                                          .isNotEmpty
-                                      ? widget.handymanData.displayName
-                                          .validate()
-                                      : 'N/A',
-                                  style: boldTextStyle())
-                              .flexible(),
+                              widget.handymanData.displayName
+                                      .validate()
+                                      .isNotEmpty
+                                  ? widget.handymanData.displayName.validate()
+                                  : 'N/A',
+                              style: boldTextStyle())
+                          .flexible(),
                           16.width,
-                          Image.asset(ic_verified,
-                                  height: 16, color: Colors.green)
-                              .visible(widget.handymanData.isVerifyHandyman ==
-                                  1),
+                          Image.asset(ic_verified, height: 16, color: Colors.green)
+                              .visible(widget.handymanData.isVerifyHandyman == 1),
                         ],
                       ).expand(),
                       if (widget.showProfileReportFlag)
@@ -139,7 +138,7 @@ class BookingDetailHandymanWidgetState
                               tooltip: language.ugcReportProfileTitle,
                               icon: Icon(
                                 Icons.flag_outlined,
-                                color: gradientRed,
+                                color: context.primaryColor,
                                 size: 20,
                               ),
                               onPressed: () {
