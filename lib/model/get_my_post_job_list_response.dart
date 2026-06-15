@@ -402,6 +402,7 @@ enum RequestStatus {
   accepted('accepted', accept),
   advancePaymentPending('advance_payment_pending', primaryColorWithOpacity),
   advancePaid('advance_paid', primaryColorWithOpacity),
+  onGoing('on_going', primaryColorWithOpacity),
   inProcess('in_process', primaryColorWithOpacity),
   inProgress('in_progress', primaryColorWithOpacity),
   hold('hold', primaryColorWithOpacity),
@@ -424,6 +425,7 @@ enum RequestStatus {
       case RequestStatus.accepted: return language.statusAccepted;
       case RequestStatus.advancePaymentPending: return language.statusAdvancePaymentPending;
       case RequestStatus.advancePaid: return language.statusAdvancePaid;
+      case RequestStatus.onGoing: return language.onGoing;
       case RequestStatus.inProcess: return language.statusInProcess;
       case RequestStatus.inProgress: return language.statusInProgress;
       case RequestStatus.hold: return language.statusHold;
