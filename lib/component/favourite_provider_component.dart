@@ -162,7 +162,7 @@ class _FavouriteProviderComponentState
                 width: widget.width,
                 child: Marquee(
                   directionMarguee: DirectionMarguee.oneDirection,
-                  child: Text('Berlin - Germany',
+                  child: Text('${widget.data?.cityName ?? ''} - ${widget.data?.countryName ?? ''}',
                       style: primaryTextStyle(size: 12),
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis),

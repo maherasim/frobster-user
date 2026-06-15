@@ -270,7 +270,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
             }
           });
         } else {
-          toast('Error processing payment: ${e.toString()}');
+          toast(language.errorProcessingPayment);
           finish(context, false);
         }
       }
