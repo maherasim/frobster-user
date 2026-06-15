@@ -1678,14 +1678,13 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         // Show "Sent Invoice" text if invoice was sent
         buttons.add(
           Container(
-        width: context.width(),
-        padding: EdgeInsets.all(16),
-        decoration: BoxDecoration(color: context.cardColor),
-        child: Text(language.sentInvoiceText,
-                style: boldTextStyle(), textAlign: TextAlign.center)
-            .center(),
-          ),
-      );
+            padding: EdgeInsets.all(16),
+            decoration: BoxDecoration(color: context.cardColor),
+            child: Text(language.sentInvoiceText,
+                    style: boldTextStyle(), textAlign: TextAlign.center)
+                .center(),
+          ).expand(),
+        );
       }
       
       // Rate button - show if not reviewed yet
