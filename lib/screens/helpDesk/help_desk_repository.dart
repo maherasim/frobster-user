@@ -57,7 +57,7 @@ Future<void> saveHelpDeskMultiPart(
     } catch (e) {
       log('Error parsing response: $e');
       appStore.setLoading(false);
-      toast('Query submitted successfully');
+      toast(language.querySubmittedSuccessfully);
       LiveStream().emit(LIVESTREAM_UPDATE_HELP_DESK_LIST, OPEN);
       finish(getContext, true);
     }

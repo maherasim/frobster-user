@@ -122,7 +122,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
     } catch (e) {
       log('Error loading PayPal URL: $e');
       if (mounted) {
-        toast('Error loading PayPal page: ${e.toString()}');
+        toast('${language.lblErrorLoadingPayPal}: ${e.toString()}');
         finish(context, false);
       }
     }
@@ -139,7 +139,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
       final payerId = uri.queryParameters['PayerID'];
       
       if (token == null || token.isEmpty) {
-        toast('Payment verification failed: Missing token');
+        toast(language.lblPaymentVerificationMissingToken);
         finish(context, false);
         return;
       }
@@ -216,7 +216,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
             showSuccessScreen = false;
           });
           
-          toast('Payment verification failed due to server error. Please check your payment status or contact support.');
+          toast(language.lblPaymentVerificationServerError);
           finish(context, false);
         } else {
           // Other errors - might be network issues, but token exists so payment might be processed
@@ -251,7 +251,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         setState(() {
           showSuccessScreen = false;
         });
-        toast('Payment verification failed due to server error. Please check your payment status or contact support.');
+        toast(language.lblPaymentVerificationServerError);
         finish(context, false);
       } else {
         // Other errors - might be network issues

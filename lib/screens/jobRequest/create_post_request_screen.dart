@@ -1290,21 +1290,21 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         return false;
       }
       if (categoryId == null || categoryId == -1) {
-        toast('Please select category');
+        toast(language.selectCategory);
         return false;
       }
       return true;
     } else if (step == 1) {
       if (selectedCountry == null) {
-        toast('Please select country');
+        toast(language.selectCountry);
         return false;
       }
       if (stateList.isNotEmpty && selectedState == null) {
-        toast('Please select state');
+        toast(language.selectState);
         return false;
       }
       if (cityList.isNotEmpty && selectedCity == null) {
-        toast('Please select city');
+        toast(language.selectCity);
         return false;
       }
       return true;
@@ -1314,7 +1314,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         return false;
       }
       if (selStartDate.validate().isEmpty || selEndDate.validate().isEmpty) {
-        toast('Please select start and end dates');
+        toast(language.lblSelectStartEndDates);
         return false;
       }
       return true;

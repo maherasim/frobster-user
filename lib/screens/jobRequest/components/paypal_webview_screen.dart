@@ -141,7 +141,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
     } catch (e) {
       log('Error loading PayPal URL: $e');
       if (mounted) {
-        toast('Error loading PayPal page: ${e.toString()}');
+        toast('${language.lblErrorLoadingPayPal}: ${e.toString()}');
         finish(context, false);
       }
     }
@@ -158,7 +158,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
       final payerId = uri.queryParameters['PayerID'];
       
       if (token == null || token.isEmpty) {
-        toast('Payment verification failed: Missing token');
+        toast(language.lblPaymentVerificationMissingToken);
         finish(context, false);
         return;
       }
@@ -239,7 +239,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
             showSuccessScreen = false;
           });
           
-          toast('Payment verification failed due to server error. Please check your payment status or contact support.');
+          toast(language.lblPaymentVerificationServerError);
           finish(context, false);
         } else {
           // Other errors - might be network issues, but token exists so payment might be processed
@@ -274,7 +274,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
         setState(() {
           showSuccessScreen = false;
         });
-        toast('Payment verification failed due to server error. Please check your payment status or contact support.');
+        toast(language.lblPaymentVerificationServerError);
         finish(context, false);
       } else {
         // Other errors - might be network issues
@@ -293,7 +293,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
             }
           });
         } else {
-          toast('Error processing payment: ${e.toString()}');
+          toast('${language.lblPayPalPaymentError}: ${e.toString()}');
           finish(context, false);
         }
       }

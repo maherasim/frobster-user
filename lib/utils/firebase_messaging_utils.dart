@@ -49,7 +49,7 @@ Future<void> initFirebaseMessaging() async {
         });
       } else {
         log('Notification permission not granted. Status: ${value.authorizationStatus}');
-        toast('Please enable notifications in device settings');
+        toast(language.lblEnableNotifications);
       }
     }).catchError((e) {
       log('Firebase Messaging Permission Request ERROR: ${e}');

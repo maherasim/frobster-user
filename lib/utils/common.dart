@@ -457,7 +457,7 @@ Future<List<File>> pickFiles({
             _filePath.add(File(file.path!));
           } else {
             // File size exceeds the limit
-            toast('File size should be less than $maxFileSizeMB MB');
+            toast('${language.lblFileSizeLimitPrefix} $maxFileSizeMB MB');
           }
         }
       } else {
@@ -470,7 +470,7 @@ Future<List<File>> pickFiles({
             _filePath.add(cacheFile);
           } else {
             // File size exceeds the limit
-            toast('File size should be less than $maxFileSizeMB MB');
+            toast('${language.lblFileSizeLimitPrefix} $maxFileSizeMB MB');
           }
         }
       }
@@ -870,7 +870,7 @@ $serviceLink
     await Clipboard.setData(ClipboardData(text: postText));
 
     // Show toast message
-    toast('Content copied! Opening $platformName...');
+    toast('${language.lblContentCopiedOpening} $platformName...');
 
     // Open the platform directly
     try {
@@ -879,15 +879,15 @@ $serviceLink
 
       // Wait a moment for the platform to open, then show paste hint
       Future.delayed(Duration(milliseconds: 1500), () {
-        toast('Content is copied! Click + icon, then paste and post');
+        toast(language.lblContentCopiedClickIcon);
       });
     } catch (e) {
       log('Failed to open $platformName: $e');
-      toast('Failed to open $platformName. Content is copied to clipboard.');
+      toast('${language.lblFailedOpenPrefix} $platformName. ${language.lblContentCopiedToClipboard}');
     }
   } catch (e) {
     log('Failed to share to $platformName: $e');
-    toast('Failed to share. Please try again.');
+    toast(language.lblFailedShare);
   }
 }
 
@@ -980,7 +980,7 @@ $serviceLink
   await Clipboard.setData(ClipboardData(text: postText));
 
   // Show toast message
-  toast('Content copied! Opening Twitter...');
+  toast(language.lblContentCopiedOpeningTwitter);
 
   // Try Twitter app first, then fall back to web
   final String encodedText = Uri.encodeComponent('$serviceName - $serviceLink');
@@ -1000,7 +1000,7 @@ $serviceLink
       await launchUrl(appUri, mode: LaunchMode.externalApplication);
       launched = true;
       Future.delayed(Duration(milliseconds: 1500), () {
-        toast('Content is copied! Click + icon, then paste and post');
+        toast(language.lblContentCopiedClickIcon);
       });
     }
   } catch (e) {
@@ -1013,11 +1013,11 @@ $serviceLink
       final Uri webUri = Uri.parse(twitterWebUrl);
       await launchUrl(webUri, mode: LaunchMode.externalApplication);
       Future.delayed(Duration(milliseconds: 1500), () {
-        toast('Content is copied! Paste it in the tweet');
+        toast(language.lblContentCopiedPasteInTweet);
       });
     } catch (e) {
       log('Failed to open Twitter: $e');
-      toast('Failed to open Twitter. Content is copied to clipboard.');
+      toast(language.lblFailedOpenTwitter);
     }
   }
 }
@@ -1053,7 +1053,7 @@ $serviceLink
   await Clipboard.setData(ClipboardData(text: postText));
 
   // Show toast message
-  toast('Content copied! Opening LinkedIn...');
+  toast(language.lblContentCopiedOpeningLinkedIn);
 
   // Try LinkedIn app first, then fall back to web
   final String encodedUrl = Uri.encodeComponent(serviceLink);
@@ -1072,7 +1072,7 @@ $serviceLink
       await launchUrl(appUri, mode: LaunchMode.externalApplication);
       launched = true;
       Future.delayed(Duration(milliseconds: 1500), () {
-        toast('Content is copied! Click + icon, then paste and post');
+        toast(language.lblContentCopiedClickIcon);
       });
     }
   } catch (e) {
@@ -1085,11 +1085,11 @@ $serviceLink
       final Uri webUri = Uri.parse(linkedInWebUrl);
       await launchUrl(webUri, mode: LaunchMode.externalApplication);
       Future.delayed(Duration(milliseconds: 1500), () {
-        toast('Content is copied! Paste it in the post');
+        toast(language.lblContentCopiedPasteInPost);
       });
     } catch (e) {
       log('Failed to open LinkedIn: $e');
-      toast('Failed to open LinkedIn. Content is copied to clipboard.');
+      toast(language.lblFailedOpenLinkedIn);
     }
   }
 }

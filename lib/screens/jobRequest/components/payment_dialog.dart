@@ -216,15 +216,15 @@ class _PaymentDialogState extends State<PaymentDialog> {
         }
       } else {
         appStore.setLoading(false);
-        toast('Invalid response from server. Please try again.');
+        toast(language.lblInvalidServerResponseRetry);
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast('Payment endpoint not found. Please contact support.');
+        toast(language.lblPaymentEndpointNotFound);
       } else {
-        toast('PayPal payment error: ${e.toString()}');
+        toast('${language.lblPayPalPaymentError}: ${e.toString()}');
       }
     }
   }
@@ -261,7 +261,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
      final errMsg = e.toString().trim().toLowerCase();
      // Backend may return 404 (e.g. stripe confirm route). Show static message and close so screen refreshes.
      if (errMsg.contains('page not found') || errMsg.contains('404')) {
-       toast('Payment may have been successful. Refreshing...');
+       toast(language.lblPaymentMayBeSuccessful);
        finish(context, true);
      } else {
        toast(e.toString().validate());
