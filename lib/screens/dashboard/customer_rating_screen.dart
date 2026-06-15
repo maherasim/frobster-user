@@ -79,11 +79,12 @@ class _CustomerRatingScreenState extends State<CustomerRatingScreen> {
                                   CachedImageWidget(
                                     url: data.attachments.validate().isNotEmpty
                                         ? data.attachments!.first
-                                        : '',
+                                        : data.customerProfileImage.validate(),
                                     height: 75,
                                     width: 75,
                                     fit: BoxFit.cover,
                                     radius: defaultRadius,
+                                    circle: data.attachments.validate().isEmpty,
                                   ),
                                   16.width,
                                   Column(
