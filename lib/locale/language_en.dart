@@ -2191,14 +2191,14 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordMustIncludeLetter =>
-      'At least one letter (AÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œZ or aÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œz)';
+      'At least one letter (A–Z or a–z)';
 
   @override
-  String get passwordMustIncludeNumber => 'At least one number (0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ9)';
+  String get passwordMustIncludeNumber => 'At least one number (0–9)';
 
   @override
   String get passwordRequirementsHint =>
-      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ At least 12 to 20 characters\nÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ At least one letter (AÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œZ or aÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œz)\nÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ At least one number (0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ9)';
+      '• At least 12 to 20 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
 
   @override
   String get paymentMethodNotSupported => 'Payment method not supported';
@@ -2295,11 +2295,11 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get workInProgressWaitingForProvider =>
-      "Work in progress ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â waiting for provider to update or mark done";
+      "Work in progress — waiting for provider to update or mark done";
 
   @override
   String get jobCompletedWaitingForCustomer =>
-      "Job is completed ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â waiting for customer to pay remaining amount";
+      "Job is completed — waiting for customer to pay remaining amount";
 
   @override
   String get paymentCompletedDownloadInvoice =>
@@ -2376,7 +2376,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get ugcBlockConfirmMessage =>
-      'You will stop seeing this providerÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢s services. Continue?';
+      'You will stop seeing this provider’s services. Continue?';
 
   @override
   String get ugcProviderBlockedMessage => 'You blocked this provider.';
