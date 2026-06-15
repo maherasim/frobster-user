@@ -226,9 +226,11 @@ class RatingData {
       customerProfileImage:
           json['customer_profile_image'] ?? json['provider_profile_image'],
       serviceName: json['service_name'],
-      attachments: json['attchments'] != null
-          ? List<String>.from(json['attchments'])
-          : null,
+      attachments: json['images'] != null
+          ? List<String>.from(json['images'])
+          : json['attchments'] != null
+              ? List<String>.from(json['attchments'])
+              : null,
     );
   }
 
