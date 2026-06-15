@@ -175,7 +175,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       await _fetchNew();
       if (res.flagged) {
         final reason = res.piiTypes.join('/');
-        toast('Message hidden due to policy (${reason})');
+        toast('${language.lblMessageHiddenPolicy} ($reason)');
       }
     } catch (e) {
       toast(e.toString());

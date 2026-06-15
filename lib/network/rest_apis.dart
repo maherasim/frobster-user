@@ -1188,7 +1188,7 @@ Future<void> savePostJob(Map<String,dynamic> request,{ List<File>? imageFiles}) 
     log('Upload exception: $e');
     appStore.setLoading(false);
     if (e.toString().contains('TimeoutException') || e.toString().contains('timeout')) {
-      toast('Upload timeout. Please try again with smaller images or check your internet connection.');
+      toast(language.lblUploadTimeoutRetry);
     } else {
     toast(e.toString());
     }

@@ -75,7 +75,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
 
   Future<void> _handleSubmitClick() async {
     if (currentPaymentMethod == null) {
-      toast('Please select a payment method');
+      toast(language.lblPleaseSelectPaymentMethod);
       return;
     }
 
@@ -314,7 +314,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
       // Validate amount
       if (widget.amount <= 0) {
         appStore.setLoading(false);
-        toast('Invalid payment amount. Please try again.');
+        toast(language.lblInvalidPaymentAmountRetry);
         log('PayPal Payment Error: Invalid amount - widget.amount=${widget.amount}');
         return;
       }
@@ -392,15 +392,15 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
         }
       } else {
         appStore.setLoading(false);
-        toast('Invalid response from server. Please try again.');
+        toast(language.lblInvalidServerResponseRetry);
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast('Payment endpoint not found. Please contact support.');
+        toast(language.lblPaymentEndpointNotFound);
       } else {
-        toast('PayPal payment error: ${e.toString()}');
+        toast('${language.lblPayPalPaymentError}: ${e.toString()}');
       }
     }
   }

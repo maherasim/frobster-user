@@ -337,7 +337,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
     }
 
     if (selectedLanguages.isEmpty) {
-      toast('Please select at least one language');
+      toast(language.lblSelectAtLeastOneLanguage);
       return;
     }
     if (countryId == 0) {

@@ -90,7 +90,7 @@ class PayPalService {
     ).launch(context).catchError((e) {
       log("PayPal launch error: $e");
       appStore.setLoading(false);
-      toast('Failed to launch PayPal: ${e.toString()}');
+      toast('${language.lblFailedLaunchPayPal}: ${e.toString()}');
     }).whenComplete(() {
       appStore.setLoading(false);
     });

@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/pagination_model.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
@@ -394,29 +395,46 @@ enum YearsOfExperience {
   const YearsOfExperience(this.displayName, this.backendValue);
 }
 
-/// Education Level
 enum RequestStatus {
-  pending('Pending','pending',defaultStatus),
-  assigned('Assigned','assigned',primaryColorWithOpacity),
-  requested('Requested','requested',defaultStatus),
-  accepted('Accepted','accepted',accept),
-  advancePaymentPending('Advance Payment Pending','advance_payment_pending',primaryColorWithOpacity),
-  advancePaid('Advance Paid','advance_paid',primaryColorWithOpacity),
-  inProcess('In Process','in_process',primaryColorWithOpacity),
-  inProgress('In Progress','in_progress',primaryColorWithOpacity),
-  hold('Hold','hold',primaryColorWithOpacity),
-  done('Done','done',primaryColorWithOpacity),
-  confirmDone( 'Confirm Done','confirm_done',primaryColorWithOpacity),
-  completed( 'Completed','completed',primaryColorWithOpacity),
-  remainingPaymentPending('Remaining Payment Pending','remaining_payment_pending',primaryColorWithOpacity),
-  remainingPaid( 'Remaining Paid','remaining_paid',primaryColorWithOpacity),
+  pending('pending', defaultStatus),
+  assigned('assigned', primaryColorWithOpacity),
+  requested('requested', defaultStatus),
+  accepted('accepted', accept),
+  advancePaymentPending('advance_payment_pending', primaryColorWithOpacity),
+  advancePaid('advance_paid', primaryColorWithOpacity),
+  inProcess('in_process', primaryColorWithOpacity),
+  inProgress('in_progress', primaryColorWithOpacity),
+  hold('hold', primaryColorWithOpacity),
+  done('done', primaryColorWithOpacity),
+  confirmDone('confirm_done', primaryColorWithOpacity),
+  completed('completed', primaryColorWithOpacity),
+  remainingPaymentPending('remaining_payment_pending', primaryColorWithOpacity),
+  remainingPaid('remaining_paid', primaryColorWithOpacity),
+  cancel('cancelled', cancelled);
 
-  cancel( 'Cancelled','cancelled',cancelled);
-
-  final String displayName;
   final String backendValue;
   final Color bgColor;
-  const RequestStatus(this.displayName,this.backendValue,this.bgColor);
+  const RequestStatus(this.backendValue, this.bgColor);
+
+  String get displayName {
+    switch (this) {
+      case RequestStatus.pending: return language.statusPending;
+      case RequestStatus.assigned: return language.statusAssigned;
+      case RequestStatus.requested: return language.statusRequested;
+      case RequestStatus.accepted: return language.statusAccepted;
+      case RequestStatus.advancePaymentPending: return language.statusAdvancePaymentPending;
+      case RequestStatus.advancePaid: return language.statusAdvancePaid;
+      case RequestStatus.inProcess: return language.statusInProcess;
+      case RequestStatus.inProgress: return language.statusInProgress;
+      case RequestStatus.hold: return language.statusHold;
+      case RequestStatus.done: return language.statusDone;
+      case RequestStatus.confirmDone: return language.statusConfirmDone;
+      case RequestStatus.completed: return language.statusCompleted;
+      case RequestStatus.remainingPaymentPending: return language.statusRemainingPaymentPending;
+      case RequestStatus.remainingPaid: return language.statusRemainingPaid;
+      case RequestStatus.cancel: return language.statusCancelled;
+    }
+  }
 }
 
 class BidderData {

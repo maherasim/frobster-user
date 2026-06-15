@@ -427,15 +427,15 @@ class _PaymentScreenState extends State<PaymentScreen> {
         }
       } else {
         appStore.setLoading(false);
-        toast('Invalid response from server. Please try again.');
+        toast(language.lblInvalidServerResponseRetry);
       }
     } catch (e) {
       appStore.setLoading(false);
       final errMsg = e.toString().trim().toLowerCase();
       if (errMsg.contains('page not found') || errMsg.contains('404')) {
-        toast('Payment endpoint not found. Please contact support.');
+        toast(language.lblPaymentEndpointNotFound);
       } else {
-        toast('PayPal payment error: ${e.toString()}');
+        toast('${language.lblPayPalPaymentError}: ${e.toString()}');
       }
     }
   }

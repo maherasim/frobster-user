@@ -1509,7 +1509,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             GradientButton(
                               onPressed: () async {
                                 if (selectedRating == 0) {
-                                  toast('Please select a rating');
+                                  toast(language.lblSelectRating);
                                   return;
                                 }
 
@@ -1544,7 +1544,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                     if (message.isNotEmpty) {
                                       toast(message);
                                     } else {
-                                      toast('Rating submitted successfully');
+                                      toast(language.lblRatingSubmittedSuccess);
                                     }
                                     Future.delayed(Duration(milliseconds: 500), () {
                                       finish(context, true);

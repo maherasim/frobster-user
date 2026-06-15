@@ -2191,14 +2191,14 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get passwordMustIncludeLetter =>
-      'At least one letter (AÃ¢â‚¬â€œZ or aÃ¢â‚¬â€œz)';
+      'At least one letter (AÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œZ or aÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œz)';
 
   @override
-  String get passwordMustIncludeNumber => 'At least one number (0Ã¢â‚¬â€œ9)';
+  String get passwordMustIncludeNumber => 'At least one number (0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ9)';
 
   @override
   String get passwordRequirementsHint =>
-      'Ã¢â‚¬Â¢ At least 12 to 20 characters\nÃ¢â‚¬Â¢ At least one letter (AÃ¢â‚¬â€œZ or aÃ¢â‚¬â€œz)\nÃ¢â‚¬Â¢ At least one number (0Ã¢â‚¬â€œ9)';
+      'ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ At least 12 to 20 characters\nÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ At least one letter (AÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œZ or aÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œz)\nÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â¢ At least one number (0ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã…â€œ9)';
 
   @override
   String get paymentMethodNotSupported => 'Payment method not supported';
@@ -2295,11 +2295,11 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get workInProgressWaitingForProvider =>
-      "Work in progress Ã¢â‚¬â€ waiting for provider to update or mark done";
+      "Work in progress ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â waiting for provider to update or mark done";
 
   @override
   String get jobCompletedWaitingForCustomer =>
-      "Job is completed Ã¢â‚¬â€ waiting for customer to pay remaining amount";
+      "Job is completed ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â waiting for customer to pay remaining amount";
 
   @override
   String get paymentCompletedDownloadInvoice =>
@@ -2376,7 +2376,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get ugcBlockConfirmMessage =>
-      'You will stop seeing this providerÃ¢â‚¬â„¢s services. Continue?';
+      'You will stop seeing this providerÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢s services. Continue?';
 
   @override
   String get ugcProviderBlockedMessage => 'You blocked this provider.';
@@ -2827,4 +2827,144 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get lblLoadingPayPal => 'Loading PayPal...';
+
+  @override
+  String get lblUploadTimeoutRetry => 'Upload timeout. Please try again with smaller images or check your internet connection.';
+
+  @override
+  String get lblSelectAtLeastOneLanguage => 'Please select at least one language';
+
+  @override
+  String get lblPleaseSelectPaymentMethod => 'Please select a payment method';
+
+  @override
+  String get lblInvalidPaymentAmountRetry => 'Invalid payment amount. Please try again.';
+
+  @override
+  String get lblInvalidServerResponseRetry => 'Invalid response from server. Please try again.';
+
+  @override
+  String get lblPaymentEndpointNotFound => 'Payment endpoint not found. Please contact support.';
+
+  @override
+  String get lblPaymentVerificationMissingToken => 'Payment verification failed: Missing token';
+
+  @override
+  String get lblPaymentVerificationServerError => 'Payment verification failed due to server error. Please check your payment status or contact support.';
+
+  @override
+  String get lblPaymentMayBeSuccessful => 'Payment may have been successful. Refreshing...';
+
+  @override
+  String get lblSelectStartEndDates => 'Please select start and end dates';
+
+  @override
+  String get lblRatingSubmittedSuccess => 'Rating submitted successfully';
+
+  @override
+  String get lblFailedShareFacebook => 'Failed to share to Facebook. Please try again.';
+
+  @override
+  String get lblFailedShareInstagram => 'Failed to share to Instagram. Please try again.';
+
+  @override
+  String get lblFailedShareTwitter => 'Failed to share to Twitter. Please try again.';
+
+  @override
+  String get lblFailedShareLinkedIn => 'Failed to share to LinkedIn. Please try again.';
+
+  @override
+  String get lblContentCopiedClickIcon => 'Content is copied! Click + icon, then paste and post';
+
+  @override
+  String get lblFailedShare => 'Failed to share. Please try again.';
+
+  @override
+  String get lblContentCopiedOpeningTwitter => 'Content copied! Opening Twitter...';
+
+  @override
+  String get lblContentCopiedPasteInTweet => 'Content is copied! Paste it in the tweet';
+
+  @override
+  String get lblFailedOpenTwitter => 'Failed to open Twitter. Content is copied to clipboard.';
+
+  @override
+  String get lblContentCopiedOpeningLinkedIn => 'Content copied! Opening LinkedIn...';
+
+  @override
+  String get lblContentCopiedPasteInPost => 'Content is copied! Paste it in the post';
+
+  @override
+  String get lblFailedOpenLinkedIn => 'Failed to open LinkedIn. Content is copied to clipboard.';
+
+  @override
+  String get lblFileSizeLimitPrefix => 'File size should be less than';
+
+  @override
+  String get lblErrorLoadingPayPal => 'Error loading PayPal page';
+
+  @override
+  String get lblPayPalPaymentError => 'PayPal payment error';
+
+  @override
+  String get lblFailedLaunchPayPal => 'Failed to launch PayPal';
+
+  @override
+  String get lblMessageHiddenPolicy => 'Message hidden due to policy';
+
+  @override
+  String get lblContentCopiedOpening => 'Content copied! Opening';
+
+  @override
+  String get lblFailedOpenPrefix => 'Failed to open';
+
+  @override
+  String get lblContentCopiedToClipboard => 'Content is copied to clipboard.';
+
+  @override
+  String get statusPending => 'Pending';
+
+  @override
+  String get statusAssigned => 'Assigned';
+
+  @override
+  String get statusRequested => 'Requested';
+
+  @override
+  String get statusAccepted => 'Accepted';
+
+  @override
+  String get statusAdvancePaymentPending => 'Advance Payment Pending';
+
+  @override
+  String get statusAdvancePaid => 'Advance Paid';
+
+  @override
+  String get statusInProcess => 'In Process';
+
+  @override
+  String get statusInProgress => 'In Progress';
+
+  @override
+  String get statusHold => 'Hold';
+
+  @override
+  String get statusDone => 'Done';
+
+  @override
+  String get statusConfirmDone => 'Confirm Done';
+
+  @override
+  String get statusCompleted => 'Completed';
+
+  @override
+  String get statusRemainingPaymentPending => 'Remaining Payment Pending';
+
+  @override
+  String get statusRemainingPaid => 'Remaining Paid';
+
+  @override
+  String get statusCancelled => 'Cancelled';
+  @override
+  String get lblEnableNotifications => 'Please enable notifications in device settings';
 }
