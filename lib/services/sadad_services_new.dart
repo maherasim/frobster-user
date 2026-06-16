@@ -91,7 +91,7 @@ class SadadServicesNew {
       }
     }).catchError((e) {
       appStore.setLoading(false);
-      toast('Error: $e', print: true);
+      toast('${language.errorProcessingPayment}: $e', print: true);
     });
   }
 }

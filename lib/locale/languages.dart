@@ -905,6 +905,10 @@ abstract class BaseLanguage {
 
   String get firebaseRemoteCannotBe;
 
+  String get notificationSetupError;
+  String get notificationPermissionError;
+  String get firebaseInitError;
+
   String get search;
 
   String get close;
