@@ -377,7 +377,7 @@ class _TrackLocationState extends State<TrackLocation>
                               Icon(Icons.refresh, color: Colors.white, size: 20),
                               8.width,
                               Text(
-                                'Refresh location',
+                                language.refreshLocation,
                                 style: TextStyle(
                                     color: Colors.white,
                                     fontWeight: FontWeight.w600),

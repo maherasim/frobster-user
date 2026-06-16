@@ -39,7 +39,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
     final upper = trimmed.toUpperCase();
     switch (upper) {
       case 'ON_SITE':
-        return 'Onsite';
+        return language.visitTypeOnsite;
       default:
         final normalized = trimmed.replaceAll('_', ' ').replaceAll('-', ' ');
         final parts = normalized.split(RegExp(r'\s+'));
@@ -361,7 +361,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                                                 '' ||
                                             widget.bookingData.paymentStatus ==
                                                 'pending')
-                                    ? 'Waiting for advance payment'
+                                    ? language.waitingForCustomerToPayAdvancePercentage
                                     : widget.bookingData.status
                                         .validate()
                                         .toBookingStatus(),
@@ -554,7 +554,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'Start Date',
+                        language.startDate,
                         style: secondaryTextStyle(),
                       ).expand(flex: 2),
                       8.width,
@@ -574,7 +574,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       Text(
-                        'End Date',
+                        language.endDate,
                         style: secondaryTextStyle(),
                       ).expand(flex: 2),
                       8.width,

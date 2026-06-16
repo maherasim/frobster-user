@@ -236,7 +236,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant),
-                          title: 'My Bookings',
+                          title: language.myBookings,
                           titleTextStyle: boldTextStyle(size: 12),
                           padding:
                               EdgeInsets.only(top: 20, left: 16, right: 16),
@@ -307,7 +307,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                               color: Theme.of(context)
                                   .colorScheme
                                   .onSurfaceVariant),
-                          title: 'My Job Requests',
+                          title: language.myJobRequests,
                           titleTextStyle: boldTextStyle(size: 12),
                           trailing: trailing,
                           padding:

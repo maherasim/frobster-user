@@ -1,3 +1,4 @@
+import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/time_slots_model.dart';
 import 'package:booking_system_flutter/utils/extensions/date_formatter.dart';
 import 'package:flutter/material.dart';
@@ -46,7 +47,7 @@ class TimeSlotsList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Start Time',
+                        language.startTime,
                         style: secondaryTextStyle(),
                       ),
                       8.width,

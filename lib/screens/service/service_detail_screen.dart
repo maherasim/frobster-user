@@ -82,8 +82,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     final t = type.validate();
     final lower = t.toLowerCase();
     if (lower == SERVICE_TYPE_HOURLY.toLowerCase()) return language.hourly;
-    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return 'Daily';
-    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return 'Fixed';
+    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return language.priceType;
+    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return language.priceType;
     return t.capitalizeFirstLetter();
   }
 
@@ -102,9 +102,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     final upper = value.trim().toUpperCase();
     switch (upper) {
       case 'ON_SITE':
-        return 'Onsite';
+        return language.visitTypeOnsite;
       case 'ONLINE':
-        return 'Online';
+        return language.online;
       default:
         return _titleCase(value);
     }
@@ -112,11 +112,13 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   String _formatRemoteLevel(String value) {
     final v = value.trim().toLowerCase();
-    if (v == 'onsite') return 'Onsite (100%)';
+    if (v == 'onsite') return language.visitTypeOnsite;
+    if (v == 'hybrid') return language.visitTypeHybrid;
+    if (v == 'remote') return language.visitTypeRemote;
     if (v.endsWith('_remote')) {
       final pct = v.split('_').first;
       final numOnly = pct.replaceAll(RegExp(r'[^0-9]'), '');
-      if (numOnly.isNotEmpty) return '$numOnly% Remote';
+      if (numOnly.isNotEmpty) return '$numOnly% ${language.visitTypeRemote}';
     }
     return _titleCase(value);
   }
@@ -468,7 +470,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                 false)) ...[
                           Text(
                             (() {
-                              
+
                               final fallbackCity = snap.data?.serviceDetail?.cityName.validate() ?? '';
                               final fallbackCountry = snap.data?.serviceDetail?.countryName.validate() ?? '';
                               final city = fallbackCity.isNotEmpty ? fallbackCity : fallbackCity;
@@ -586,7 +588,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                         0)
                                 10.height,
                                 attributeRow(
-                                  'Minimum Orders',
+                                  language.minimumOrdersLabel,
                                   (() {
                                     final v = snap.data?.serviceDetail?.minimumOrders.validate() ?? '';
                                     return v.isEmpty ? 'N/A' : v;
@@ -594,7 +596,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Job type',
+                                  language.jobType,
                                   (() {
                                     final v = _formatVisitType(snap
                                             .data
@@ -607,7 +609,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Remote work level',
+                                  language.remoteWorkLevel,
                                   (() {
                                     final v = _formatRemoteLevel(snap
                                             .data

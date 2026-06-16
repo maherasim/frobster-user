@@ -149,7 +149,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
       // Hide webview immediately to prevent showing raw JSON
       setState(() {
         showSuccessScreen = true;
-        successMessage = 'Verifying payment...';
+        successMessage = language.verifyingPayment;
       });
       
       // Wait a moment for the backend to process the payment
@@ -169,7 +169,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         appStore.setLoading(false);
         
         if (responseData is Map && responseData['status'] == true) {
-          final message = responseData['message'] as String? ?? 'Payment completed successfully';
+          final message = responseData['message'] as String? ?? language.paymentCompletedSuccessfully;
           paymentData = responseData['data'] as Map<String, dynamic>?;
           
           // Update success screen with actual message
@@ -187,8 +187,8 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
         } else {
           appStore.setLoading(false);
           final errorMsg = responseData is Map 
-              ? (responseData['message'] as String? ?? 'Payment failed')
-              : 'Payment verification failed';
+              ? (responseData['message'] as String? ?? language.paymentFailed)
+              : language.paymentVerificationFailed;
           
           // Hide success screen and show error
           setState(() {
@@ -314,7 +314,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
             ),
             16.height,
             Text(
-              successMessage ?? 'Payment completed successfully',
+              successMessage ?? language.paymentCompletedSuccessfully,
               style: secondaryTextStyle(size: 16),
               textAlign: TextAlign.center,
             ).paddingSymmetric(horizontal: 32),
@@ -337,7 +337,7 @@ class _BookingPayPalWebViewScreenState extends State<BookingPayPalWebViewScreen>
                           ? (paymentData!['amount'] as num) 
                           : (num.tryParse(paymentData!['amount'].toString()) ?? 0)).toPriceFormat()),
                     if (paymentData!['payment_type'] != null)
-                      _buildInfoRow('Payment Type', paymentData!['payment_type'].toString().toUpperCase()),
+                      _buildInfoRow(language.paymentType, paymentData!['payment_type'].toString().toUpperCase()),
                   ],
                 ),
               ),

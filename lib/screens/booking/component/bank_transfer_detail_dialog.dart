@@ -20,7 +20,7 @@ class BankTransferDetailDialog extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'Bank Transfer Details',
+              language.bankTransferDetailsTitle,
               style: boldTextStyle(size: 16),
             ),
             GestureDetector(
@@ -40,7 +40,7 @@ class BankTransferDetailDialog extends StatelessWidget {
         if(bookingAmount != null && bookingAmount!.isNotEmpty) RichTextWidget(
           list: [
             TextSpan(
-              text: 'Please pay the amount of',
+              text: language.bankTransferPayAmountPrefix,
               style: primaryTextStyle(
                 size: 12,
                 weight: FontWeight.w600,
@@ -72,7 +72,7 @@ class BankTransferDetailDialog extends StatelessWidget {
             mainAxisSize: MainAxisSize.min,
             children: [
               Text(
-                'For local and international transfers',
+                language.bankTransferLocalInternationalTitle,
                 style: boldTextStyle(size: 14),
               ),
               Divider(),
@@ -106,7 +106,7 @@ class BankTransferDetailDialog extends StatelessWidget {
               if(bookingId != null) RichTextWidget(
                 list: [
                   TextSpan(
-                    text: 'Mention your Booking ID',
+                    text: language.bankTransferMentionBookingIdPrefix,
                     style: primaryTextStyle(
                       size: 12,
                       weight: FontWeight.w500,
