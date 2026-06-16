@@ -1399,6 +1399,13 @@ class LanguageEn extends BaseLanguage {
   String get firebaseRemoteCannotBe => 'Firebase remote cannot be connected';
 
   @override
+  String get notificationSetupError => 'Notification setup error';
+  @override
+  String get notificationPermissionError => 'Failed to request notification permission';
+  @override
+  String get firebaseInitError => 'Firebase initialization error';
+
+  @override
   String get search => 'Search';
 
   @override

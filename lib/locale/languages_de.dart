@@ -1416,6 +1416,13 @@ class LanguageDe extends BaseLanguage {
       'Firebase -Fernbedienung kann nicht verbunden werden';
 
   @override
+  String get notificationSetupError => 'Fehler bei der Benachrichtigungs-Einrichtung';
+  @override
+  String get notificationPermissionError => 'Benachrichtigungserlaubnis konnte nicht angefordert werden';
+  @override
+  String get firebaseInitError => 'Firebase-Initialisierungsfehler';
+
+  @override
   String get search => 'Suchen';
 
   @override

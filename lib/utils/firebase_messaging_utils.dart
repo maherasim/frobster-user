@@ -31,7 +31,7 @@ Future<void> initFirebaseMessaging() async {
       if (value.authorizationStatus == AuthorizationStatus.authorized) {
         await registerNotificationListeners().catchError((e) {
           log('Notification Listener REGISTRATION ERROR : ${e}');
-          toast('Notification setup error: ${e.toString()}');
+          toast('${language.notificationSetupError}: ${e.toString()}');
         });
 
         FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
@@ -53,11 +53,11 @@ Future<void> initFirebaseMessaging() async {
       }
     }).catchError((e) {
       log('Firebase Messaging Permission Request ERROR: ${e}');
-      toast('Failed to request notification permission: ${e.toString()}');
+      toast('${language.notificationPermissionError}: ${e.toString()}');
     });
   } catch (e) {
     log('initFirebaseMessaging ERROR: ${e}');
-    toast('Firebase initialization error: ${e.toString()}');
+    toast('${language.firebaseInitError}: ${e.toString()}');
   }
 }
 
