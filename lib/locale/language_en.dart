@@ -2974,4 +2974,68 @@ class LanguageEn extends BaseLanguage {
   String get statusCancelled => 'Cancelled';
   @override
   String get lblEnableNotifications => 'Please enable notifications in device settings';
+  @override
+  String get selectDate => 'Select Date';
+  @override
+  String get bookNow => 'Book Now';
+  @override
+  String get refreshLocation => 'Refresh location';
+  @override
+  String get tapRefreshToLoadLocation => 'Tap refresh to load location';
+  @override
+  String get paymentFailed => 'Payment failed';
+  @override
+  String get paymentVerificationFailed => 'Payment verification failed';
+  @override
+  String get holdReason => 'Hold Reason';
+  @override
+  String get tax => 'Tax';
+  @override
+  String get amount => 'Amount';
+  @override
+  String get submit => 'Submit';
+  @override
+  String get stepBasics => 'Basics';
+  @override
+  String get stepLocation => 'Location';
+  @override
+  String get stepSchedule => 'Schedule';
+  @override
+  String get stepDetails => 'Details';
+  @override
+  String get stepBasicsHint => 'Add a clear title and choose category.';
+  @override
+  String get stepLocationHint => 'Set where the work will happen and your address.';
+  @override
+  String get stepScheduleHint => 'Choose rate type, dates, and budget.';
+  @override
+  String get stepDetailsHint => 'Describe the job and attach images if helpful.';
+  @override
+  String get next => 'Next';
+  @override
+  String get myJobRequests => 'My Job Requests';
+  @override
+  String get justNow => 'Just now';
+  @override
+  String get minuteAgo => 'minute ago';
+  @override
+  String get minutesAgo => 'minutes ago';
+  @override
+  String get hourAgo => 'hour ago';
+  @override
+  String get hoursAgo => 'hours ago';
+  @override
+  String get dayAgo => 'day ago';
+  @override
+  String get daysAgo => 'days ago';
+  @override
+  String get lblBudgetOrPrice => 'Budget/Price';
+  @override
+  String get lblTotalBudget => 'Total Budget';
+  @override
+  String get lblDutiesAndResponsibilities => 'Duties & Responsibilities';
+  @override
+  String get addWalletBalance => 'Add wallet balance';
+  @override
+  String get visitTypeRemote => 'Remote';
 }

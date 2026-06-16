@@ -775,7 +775,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: !isLoginTypeApple,
                   isValidationRequired: false,
                   decoration:
-                      inputDecoration(context, labelText: 'Company Name'),
+                      inputDecoration(context, labelText: language.companyName),
                 ),
                 16.height,
                 AppTextField(
@@ -912,7 +912,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   children: [
                     DropdownButtonFormField<String>(
                       decoration: inputDecoration(context,
-                          labelText: 'Select Availability'),
+                          labelText: language.selectAvailability),
                       isExpanded: true,
                       initialValue: selectedAvailability,
                       dropdownColor: context.cardColor,
@@ -1038,7 +1038,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 if (appStore.userType == USER_TYPE_HANDYMAN) ...[
                   DropdownButtonFormField<int?>(
                     decoration: inputDecoration(context,
-                        labelText: 'Service address'),
+                        labelText: language.selectServiceAddress),
                     isExpanded: true,
                     initialValue: serviceAddressId,
                     dropdownColor: context.cardColor,
@@ -1078,7 +1078,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                     decoration: inputDecoration(context,
                         label: buildRequiredLabel(language.knownLanguages),
                         hintText: selectedLanguages.isEmpty
-                            ? 'Tap to select languages'
+                            ? language.tapToSelectLanguages
                             : null),
                     child: Row(
                       children: [

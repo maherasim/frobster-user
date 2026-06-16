@@ -207,7 +207,7 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
               8.height,
               Row(
                 children: [
-                  Text('Rate (unit)', style: secondaryTextStyle()).expand(),
+                  Text(language.rateUnitPrice, style: secondaryTextStyle()).expand(),
                   PriceWidget(price: unitPrice, color: textPrimaryColorGlobal),
                 ],
               ),
@@ -244,7 +244,7 @@ class _BidderItemComponentState extends State<BidderItemComponent> {
                     finish(context);
                   }
                 },
-                child: Text('Hire & Continue', style: boldTextStyle(color: white)),
+                child: Text(language.hireAndContinue, style: boldTextStyle(color: white)),
               ).withWidth(context.width()),
             ],
           ),

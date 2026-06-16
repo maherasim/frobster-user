@@ -59,17 +59,17 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
 
   String visitTypeLabel(String? visitType) {
     final v = visitType.validate().trim().toUpperCase();
-    if (v == 'ONLINE') return 'Remote';
-    if (v == 'ON_SITE') return 'Onsite';
-    if (v == 'HYBRID') return 'Hybrid';
+    if (v == 'ONLINE') return language.visitTypeRemote;
+    if (v == 'ON_SITE') return language.visitTypeOnsite;
+    if (v == 'HYBRID') return language.visitTypeHybrid;
     return _titleCase(visitType.validate());
   }
   String serviceTypeLabel(String? type) {
     final t = type.validate();
     final lower = t.toLowerCase();
     if (lower == SERVICE_TYPE_HOURLY.toLowerCase()) return language.hourly;
-    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return 'Daily';
-    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return 'Fixed';
+    if (lower == SERVICE_TYPE_DAILY.toLowerCase()) return language.serviceTypeDaily;
+    if (lower == SERVICE_TYPE_FIXED.toLowerCase()) return language.serviceTypeFixed;
     return t.capitalizeFirstLetter();
   }
 
@@ -328,7 +328,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                               borderRadius: BorderRadius.circular(5),
                             )),
                         child: Text(
-                          'Book Now',
+                          language.bookNow,
                           style: TextStyle(
                             fontSize: 12,
                             color: white,

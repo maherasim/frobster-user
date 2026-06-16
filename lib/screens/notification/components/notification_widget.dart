@@ -81,15 +81,15 @@ class NotificationWidget extends StatelessWidget {
 
       // If less than 1 minute ago
       if (difference.inMinutes < 1) {
-        return 'Just now';
+        return language.justNow;
       }
       // If less than 1 hour ago
       else if (difference.inMinutes < 60) {
-        return '${difference.inMinutes} ${difference.inMinutes == 1 ? 'minute' : 'minutes'} ago';
+        return '${difference.inMinutes} ${difference.inMinutes == 1 ? language.minuteAgo : language.minutesAgo}';
       }
       // If less than 24 hours ago
       else if (difference.inHours < 24) {
-        return '${difference.inHours} ${difference.inHours == 1 ? 'hour' : 'hours'} ago';
+        return '${difference.inHours} ${difference.inHours == 1 ? language.hourAgo : language.hoursAgo}';
       }
       // If yesterday
       else if (difference.inDays == 1) {
@@ -97,7 +97,7 @@ class NotificationWidget extends StatelessWidget {
       }
       // If less than 7 days ago
       else if (difference.inDays < 7) {
-        return '${difference.inDays} ${difference.inDays == 1 ? 'day' : 'days'} ago';
+        return '${difference.inDays} ${difference.inDays == 1 ? language.dayAgo : language.daysAgo}';
       }
       // Otherwise show formatted date
       else {

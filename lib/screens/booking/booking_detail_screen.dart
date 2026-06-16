@@ -1226,7 +1226,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     padding: EdgeInsets.symmetric(vertical: 8, horizontal: 12),
                     color: Colors.black54,
                     child: Text(
-                      'Tap refresh to load location',
+                      language.tapRefreshToLoadLocation,
                       style: secondaryTextStyle(size: 12, color: Colors.white),
                       textAlign: TextAlign.center,
                     ),

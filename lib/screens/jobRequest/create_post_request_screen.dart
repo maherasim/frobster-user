@@ -35,7 +35,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   int currentStep = 0;
-  final List<String> _steps = const ['Basics', 'Location', 'Schedule', 'Details'];
+  List<String> get _steps => [language.stepBasics, language.stepLocation, language.stepSchedule, language.stepDetails];
 
   TextEditingController postTitleCont = TextEditingController();
 
@@ -1234,7 +1234,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                   });
                 }
               },
-              child: Text(currentStep == _steps.length - 1 ? language.publish : 'Next'),
+              child: Text(currentStep == _steps.length - 1 ? language.publish : language.next),
             ),
           ),
         ],
@@ -1271,13 +1271,13 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   String _stepHint() {
     switch (currentStep) {
       case 0:
-        return 'Add a clear title and choose category.';
+        return language.stepBasicsHint;
       case 1:
-        return 'Set where the work will happen and your address.';
+        return language.stepLocationHint;
       case 2:
-        return 'Choose rate type, dates, and budget. We auto-calc totals.';
+        return language.stepScheduleHint;
       case 3:
-        return 'Describe the job and attach images if helpful.';
+        return language.stepDetailsHint;
       default:
         return '';
     }

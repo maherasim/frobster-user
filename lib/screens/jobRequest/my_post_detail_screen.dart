@@ -179,7 +179,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
 
         // Simple attribute rows - matching reference design
         attributeRow(
-          "Job Type",
+          language.jobType,
           data.type?.displayName ?? 'N/A',
           customValueWidget: data.type != null
               ? Container(
@@ -202,12 +202,12 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         attributeRow(language.startDate, formatDate(data.startDate.validate())),
         attributeRow(language.endDate, formatDate(data.endDate.validate())),
         attributeRow(
-          "Budget/Price",
+          language.lblBudgetOrPrice,
           (data.price.validate()).toPriceFormat(),
         ),
-        attributeRow("Total Budget", (data.totalBudget.validate()).toPriceFormat()),
-        attributeRow("Total Days", data.totalDays?.toString() ?? '0'),
-        attributeRow("Total Hours", data.totalHours?.toString() ?? '0'),
+        attributeRow(language.lblTotalBudget, (data.totalBudget.validate()).toPriceFormat()),
+        attributeRow(language.totalDays, data.totalDays?.toString() ?? '0'),
+        attributeRow(language.totalHours, data.totalHours?.toString() ?? '0'),
         attributeRow("Remote Work Level", data.remoteWorkLevel?.displayName ?? 'N/A'),
         attributeRow("Travel Required", data.travelRequired?.displayName ?? 'N/A'),
         attributeRow("Career Level", data.careerLevel?.displayName ?? 'N/A'),
@@ -240,7 +240,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         // Duties & Responsibilities Section - Simple and Clean
         if (data.duties.validate().isNotEmpty) ...[
           24.height,
-          Text('Duties & Responsibilities',
+          Text(language.lblDutiesAndResponsibilities,
               style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(

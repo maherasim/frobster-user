@@ -68,12 +68,12 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Text(
-                'Select hour',
+                language.selectHour,
                 style: boldTextStyle(size: LABEL_TEXT_SIZE),
               ),
               4.height,
               Text(
-                'Only hours (minutes set to 00)',
+                language.hourPickerOnlyHours,
                 style: secondaryTextStyle(size: 12),
               ),
               12.height,
@@ -243,7 +243,7 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                         decoration: inputDecoration(
                           context,
                           prefixIcon: Icon(Icons.calendar_month_rounded),
-                          hintText: 'Select Date',
+                          hintText: language.selectDate,
                           fillColor: context.scaffoldBackgroundColor,
                         ),
                       ),
@@ -260,7 +260,7 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                               decoration: inputDecoration(
                                 context,
                                 prefixIcon: Icon(Icons.access_time_rounded),
-                                hintText: 'Start Time',
+                                hintText: language.startTime,
                                 fillColor: context.scaffoldBackgroundColor,
                               ),
                             ),
@@ -279,7 +279,7 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                                 decoration: inputDecoration(
                                   context,
                                   prefixIcon: Icon(Icons.access_time_rounded),
-                                  hintText: 'End Time',
+                                  hintText: language.endTime,
                                   fillColor: context.scaffoldBackgroundColor,
                                 ),
                               ),
@@ -300,7 +300,7 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                                 decoration: inputDecoration(
                                   context,
                                   prefixIcon: Icon(Icons.timelapse_rounded),
-                                  hintText: 'Total Days',
+                                  hintText: language.totalDays,
                                   fillColor: context.scaffoldBackgroundColor,
                                 ),
                               ),
@@ -314,7 +314,7 @@ class _ServiceBookingSlotState extends State<ServiceBookingSlot> {
                                 decoration: inputDecoration(
                                   context,
                                   prefixIcon: Icon(Icons.timer_outlined),
-                                  hintText: 'Total Hours',
+                                  hintText: language.totalHours,
                                   fillColor: context.scaffoldBackgroundColor,
                                 ),
                               ),

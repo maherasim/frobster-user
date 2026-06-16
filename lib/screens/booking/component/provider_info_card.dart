@@ -36,7 +36,7 @@ class ProviderInfoCard extends StatelessWidget {
       // mainAxisSize: MainAxisSize,
       children: [
         Text(
-          'Personal Info',
+          language.personalInfo,
           style: boldTextStyle(),
         ),
         Container(

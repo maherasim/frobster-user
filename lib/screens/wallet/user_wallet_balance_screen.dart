@@ -310,7 +310,7 @@ class _UserWalletBalanceScreenState extends State<UserWalletBalanceScreen> {
         "user_id": appStore.userId,
         "amount": walletAmountCont.text.toDouble(),
         "status": "pending",
-        "transaction_type": "Add wallet balance"
+        "transaction_type": language.addWalletBalance
       };
       walletTopUpApi(request: req,endPoint: 'transaction-requests');
     }

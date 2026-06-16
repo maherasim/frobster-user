@@ -56,9 +56,9 @@ class _PaymentDialogState extends State<PaymentDialog> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 16.height,
-                Center(child: Text( widget.isAdvance ? "Pay Advance" : "Pay Remaining", style: boldTextStyle(size: 18))),
+                Center(child: Text( widget.isAdvance ? language.jobBidProgressAdvance : language.jobBidProgressRemaining, style: boldTextStyle(size: 18))),
                 8.height,
-                Text("Amount: ${widget.amount.toPriceFormat()}", style: boldTextStyle()).paddingLeft(16),
+                Text("${language.amount}: ${widget.amount.toPriceFormat()}", style: boldTextStyle()).paddingLeft(16),
                 SnapHelperWidget<List<PaymentSetting>>(
                   future: future,
                   onSuccess: (list) {

@@ -64,7 +64,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     return AppScaffold(
-      appBarTitle: 'Bid Details',
+      appBarTitle: language.bidDetailsTitle,
       child: SnapHelperWidget<JobRequestDetailResponse?>(
         future: future,
         onSuccess: (data) {
@@ -164,13 +164,13 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
         message = language.jobCompletedWaitingForCustomer;
         break;
       case RequestStatus.remainingPaymentPending:
-        message = 'Waiting for customer to pay remaining amount';
+        message = language.waitingForCustomerPayRemainingAmount;
         break;
       case RequestStatus.remainingPaid:
         message = language.paymentCompletedDownloadInvoice;
         break;
       case RequestStatus.cancel:
-        message = "This bid was cancelled";
+        message = language.bidCancelledShort;
         break;
       case RequestStatus.pending:
         message = language.waitingForProviderToReviewRequest;
@@ -315,7 +315,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       8.width,
                       Expanded(
                         child: Text(
-                          "Hold Reason: ${postJobDetail?.holdReason ?? ""}",
+                          "${language.holdReason}: ${postJobDetail?.holdReason ?? ""}",
                           style: secondaryTextStyle(color: hold, size: 14),
                         ),
                       ),
@@ -435,7 +435,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       Icon(Icons.info_outline, size: 48, color: Colors.grey),
                       16.height,
                       Text(
-                        'This bid was cancelled. Job details are no longer available.',
+                        language.bidCancelledDetailsUnavailable,
                         style: secondaryTextStyle(),
                         textAlign: TextAlign.center,
                       ),
@@ -466,7 +466,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     ),
                     8.height,
                     Text(
-                      'Status',
+                      language.lblStatus,
                       style: secondaryTextStyle(size: 12),
                     ),
                     4.height,
@@ -876,7 +876,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       children: [
                         Row(
                           children: [
-                            Text('Tax', style: secondaryTextStyle(size: 14)),
+                            Text(language.tax, style: secondaryTextStyle(size: 14)),
                             Text('(${postJobDetail?.taxPercent ?? '0%'})',
                                     style: boldTextStyle(
                                         color: gradientRed, size: 14))
@@ -1002,7 +1002,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Text(
-              'No reviews yet',
+              language.noReviewsYet,
               style: secondaryTextStyle(),
             ),
           )
@@ -1031,7 +1031,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
             children: [
               Expanded(
                 child: Text(
-                  r.raterName.validate().isNotEmpty ? r.raterName! : 'Anonymous',
+                  r.raterName.validate().isNotEmpty ? r.raterName! : language.anonymous,
                   style: boldTextStyle(size: 14),
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
@@ -1564,7 +1564,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                                 }
                               },
                               child: Text(
-                                'Submit',
+                                language.submit,
                                 style: boldTextStyle(color: Colors.white),
                               ),
                             ).withWidth(context.width()),
