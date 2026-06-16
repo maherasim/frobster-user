@@ -178,6 +178,9 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       case RequestStatus.assigned:
         message = language.bidAssignedToHandyman;
         break;
+      case RequestStatus.onGoing:
+        message = language.workInProgressWaitingForProvider;
+        break;
     }
 
     return message;
