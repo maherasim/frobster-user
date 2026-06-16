@@ -1415,6 +1415,13 @@ class LanguageFr extends BaseLanguage {
       'La télécommande de la base de feu ne peut pas être connectée';
 
   @override
+  String get notificationSetupError => 'Notification setup error';
+  @override
+  String get notificationPermissionError => 'Failed to request notification permission';
+  @override
+  String get firebaseInitError => 'Firebase initialization error';
+
+  @override
   String get search => 'Recherche';
 
   @override

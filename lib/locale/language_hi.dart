@@ -1404,6 +1404,13 @@ class LanguageHi extends BaseLanguage {
       'फायरबेस रिमोट को कनेक्ट नहीं किया जा सकता है';
 
   @override
+  String get notificationSetupError => 'Notification setup error';
+  @override
+  String get notificationPermissionError => 'Failed to request notification permission';
+  @override
+  String get firebaseInitError => 'Firebase initialization error';
+
+  @override
   String get search => 'खोज';
 
   @override

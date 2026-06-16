@@ -1388,6 +1388,13 @@ class LanguageAr extends BaseLanguage {
       'لا يمكن توصيل جهاز التحكم عن بُعد Firebase';
 
   @override
+  String get notificationSetupError => 'Notification setup error';
+  @override
+  String get notificationPermissionError => 'Failed to request notification permission';
+  @override
+  String get firebaseInitError => 'Firebase initialization error';
+
+  @override
   String get search => 'يبحث';
 
   @override
