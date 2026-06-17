@@ -3073,4 +3073,18 @@ class LanguageDe extends BaseLanguage {
   String get addWalletBalance => 'Guthaben aufladen';
   @override
   String get visitTypeRemote => 'Remote';
+  @override
+  String get fullTime => 'Vollzeit';
+  @override
+  String get partTime => 'Teilzeit';
+  @override
+  String get notSpecified => 'Nicht angegeben';
+  @override
+  String get bankTransfer => 'Banküberweisung';
+  @override
+  String get payPal => 'PayPal';
+  @override
+  String get stripe => 'Stripe';
+  @override
+  String get cash => 'Bargeld';
 }

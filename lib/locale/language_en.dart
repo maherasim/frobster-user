@@ -3038,4 +3038,18 @@ class LanguageEn extends BaseLanguage {
   String get addWalletBalance => 'Add wallet balance';
   @override
   String get visitTypeRemote => 'Remote';
+  @override
+  String get fullTime => 'Full Time';
+  @override
+  String get partTime => 'Part Time';
+  @override
+  String get notSpecified => 'Not Specified';
+  @override
+  String get bankTransfer => 'Bank Transfer';
+  @override
+  String get payPal => 'PayPal';
+  @override
+  String get stripe => 'Stripe';
+  @override
+  String get cash => 'Cash';
 }

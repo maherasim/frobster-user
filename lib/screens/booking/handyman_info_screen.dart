@@ -42,8 +42,8 @@ String _stripHtml(String text) {
 String _availabilityDisplay(String? raw) {
   if (raw == null || raw.isEmpty) return '';
   final v = raw.trim().toLowerCase();
-  if (v == 'full_time') return 'Full Time';
-  if (v == 'part_time') return 'Part Time';
+  if (v == 'full_time') return language.fullTime;
+  if (v == 'part_time') return language.partTime;
   return raw.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();

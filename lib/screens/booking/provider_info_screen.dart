@@ -25,8 +25,8 @@ import 'component/provider_service_component.dart';
 String _availabilityDisplay(String? raw) {
   if (raw == null || raw.isEmpty) return '';
   final v = raw.trim().toLowerCase();
-  if (v == 'full_time') return 'Full Time';
-  if (v == 'part_time') return 'Part Time';
+  if (v == 'full_time') return language.fullTime;
+  if (v == 'part_time') return language.partTime;
   return raw.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
@@ -35,29 +35,31 @@ String _availabilityDisplay(String? raw) {
 
 /// Map backend education value (e.g. high_school_graduate) to display label (e.g. High school graduate).
 String _educationDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return 'Not Specified';
+  if (raw == null || raw.isEmpty) return language.notSpecified;
   final v = raw.trim().toLowerCase();
   final level = EducationLevel.values.firstWhere(
     (e) => e.backendValue.toLowerCase() == v,
     orElse: () => EducationLevel.notSpecified,
   );
+  if (level == EducationLevel.notSpecified) return language.notSpecified;
   return level.displayName;
 }
 
 /// Map backend career level value (e.g. entry_level) to display label (e.g. Entry Level).
 String _careerLevelDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return 'Not Specified';
+  if (raw == null || raw.isEmpty) return language.notSpecified;
   final v = raw.trim().toLowerCase();
   final level = CareerLevel.values.firstWhere(
     (e) => e.backendValue.toLowerCase() == v,
     orElse: () => CareerLevel.notSpecified,
   );
+  if (level == CareerLevel.notSpecified) return language.notSpecified;
   return level.displayName;
 }
 
 /// Map backend years of experience value (e.g. less_than_1) to display label (e.g. Less than 1 Year).
 String _yearsOfExperienceDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return 'Not Specified';
+  if (raw == null || raw.isEmpty) return language.notSpecified;
   final v = raw.trim().toLowerCase();
   try {
     final level = YearsOfExperience.values.firstWhere(
@@ -66,7 +68,7 @@ String _yearsOfExperienceDisplay(String? raw) {
     return level.displayName;
   } catch (e) {
     // If backend value doesn't match any enum, return "Not Specified"
-    return 'Not Specified';
+    return language.notSpecified;
   }
 }
 
