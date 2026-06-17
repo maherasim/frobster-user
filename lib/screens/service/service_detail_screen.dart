@@ -125,8 +125,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   String _formatTravelRequired(String value) {
     final v = value.trim().toLowerCase();
-    if (v == 'true' || v == '1') return 'Yes';
-    if (v == 'false' || v == '0') return 'No';
+    if (v == 'true' || v == '1') return language.lblYes;
+    if (v == 'false' || v == '0') return language.lblNo;
     return _titleCase(value);
   }
 
@@ -579,7 +579,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             .validate() >
                                         0)
                                 attributeRow(
-                                  'Discount',
+                                  language.lblDiscount,
                                   "${snap.data!.serviceDetail!.discount.validate()}%",
                                   valueColor: defaultActivityStatus, // green color
                                 ),
@@ -622,7 +622,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Career level',
+                                  language.careerLevel,
                                   (() {
                                     final v = _titleCase(snap
                                             .data
@@ -635,7 +635,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Travel required',
+                                  language.travelRequiredLabel,
                                   (() {
                                     final raw = snap
                                             .data
@@ -658,7 +658,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           children: [
                             Flexible(
                               child: Text(
-                                'Views',
+                                language.views,
                                 style: secondaryTextStyle(size: 13),
                                 textAlign: TextAlign.left,
                               ),
@@ -683,7 +683,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           children: [
                             Flexible(
                               child: Text(
-                                'Total Booking',
+                                language.totalBookingsLabel,
                                 style: secondaryTextStyle(size: 13),
                                 textAlign: TextAlign.left,
                               ),

@@ -258,7 +258,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     final String city = bookingDetail.cityName.validate();
                     final String country = bookingDetail.countryName.validate();
                     final String label = (city.isEmpty && country.isEmpty)
-                        ? 'N/A'
+                        ? language.notAvailable
                         : '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
                     return Text(
                       label,
@@ -339,7 +339,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       spacing: 8,
                       children: [
                         Text(
-                          'Working Address: ',
+                          '${language.workingAddress}: ',
                           style: secondaryTextStyle(),
                         ),
                         8.width,
@@ -424,7 +424,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Total Price: ',
+                        '${language.lblTotal} ${language.lblPrice}: ',
                         style: secondaryTextStyle(),
                       ),
                       PriceWidget(
@@ -1797,7 +1797,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Booking Date & Slot',
+                        language.bookingDateAndSlot,
                         style: boldTextStyle(size: LABEL_TEXT_SIZE),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -1844,7 +1844,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                               Expanded(
                                 child: Marquee(
                                   child: Text(
-                                    'Payment submitted via Bank Transfer. Awaiting admin confirmation.',
+                                    '${language.bankTransfer}: ${language.waitingForPaymentApproval}',
                                     style: boldTextStyle(size: 12),
                                   ),
                                 ),
