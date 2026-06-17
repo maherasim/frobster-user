@@ -608,11 +608,11 @@ String getPaymentStatusText(String? status, String? method) {
 String formatPaymentMethodDisplay(String? method) {
   if (method == null || method.isEmpty) return method.validate();
   final lower = method.trim().toLowerCase();
-  if (lower == 'Bank_transfer') return 'Bank Transfer';
-  if (lower == 'paypal') return 'PayPal';
-  if (lower == 'stripe') return 'Stripe';
-  if (lower == 'wallet') return 'Wallet';
-  if (lower == 'cash') return 'Cash';
+  if (lower == 'bank_transfer') return language.bankTransfer;
+  if (lower == 'paypal') return language.payPal;
+  if (lower == 'stripe') return language.stripe;
+  if (lower == 'wallet') return language.wallet;
+  if (lower == 'cash') return language.cash;
   return method.replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();

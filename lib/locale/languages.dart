@@ -1768,4 +1768,11 @@ abstract class BaseLanguage {
   String get lblDutiesAndResponsibilities;
   String get addWalletBalance;
   String get visitTypeRemote;
+  String get fullTime;
+  String get partTime;
+  String get notSpecified;
+  String get bankTransfer;
+  String get payPal;
+  String get stripe;
+  String get cash;
 }
