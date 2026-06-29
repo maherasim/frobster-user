@@ -1,14 +1,41 @@
 import 'package:booking_system_flutter/generated/assets.dart';
 import 'package:booking_system_flutter/main.dart';
+import 'package:booking_system_flutter/model/bank_transfer_settings_model.dart';
+import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
 
-class BankTransferDetailDialog extends StatelessWidget {
+class BankTransferDetailDialog extends StatefulWidget {
   final int? bookingId;
   final String? bookingAmount;
-  const BankTransferDetailDialog({super.key,  this.bookingId,  this.bookingAmount});
+
+  const BankTransferDetailDialog({super.key, this.bookingId, this.bookingAmount});
+
+  @override
+  State<BankTransferDetailDialog> createState() => _BankTransferDetailDialogState();
+}
+
+class _BankTransferDetailDialogState extends State<BankTransferDetailDialog> {
+  BankTransferSettings? _settings;
+  bool _loading = true;
+  bool _hasError = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _fetch();
+  }
+
+  Future<void> _fetch() async {
+    try {
+      final result = await getBankTransferSettings();
+      if (mounted) setState(() { _settings = result; _loading = false; });
+    } catch (e) {
+      if (mounted) setState(() { _loading = false; _hasError = true; });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -19,47 +46,44 @@ class BankTransferDetailDialog extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Text(
-              language.bankTransferDetailsTitle,
-              style: boldTextStyle(size: 16),
-            ),
+            Text(language.bankTransferDetailsTitle, style: boldTextStyle(size: 16)),
             GestureDetector(
-              onTap: () {
-                finish(context);
-              },
-              child: Image.asset(
-                Assets.iconsIcClose,
-                height: 20.0,
-                color: context.iconColor,
-              ),
+              onTap: () => finish(context),
+              child: Image.asset(Assets.iconsIcClose, height: 20.0, color: context.iconColor),
             ),
           ],
         ),
         Divider(),
         10.height,
-        if(bookingAmount != null && bookingAmount!.isNotEmpty) RichTextWidget(
-          list: [
-            TextSpan(
-              text: language.bankTransferPayAmountPrefix,
-              style: primaryTextStyle(
-                size: 12,
-                weight: FontWeight.w600,
-              ),
-            ),
-            TextSpan(
-              text: ' $bookingAmount ',
-              style: boldTextStyle(size: 14, color: context.primaryColor),
-            ),
-            TextSpan(
-              text: 'via bank transfer using the details below:',
-              style: primaryTextStyle(
-                size: 12,
-                weight: FontWeight.w600,
-              ),
-            ),
-          ],
-        ),
+        if (widget.bookingAmount != null && widget.bookingAmount!.isNotEmpty)
+          RichTextWidget(
+            list: [
+              TextSpan(text: language.bankTransferPayAmountPrefix, style: primaryTextStyle(size: 12, weight: FontWeight.w600)),
+              TextSpan(text: ' ${widget.bookingAmount} ', style: boldTextStyle(size: 14, color: context.primaryColor)),
+              TextSpan(text: 'via bank transfer using the details below:', style: primaryTextStyle(size: 12, weight: FontWeight.w600)),
+            ],
+          ),
         16.height,
+        if (_loading)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24),
+            child: Center(child: CircularProgressIndicator()),
+          )
+        else if (_hasError || _settings == null)
+          Padding(
+            padding: EdgeInsets.symmetric(vertical: 24),
+            child: Text(language.somethingWentWrong, style: secondaryTextStyle(), textAlign: TextAlign.center),
+          )
+        else
+          _buildContent(context, _settings!),
+      ],
+    );
+  }
+
+  Widget _buildContent(BuildContext context, BankTransferSettings s) {
+    return Column(
+      mainAxisSize: MainAxisSize.min,
+      children: [
         Container(
           padding: EdgeInsets.all(14),
           decoration: boxDecorationWithRoundedCorners(
@@ -68,20 +92,20 @@ class BankTransferDetailDialog extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                language.bankTransferLocalInternationalTitle,
-                style: boldTextStyle(size: 14),
-              ),
+              Text(language.bankTransferLocalInternationalTitle, style: boldTextStyle(size: 14)),
               Divider(),
               10.height,
-              bankDetailsWidget("Recipient:","Frobster International",false),
-              bankDetailsWidget("IBAN:","DE02 1001 0178 1361 6331 79",false),
-              bankDetailsWidget("BIC:","REVODEB2",false),
-              bankDetailsWidget("Bank Name and Address:","Revolut Bank UAB, Zweigniederlassung Deutschland\nFORA Linden Palais, Unter den Linden 40\n10117, Berlin, Germany",false),
-              bankDetailsWidget("BIC of Sender Bank:","CHASDEFX",false),
+              if (s.recipient.validate().isNotEmpty) bankDetailsWidget('Recipient:', s.recipient!, false),
+              if (s.iban.validate().isNotEmpty) bankDetailsWidget('IBAN:', s.iban!, false),
+              if (s.bic.validate().isNotEmpty) bankDetailsWidget('BIC:', s.bic!, false),
+              if (s.bankName.validate().isNotEmpty || s.bankAddress.validate().isNotEmpty)
+                bankDetailsWidget(
+                  'Bank Name and Address:',
+                  [s.bankName, s.bankAddress].where((v) => v != null && v.isNotEmpty).join('\n'),
+                  false,
+                ),
             ],
           ),
         ),
@@ -94,52 +118,26 @@ class BankTransferDetailDialog extends StatelessWidget {
           ),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Instructions',
-                style: boldTextStyle(size: 14),
-              ),
+              Text('Instructions', style: boldTextStyle(size: 14)),
               Divider(),
               10.height,
-              if(bookingId != null) RichTextWidget(
-                list: [
-                  TextSpan(
-                    text: language.bankTransferMentionBookingIdPrefix,
-                    style: primaryTextStyle(
-                      size: 12,
-                      weight: FontWeight.w500,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' #$bookingId ',
-                    style: boldTextStyle(size: 14, color: context.primaryColor),
-                  ),
-                  TextSpan(
-                    text: 'in the transfer reference.',
-                    style: primaryTextStyle(
-                      size: 12,
-                      weight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-              RichTextWidget(
-                list: [
-                  TextSpan(
-                    text: 'Send Proof of Payment (screenshot or pdf Document) to:',
-                    style: primaryTextStyle(
-                      size: 12,
-                      weight: FontWeight.w500,
-                    ),
-                  ),
-                  TextSpan(
-                    text: ' billing@frobster.com',
-                    style: boldTextStyle(size: 14, color: context.primaryColor),
-                  ),
-                ],
-              ),
+              if (widget.bookingId != null)
+                RichTextWidget(
+                  list: [
+                    TextSpan(text: language.bankTransferMentionBookingIdPrefix, style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
+                    TextSpan(text: ' #${widget.bookingId} ', style: boldTextStyle(size: 14, color: context.primaryColor)),
+                    TextSpan(text: 'in the transfer reference.', style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
+                  ],
+                ),
+              if (s.email.validate().isNotEmpty)
+                RichTextWidget(
+                  list: [
+                    TextSpan(text: 'Send Proof of Payment (screenshot or pdf Document) to:', style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
+                    TextSpan(text: ' ${s.email}', style: boldTextStyle(size: 14, color: context.primaryColor)),
+                  ],
+                ),
             ],
           ),
         ),
@@ -155,11 +153,7 @@ Widget bankDetailsWidget(String title, String value, bool isPrice) {
     children: [
       Text(
         title,
-        style: secondaryTextStyle(
-          size: 10,
-          color:
-          appStore.isDarkMode ? darkGray : appTextSecondaryColor,
-        ),
+        style: secondaryTextStyle(size: 10, color: appStore.isDarkMode ? darkGray : appTextSecondaryColor),
       ).expand(flex: 2),
       Flexible(
         flex: 3,

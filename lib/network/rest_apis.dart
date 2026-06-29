@@ -46,6 +46,7 @@ import '../model/payment_gateway_response.dart';
 import '../model/payment_list_reasponse.dart';
 import '../model/update_location_response.dart';
 import '../model/wallet_response.dart';
+import '../model/bank_transfer_settings_model.dart';
 import '../utils/app_configuration.dart';
 import '../utils/firebase_messaging_utils.dart';
 
@@ -1667,3 +1668,15 @@ Future<Map<String, dynamic>> ugcReportReview({
   )) as Map<String, dynamic>;
 }
 //endregion
+
+Future<BankTransferSettings?> getBankTransferSettings({String? language}) async {
+  final endpoint = language != null && language.isNotEmpty
+      ? 'bank-transfer-settings?language=$language'
+      : 'bank-transfer-settings';
+  final res = await handleResponse(await buildHttpResponse(endpoint, method: HttpMethodType.GET)) as Map<String, dynamic>;
+  final data = res['data'];
+  if (data == null) return null;
+  if (data is List && data.isNotEmpty) return BankTransferSettings.fromJson(data.first);
+  if (data is Map<String, dynamic>) return BankTransferSettings.fromJson(data);
+  return null;
+}
