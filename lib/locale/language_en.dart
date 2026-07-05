@@ -36,7 +36,7 @@ class LanguageEn extends BaseLanguage {
   String get hintEmailAddressTxt => 'Enter your email address';
 
   @override
-  String get hintUserNameTxt => 'User Name';
+  String get hintUserNameTxt => 'Customer Name';
 
   @override
   String get hintPasswordTxt => 'Password';
@@ -264,7 +264,7 @@ class LanguageEn extends BaseLanguage {
   String get lblNotification => "Notifications";
 
   @override
-  String get lblUnAuthorized => "Demo user cannot be granted for this action";
+  String get lblUnAuthorized => "Demo customer cannot be granted for this action";
 
   @override
   String get btnNext => "Next";
@@ -297,7 +297,7 @@ class LanguageEn extends BaseLanguage {
   String get lblCall => "Call";
 
   @override
-  String get lblRateHandyman => "Rate Worker";
+  String get lblRateHandyman => "Rate Freelancer";
 
   @override
   String get msgForLocationOn =>
@@ -350,7 +350,7 @@ class LanguageEn extends BaseLanguage {
   String get lblOrContinueWith => "Or Continue With";
 
   @override
-  String get lblHelloUser => "Hello User !";
+  String get lblHelloUser => "Hello customer !";
 
   @override
   String get lblSignUpSubTitle => "Create Your Account for Better Experience";
@@ -401,7 +401,7 @@ class LanguageEn extends BaseLanguage {
   String get lblTime => "Time";
 
   @override
-  String get textProvider => "Employer";
+  String get textProvider => "Agency";
 
   @override
   String get lblConfirmBooking => "Confirm Booking";
@@ -434,10 +434,10 @@ class LanguageEn extends BaseLanguage {
   String get lblDate => "Date";
 
   @override
-  String get lblAboutHandyman => "About Worker";
+  String get lblAboutHandyman => "About Freelancer";
 
   @override
-  String get lblAboutProvider => "About Employer";
+  String get lblAboutProvider => "About Age";
 
   @override
   String get lblNotRatedYet => "You haven't rated yet";
@@ -579,7 +579,7 @@ class LanguageEn extends BaseLanguage {
       "$APP_NAME - On-Demand Home Services App with Complete Solution";
 
   @override
-  String get textHandyman => "Worker";
+  String get textHandyman => "Freelancer";
 
   @override
   String get lblChooseFromMap => "Choose From Map";
@@ -752,7 +752,7 @@ class LanguageEn extends BaseLanguage {
   String get lblSignInWithApple => "Sign in with Apple";
 
   @override
-  String get lblWaitingForProviderApproval => "Waiting for Employer Approval";
+  String get lblWaitingForProviderApproval => "Waiting for Agency Approval";
 
   @override
   String get lblFree => "Free";
@@ -784,7 +784,7 @@ class LanguageEn extends BaseLanguage {
   String get myReviews => "My Reviews";
 
   @override
-  String get reviewFromProvider => "Review for Employer";
+  String get reviewFromProvider => "Review for Agency";
 
   @override
   String get jobBidReviewFromEmployerSubtitle =>
@@ -792,13 +792,13 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get jobBidYourReviewOfEmployerSubtitle =>
-      "Your rating and review of the employer.";
+      "Your rating and review of the agency.";
 
   @override
   String get noCategoryFound => "No Category Found";
 
   @override
-  String get noProviderFound => "No Employer Found";
+  String get noProviderFound => "No AgencyFound";
 
   @override
   String get createServiceRequest => "Create Service";
@@ -908,7 +908,7 @@ class LanguageEn extends BaseLanguage {
   String get bidder => 'Bidder List';
 
   @override
-  String get assignedProvider => 'Assigned Employer';
+  String get assignedProvider => 'Assigned Agency';
 
   @override
   String get myPostDetail => 'My Post Detail';
@@ -933,7 +933,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get noPostJobFoundSubtitle =>
-      'When you post your job, every Employer will be notified, and you can choose your desired Employer to get the job done.';
+      'When you post your job, every Agency will be notified, and you can choose your desired Agency to get the job done.';
 
   @override
   String get pleaseEnterValidOTP => 'Please enter Valid OTP';
@@ -1042,7 +1042,7 @@ class LanguageEn extends BaseLanguage {
       'You will get these services with this package';
 
   @override
-  String get lblNotValidUser => 'You are not a valid User';
+  String get lblNotValidUser => 'You are not a valid customer';
 
   @override
   String get lblSkip => 'Skip';
@@ -1067,7 +1067,7 @@ class LanguageEn extends BaseLanguage {
   String get lblSignInFailed => 'Sign in failed';
 
   @override
-  String get lblUserCancelled => 'User cancelled';
+  String get lblUserCancelled => 'customer cancelled';
 
   @override
   String get lblTransactionCancelled => 'Transaction cancelled';
@@ -1090,10 +1090,10 @@ class LanguageEn extends BaseLanguage {
       'Please make sure Location services are enabled.';
 
   @override
-  String get lblNoUserFound => 'No User Found';
+  String get lblNoUserFound => 'No customer Found';
 
   @override
-  String get lblUserNotCreated => 'User Not Created';
+  String get lblUserNotCreated => 'customer Not Created';
 
   @override
   String get lblTokenExpired => 'Token Expired';
@@ -1103,11 +1103,11 @@ class LanguageEn extends BaseLanguage {
       'Do you want to delete the message?';
 
   @override
-  String get favouriteProvider => 'Favourite Employer';
+  String get favouriteProvider => 'Favourite Agency';
 
   @override
   String get noProviderFoundMessage =>
-      'Your favourite Employers will appear here';
+      'Your favourite agencies  will appear here';
 
   @override
   String get personalInfo => 'Personal Info';
@@ -1293,7 +1293,7 @@ class LanguageEn extends BaseLanguage {
   String get externalWallet => 'External Wallet';
 
   @override
-  String get userNotFound => 'User not found';
+  String get userNotFound => 'customer not found';
 
   @override
   String get requested => 'Requested';
@@ -1339,11 +1339,11 @@ class LanguageEn extends BaseLanguage {
   String get closeApp => 'Close App';
 
   @override
-  String get providerAddedToFavourite => 'Employer added to Favourite list';
+  String get providerAddedToFavourite => 'Agency added to Favourite list';
 
   @override
   String get providerRemovedFromFavourite =>
-      'Employer removed from Favourite list';
+      'Agency removed from Favourite list';
 
   @override
   String get provideValidCurrentPasswordMessage =>
@@ -1533,10 +1533,10 @@ class LanguageEn extends BaseLanguage {
   String get coupons => 'Coupons';
 
   @override
-  String get handymanList => 'Worker List';
+  String get handymanList => 'Freelancer List';
 
   @override
-  String get noHandymanFound => 'No Worker Found';
+  String get noHandymanFound => 'No Freelancer Found';
 
   @override
   String get back => 'Back';
@@ -1545,7 +1545,7 @@ class LanguageEn extends BaseLanguage {
   String get team => 'Team';
 
   @override
-  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Employer';
+  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Agency';
 
   @override
   String get reason => 'Reason';
@@ -1600,14 +1600,14 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get theUserHasExceeded =>
-      'The User has exceeded their wallet allowed transaction limit';
+      'The customer has exceeded their wallet allowed transaction limit';
 
   @override
   String get theAmountUserIs =>
-      'The amount User is trying to transfer is less than the minimum amount allowed';
+      'The amount customer is trying to transfer is less than the minimum amount allowed';
 
   @override
-  String get userDidnTEnterThePin => "User didn't enter the pin";
+  String get userDidnTEnterThePin => "customer didn't enter the pin";
 
   @override
   String get transactionInPendingState =>
@@ -1615,7 +1615,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get userWalletDoesNot =>
-      'User wallet does not have enough money to cover the payable amount';
+      'customer wallet does not have enough money to cover the payable amount';
 
   @override
   String get theTransactionWasRefused => 'The transaction was refused';
@@ -1827,7 +1827,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get theUserHasDenied =>
-      'The user has denied the use of speech recognition';
+      'The customer has denied the use of speech recognition';
 
   @override
   String get helloGuest => 'Hello Guest';
@@ -1846,16 +1846,16 @@ class LanguageEn extends BaseLanguage {
   String get canTFindYourServices => "Can't find your services?";
 
   @override
-  String get trackProviderLocation => 'Track Employer Location';
+  String get trackProviderLocation => 'Track Agency Location';
 
   @override
-  String get trackHandymanLocation => 'Track Worker Location';
+  String get trackHandymanLocation => 'Track Freelancer Location';
 
   @override
-  String get handymanLocation => 'Worker Location';
+  String get handymanLocation => 'Freelancer Location';
 
   @override
-  String get providerLocation => 'Employer Location';
+  String get providerLocation => 'Agency Location';
 
   @override
   String get lastUpdatedAt => 'Last updated at:';
@@ -1864,10 +1864,10 @@ class LanguageEn extends BaseLanguage {
   String get track => 'Track';
 
   @override
-  String get handymanReached => 'Worker Reached? Click to start';
+  String get handymanReached => 'Freelancer Reached? Click to start';
 
   @override
-  String get providerReached => 'Employer Reached? Click to start';
+  String get providerReached => 'Agency Reached? Click to start';
 
   @override
   String get addBank => "Add bank";
@@ -2159,10 +2159,10 @@ class LanguageEn extends BaseLanguage {
   String get selectStartDateEndDate => 'Select start date & end date';
 
   @override
-  String get handymanNotFound => 'Worker Not Found';
+  String get handymanNotFound => 'Freelancer Not Found';
 
   @override
-  String get providerNotFound => 'Employer Not Found';
+  String get providerNotFound => 'Agency Not Found';
 
   @override
   String get rateYourExperience => 'Rate Your Experience';
@@ -2187,7 +2187,7 @@ class LanguageEn extends BaseLanguage {
   String get chooseYourDateRange => 'Choose your Date Range';
 
   @override
-  String get asHandyman => 'As Worker';
+  String get asHandyman => 'As Freelancer';
 
   @override
   String get passwordLengthShouldBe =>
@@ -2324,7 +2324,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get waitingForProviderToSplitPayment =>
-      'Waiting for Employer to split payment';
+      'Waiting for Agency to split payment';
 
   @override
   String get waitingForCustomerToPayAdvancePercentage =>
@@ -2336,15 +2336,15 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get waitingForProviderToStartWork =>
-      'Waiting for Employer to start work';
+      'Waiting for Agency to start work';
 
   @override
   String get waitingForProviderToResumeWork =>
-      'Waiting for Employer to resume work';
+      'Waiting for Agency to resume work';
 
   @override
   String get waitingForProviderToMarkBidAsCompleted =>
-      'Waiting for Employer to mark the bid as completed';
+      'Waiting for Agency to mark the bid as completed';
 
   @override
   String get ugcReportService => 'Report';
@@ -2511,7 +2511,7 @@ class LanguageEn extends BaseLanguage {
   String get viewProposal => 'View Proposal';
 
   @override
-  String get rateEmployer => 'Rate Employer';
+  String get rateEmployer => 'Rate Agency';
 
   @override
   String get proposals => 'Proposals';
@@ -2782,7 +2782,7 @@ class LanguageEn extends BaseLanguage {
   String get titleLabel => 'Title';
 
   @override
-  String get employerLabel => 'Employer';
+  String get employerLabel => 'Agency';
 
   @override
   String get customerLabel => 'Customer';
@@ -2815,7 +2815,7 @@ class LanguageEn extends BaseLanguage {
   String get customerReviewTitle => 'Customer Review';
 
   @override
-  String get employerReviewTitle => 'Employer Review';
+  String get employerReviewTitle => 'Agency Review';
 
   @override
   String get lblTotal => 'Total';

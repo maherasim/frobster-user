@@ -245,8 +245,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             MyBookingsScreen().launch(context);
                           },
                         ),
-                        if (appStore.isLoggedIn &&
-                            rolesAndPermissionStore.bankList)
+                        if (appStore.isLoggedIn)
                           SettingItemWidget(
                             decoration: BoxDecoration(color: context.cardColor),
                             leading: ic_card.iconImage(

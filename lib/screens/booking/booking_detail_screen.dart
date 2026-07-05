@@ -1446,8 +1446,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             bookingResponse.bookingDetail!.bookingPackage == null) &&
         (((bookingResponse.bookingDetail!.paymentStatus == null ||
                     bookingResponse.bookingDetail!.paymentStatus == '' ||
-                    bookingResponse.bookingDetail!.paymentStatus ==
-                        'pending') &&
+                    bookingResponse.bookingDetail!.paymentStatus == 'pending' ||
+                    bookingResponse.bookingDetail!.paymentStatus == 'failed') &&
                 bookingResponse.bookingDetail!.status ==
                     BookingStatusKeys.accept) ||
             (bookingResponse.bookingDetail!.paymentStatus ==
@@ -1603,7 +1603,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         (bookingResponse.bookingDetail!.type != SERVICE_TYPE_FREE ||
             bookingResponse.bookingDetail!.paymentMethod ==
                 PAYMENT_METHOD_COD) &&
-        bookingResponse.bookingDetail!.paymentId == null) {
+        (bookingResponse.bookingDetail!.paymentId == null ||
+            bookingResponse.bookingDetail!.paymentStatus == 'failed')) {
       // Calculate remaining amount if advance payment was made
       num remainingAmount = bookingResponse.bookingDetail!.totalAmount.validate();
       if (bookingResponse.bookingDetail!.isAdvancePaymentDone) {

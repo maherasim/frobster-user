@@ -81,8 +81,7 @@ class _BankDetailsState extends State<BankDetails> {
 
   List<OptionModel> optionList({required BankHistory bankHistory}) {
     return [
-      if (rolesAndPermissionStore.bankEdit)
-        OptionModel(
+      OptionModel(
           title: language.lblEdit,
           onTap: () {
             AddBankScreen(data: bankHistory)
@@ -95,7 +94,7 @@ class _BankDetailsState extends State<BankDetails> {
             });
           },
         ),
-      if (bankHistory.isDefault == 0 && rolesAndPermissionStore.bankDelete)
+      if (bankHistory.isDefault == 0)
         OptionModel(
           title: language.lblDelete,
           onTap: () {
@@ -149,7 +148,7 @@ class _BankDetailsState extends State<BankDetails> {
             width: 14,
             color: white,
           ),
-        ).visible(rolesAndPermissionStore.bankAdd),
+        ),
       ],
       child: SnapHelperWidget<List<BankHistory>>(
         future: future,
