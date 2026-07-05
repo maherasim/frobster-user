@@ -177,7 +177,7 @@ class LanguageEn extends BaseLanguage {
   String get applyCoupon => 'Apply Coupon';
 
   @override
-  String get priceDetail => 'Price Details';
+  String get priceDetail => 'Rate Details';
 
   @override
   String get home => 'Home';
@@ -377,7 +377,7 @@ class LanguageEn extends BaseLanguage {
   String get lblEnterDescription => "Enter Description";
 
   @override
-  String get lblPrice => "Price";
+  String get lblPrice => "Rate";
 
   @override
   String get lblTax => "Tax";
@@ -775,7 +775,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get noConversationSubTitle =>
-      "You didn't made any conversation yet. Please book a service to chat with a provider.";
+      "You didn't made any conversation yet. Please book a service to chat with a Agency.";
 
   @override
   String get noBookingSubTitle => "Looks like you haven't book your order yet";
@@ -867,13 +867,13 @@ class LanguageEn extends BaseLanguage {
   String get doYouWantToAssign => 'Do you want to assign';
 
   @override
-  String get bidPrice => 'Bid Price';
+  String get bidPrice => 'Bid Rate';
 
   @override
   String get accept => 'Accept';
 
   @override
-  String get price => 'Price';
+  String get price => 'Rate';
 
   @override
   String get remove => 'Remove';
@@ -899,10 +899,10 @@ class LanguageEn extends BaseLanguage {
       'Selected booking time is already passed. Please select another time.';
 
   @override
-  String get jobPrice => 'Job Price';
+  String get jobPrice => 'Job Rate';
 
   @override
-  String get estimatedPrice => 'Estimated Price';
+  String get estimatedPrice => 'Estimated Rate';
 
   @override
   String get bidder => 'Bidder List';
@@ -1323,7 +1323,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get priceAmountValidationMessage =>
-      'Price amount should be grater than 0';
+      'Rate amount should be grater than 0';
 
   @override
   String get pleaseWaitWhileWeLoadChatDetails =>
@@ -1978,7 +1978,7 @@ class LanguageEn extends BaseLanguage {
   String get packageDescription => 'Package Description';
 
   @override
-  String get packagePrice => 'Package Price';
+  String get packagePrice => 'Package Rate';
 
   @override
   String get online => 'Online';
@@ -2009,7 +2009,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get areYouSureYou =>
-      'Are you sure you want to cancel? A cancellation fee may apply based on your service price';
+      'Are you sure you want to cancel? A cancellation fee may apply based on your service rate';
 
   @override
   String get totalCancellationFee => 'Total cancellation fee';
@@ -2232,7 +2232,7 @@ class LanguageEn extends BaseLanguage {
   String get lblSubCategory => "SubCategory";
 
   @override
-  String get priceType => 'Price Type';
+  String get priceType => 'Rate Type';
 
   @override
   String get totalBudget => 'Total Budget';
@@ -2302,7 +2302,7 @@ class LanguageEn extends BaseLanguage {
 
   @override
   String get workInProgressWaitingForProvider =>
-      "Work in progress — waiting for provider to update or mark done";
+      "Work in progress — waiting for Agency to update or mark done";
 
   @override
   String get jobCompletedWaitingForCustomer =>
@@ -2317,7 +2317,7 @@ class LanguageEn extends BaseLanguage {
       'Waiting for customer to accept the bid';
 
   @override
-  String get waitingForProviderToReviewRequest => 'Waiting for provider to review the request';
+  String get waitingForProviderToReviewRequest => 'Waiting for Agency to review the request';
 
   @override
   String get bidAssignedToHandyman => 'Bid assigned to handyman';
@@ -2350,7 +2350,7 @@ class LanguageEn extends BaseLanguage {
   String get ugcReportService => 'Report';
 
   @override
-  String get ugcBlockProvider => 'Block provider';
+  String get ugcBlockProvider => 'Block Agency';
 
   @override
   String get ugcReportTitle => 'Report this service';
@@ -2379,14 +2379,14 @@ class LanguageEn extends BaseLanguage {
   String get ugcSubmitReport => 'Submit report';
 
   @override
-  String get ugcBlockConfirmTitle => 'Block provider?';
+  String get ugcBlockConfirmTitle => 'Block Agency?';
 
   @override
   String get ugcBlockConfirmMessage =>
-      'You will stop seeing this provider’s services. Continue?';
+      'You will stop seeing this Agency’s services. Continue?';
 
   @override
-  String get ugcProviderBlockedMessage => 'You blocked this provider.';
+  String get ugcProviderBlockedMessage => 'You blocked this Agency.';
 
   @override
   String get ugcReasonSpam => 'Spam';
@@ -2502,7 +2502,7 @@ class LanguageEn extends BaseLanguage {
   String get bidCancelledDetailsUnavailable => 'Bid details unavailable';
 
   @override
-  String get hireProvider => 'Hire Provider';
+  String get hireProvider => 'Hire Agency';
 
   @override
   String get hireAndContinue => 'Hire & Continue';
@@ -2628,7 +2628,7 @@ class LanguageEn extends BaseLanguage {
   String get quantityLabel => 'Quantity';
 
   @override
-  String get rateUnitPrice => 'Rate (Unit Price)';
+  String get rateUnitPrice => 'Rate (Unit Rate)';
 
   @override
   String get lineTotalAmount => 'Total Amount';
@@ -3029,7 +3029,7 @@ class LanguageEn extends BaseLanguage {
   @override
   String get daysAgo => 'days ago';
   @override
-  String get lblBudgetOrPrice => 'Budget/Price';
+  String get lblBudgetOrPrice => 'Budget/Rate';
   @override
   String get lblTotalBudget => 'Total Budget';
   @override
