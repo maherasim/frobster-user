@@ -2,7 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
 const APP_NAME = 'Frobster User';
-const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
+const APP_NAME_TAG_LINE = 'Leading Platform for Freelance & Handyman Talents';
 var defaultPrimaryColor = Color(0xFFE53935);
 
 

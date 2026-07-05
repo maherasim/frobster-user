@@ -155,12 +155,14 @@ class _AddBankScreenState extends State<AddBankScreen> {
       bankNameCont.text = widget.data!.bankName.validate();
       branchNameCont.text = widget.data!.branchName.validate();
       accNumberCont.text = widget.data!.accountNo.validate();
-      ifscCodeCont.text = widget.data!.ifscNo.validate();
+      accountHolderCont.text = widget.data!.accountHolder.validate();
       contactNumberCont.text = widget.data!.mobileNo.validate();
+      ibanNoCont.text = widget.data!.ibanNo.validate();
+      bicNumberCont.text = widget.data!.bicNumber.validate();
+      ifscCodeCont.text = widget.data!.ifscNo.validate();
       aadharCardNumberCont.text = widget.data!.aadharNo.validate();
       panNumberCont.text = widget.data!.panNo.validate();
-      // Note: New fields (accountHolder, ibanNo, bicNumber, stripeAccount) 
-      // may not be in existing data, so they'll remain empty
+      stripeAccountCont.text = widget.data!.stripeAccount.validate();
     }
     setState(() {});
   }
