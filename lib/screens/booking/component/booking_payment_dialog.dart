@@ -293,6 +293,11 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
         toast(e);
       });
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_FROM_WALLET) {
+      if (appStore.userWalletAmount < widget.amount) {
+        appStore.setLoading(false);
+        toast(language.insufficientBalanceMessage);
+        return;
+      }
       savePay(paymentMethod: PAYMENT_METHOD_FROM_WALLET);
     } else if (currentPaymentMethod!.type == PAYMENT_METHOD_BANK_TRANSFER) {
       savePay(
@@ -512,37 +517,55 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
 
                         if (value.status.validate() == 0) return Offstage();
 
+                        final bool isWallet = value.type == PAYMENT_METHOD_FROM_WALLET;
+                        final bool hasEnoughBalance = !isWallet || appStore.userWalletAmount >= widget.amount;
+
                         return RadioListTile<PaymentSetting>(
                           dense: true,
-                          activeColor: gradientRed,
+                          activeColor: hasEnoughBalance ? gradientRed : Colors.grey,
                           value: value,
                           controlAffinity: ListTileControlAffinity.trailing,
                           groupValue: currentPaymentMethod,
-                          onChanged: (PaymentSetting? ind) {
-                            currentPaymentMethod = ind;
-                            if (value.type == PAYMENT_METHOD_BANK_TRANSFER) {
-                              showInDialog(
-                                context,
-                                barrierDismissible: true,
-                                insetPadding: EdgeInsets.symmetric(horizontal: 10),
-                                builder: (p0) {
-                                  return BankTransferDetailDialog(
-                                    bookingAmount: widget.isForAdvancePayment
-                                        ? getAdvancePaymentAmount.toPriceFormat()
-                                        : (widget.bookings.bookingDetail!.totalAmount.validate() -
-                                                getAdvancePaymentAmount)
-                                            .toPriceFormat(),
-                                    bookingId: widget.bookings.bookingDetail!.id.validate(),
-                                  );
-                                },
-                              );
-                            }
-                            setState(() {});
-                          },
+                          onChanged: hasEnoughBalance
+                              ? (PaymentSetting? ind) {
+                                  currentPaymentMethod = ind;
+                                  if (value.type == PAYMENT_METHOD_BANK_TRANSFER) {
+                                    showInDialog(
+                                      context,
+                                      barrierDismissible: true,
+                                      insetPadding: EdgeInsets.symmetric(horizontal: 10),
+                                      builder: (p0) {
+                                        return BankTransferDetailDialog(
+                                          bookingAmount: widget.isForAdvancePayment
+                                              ? getAdvancePaymentAmount.toPriceFormat()
+                                              : (widget.bookings.bookingDetail!.totalAmount.validate() -
+                                                      getAdvancePaymentAmount)
+                                                  .toPriceFormat(),
+                                          bookingId: widget.bookings.bookingDetail!.id.validate(),
+                                        );
+                                      },
+                                    );
+                                  }
+                                  setState(() {});
+                                }
+                              : null,
                           title: Text(
                             value.title.validate(),
-                            style: primaryTextStyle(),
+                            style: primaryTextStyle(
+                              color: hasEnoughBalance ? null : textSecondaryColorGlobal,
+                            ),
                           ),
+                          subtitle: isWallet
+                              ? Text(
+                                  hasEnoughBalance
+                                      ? '${language.balance}: ${appStore.userWalletAmount.toPriceFormat()}'
+                                      : language.insufficientBalanceMessage,
+                                  style: secondaryTextStyle(
+                                    size: 11,
+                                    color: hasEnoughBalance ? Colors.green : Colors.red,
+                                  ),
+                                )
+                              : null,
                         );
                       },
                     );
