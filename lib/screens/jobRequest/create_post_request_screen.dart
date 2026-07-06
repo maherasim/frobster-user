@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter_quill/flutter_quill.dart';
 import 'package:booking_system_flutter/component/base_scaffold_widget.dart';
 import 'package:booking_system_flutter/component/custom_image_picker.dart';
 import 'package:booking_system_flutter/main.dart';
@@ -49,12 +50,14 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
   TextEditingController totalHoursCont = TextEditingController();
 
 
-  TextEditingController descriptionCont = TextEditingController();
   TextEditingController streetAddressCont = TextEditingController();
   TextEditingController poboxAddressCont = TextEditingController();
-  TextEditingController requirementsCont = TextEditingController();
-  TextEditingController dutiesCont = TextEditingController();
-  TextEditingController benefitsCont = TextEditingController();
+
+  // Rich-text controllers (output HTML on save)
+  QuillController descriptionController = QuillController.basic();
+  QuillController requirementsController = QuillController.basic();
+  QuillController dutiesController = QuillController.basic();
+  QuillController benefitsController = QuillController.basic();
 
   FocusNode descriptionFocus = FocusNode();
   FocusNode streetAddressFocus = FocusNode();
@@ -201,12 +204,12 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
         if (!EducationLevel.values.contains(selectedEducationLevel)) {
           selectedEducationLevel = EducationLevel.notSpecified;
         }
-        descriptionCont.text = details.description.validate();
+        _setControllerText(descriptionController, details.description.validate());
         streetAddressCont.text = details.streetAddress.validate();
         poboxAddressCont.text = details.houseNumber.validate();
-        requirementsCont.text = details.requirement.validate();
-        dutiesCont.text = details.duties.validate();
-        benefitsCont.text = details.benefits.validate();
+        _setControllerText(requirementsController, details.requirement.validate());
+        _setControllerText(dutiesController, details.duties.validate());
+        _setControllerText(benefitsController, details.benefits.validate());
       }
     }
     await getCountryStateCityData();
@@ -304,7 +307,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
     PostJobData request = PostJobData(
       id: widget.editJob?.id,
       title: postTitleCont.text.validate(),
-      description: descriptionCont.text.validate(),
+      description: _controllerToHtml(descriptionController),
       price: priceCont.text.validate().toDouble(),
       categoryId: categoryId,
       subCategoryId: subCategoryId,
@@ -324,7 +327,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       totalDays: totalDays,
       totalHours: totalHours,
 
-      requirement: requirementsCont.text.validate(),
+      requirement: _controllerToHtml(requirementsController),
 
       priceType: selectedPriceType,
       jobSchedule: selectedJobSchedule,
@@ -334,8 +337,8 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       educationLevel: selectedEducationLevel,
       streetAddress: streetAddressCont.text.validate(),
       houseNumber: poboxAddressCont.text.validate(),
-      duties: dutiesCont.text.validate(),
-      benefits: benefitsCont.text.validate(),
+      duties: _controllerToHtml(dutiesController),
+      benefits: _controllerToHtml(benefitsController),
       totalBudget: totalBudget,
 
       service: [],
@@ -981,91 +984,32 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                             ),
                           16.height,
                           if (currentStep == 3)
-                            AppTextField(
-                              controller: descriptionCont,
-                              textFieldType: TextFieldType.MULTILINE,
-                              isValidationRequired: false,
-                              maxLines: 2,
-                              focus: descriptionFocus,
-                              nextFocus: streetAddressFocus,
-                              enableChatGPT: appConfigurationStore.chatGPTStatus,
-                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                                hintText: language.writeHere,
-                                fillColor: context.scaffoldBackgroundColor,
-                                filled: true,
-                              ),
-                              testWithoutKeyChatGPT: false,
-                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                              decoration: inputDecoration(
-                                context,
-                                labelText: language.postJobDescription,
-                              ),
-
+                            _buildRichField(
+                              label: language.postJobDescription,
+                              controller: descriptionController,
+                              focusNode: descriptionFocus,
                             ),
                           16.height,
                           if (currentStep == 3)
-                            AppTextField(
-                              controller: requirementsCont,
-                              focus: requirementsFocus,
-                              nextFocus: dutiesFocus,
-                              textFieldType: TextFieldType.MULTILINE,
-                              errorThisFieldRequired: language.requiredText,
-                              maxLines: 2,
-                              enableChatGPT: appConfigurationStore.chatGPTStatus,
-                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                                hintText: language.writeHere,
-                                fillColor: context.scaffoldBackgroundColor,
-                                filled: true,
-                              ),
-                              testWithoutKeyChatGPT: false,
-                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                              decoration: inputDecoration(
-                                context,
-                                labelText: language.skillsAndRequirements,
-                              ),
+                            _buildRichField(
+                              label: language.skillsAndRequirements,
+                              controller: requirementsController,
+                              focusNode: requirementsFocus,
+                              isRequired: true,
                             ),
                           16.height,
                           if (currentStep == 3)
-                            AppTextField(
-                              controller: dutiesCont,
-                              textFieldType: TextFieldType.MULTILINE,
-                              isValidationRequired: false,
-                              maxLines: 2,
-                              focus: dutiesFocus,
-                              nextFocus: benefitsFocus,
-                              enableChatGPT: appConfigurationStore.chatGPTStatus,
-                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                                hintText: language.writeHere,
-                                fillColor: context.scaffoldBackgroundColor,
-                                filled: true,
-                              ),
-                              testWithoutKeyChatGPT: false,
-                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                              decoration: inputDecoration(
-                                context,
-                                labelText: language.dutiesAndResponsibilities,
-                              ),
+                            _buildRichField(
+                              label: language.dutiesAndResponsibilities,
+                              controller: dutiesController,
+                              focusNode: dutiesFocus,
                             ),
                           16.height,
                           if (currentStep == 3)
-                            AppTextField(
-                              controller: benefitsCont,
-                              textFieldType: TextFieldType.MULTILINE,
-                              isValidationRequired: false,
-                              maxLines: 2,
-                              focus: benefitsFocus,
-                              enableChatGPT: appConfigurationStore.chatGPTStatus,
-                              promptFieldInputDecorationChatGPT: inputDecoration(context).copyWith(
-                                hintText: language.writeHere,
-                                fillColor: context.scaffoldBackgroundColor,
-                                filled: true,
-                              ),
-                              testWithoutKeyChatGPT: false,
-                              loaderWidgetForChatGPT: const ChatGPTLoadingWidget(),
-                              decoration: inputDecoration(
-                                context,
-                                labelText: language.benefits,
-                              ),
+                            _buildRichField(
+                              label: language.benefits,
+                              controller: benefitsController,
+                              focusNode: benefitsFocus,
                             ),
 
                         ],
@@ -1319,7 +1263,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       }
       return true;
     } else {
-      if (requirementsCont.text.trim().isEmpty) {
+      if (requirementsController.document.toPlainText().trim().isEmpty) {
         toast(language.requiredText);
         return false;
       }
@@ -1337,5 +1281,197 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       }
     }
     return true;
+  }
+
+  @override
+  void dispose() {
+    descriptionController.dispose();
+    requirementsController.dispose();
+    dutiesController.dispose();
+    benefitsController.dispose();
+    super.dispose();
+  }
+
+  // ── Rich-text helpers ─────────────────────────────────────────────────────
+
+  /// Strip HTML to plain text and load into a QuillController.
+  void _setControllerText(QuillController ctrl, String content) {
+    final text = _htmlToPlain(content);
+    if (text.isEmpty) return;
+    // Replace everything except the trailing mandatory '\n'
+    ctrl.replaceText(0, ctrl.document.length - 1, text, null);
+  }
+
+  /// Convert HTML or plain text to editable plain text for Quill.
+  String _htmlToPlain(String html) {
+    if (html.isEmpty) return '';
+    return html
+        .replaceAll(RegExp(r'<br\s*/?>', caseSensitive: false), '\n')
+        .replaceAll(RegExp(r'</li>', caseSensitive: false), '\n')
+        .replaceAll(RegExp(r'</p>', caseSensitive: false), '\n')
+        .replaceAll(RegExp(r'<[^>]+>'), '')
+        .replaceAll('&amp;', '&')
+        .replaceAll('&lt;', '<')
+        .replaceAll('&gt;', '>')
+        .replaceAll('&nbsp;', ' ')
+        .replaceAll(RegExp(r'\n{3,}'), '\n\n')
+        .trim();
+  }
+
+  /// Convert a QuillController's document to HTML for API submission.
+  String _controllerToHtml(QuillController ctrl) {
+    final plainText = ctrl.document.toPlainText();
+    if (plainText.trim().isEmpty) return '';
+
+    final ops = ctrl.document.toDelta().toJson() as List<dynamic>;
+    final html = StringBuffer();
+    final lineBuf = StringBuffer();
+    bool inUl = false, inOl = false;
+
+    String esc(String s) => s
+        .replaceAll('&', '&amp;')
+        .replaceAll('<', '&lt;')
+        .replaceAll('>', '&gt;');
+
+    void flushLine(String? listType) {
+      final content = lineBuf.toString();
+      lineBuf.clear();
+      if (listType == 'bullet') {
+        if (inOl) { html.write('</ol>'); inOl = false; }
+        if (!inUl) { html.write('<ul>'); inUl = true; }
+        html.write('<li>$content</li>');
+      } else if (listType == 'ordered') {
+        if (inUl) { html.write('</ul>'); inUl = false; }
+        if (!inOl) { html.write('<ol>'); inOl = true; }
+        html.write('<li>$content</li>');
+      } else {
+        if (inUl) { html.write('</ul>'); inUl = false; }
+        if (inOl) { html.write('</ol>'); inOl = false; }
+        html.write('$content<br>');
+      }
+    }
+
+    String applyInline(String text, Map<String, dynamic>? attrs) {
+      String result = esc(text);
+      if (attrs == null) return result;
+      if (attrs['bold'] == true) result = '<strong>$result</strong>';
+      if (attrs['italic'] == true) result = '<em>$result</em>';
+      if (attrs['underline'] == true) result = '<u>$result</u>';
+      if (attrs['strike'] == true) result = '<s>$result</s>';
+      return result;
+    }
+
+    for (final rawOp in ops) {
+      final op = rawOp as Map<String, dynamic>;
+      final insert = op['insert'];
+      if (insert is! String) continue;
+      final attrs = op['attributes'] as Map<String, dynamic>?;
+      final listType = attrs?['list'] as String?;
+
+      final segments = insert.split('\n');
+      for (int i = 0; i < segments.length; i++) {
+        if (segments[i].isNotEmpty) {
+          lineBuf.write(applyInline(segments[i], attrs));
+        }
+        if (i < segments.length - 1) {
+          flushLine(listType);
+        }
+      }
+    }
+
+    if (lineBuf.isNotEmpty) {
+      if (inUl) { html.write('</ul>'); inUl = false; }
+      if (inOl) { html.write('</ol>'); inOl = false; }
+      html.write(lineBuf.toString());
+    } else {
+      if (inUl) html.write('</ul>');
+      if (inOl) html.write('</ol>');
+    }
+
+    String result = html.toString();
+    while (result.endsWith('<br>')) {
+      result = result.substring(0, result.length - 4);
+    }
+    return result;
+  }
+
+  /// A labelled rich-text editing field with a compact formatting toolbar.
+  Widget _buildRichField({
+    required String label,
+    required QuillController controller,
+    required FocusNode focusNode,
+    bool isRequired = false,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Row(
+          children: [
+            Text(label, style: primaryTextStyle(size: 12)),
+            if (isRequired)
+              Text(' *', style: primaryTextStyle(size: 12, color: Colors.red)),
+          ],
+        ),
+        6.height,
+        Container(
+          decoration: BoxDecoration(
+            border: Border.all(color: context.dividerColor),
+            borderRadius: BorderRadius.circular(8),
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              QuillSimpleToolbar(
+                controller: controller,
+                config: QuillSimpleToolbarConfig(
+                  multiRowsDisplay: false,
+                  showBoldButton: true,
+                  showItalicButton: true,
+                  showUnderLineButton: true,
+                  showStrikeThrough: false,
+                  showListBullets: true,
+                  showListNumbers: true,
+                  showUndo: true,
+                  showRedo: false,
+                  showFontFamily: false,
+                  showFontSize: false,
+                  showColorButton: false,
+                  showBackgroundColorButton: false,
+                  showClearFormat: false,
+                  showLink: false,
+                  showSearchButton: false,
+                  showHeaderStyle: false,
+                  showIndent: false,
+                  showCodeBlock: false,
+                  showInlineCode: false,
+                  showQuote: false,
+                  showAlignmentButtons: false,
+                  showDirection: false,
+                  showSubscript: false,
+                  showSuperscript: false,
+                  showDividers: false,
+                  showSmallButton: false,
+                  showListCheck: false,
+                  showLineHeightButton: false,
+                ),
+              ),
+              Divider(height: 1, color: context.dividerColor),
+              // Wrap in a Container to enforce minimum visible height
+              Container(
+                constraints: const BoxConstraints(minHeight: 100),
+                child: QuillEditor.basic(
+                  controller: controller,
+                  focusNode: focusNode,
+                  config: QuillEditorConfig(
+                    placeholder: language.writeHere,
+                    padding: const EdgeInsets.all(10),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
   }
 }

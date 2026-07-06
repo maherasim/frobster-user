@@ -1,3 +1,4 @@
+import 'package:flutter_quill/flutter_quill.dart' show FlutterQuillLocalizations;
 import 'package:booking_system_flutter/app_theme.dart';
 import 'package:booking_system_flutter/locale/app_localizations.dart';
 import 'package:booking_system_flutter/locale/language_en.dart';
@@ -174,6 +175,7 @@ class _MyAppState extends State<MyApp> {
                 supportedLocales: LanguageDataModel.languageLocales(),
                 localizationsDelegates: [
                   AppLocalizations(),
+                  FlutterQuillLocalizations.delegate,
                   GlobalMaterialLocalizations.delegate,
                   GlobalWidgetsLocalizations.delegate,
                   GlobalCupertinoLocalizations.delegate,
