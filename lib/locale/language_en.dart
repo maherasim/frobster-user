@@ -3,13 +3,13 @@ import 'package:booking_system_flutter/utils/configs.dart';
 
 class LanguageEn extends BaseLanguage {
   @override
-  String get walkTitle1 => 'Create and Set Up Your Account';
+  String get walkTitle1 => 'Create and Set Up Your free Account';
 
   @override
   String get walkTitle2 => 'Browse and Book Services';
 
   @override
-  String get walkTitle3 => 'Track and Manage Your Bookings';
+  String get walkTitle3 => 'Track and Manage Your Job Requests';
 
   @override
   String get getStarted => 'Get Started';
@@ -437,7 +437,7 @@ class LanguageEn extends BaseLanguage {
   String get lblAboutHandyman => "About Freelancer";
 
   @override
-  String get lblAboutProvider => "About Age";
+  String get lblAboutProvider => "About Agency";
 
   @override
   String get lblNotRatedYet => "You haven't rated yet";
@@ -2691,7 +2691,7 @@ class LanguageEn extends BaseLanguage {
   String get anonymous => 'Anonymous';
 
   @override
-  String get accountHolderName => 'Account Holder Name';
+  String get accountHolderName => 'Account Holder';
 
   @override
   String get priceSuffixHourly => '/hr';
