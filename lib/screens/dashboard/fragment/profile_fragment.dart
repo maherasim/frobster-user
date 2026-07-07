@@ -315,8 +315,7 @@ class ProfileFragmentState extends State<ProfileFragment> {
                             MyPostRequestListScreen().launch(context);
                           },
                         ),
-                        if (appConfigurationStore.blogStatus &&
-                            rolesAndPermissionStore.blogList)
+                        if (appConfigurationStore.blogStatus)
                           SettingItemWidget(
                             decoration: BoxDecoration(color: context.cardColor),
                             leading: ic_document.iconImage(
