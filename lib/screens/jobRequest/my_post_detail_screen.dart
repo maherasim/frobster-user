@@ -219,10 +219,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         attributeRow(language.lblTotalBudget, (data.totalBudget.validate()).toPriceFormat()),
         attributeRow(language.totalDays, data.totalDays?.toString() ?? '0'),
         attributeRow(language.totalHours, data.totalHours?.toString() ?? '0'),
-        attributeRow("Remote Work Level", data.remoteWorkLevel?.displayName ?? 'N/A'),
-        attributeRow("Travel Required", data.travelRequired?.displayName ?? 'N/A'),
-        attributeRow("Career Level", data.careerLevel?.displayName ?? 'N/A'),
-        attributeRow("Education Level", data.educationLevel?.displayName ?? 'N/A'),
+        attributeRow(language.remoteWorkLevel, data.remoteWorkLevel?.displayName ?? language.notSpecified),
+        attributeRow(language.travelRequiredLabel, data.travelRequired?.displayName ?? language.notSpecified),
+        attributeRow(language.careerLevel, data.careerLevel?.displayName ?? language.notSpecified),
+        attributeRow(language.educationLevel, data.educationLevel?.displayName ?? language.notSpecified),
 
         // Description Section
         if (data.description.validate().isNotEmpty) ...[

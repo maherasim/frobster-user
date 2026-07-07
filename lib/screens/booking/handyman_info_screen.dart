@@ -16,6 +16,7 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
+import '../../model/get_my_post_job_list_response.dart';
 import '../../utils/colors.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
@@ -45,6 +46,20 @@ String _availabilityDisplay(String? raw) {
   if (v == 'full_time') return language.fullTime;
   if (v == 'part_time') return language.partTime;
   return raw.replaceAll('_', ' ').split(' ').map((w) {
+    if (w.isEmpty) return '';
+    return w[0].toUpperCase() + w.substring(1).toLowerCase();
+  }).join(' ');
+}
+
+/// Convert raw DB education value (e.g. high_school_graduate) to a human-readable label.
+String _educationDisplay(String? raw) {
+  if (raw == null || raw.isEmpty) return '';
+  try {
+    return EducationLevel.values
+        .firstWhere((e) => e.backendValue == raw.trim().toLowerCase())
+        .displayName;
+  } catch (_) {}
+  return raw.trim().replaceAll('_', ' ').split(' ').map((w) {
     if (w.isEmpty) return '';
     return w[0].toUpperCase() + w.substring(1).toLowerCase();
   }).join(' ');
@@ -398,7 +413,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               children: [
                                 Text(language.educationLevel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(data.userData!.education.validate(),
+                                Text(_educationDisplay(data.userData!.education),
                                     style: secondaryTextStyle(size: 12)),
                               ],
                             ).paddingSymmetric(horizontal: 16),

@@ -50,6 +50,7 @@ class BookingPaymentDialog extends StatefulWidget {
 class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
   Future<List<PaymentSetting>>? future;
   PaymentSetting? currentPaymentMethod;
+  bool _isProcessing = false;
 
   @override
   void initState() {
@@ -78,6 +79,8 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
       toast(language.lblPleaseSelectPaymentMethod);
       return;
     }
+    if (_isProcessing) return;
+    setState(() => _isProcessing = true);
 
     appStore.setLoading(true);
     if (currentPaymentMethod!.type == PAYMENT_METHOD_COD) {
@@ -464,14 +467,19 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
     appStore.setLoading(true);
     savePayment(request, endPoint: endPoint).then((value) {
       appStore.setLoading(false);
-      if (value.status ?? false) {
+      if (!mounted) return;
+      if (value.status == true || paymentMethod == PAYMENT_METHOD_BANK_TRANSFER) {
+        if (value.message.validate().isNotEmpty) toast(value.message!);
         finish(context, true);
       } else {
-        toast(value.message ?? language.somethingWentWrong);
+        setState(() => _isProcessing = false);
+        toast(value.message.validate().isNotEmpty ? value.message! : language.somethingWentWrong);
       }
     }).catchError((e) {
-      toast(e.toString());
       appStore.setLoading(false);
+      if (!mounted) return;
+      setState(() => _isProcessing = false);
+      toast(e.toString());
     });
   }
 
@@ -586,7 +594,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
                     ).expand(),
                     16.width,
                     GradientButton(
-                      onPressed: _handleSubmitClick,
+                      onPressed: _isProcessing ? () {} : _handleSubmitClick,
                       child: Text(language.confirm),
                     ).expand(),
                   ],
