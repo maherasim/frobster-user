@@ -11,10 +11,13 @@ import 'package:path_provider/path_provider.dart';
 
 import '../main.dart';
 import '../screens/booking/booking_detail_screen.dart';
+import '../screens/chat/api_chat_screen.dart';
 import '../screens/jobRequest/my_post_detail_screen.dart';
 import '../screens/service/service_detail_screen.dart';
 import '../screens/wallet/user_wallet_balance_screen.dart';
 import 'constant.dart';
+
+bool _notificationListenersRegistered = false;
 
 Future<void> initFirebaseMessaging() async {
   try {
@@ -111,6 +114,7 @@ Future<bool> subscribeToFirebaseTopic() async {
 }
 
 Future<bool> unsubscribeFirebaseTopic(int userId) async {
+  _notificationListenersRegistered = false;
   bool result = appStore.isSubscribedForPushNotification;
   await FirebaseMessaging.instance
       .unsubscribeFromTopic('user_$userId')
@@ -128,6 +132,8 @@ Future<bool> unsubscribeFirebaseTopic(int userId) async {
 }
 
 Future<void> registerNotificationListeners() async {
+  if (_notificationListenersRegistered) return;
+  _notificationListenersRegistered = true;
   FirebaseMessaging.instance.setAutoInitEnabled(true).then((value) {
     FirebaseMessaging.onMessage.listen((RemoteMessage message) {
       if (message.notification != null &&
@@ -165,9 +171,46 @@ Future<void> registerNotificationListeners() async {
 }
 
 void handleNotificationClick(RemoteMessage message) {
-  if (message.data.containsKey('is_chat')) {
+  // Chat notification — navigate directly to the conversation
+  final bool isChatNotif = message.data['type'] == 'chat_message' ||
+      message.data['is_chat'] == '1' ||
+      message.data['is_chat'] == 1;
+
+  if (isChatNotif) {
+    // conversation_id is now a top-level FCM field; fall back to additional_data
+    dynamic rawCid = message.data['conversation_id'];
+    dynamic rawSenderId = message.data['sender_id'];
+    String senderName = message.data['sender_name']?.toString() ?? 'User';
+
+    if (rawCid == null && message.data.containsKey('additional_data')) {
+      try {
+        final extra = jsonDecode(message.data['additional_data'] as String) as Map<String, dynamic>;
+        rawCid = extra['conversation_id'];
+        rawSenderId ??= extra['sender_id'];
+        if (senderName == 'User') senderName = extra['sender_name']?.toString() ?? 'User';
+      } catch (_) {}
+    }
+
+    final int? cid = int.tryParse(rawCid?.toString() ?? '');
+    final int? senderId = int.tryParse(rawSenderId?.toString() ?? '');
+
+    if (cid != null && cid > 0) {
+      navigatorKey.currentState!.push(MaterialPageRoute(
+        builder: (context) => ApiChatScreen(
+          conversationId: cid,
+          otherUserId: senderId ?? 0,
+          otherUserName: senderName,
+        ),
+      ));
+      return;
+    }
+
+    // Fallback: just open the chat tab
     LiveStream().emit(LIVESTREAM_FIREBASE, 3);
-  } else if (message.data.containsKey('additional_data')) {
+    return;
+  }
+
+  if (message.data.containsKey('additional_data')) {
     Map<String, dynamic> additionalData =
         jsonDecode(message.data["additional_data"]) ?? {};
     int? id;

@@ -11,6 +11,10 @@ var defaultPrimaryColor = Color(0xFFE53935);
 const DOMAIN_URL = "https://frobster.com";
 const BASE_URL = '$DOMAIN_URL/api/';
 
+// Pusher — fill in after creating your Pusher Channels app at pusher.com
+const PUSHER_APP_KEY     = '82c4fc5181123cb5e639';
+const PUSHER_APP_CLUSTER = 'eu';
+
 const DEFAULT_LANGUAGE = 'en';
 
 /// You can change this to your Provider App package name

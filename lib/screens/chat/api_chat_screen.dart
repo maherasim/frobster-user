@@ -8,6 +8,7 @@ import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:booking_system_flutter/screens/chat/widget/chat_item_widget.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
+import 'package:booking_system_flutter/utils/pusher_chat_service.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:nb_utils/nb_utils.dart';
@@ -54,12 +55,37 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     super.initState();
     _fetchInitial();
     _scrollController.addListener(_onScroll);
-    _pollTimer = Timer.periodic(const Duration(seconds: 4), (_) => _fetchNew());
+    _startPolling();
+    _connectPusher();
+  }
+
+  void _startPolling() {
+    _pollTimer?.cancel();
+    // Keep polling as fallback (slower when Pusher is connected)
+    _pollTimer = Timer.periodic(
+      const Duration(seconds: 15),
+      (_) { if (!PusherChatService.instance.isConnected) _fetchNew(); },
+    );
+  }
+
+  Future<void> _connectPusher() async {
+    await PusherChatService.instance.subscribe(
+      conversationId: widget.conversationId,
+      bearerToken: appStore.token,
+      onMessage: (payload) {
+        final id = payload['id'];
+        if (id == null) return;
+        // Avoid duplicating messages already fetched by the initial load
+        if (_apiMessages.any((m) => m.id == id)) return;
+        _fetchNew(); // pull the full message object from REST to keep model consistent
+      },
+    );
   }
 
   @override
   void dispose() {
     _pollTimer?.cancel();
+    PusherChatService.instance.dispose();
     _scrollController.dispose();
     super.dispose();
   }
