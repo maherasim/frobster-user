@@ -754,7 +754,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     ),
                                     keyboardType: TextInputType.numberWithOptions(decimal: true, signed: true),
                                     validator: (s) {
-                                      if (totalDaysCont.text.isEmpty)
+                                      if (totalHoursCont.text.isEmpty)
                                         return errorThisFieldRequired;
                                       return null;
                                     },
@@ -1259,6 +1259,10 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       }
       if (selStartDate.validate().isEmpty || selEndDate.validate().isEmpty) {
         toast(language.lblSelectStartEndDates);
+        return false;
+      }
+      if (totalHoursCont.text.trim().isEmpty) {
+        toast(language.requiredText);
         return false;
       }
       return true;

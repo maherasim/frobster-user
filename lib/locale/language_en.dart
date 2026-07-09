@@ -1920,7 +1920,7 @@ class LanguageEn extends BaseLanguage {
   String get accountNumber => "Account number";
 
   @override
-  String get iFSCCode => "IBAN code";
+  String get iFSCCode => " Bank Address";
 
   @override
   String get availableBalance => "Available Balance";

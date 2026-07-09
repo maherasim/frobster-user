@@ -33,7 +33,7 @@ class JobRequestDetailResponse {
   int? postRequestId;
   int? providerId;
   int? customerId;
-  int? price;
+  double? price;
   String? holdReason;
   num? advancePercent;
   String? whyChooseMe;
@@ -88,7 +88,7 @@ class JobRequestDetailResponse {
     postRequestId: _toInt(json["post_request_id"]),
     providerId: _toInt(json["provider_id"]),
     customerId: _toInt(json["customer_id"]),
-    price: _toInt(json["price"]),
+    price: (json["price"] as num?)?.toDouble(),
     holdReason: json["hold_reason"],
     advancePercent: json["advance_percent"],
     whyChooseMe: json["why_choose_me"],

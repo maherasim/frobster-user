@@ -137,6 +137,16 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
   }
 
   Widget postJobDetailWidget({required PostJobData data}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // In dark mode, strip hardcoded dark colors so they don't become invisible.
+    Map<String, String>? Function(dynamic)? htmlStyleBuilder = isDark
+        ? (element) {
+            final style = (element.attributes['style'] as String?) ?? '';
+            if (style.contains('color')) return {'color': '#eeeeee'};
+            return null;
+          }
+        : null;
+
     // Simple attribute row helper - matching reference design
     Widget attributeRow(String label, String value, {Color? valueColor, Widget? customValueWidget}) {
       return Padding(
@@ -232,6 +242,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           HtmlWidget(
             _toHtml(data.description),
             textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
 
@@ -243,6 +254,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           HtmlWidget(
             _toHtml(data.requirement),
             textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
 
@@ -254,6 +266,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           HtmlWidget(
             _toHtml(data.duties),
             textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
 
@@ -265,6 +278,7 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
           HtmlWidget(
             _toHtml(data.benefits),
             textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
       ],
