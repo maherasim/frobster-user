@@ -219,8 +219,8 @@ class ExtraChargesData {
   int? id;
   int? postJobBidId;
   String? title;
-  int? amount;
-  int? quantity;
+  double? amount;
+  double? quantity;
   DateTime? createdAt;
   DateTime? updatedAt;
 
@@ -238,8 +238,8 @@ class ExtraChargesData {
     id: _toInt(json["id"]),
     postJobBidId: _toInt(json["post_job_bid_id"]),
     title: json["title"],
-    amount: _toInt(json["amount"]),
-    quantity: _toInt(json["quantity"]),
+    amount: (json["amount"] as num?)?.toDouble(),
+    quantity: (json["quantity"] as num?)?.toDouble(),
     createdAt: json["created_at"] == null ? null : DateTime.parse(json["created_at"]),
     updatedAt: json["updated_at"] == null ? null : DateTime.parse(json["updated_at"]),
   );

@@ -140,6 +140,10 @@ class _PaymentDialogState extends State<PaymentDialog> {
   }
 
   _handleSubmitClick() async {
+    if (currentPaymentMethod == null) {
+      toast(language.lblPleaseSelectPaymentMethod);
+      return;
+    }
     appStore.setLoading(true);
     if (currentPaymentMethod!.type == PAYMENT_METHOD_STRIPE) {
       StripeServiceNew stripeServiceNew = StripeServiceNew(

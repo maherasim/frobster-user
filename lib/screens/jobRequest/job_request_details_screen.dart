@@ -645,7 +645,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                             setState(() {});
                           }
                         },
-                        child: Text('${language.jobBidProgressRemaining} (\$${remaining})', style: boldTextStyle(color: white, size: 16)),
+                        child: Text('${language.jobBidProgressRemaining} (\$${remaining.toStringAsFixed(2)})', style: boldTextStyle(color: white, size: 16)),
                       ).withWidth(context.width()),
                     ),
                   ],
@@ -965,6 +965,19 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
               ...postJobDetail!.extraCharges
                   .map((charge) => _extraChargesDetails(charge))
                   .toList(),
+              Divider(thickness: 1),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(language.lblTotalExtraCharges, style: boldTextStyle(size: 14)),
+                  PriceWidget(
+                    price: postJobDetail!.extraCharges.fold(0.0, (sum, ec) => sum + ((ec.amount ?? 0) * (ec.quantity ?? 0))),
+                    color: textPrimaryColorGlobal,
+                    size: 14,
+                    isBoldText: true,
+                  ),
+                ],
+              ),
             ],
           ),
         ),
