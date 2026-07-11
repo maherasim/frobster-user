@@ -13,6 +13,9 @@ const BASE_URL = '$DOMAIN_URL/api/';
 
 const DEFAULT_LANGUAGE = 'de';
 
+const PUSHER_APP_KEY     = '82c4fc5181123cb5e639';
+const PUSHER_APP_CLUSTER = 'eu';
+
 /// You can change this to your Provider App package name
 /// This will be used in Registered As Partner in Sign In Screen where your users can redirect to the Play/App Store for Provider App
 /// You can specify in Admin Panel, These will be used if you don't specify in Admin Panel

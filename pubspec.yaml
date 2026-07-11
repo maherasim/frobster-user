@@ -110,6 +110,8 @@ dependencies:
   async: any
   uuid: any
   flutter_widget_from_html: ^0.16.0
+  flutter_quill: ^11.5.0
+  pusher_channels_flutter: ^2.1.0
 dependency_overrides:
   intl: ^0.20.2
 
