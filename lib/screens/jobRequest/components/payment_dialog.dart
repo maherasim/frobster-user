@@ -93,7 +93,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
                                 insetPadding: EdgeInsets.symmetric(horizontal: 10),
                                 builder: (p0) {
                                   return  BankTransferDetailDialog(
-                                    bookingAmount: widget.amount.toString(),
+                                    bookingAmount: widget.amount.toPriceFormat(),
                                     bookingId: 0,
                                   );
                                 },

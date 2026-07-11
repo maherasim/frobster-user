@@ -580,7 +580,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       setState(() {});
                     }
                   },
-                  child: Text('${language.jobBidProgressAdvance} (\$${advance})', style: boldTextStyle(color: white, size: 16)),
+                  child: Text('${language.jobBidProgressAdvance} (\$${advance.toStringAsFixed(2)})', style: boldTextStyle(color: white, size: 16)),
                 ).withWidth(context.width()).paddingOnly(bottom: 24),
               // Show "Let's Start Work" button when status is inProcess
               // Only hide if bank transfer is awaiting approval (for advance payment, not for inProcess)
