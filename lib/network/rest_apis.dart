@@ -1381,7 +1381,7 @@ Future<Map<String, String>> getMultipartFields(
   Map<String, String> data = {};
 
   val.forEach((key, value) {
-    data[key] = '$value';
+    if (value != null) data[key] = '$value';
   });
 
   return data;

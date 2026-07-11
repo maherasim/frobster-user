@@ -83,10 +83,14 @@ class BankHistory {
   String bankName;
   String branchName;
   String accountNo;
+  String accountHolder;
   String ifscNo;
   String mobileNo;
+  String ibanNo;
+  String bicNumber;
   String aadharNo;
   String panNo;
+  String stripeAccount;
   List<dynamic> bankAttchments;
   int isDefault;
 
@@ -96,10 +100,14 @@ class BankHistory {
     this.bankName = "",
     this.branchName = "",
     this.accountNo = "",
+    this.accountHolder = "",
     this.ifscNo = "",
     this.mobileNo = "",
+    this.ibanNo = "",
+    this.bicNumber = "",
     this.aadharNo = "",
     this.panNo = "",
+    this.stripeAccount = "",
     this.bankAttchments = const [],
     this.isDefault = -1,
   });
@@ -111,12 +119,16 @@ class BankHistory {
       bankName: json['bank_name'] is String ? json['bank_name'] : "",
       branchName: json['branch_name'] is String ? json['branch_name'] : "",
       accountNo: json['account_no'] is String ? json['account_no'] : "",
+      accountHolder: json['account_holder'] is String ? json['account_holder'] : "",
       ifscNo: json['ifsc_no'] is String ? json['ifsc_no'] : "",
       mobileNo: json['mobile_no'] is String ? json['mobile_no'] : "",
+      ibanNo: json['iban_no'] is String ? json['iban_no'] : "",
+      bicNumber: json['bic_number'] is String ? json['bic_number'] : "",
       aadharNo: json['aadhar_no'] is String ? json['aadhar_no'] : "",
       panNo: json['pan_no'] is String ? json['pan_no'] : "",
+      stripeAccount: json['stripe_account'] is String ? json['stripe_account'] : "",
       bankAttchments:
-          json['bank_attchments'] is List ? json['bank_attchments'] : [],
+          json['bank_attachment'] is List ? json['bank_attachment'] : [],
       isDefault: json['is_default'] is int ? json['is_default'] : -1,
     );
   }
@@ -128,11 +140,15 @@ class BankHistory {
       'bank_name': bankName,
       'branch_name': branchName,
       'account_no': accountNo,
+      'account_holder': accountHolder,
       'ifsc_no': ifscNo,
       'mobile_no': mobileNo,
+      'iban_no': ibanNo,
+      'bic_number': bicNumber,
       'aadhar_no': aadharNo,
       'pan_no': panNo,
-      'bank_attchments': [],
+      'stripe_account': stripeAccount,
+      'bank_attachment': [],
       'is_default': isDefault,
     };
   }

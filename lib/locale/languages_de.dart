@@ -972,7 +972,7 @@ class LanguageDe extends BaseLanguage {
   String get noTimeSlots => 'Keine Zeitfenster';
 
   @override
-  String get bookingDateAndSlot => 'Buchungsdatum & Zeitfenster';
+  String get bookingDateAndSlot => 'Ooking Date & Slot';
 
   @override
   String get extraCharges => 'Extrakosten';

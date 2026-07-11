@@ -50,40 +50,8 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
       onPageStarted: (url) {
         log('PayPal Page Started: $url');
       },
-      onPageFinished: (url) async {
+      onPageFinished: (url) {
         log('PayPal Page Finished: $url');
-        
-        // Check if this is the success or cancel redirect URL
-        final uri = Uri.tryParse(url);
-        if (uri != null) {
-          final path = uri.path.toLowerCase();
-          
-          // Check for success URL pattern (support both job requests and bookings)
-          if (path.contains('postjob/paypal-success') || 
-              path.contains('/postjob/paypal-success/') ||
-              path.contains('postjob/paypal/success') ||
-              path.contains('/postjob/paypal/success/') ||
-              path.contains('booking/paypal-success') ||
-              path.contains('/booking/paypal-success/') ||
-              path.contains('booking/paypal/success') ||
-              path.contains('/booking/paypal/success/')) {
-            // The backend handles payment capture automatically
-            // We need to check the response to see if it was successful
-            await _checkPaymentStatus(url);
-          }
-          
-          // Check if this is the cancel redirect URL (support both job requests and bookings)
-          if (path.contains('postjob/paypal-cancel') || 
-              path.contains('/postjob/paypal-cancel') ||
-              path.contains('postjob/paypal/cancel') ||
-              path.contains('/postjob/paypal/cancel') ||
-              path.contains('booking/paypal-cancel') ||
-              path.contains('/booking/paypal-cancel') ||
-              path.contains('booking/paypal/cancel') ||
-              path.contains('/booking/paypal/cancel')) {
-            _handlePayPalCancel();
-          }
-        }
       },
       onProgress: (progress) {
         // Update progress if needed
@@ -92,32 +60,25 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
         final url = request.url;
         log('PayPal Navigation: $url');
 
-        // Allow navigation to success/cancel URLs so backend can process them
         final uri = Uri.tryParse(url);
         if (uri != null) {
           final path = uri.path.toLowerCase();
-          
-          // Don't prevent navigation to success URL - let backend handle it (support both job requests and bookings)
-          if (path.contains('postjob/paypal-success') || 
-              path.contains('/postjob/paypal-success/') ||
+
+          // Intercept success URL — prevent WebView from browsing to it (which would
+          // return HTML/redirect for web routes). Instead call the JSON API ourselves.
+          if (path.contains('postjob/paypal-success') ||
               path.contains('postjob/paypal/success') ||
-              path.contains('/postjob/paypal/success/') ||
               path.contains('booking/paypal-success') ||
-              path.contains('/booking/paypal-success/') ||
-              path.contains('booking/paypal/success') ||
-              path.contains('/booking/paypal/success/')) {
-            return NavigationDecision.navigate;
+              path.contains('booking/paypal/success')) {
+            _checkPaymentStatus(url);
+            return NavigationDecision.prevent;
           }
-          
-          // Prevent navigation to cancel URL and handle it (support both job requests and bookings)
-          if (path.contains('postjob/paypal-cancel') || 
-              path.contains('/postjob/paypal-cancel') ||
+
+          // Prevent navigation to cancel URL and handle it
+          if (path.contains('postjob/paypal-cancel') ||
               path.contains('postjob/paypal/cancel') ||
-              path.contains('/postjob/paypal/cancel') ||
               path.contains('booking/paypal-cancel') ||
-              path.contains('/booking/paypal-cancel') ||
-              path.contains('booking/paypal/cancel') ||
-              path.contains('/booking/paypal/cancel')) {
+              path.contains('booking/paypal/cancel')) {
             _handlePayPalCancel();
             return NavigationDecision.prevent;
           }
@@ -178,9 +139,9 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
       try {
         // Determine endpoint based on URL pattern (support both job requests and bookings)
         final isBooking = url.contains('booking/paypal');
-        final endpoint = isBooking 
-            ? 'booking/paypal-success/${widget.bidId}?token=$token${payerId != null ? '&PayerID=$payerId' : ''}'
-            : 'postjob/paypal-success/${widget.bidId}?token=$token${payerId != null ? '&PayerID=$payerId' : ''}';
+        final endpoint = isBooking
+            ? 'booking-paypal/success/${widget.bidId}?token=$token&type=${widget.paymentType}${payerId != null ? '&PayerID=$payerId' : ''}'
+            : 'postjob/paypal/success/${widget.bidId}?token=$token&type=${widget.paymentType}${payerId != null ? '&PayerID=$payerId' : ''}';
         
         final successResponse = await buildHttpResponse(
           endpoint,

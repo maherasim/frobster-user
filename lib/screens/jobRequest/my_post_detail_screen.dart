@@ -125,7 +125,28 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
     }
   }
 
+  /// Ensures content renders correctly whether it's plain text or HTML.
+  /// Plain-text newlines are converted to <br> so they show as line breaks.
+  String _toHtml(String? text) {
+    if (text == null || text.trim().isEmpty) return '';
+    final t = text.trim();
+    // If it already contains an HTML tag, pass through unchanged
+    if (t.contains(RegExp(r'<[a-zA-Z]'))) return t;
+    // Plain text: preserve line breaks
+    return t.replaceAll('\n', '<br>');
+  }
+
   Widget postJobDetailWidget({required PostJobData data}) {
+    final isDark = Theme.of(context).brightness == Brightness.dark;
+    // In dark mode, strip hardcoded dark colors so they don't become invisible.
+    Map<String, String>? Function(dynamic)? htmlStyleBuilder = isDark
+        ? (element) {
+            final style = (element.attributes['style'] as String?) ?? '';
+            if (style.contains('color')) return {'color': '#eeeeee'};
+            return null;
+          }
+        : null;
+
     // Simple attribute row helper - matching reference design
     Widget attributeRow(String label, String value, {Color? valueColor, Widget? customValueWidget}) {
       return Padding(
@@ -208,56 +229,56 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         attributeRow(language.lblTotalBudget, (data.totalBudget.validate()).toPriceFormat()),
         attributeRow(language.totalDays, data.totalDays?.toString() ?? '0'),
         attributeRow(language.totalHours, data.totalHours?.toString() ?? '0'),
-        attributeRow("Remote Work Level", data.remoteWorkLevel?.displayName ?? 'N/A'),
-        attributeRow("Travel Required", data.travelRequired?.displayName ?? 'N/A'),
-        attributeRow("Career Level", data.careerLevel?.displayName ?? 'N/A'),
-        attributeRow("Education Level", data.educationLevel?.displayName ?? 'N/A'),
+        attributeRow(language.remoteWorkLevel, data.remoteWorkLevel?.displayName ?? language.notSpecified),
+        attributeRow(language.travelRequiredLabel, data.travelRequired?.displayName ?? language.notSpecified),
+        attributeRow(language.careerLevel, data.careerLevel?.displayName ?? language.notSpecified),
+        attributeRow(language.educationLevel, data.educationLevel?.displayName ?? language.notSpecified),
 
-        // Description Section - Simple and Clean (like service detail screen)
+        // Description Section
         if (data.description.validate().isNotEmpty) ...[
           24.height,
-          Text(language.descriptionHeading,
-              style: boldTextStyle(size: 18)),
+          Text(language.descriptionHeading, style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
-            data.description.validate(),
-            textStyle: secondaryTextStyle(),
+            _toHtml(data.description),
+            textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
 
-        // Skills & Requirements Section - Simple and Clean
+        // Skills & Requirements Section
         if (data.requirement.validate().isNotEmpty) ...[
           24.height,
-          Text(language.skillsAndRequirements,
-              style: boldTextStyle(size: 18)),
+          Text(language.skillsAndRequirements, style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
-            data.requirement.validate(),
-            textStyle: secondaryTextStyle(),
+            _toHtml(data.requirement),
+            textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
 
-        // Duties & Responsibilities Section - Simple and Clean
+        // Duties & Responsibilities Section
         if (data.duties.validate().isNotEmpty) ...[
           24.height,
-          Text(language.lblDutiesAndResponsibilities,
-              style: boldTextStyle(size: 18)),
+          Text(language.lblDutiesAndResponsibilities, style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
-            data.duties.validate(),
-            textStyle: secondaryTextStyle(),
+            _toHtml(data.duties),
+            textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
 
-        // Benefits Section - Simple and Clean
+        // Benefits Section
         if (data.benefits.validate().isNotEmpty) ...[
           24.height,
-          Text(language.benefits,
-              style: boldTextStyle(size: 18)),
+          Text(language.benefits, style: boldTextStyle(size: 18)),
           16.height,
           HtmlWidget(
-            data.benefits.validate(),
-            textStyle: secondaryTextStyle(),
+            _toHtml(data.benefits),
+            textStyle: primaryTextStyle(size: 14),
+            customStylesBuilder: htmlStyleBuilder,
           ),
         ],
       ],

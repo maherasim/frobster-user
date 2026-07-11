@@ -1,4 +1,4 @@
-import 'dart:async';
+ import 'dart:async';
 import 'dart:convert';
 import 'package:booking_system_flutter/component/add_review_dialog.dart';
 import 'package:booking_system_flutter/component/app_common_dialog.dart';
@@ -258,7 +258,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     final String city = bookingDetail.cityName.validate();
                     final String country = bookingDetail.countryName.validate();
                     final String label = (city.isEmpty && country.isEmpty)
-                        ? language.notAvailable
+                        ? 'N/A'
                         : '$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country';
                     return Text(
                       label,
@@ -339,7 +339,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                       spacing: 8,
                       children: [
                         Text(
-                          '${language.workingAddress}: ',
+                          'Working Address: ',
                           style: secondaryTextStyle(),
                         ),
                         8.width,
@@ -424,7 +424,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        '${language.lblTotal} ${language.lblPrice}: ',
+                        'Total Price: ',
                         style: secondaryTextStyle(),
                       ),
                       PriceWidget(
@@ -1446,8 +1446,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             bookingResponse.bookingDetail!.bookingPackage == null) &&
         (((bookingResponse.bookingDetail!.paymentStatus == null ||
                     bookingResponse.bookingDetail!.paymentStatus == '' ||
-                    bookingResponse.bookingDetail!.paymentStatus ==
-                        'pending') &&
+                    bookingResponse.bookingDetail!.paymentStatus == 'pending' ||
+                    bookingResponse.bookingDetail!.paymentStatus == 'failed') &&
                 bookingResponse.bookingDetail!.status ==
                     BookingStatusKeys.accept) ||
             (bookingResponse.bookingDetail!.paymentStatus ==
@@ -1603,7 +1603,8 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         (bookingResponse.bookingDetail!.type != SERVICE_TYPE_FREE ||
             bookingResponse.bookingDetail!.paymentMethod ==
                 PAYMENT_METHOD_COD) &&
-        bookingResponse.bookingDetail!.paymentId == null) {
+        (bookingResponse.bookingDetail!.paymentId == null ||
+            bookingResponse.bookingDetail!.paymentStatus == 'failed')) {
       // Calculate remaining amount if advance payment was made
       num remainingAmount = bookingResponse.bookingDetail!.totalAmount.validate();
       if (bookingResponse.bookingDetail!.isAdvancePaymentDone) {
@@ -1797,7 +1798,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        language.bookingDateAndSlot,
+                        'Booking Date & Slot',
                         style: boldTextStyle(size: LABEL_TEXT_SIZE),
                         maxLines: 3,
                         overflow: TextOverflow.ellipsis,
@@ -1844,7 +1845,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
                               Expanded(
                                 child: Marquee(
                                   child: Text(
-                                    '${language.bankTransfer}: ${language.waitingForPaymentApproval}',
+                                    'Payment submitted via Bank Transfer. Awaiting admin confirmation.',
                                     style: boldTextStyle(size: 12),
                                   ),
                                 ),

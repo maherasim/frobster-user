@@ -93,7 +93,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
                                 insetPadding: EdgeInsets.symmetric(horizontal: 10),
                                 builder: (p0) {
                                   return  BankTransferDetailDialog(
-                                    bookingAmount: widget.amount.toString(),
+                                    bookingAmount: widget.amount.toPriceFormat(),
                                     bookingId: 0,
                                   );
                                 },
@@ -140,6 +140,10 @@ class _PaymentDialogState extends State<PaymentDialog> {
   }
 
   _handleSubmitClick() async {
+    if (currentPaymentMethod == null) {
+      toast(language.lblPleaseSelectPaymentMethod);
+      return;
+    }
     appStore.setLoading(true);
     if (currentPaymentMethod!.type == PAYMENT_METHOD_STRIPE) {
       StripeServiceNew stripeServiceNew = StripeServiceNew(
