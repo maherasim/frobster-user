@@ -3,13 +3,13 @@ import 'package:booking_system_flutter/utils/configs.dart';
 
 class LanguageEn extends BaseLanguage {
   @override
-  String get walkTitle1 => 'Create and Set Up Your free Account';
+  String get walkTitle1 => 'Create Your Free Account and Get Started in Minutes';
 
   @override
-  String get walkTitle2 => 'Browse and Book Services';
+  String get walkTitle2 => 'Explore services with ease, or post your job request at no cost.';
 
   @override
-  String get walkTitle3 => 'Track and Manage Your Job Requests';
+  String get walkTitle3 => 'View, Track, and Manage Your Bookings & Job Requests';
 
   @override
   String get getStarted => 'Get Started';
@@ -36,7 +36,7 @@ class LanguageEn extends BaseLanguage {
   String get hintEmailAddressTxt => 'Enter your email address';
 
   @override
-  String get hintUserNameTxt => 'Customer Name';
+  String get hintUserNameTxt => 'User Name';
 
   @override
   String get hintPasswordTxt => 'Password';
@@ -249,16 +249,13 @@ class LanguageEn extends BaseLanguage {
   String get btnSubmit => "Submit";
 
   @override
-  String get walkThrough1 =>
-      'Sign up or log in to your account using your email or social media profiles. Completing your profile ensures a seamless booking experience.';
+  String get walkThrough1 => 'Sign up or log in to your account using your email or social media profiles. Quickly find and hire skilled professionals for almost any job, saving you time and effort.';
 
   @override
-  String get walkThrough2 =>
-      'Explore a wide range of services available in your area. Select a service, choose a convenient time slot, and provide your location details to book a service quickly and easily.';
+  String get walkThrough2 => 'Explore a wide range of services offered by skilled professionals. Choose a service, select a convenient time, and confirm your location to book quickly and easily.';
 
   @override
-  String get walkThrough3 =>
-      'Keep track of your service status in real-time. View and manage your current and past bookings. Reschedule or cancel upcoming services effortlessly.';
+  String get walkThrough3 => 'Stay updated with real-time service tracking. Access and manage all your bookings in one place. Update, reschedule, or cancel upcoming services with just a few taps. ';
 
   @override
   String get lblNotification => "Notifications";
@@ -1111,7 +1108,7 @@ class LanguageEn extends BaseLanguage {
   String get personalInfo => 'Personal Info';
 
   @override
-  String get essentialSkills => 'Essential Skills';
+  String get essentialSkills => 'Essential Skills (comma separated)';
 
   @override
   String get knownLanguages => 'Known Languages';
@@ -1920,7 +1917,7 @@ class LanguageEn extends BaseLanguage {
   String get accountNumber => "Account number";
 
   @override
-  String get iFSCCode => " Bank Address";
+  String get iFSCCode => "Bank Address";
 
   @override
   String get availableBalance => "Available Balance";
@@ -2566,7 +2563,7 @@ class LanguageEn extends BaseLanguage {
   String get serviceAddress => 'Service Address';
 
   @override
-  String get vatNumberOptional => 'VAT Number (Optional)';
+  String get vatNumberOptional => 'TAX/VAT Number (Optional)';
 
   @override
   String get companyName => 'Company Name';
