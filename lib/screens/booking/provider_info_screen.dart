@@ -210,18 +210,7 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                       .where((e) => e.isNotEmpty)
                       .toList()
                   : [];
-              final List<String> experienceList =
-                  data.userData?.experience != null
-                      ? data.userData!.experience!
-                          .split(',')
-                          .map((e) => e
-                              .replaceAll(RegExp(r'[\[\]"]'), '')
-                              .replaceAll(RegExp(r',+'), ',')
-                              .trim())
-                          .where((e) => e.isNotEmpty)
-                          .toList()
-                      : [];
-              final List<String> certifications =
+final List<String> certifications =
                   data.userData?.certification != null
                       ? data.userData!.certification!
                           .split(',')
@@ -332,38 +321,17 @@ class ProviderInfoScreenState extends State<ProviderInfoScreen> {
                               ],
                             ),
                           ],
-                          if (experienceList.isNotEmpty) ...[
+                          if (data.userData?.experience != null && data.userData!.experience!.replaceAll(RegExp(r'[\[\]",\s]'), '').isNotEmpty) ...[
                             15.height,
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(language.experienceLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
-                                8.height,
-                                Wrap(
-                                  children: experienceList.map((e) {
-                                    return e.isNotEmpty
-                                        ? Container(
-                                            decoration:
-                                                boxDecorationWithRoundedCorners(
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(20)),
-                                              backgroundColor:
-                                                  appStore.isDarkMode
-                                                      ? cardDarkColor
-                                                      : primaryColor.withValues(
-                                                          alpha: 0.1),
-                                            ),
-                                            padding: EdgeInsets.symmetric(
-                                                horizontal: 16, vertical: 8),
-                                            margin: EdgeInsets.only(
-                                                right: 8, bottom: 8),
-                                            child: Text(e,
-                                                style: secondaryTextStyle(
-                                                    size: 12, weight: FontWeight.bold)),
-                                          )
-                                        : SizedBox.shrink();
-                                  }).toList(),
+                                5.height,
+                                Text(
+                                  data.userData!.experience!.replaceAll(RegExp(r'[\[\]"]'), '').trim(),
+                                  style: secondaryTextStyle(size: 12),
                                 ).paddingSymmetric(horizontal: 16),
                               ],
                             ),
