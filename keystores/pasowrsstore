@@ -1,0 +1,23 @@
+Enter keystore password:  Asim@123456788
+What is your first and Last name: Ben Ghazeil
+
+What is name of your orgnaization unite: Frobster user
+What is name of your orgnaization: Frobster user
+What is name of your ciy or location: Berlin Germanay
+
+
+
+What is your first and last name?
+  [Unknown]:  Ben Ghazeil
+What is the name of your organizational unit?
+  [Unknown]:  Frobster user
+What is the name of your organization?
+  [Unknown]:  Frobster user
+What is the name of your City or Locality?
+  [Unknown]:  Berlin Germanay
+What is the name of your State or Province?
+  [Unknown]:  Berlin Germanay
+What is the two-letter country code for this unit?
+  [Unknown]:  DE
+Is CN=Ben Ghazeil, OU=Frobster user, O=Frobster user, L=Berlin Germanay, ST=Berlin Germanay, C=DE correct?
+  [no]:  yes
