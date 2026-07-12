@@ -1,0 +1,29 @@
+keystore password;Asim@1234567889
+
+What is your first and last name? Ben ghazel
+What is your first and last name?
+  [Unknown]:  Ben ghazel
+   
+
+Re-enter new password: 
+
+Enter the distinguished name. Provide a single dot (.) to leave a sub-component empty or press ENTER to use the default value in braces.
+What is your first and last name?
+  [Unknown]:  Ben ghazel
+What is the name of your organizational unit?
+  [Unknown]:  
+What is the name of your organization?
+  [Unknown]:  persotel user
+What is the name of your City or Locality?
+  [Unknown]:  Berlin germany
+What is the name of your State or Province?
+  [Unknown]:  Berlin
+What is the two-letter country code for this unit?
+  [Unknown]:  deb
+Is CN=Ben ghazel, OU=Unknown, O=persotel user, L=Berlin germany, ST=Berlin, C=deb correct?
+  [no]:  yes
+
+Generating 2,048 bit RSA key pair and self-signed certificate (SHA384withRSA) with a validity of 10,000 days
+        for: CN=Ben ghazel, OU=Unknown, O=persotel user, L=Berlin germany, ST=Berlin, C=deb
+[Storing persotel-upload-keystore.jks]
+PS D:\Germany\frobster-user\keystores> 
