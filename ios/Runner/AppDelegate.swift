@@ -14,7 +14,7 @@ import GoogleMaps
       }
 
       GeneratedPluginRegistrant.register(with: self)
-      GMSServices.provideAPIKey("AIzaSyABNz-zXkMtGvH1tpWyqJ6oAals5jpgOs0")
+      GMSServices.provideAPIKey("AIzaSyAjv93Swuiuvx39MuQsHU8S-WpODcg9Z7k")
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }
