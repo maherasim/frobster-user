@@ -87,6 +87,9 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
     _pollTimer?.cancel();
     PusherChatService.instance.dispose();
     _scrollController.dispose();
+    messageFocus.unfocus();
+    messageFocus.dispose();
+    messageCont.dispose();
     super.dispose();
   }
 
