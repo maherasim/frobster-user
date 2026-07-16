@@ -1,326 +1,342 @@
-import 'package:booking_system_flutter/locale/languages.dart';
-import 'package:booking_system_flutter/utils/configs.dart';
+import '../utils/configs.dart';
+import 'languages.dart';
 
-class LanguageEn extends BaseLanguage {
+class LanguageDe extends BaseLanguage {
   @override
-  String get walkTitle1 => 'Create Your Free Account and Get Started in Minutes';
+  String get walkTitle1 => 'Konto Kostenlos erstellen und loslegen';
 
   @override
-  String get walkTitle2 => 'Explore services with ease, or post your job request at no cost.';
+  String get walkTitle2 => 'Services durchsuchen und buchen';
 
   @override
-  String get walkTitle3 => 'View, Track, and Manage Your Bookings & Job Requests';
+  String get walkTitle3 => 'Buchungen verfolgen und verwalten';
 
   @override
-  String get getStarted => 'Get Started';
+  String get getStarted => "Loslegen";
 
   @override
-  String get signIn => 'Sign In';
+  String get signIn => "Einloggen";
 
   @override
-  String get signUp => 'Sign Up';
+  String get signUp => "Kostenlos Anmelden";
 
   @override
-  String get hintFirstNameTxt => 'First Name';
+  String get hintFirstNameTxt => "Vornamen eingeben";
 
   @override
-  String get hintLastNameTxt => 'Last Name';
+  String get hintLastNameTxt => "Nachnamen eingeben";
 
   @override
-  String get designation => 'Designation';
+  String get hintContactNumberTxt => "Geben Sie Ihre Kontaktnummer ein";
 
   @override
-  String get hintContactNumberTxt => 'Contact Number';
+  String get designation => 'Bezeichnung';
 
+  String get hintEmailAddressTxt => "E-Mailadresse eingeben";
+
+  @override
+  String get hintUserNameTxt => 'Nutzername';
+
+  @override
+  String get hintPasswordTxt => "Neues Passwort eingeben";
+
+  @override
+  String get hintReenterPasswordTxt => "Passwort wiederholen";
+
   @override
-  String get hintEmailAddressTxt => 'Enter your email address';
+  String get confirm => "Bestätigen";
 
   @override
-  String get hintUserNameTxt => 'User Name';
+  String get hintEmailTxt => "E-Mail Adresse eingeben";
 
   @override
-  String get hintPasswordTxt => 'Password';
+  String get forgotPassword => "Passwort vergessen?";
 
   @override
-  String get hintReenterPasswordTxt => 'Re-enter Password';
+  String get alreadyHaveAccountTxt => "Sie haben bereits ein Konto?";
 
   @override
-  String get confirm => 'Confirm';
+  String get rememberMe => "Login speichern";
 
   @override
-  String get hintEmailTxt => 'Email Address';
+  String get resetPassword => "Passwort zurücksetzen";
 
   @override
-  String get forgotPassword => 'Forgot password?';
+  String get dashboard => "Dashboorad";
 
   @override
-  String get alreadyHaveAccountTxt => 'Already have an Account?';
+  String get editProfile => "Profil bearbeiten";
 
   @override
-  String get rememberMe => 'Remember Me';
+  String get camera => "Kamera";
 
   @override
-  String get resetPassword => 'Reset Password';
+  String get language => "Sprache";
 
   @override
-  String get dashboard => 'Dashboard';
+  String get appTheme => "App-Thema.";
 
   @override
-  String get editProfile => 'Edit Profile';
+  String get bookingHistory => "Buchungsverlauf";
 
   @override
-  String get camera => 'Camera';
+  String get rateUs => "Bewerten Sie uns";
 
   @override
-  String get language => 'App Language';
+  String get termsCondition => "Allgemeine Geschäftsbedingungen";
 
   @override
-  String get appTheme => 'App Theme';
+  String get helpSupport => "Hilfe";
 
   @override
-  String get bookingHistory => 'Booking History';
+  String get privacyPolicy => "Datenschutz";
 
   @override
-  String get rateUs => 'Rate Us';
+  String get about => "Über";
 
   @override
-  String get termsCondition => 'Terms & Conditions';
+  String get logout => "Ausloggen";
 
   @override
-  String get helpSupport => 'Help & Support';
+  String get chooseTheme => "App-Thema auswählen";
 
   @override
-  String get privacyPolicy => 'Privacy Policy';
+  String get selectCountry => "Land auswählen";
 
   @override
-  String get about => 'About';
+  String get selectState => "Bundesland auswählen";
 
   @override
-  String get logout => 'Logout';
+  String get selectCity => "Stadt auswählen";
 
   @override
-  String get chooseTheme => 'Choose the App Theme';
+  String get changePassword => "Passwort ändern";
 
   @override
-  String get selectCountry => 'Select Country';
+  String get passwordNotMatch => "Passwort stimmt nicht überein";
 
   @override
-  String get selectState => 'Select State';
+  String get doNotHaveAccount => "Ich habe kein Konto?";
 
   @override
-  String get selectCity => 'Select City';
+  String get hintNewPasswordTxt => "Passwort eingeben";
 
   @override
-  String get changePassword => 'Change Password';
+  String get hintOldPasswordTxt => "Altes Passwort eingeben";
 
   @override
-  String get passwordNotMatch => "Password does not match";
+  String get hintAddress => "Addresse
 
   @override
-  String get doNotHaveAccount => "Don't have an account?";
+  String get lblGallery => "Galerie";
 
   @override
-  String get hintNewPasswordTxt => "New Password";
+  String get yourReview => "Meine Bewertung";
 
   @override
-  String get hintOldPasswordTxt => "Old Password";
+  String get review => "Bewertung";
 
   @override
-  String get hintAddress => 'Address';
+  String get hintDescription => "Beschreibung eingeben";
 
   @override
-  String get lblGallery => "Gallery";
+  String get lblApply => "Anwenden";
 
   @override
-  String get yourReview => "Your Review";
+  String get bookTheService => "Service Buchen.";
 
   @override
-  String get review => "Reviews";
+  String get contactAdmin => "Bitte wenden Sie sich an den Administrator";
 
   @override
-  String get hintDescription => "Description";
+  String get emailNotVerified =>
+      'Ihre E-Mail ist nicht verifiziert. Bitte verifizieren Sie Ihre E-Mail, um fortzufahren.';
 
   @override
-  String get lblApply => "Apply";
+  String get allServices => "Alle Services.";
 
   @override
-  String get bookTheService => "Book Service";
+  String get duration => "Dauer";
 
   @override
-  String get contactAdmin => "Please contact with Admin";
+  String get hourly => "stunde";
 
   @override
-  String get emailNotVerified => 'Your email is not verified. Please verify your email to continue.';
+  String get priceSuffixHourly => '/Std.';
 
   @override
-  String get allServices => 'All Services';
+  String get priceSuffixDaily => '/Tag';
 
   @override
-  String get duration => 'Duration';
+  String get priceSuffixFixed => '/Pauschal';
 
   @override
-  String get hourly => "hourly";
+  String get payment => "Zahlung";
 
   @override
-  String get payment => "Payment";
+  String get done => "Abgeschloßen";
 
   @override
-  String get done => "Done";
+  String get lblConfirmJobDone => "Bestätige: Auftrag abgeschlossen";
 
   @override
-  String get lblConfirmJobDone => "Confirm Job Done";
+  String get totalAmount => "Gesamtsumme";
 
   @override
-  String get totalAmount => 'Grand Total';
+  String get applyCoupon => "Gutschein anwenden.";
 
   @override
-  String get applyCoupon => 'Apply Coupon';
+  String get priceDetail => "Rechnung-Details.";
 
   @override
-  String get priceDetail => 'Rate Details';
+  String get home => "Home";
 
   @override
-  String get home => 'Home';
+  String get category => "Kategorien";
 
   @override
-  String get category => 'Categories';
+  String get booking => "Buchung";
 
   @override
-  String get booking => 'Bookings';
+  String get lblJob => 'Aufträge';
 
   @override
-  String get lblJob => 'Jobs';
+  String get profile => "Profil";
 
   @override
-  String get profile => 'Profile';
+  String get lblAlertBooking => 'Möchten Sie diesen Service buchen?';
 
   @override
-  String get lblAlertBooking => 'Do you want to book the service?';
+  String get serviceName => "Servicename";
 
   @override
-  String get serviceName => 'Service Name';
+  String get service => "Services";
 
   @override
-  String get service => 'Services';
+  String get lblCancelReason =>
+      "Bitte Grund eingeben, um diese Buchung zu stornieren.";
 
   @override
-  String get lblCancelReason => 'Please give reason for canceling this Booking';
+  String get enterReason => "Grund hier angeben";
 
   @override
-  String get enterReason => "Specify your reason here";
+  String get noDataAvailable => "Keine Daten verfügbar";
 
   @override
-  String get noDataAvailable => 'No Data Available';
+  String get lblOk => "Okay";
 
   @override
-  String get lblOk => 'Ok';
+  String get paymentDetail => "Zahlungsdetails";
 
   @override
-  String get paymentDetail => 'Payment Detail';
+  String get paymentStatus => "Zahlungsstatus";
 
   @override
-  String get paymentStatus => 'Payment Status';
+  String get viewDetail => "Profil anzeigen";
 
   @override
-  String get viewDetail => 'View Detail';
+  String get appThemeLight => "Hell";
 
   @override
-  String get appThemeLight => 'Light';
+  String get appThemeDark => "Dunkel";
 
   @override
-  String get appThemeDark => 'Dark';
+  String get appThemeDefault => "Systemfehler";
 
   @override
-  String get appThemeDefault => 'System default';
+  String get markAsRead => "Alle als gelesen markieren";
 
   @override
-  String get markAsRead => "Mark all as Read";
+  String get lblYes => "Ja";
 
   @override
-  String get lblYes => 'Yes';
+  String get lblNo => "Nein";
 
   @override
-  String get lblNo => 'No';
+  String get btnRate => "Jetzt bewerten";
 
   @override
-  String get btnRate => "Rate Now ";
+  String get btnSubmit => "Absenden";
 
   @override
-  String get btnSubmit => "Submit";
+  String get walkThrough1 => 'Erstellen Sie ein Konto oder melden Sie sich an. Ein vollständiges Profil macht Ihre Buchungen schneller und einfacher.';
 
   @override
-  String get walkThrough1 => 'Sign up or log in to your account using your email or social media profiles. Quickly find and hire skilled professionals for almost any job, saving you time and effort.';
+  String get walkThrough2 =>
+      'Finden Sie passende Services in Ihrer Nähe. Wählen Sie einen Service, ein Zeitfenster und Ihren Standort – und buchen Sie schnell und einfach einen Freiberufler oder Handwerker.';
 
   @override
-  String get walkThrough2 => 'Explore a wide range of services offered by skilled professionals. Choose a service, select a convenient time, and confirm your location to book quickly and easily.';
+  String get walkThrough3 =>
+      'Behalten Sie Ihre Services in Echtzeit im Blick. Verwalten Sie aktuelle und vergangene Buchungen und verschieben oder stornieren Sie Termine mühelos.';
 
   @override
-  String get walkThrough3 => 'Stay updated with real-time service tracking. Access and manage all your bookings in one place. Update, reschedule, or cancel upcoming services with just a few taps. ';
+  String get lblWalkThrough0 => "Persotel – Ihre All-in-One-Services Lösung";
 
   @override
-  String get lblNotification => "Notifications";
+  String get lblNotification => "Benachrichtigungen";
 
   @override
-  String get lblUnAuthorized => "Demo customer cannot be granted for this action";
+  String get lblUnAuthorized =>
+      "Demo-Benutzer kann nicht für diese Aktion gewährt werden";
 
   @override
-  String get btnNext => "Next";
+  String get btnNext => "Nächste";
 
   @override
-  String get lblViewAll => "View All";
+  String get lblViewAll => "Alle ansehen";
 
   @override
-  String get notAvailable => "Not Available";
+  String get notAvailable => "Nicht verfügbar";
 
   @override
-  String get lblFavorite => "Favourite Services";
+  String get lblFavorite => "Favoriten Services";
 
   @override
   String get lblChat => "Chat";
 
   @override
-  String get getLocation => "Set";
+  String get getLocation => "Standort erhalten";
 
   @override
-  String get setAddress => "Set Address";
+  String get setAddress => "Adresse einstellen";
 
   @override
-  String get requiredText => "This field is required";
+  String get requiredText => "Diese Angabe ist erforderlich";
 
   @override
-  String get phnRequiredText => "Please enter mobile number";
+  String get phnRequiredText => "diese Angabe is erforderlich";
 
   @override
-  String get lblCall => "Call";
+  String get lblCall => "Anruf";
 
   @override
-  String get lblRateHandyman => "Rate Freelancer";
+  String get lblRateHandyman => "Fachkraft Bewerten";
 
   @override
   String get msgForLocationOn =>
-      'Your Location is turned on. Continue viewing services available from ALL areas?';
+      'Ihr Standort ist aktiviert. Finden Sie passende Fachkräfte in Ihrer Nähe';
 
   @override
   String get msgForLocationOff =>
-      'Your Location is turned off. Discover and find services available to your selected area.';
+      'Ihr Standort ist ausgeschaltet. Entdecken Sie Services in dem von Ihnen ausgewählten Bereich.';
 
   @override
-  String get lblEnterPhnNumber => "Enter your phone number";
+  String get lblEnterPhnNumber => "Tel. Nr. eingeben";
 
   @override
-  String get btnSendOtp => "Send OTP";
+  String get btnSendOtp => "OTP. senden";
 
   @override
-  String get lblLocationOff => "All services available";
+  String get lblLocationOff => "Alle Services entdecken.";
 
   @override
-  String get lblAppSetting => "App Setting";
+  String get lblAppSetting => "App-Einstellung.";
 
   @override
-  String get lblSubTotal => "Subtotal";
+  String get lblSubTotal => "Zwischensumme";
 
   @override
-  String get lblImage => "Image";
+  String get lblImage => "Bild";
 
   @override
   String get lblVideo => "Video";
@@ -329,1411 +345,1378 @@ class LanguageEn extends BaseLanguage {
   String get lblAudio => "Audio";
 
   @override
-  String get lblChangePwdTitle =>
-      "Your new password must be different from previous used password";
+  String get lblChangePwdTitle => "Ihr neues Passwort muss sich vom vorherigen verwendeten Passwort unterscheiden";
 
   @override
-  String get lblForgotPwdSubtitle =>
-      "A reset password link will be sent to the above entered email address";
+  String get lblForgotPwdSubtitle => "Eine RESET-Kennwortzurücksetzung Link wird an die oben eingegebene E-Mail-Adresse gesendet";
 
   @override
-  String get lblLoginTitle => "Hello Again";
+  String get lblLoginTitle => "Hallo wieder ";
 
   @override
   String get lblLoginSubTitle =>
-      "Welcome Back, You Have Been Missed For A Long Time";
+      "Willkommen zurück! Schön, dass Sie wieder da sind.!";
 
   @override
-  String get lblOrContinueWith => "Or Continue With";
+  String get lblOrContinueWith => "Oder fortfahren";
 
   @override
-  String get lblHelloUser => "Hello customer !";
+  String get lblHelloUser => "Hallo Benutzer!";
 
   @override
-  String get lblSignUpSubTitle => "Create Your Account for Better Experience";
+  String get lblSignUpSubTitle =>
+      'Jetzt Kostenlos registrieren und in wenigen Minuten loslegen. So einfach ist das!';
 
   @override
-  String get lblStepper1Title => "Enter Detail Information";
+  String get lblStepper1Title => "Detailinfos eingeben";
 
   @override
-  String get lblDateAndTime => "Date And Time:";
+  String get lblDateAndTime => "Datum und Uhrzeit:";
 
   @override
-  String get chooseDateAndTime => "Choose Date And Time";
+  String get chooseDateAndTime => 'Datum und Uhrzeit auswählen';
 
   @override
-  String get lblYourAddress => "Your Address";
+  String get lblYourAddress => "Deine Adresse";
 
   @override
-  String get lblEnterYourAddress => "Enter your address";
+  String get lblEnterYourAddress => "Adresse eingeben";
 
   @override
-  String get lblUseCurrentLocation => "Use Current Location";
+  String get lblUseCurrentLocation => "Aktueller Standort verwenden";
 
   @override
-  String get lblEnterDescription => "Enter Description";
+  String get lblEnterDescription => "Beschreibung eingeben";
 
   @override
-  String get lblPrice => "Rate";
+  String get lblPrice => "Honorar";
 
   @override
-  String get lblTax => "Tax";
+  String get lblTax => "Steuer";
 
   @override
-  String get lblDiscount => "Discount";
+  String get lblDiscount => "Rabatt";
 
   @override
-  String get lblAvailableCoupons => "Available Coupons";
+  String get lblAvailableCoupons => "Verfügbare Gutscheine";
 
   @override
-  String get lblPrevious => "Previous";
+  String get lblPrevious => "Vorherige";
 
   @override
-  String get lblCoupon => "Coupon";
+  String get lblCoupon => "Gutscheine";
 
   @override
-  String get lblEditYourReview => "Edit Your Review";
+  String get lblEditYourReview => "Bewertung bearbeiten.";
 
   @override
-  String get lblTime => "Time";
+  String get lblTime => "Zeit";
 
   @override
-  String get textProvider => "Agency";
+  String get textProvider => "Agentur";
 
   @override
-  String get lblConfirmBooking => "Confirm Booking";
+  String get lblConfirmBooking => "Buchung bestätigen";
 
   @override
-  String get lblConfirmMsg => 'Do you want to confirm this booking?';
+  String get lblConfirmMsg => "Möchten Sie diese Buchung wirklich bestätigen?";
 
   @override
-  String get lblCancel => "Cancel";
+  String get lblCancel => "Stornieren";
 
   @override
-  String get lblExpiryDate => "Expiry Date :";
+  String get lblExpiryDate => "Verfallsdatum :";
 
   @override
-  String get lblRemoveCoupon => "Remove Coupon";
+  String get lblRemoveCoupon => "Gutschein entfernen.";
 
   @override
-  String get lblNoCouponsAvailable => "No Coupons available";
+  String get lblNoCouponsAvailable => "Keine Gutscheine verfügbar.";
 
   @override
-  String get lblStep1 => "Step 1";
+  String get lblStep1 => "Schritt 1";
 
   @override
-  String get lblStep2 => "Step 2";
+  String get lblStep2 => "Schritt 2";
 
   @override
-  String get lblBookingID => "Booking ID";
+  String get lblBookingID => "Buchungs-ID.";
 
   @override
-  String get lblDate => "Date";
+  String get lblDate => "Datum";
 
   @override
-  String get lblAboutHandyman => "About Freelancer";
+  String get lblAboutHandyman => "Über Fachkraft.";
 
   @override
-  String get lblAboutProvider => "About Agency";
+  String get lblAboutProvider => "Über Agentur.";
 
   @override
-  String get lblNotRatedYet => "You haven't rated yet";
+  String get lblNotRatedYet => "Sie haben noch keine Bewertung abgegeben.";
 
   @override
-  String get lblDeleteReview => "Delete Review";
+  String get lblDeleteReview => "Bewertung löschen";
 
   @override
-  String get lblConfirmReviewSubTitle => "Do you want to delete this review?";
+  String get lblConfirmReviewSubTitle => 'Möchten Sie diese Bewertung löschen?';
 
   @override
-  String get lblConfirmService => "Do you want to hold this service?";
+  String get lblConfirmService => 'Möchten Sie bestätigen?';
 
   @override
-  String get lblConFirmResumeService => "Do you want to Resume this service?";
+  String get lblConFirmResumeService =>
+      'Möchten Sie diesen Service fortfahren?';
 
   @override
-  String get lblEndServicesMsg => "Do you want to end this service?";
+  String get lblEndServicesMsg => "Möchten Sie diesen Service beenden?";
 
   @override
-  String get lblCancelBooking => "Cancel Booking";
+  String get lblCancelBooking => "Buchung stornieren";
 
   @override
-  String get lblStart => "Let's Start Working";
+  String get lblStart => "Starten";
 
   @override
-  String get lblHold => "Hold";
+  String get lblHold => "Halten";
 
   @override
-  String get lblResume => "Resume";
+  String get lblResume => "Fortsetzen";
 
   @override
-  String get lblPayNow => "Pay Remaining";
+  String get lblPayNow => "Jetzt bezahlen";
 
   @override
-  String get lblCheckStatus => "Check Status";
+  String get lblCheckStatus => "Status überprüfen";
 
   @override
   String get lblID => "ID";
 
   @override
-  String get lblNoBookingsFound => "No Bookings Found";
+  String get lblNoBookingsFound => "Keine Buchungen gefunden";
 
   @override
-  String get lblCategory => "Category";
+  String get lblCategory => "Kategorie";
 
   @override
-  String get lblYourComment => "Your Comment";
+  String get lblYourComment => "Mein Kommentar";
 
   @override
-  String get lblIntroducingCustomerRating => "Introducing Customer Rating";
+  String get lblIntroducingCustomerRating => "Einführung in Kundenbewertung.";
 
   @override
-  String get lblSeeYourRatings => "See Your Ratings";
+  String get lblSeeYourRatings => "Bewertungen ansehen";
 
   @override
-  String get lblFeatured => "Featured Services";
+  String get lblFeatured => "Exklusive Services";
 
   @override
-  String get lblNoServicesFound => "No services Found";
+  String get lblNoServicesFound => "Keine Service gefunden";
 
   @override
-  String get lblGENERAL => "GENERAL";
+  String get lblGENERAL => "ALLGEMEINES";
 
   @override
-  String get lblAboutApp => "About App";
+  String get lblAboutApp => "Über die App.";
 
   @override
-  String get lblPurchaseCode => "Purchase Full Source Code";
+  String get lblPurchaseCode => "Vollständiger Quellcode kaufen";
 
   @override
-  String get lblNoRateYet => "Currently you have not rated any services";
+  String get lblNoRateYet => "Derzeit haben Sie keine Service bewertet";
 
   @override
-  String get lblMemberSince => "Member Since";
+  String get lblMemberSince => "Mitglied seit";
 
   @override
-  String get lblFilterBy => "Filter By";
+  String get lblFilterBy => "Filtern nach";
 
   @override
-  String get lblClearFilter => "Clear Filter";
+  String get lblClearFilter => "Filter klären";
 
   @override
-  String get lblNoReviews => "No Reviews";
+  String get lblNoReviews => "Keine Bewertungen";
 
   @override
-  String get lblUnreadNotification => "Unread Notification";
+  String get lblUnreadNotification => "Ungelesene Benachrichtigung";
 
   @override
-  String get lblChoosePaymentMethod => "Choose Payment Method";
+  String get lblChoosePaymentMethod => "Zahlungsart auswählen";
 
   @override
-  String get lblNoPayments => "No Payments";
+  String get lblNoPayments => "Keine Zahlungen";
 
   @override
-  String get lblPayWith => "Do you want to pay with";
+  String get lblPayWith => "Möchten Sie bezahlen?";
 
   @override
-  String get payWith => "Pay with";
+  String get payWith => "Bezahlen mit";
 
   @override
-  String get lblYourRating => "Your Rating";
+  String get lblYourRating => "Deine Bewertung";
 
   @override
-  String get lblEnterReview => "Enter Your Review (Optional)";
+  String get lblEnterReview => "Bewertung eingeben";
 
   @override
-  String get lblDelete => "Delete";
+  String get lblDelete => "Löschen";
 
   @override
-  String get lblDeleteRatingMsg => "Do you want to delete this Rating?";
+  String get lblDeleteRatingMsg => 'Möchten Sie diese Bewertung löschen?';
 
   @override
-  String get lblSelectRating => "Rating is required";
+  String get lblSelectRating => 'Bewertung ist erforderlich';
 
   @override
-  String get lblNoServiceRatings => "No service Ratings";
+  String get lblNoServiceRatings => "Keine Service-Bewertung";
 
   @override
-  String get lblSearchFor => "Search for";
+  String get lblSearchFor => "Suchen nach";
 
   @override
-  String get lblRating => "Rating";
+  String get lblRating => "Bewertung";
 
   @override
-  String get lblAvailableAt => "Available At";
+  String get lblAvailableAt => "Verfügbar um";
 
   @override
-  String get lblRelatedServices => "Related Services";
+  String get lblRelatedServices => "Extra Services.";
 
   @override
-  String get lblBookNow => "Book Now";
+  String get lblBookNow => "Jetzt Termin Buchen";
 
   @override
-  String get lblWelcomeToHandyman => "Welcome To $APP_NAME";
+  String get lblWelcomeToHandyman => "Willkommen bei $APP_NAME.";
 
   @override
   String get lblWalkThroughSubTitle =>
-      "$APP_NAME - On-Demand Home Services App with Complete Solution";
+      "Persotel - Ihre All-in-One-Services Lösung";
 
   @override
-  String get textHandyman => "Freelancer";
+  String get textHandyman => "Fachkraft";
 
   @override
-  String get lblChooseFromMap => "Choose From Map";
+  String get lblChooseFromMap => "Auf Karte wählen";
 
   @override
-  String get lblDeleteAddress => "Delete Address";
+  String get lblDeleteAddress => "Adresse löschen";
 
   @override
-  String get lblDeleteSunTitle => "Do you want to delete this address?";
+  String get lblDeleteSunTitle => 'Möchten Sie diese Adresse löschen?';
 
   @override
   String get lblFaq => "FAQs";
 
   @override
-  String get lblServiceFaq => "Service FAQs";
+  String get lblServiceFaq => "Service-FAQs.";
 
   @override
-  String get lblLogoutTitle => "Oh No, You Are Leaving!";
+  String get lblLogoutTitle => "Oh nein, schade du gehst!";
 
   @override
-  String get lblLogoutSubTitle => "Do you want to logout?";
+  String get lblLogoutSubTitle => "Möchten Sie sich abmelden?";
 
   @override
-  String get lblFeaturedProduct => "This is Featured Product";
+  String get lblFeaturedProduct => "Exklusiv für Sie";
 
   @override
-  String get lblAlert => "Alert";
+  String get lblAlert => "Alarm";
 
   @override
-  String get lblOnBase => "On basis of";
+  String get lblOnBase => "Basierend auf";
 
   @override
-  String get lblInvalidCoupon => "Coupon code is invalid";
+  String get lblInvalidCoupon => "Gutscheincode ist ungültig";
 
   @override
-  String get lblSelectCode => "Please Select Coupon code";
+  String get lblSelectCode => "Bitte Gutscheincode auswählen";
 
   @override
-  String get lblBackPressMsg => "Press back again to exit app";
+  String get lblBackPressMsg => "Drücken Sie erneut, um die App zu verlassen";
 
   @override
-  String get lblHour => "hour";
+  String get lblHour => "Stunde";
 
   @override
-  String get lblHelplineNumber => "Helpline Number";
+  String get lblHelplineNumber => "Tel. Hilfe";
 
   @override
-  String get lblSubcategories => "Subcategories";
+  String get lblSubcategories => "Unterkategorien";
 
   @override
-  String get lblAgree => "I agree to the";
+  String get lblAgree => "Ich akzeptiere die";
 
   @override
-  String get lblTermsOfService => "Terms of Service";
+  String get lblTermsOfService => "Nutzungsbedingungen";
 
   @override
-  String get lblWalkThrough0 =>
-      "$APP_NAME - $APP_NAME_TAG_LINE with Complete Solution";
+  String get shortWalkThrough0 => "Persotel - Ihre All-in-One-Services Lösung";
+
+  // (new) - Not found in USER languages_de.dart
 
   @override
-  String get lblServiceTotalTime => "Service Total Time";
+  String get lblServiceTotalTime => "Service Gesamtzeit";
 
   @override
   String get lblDateTimeUpdated =>
-      "Your booking Date & Time has been completed successfully";
+      'Ihr Buchungsdatum und Ihre Uhrzeit wurden erfolgreich Abgeschloßen';
 
   @override
-  String get lblSelectDate => "Please select Date Time";
+  String get lblSelectDate => "Bitte Datum & Uhrzeit auswählen";
 
   @override
-  String get lblReasonCancelling => "Reason:";
+  String get lblReasonCancelling => "Grund:";
 
   @override
-  String get lblReasonRejecting => "Reason for rejecting this booking";
+  String get lblReasonRejecting => "Stornogrund für dieser Buchung";
 
   @override
-  String get lblFailed => "Reason why this booking is failed";
+  String get lblFailed => "Grund, warum die Buchung fehlgeschlagen ist";
 
   @override
-  String get lblNotDescription => "No Description Available";
+  String get lblNotDescription => "Keine Beschreibung verfügbar";
 
   @override
-  String get lblMaterialTheme => "Enable Material You Theme";
+  String get lblMaterialTheme => "Themen aktivieren";
 
   @override
-  String get lblServiceProof => "Service Proof";
+  String get lblServiceProof => "Servicenachweis";
 
   @override
   String get lblAndroid12Support =>
-      "This action will restart your app. Confirm?";
+      "Diese Aktion startet Ihre App neu. Bitte bestätigen?";
 
   @override
-  String get lblOff => "Off";
+  String get lblOff => "Rabatt";
 
   @override
-  String get lblHr => "hr";
+  String get lblHr => "Stunde";
 
   @override
-  String get lblSignInWithGoogle => "Sign In With Google";
+  String get lblSignInWithGoogle => "Anmeldung mit Google";
 
   @override
-  String get lblSignInWithOTP => "Sign In With OTP";
+  String get lblSignInWithOTP => "Melden Sie sich mit OTP an";
 
   @override
-  String get lblDangerZone => "Danger Zone";
+  String get lblDangerZone => "Gefahrenzone";
 
   @override
-  String get lblDeleteAccount => "Delete Account";
+  String get lblDeleteAccount => "Konto löschen";
 
   @override
-  String get lblUnderMaintenance => "Under Maintenance...";
+  String get lblUnderMaintenance => "Wird gewartet...";
 
   @override
-  String get lblCatchUpAfterAWhile => "Catch up after a while";
+  String get lblCatchUpAfterAWhile => "Nach einer Weile aufholen";
 
   @override
-  String get lblId => "Id";
+  String get lblId => "ID";
 
   @override
-  String get lblMethod => "Method";
+  String get lblMethod => "Methode";
 
   @override
   String get lblStatus => "Status";
 
   @override
-  String get lblPending => "Pending";
+  String get lblPending => "Ausstehend";
 
   @override
-  String get confirmationRequestTxt => "Do you want to perform this Action?";
+  String get confirmationRequestTxt => 'Möchten Sie diese Aktion ausführen?';
 
   @override
-  String get lblDeleteAccountConformation =>
-      "Your account will be deleted permanently. Your Data will not be Restored Again.";
+  String get lblDeleteAccountConformation =>"Ihr Konto wird dauerhaft gelöscht. Ihre Daten werden nicht wieder wiederhergestellt.";
 
   @override
   String get lblAutoSliderStatus => "Auto Slider Status";
 
   @override
-  String get lblPickAddress => "Pick address";
+  String get lblPickAddress => "Adresse auswählen";
 
   @override
-  String get lblUpdateDateAndTime => "Update Date and Time";
+  String get lblUpdateDateAndTime => "Datum und Uhrzeit aktualisieren";
 
   @override
-  String get lblRecheck => "Recheck";
+  String get lblRecheck => "Überprüfen";
 
   @override
-  String get lblLoginAgain => "Please Login Again";
+  String get lblLoginAgain => "Bitte melden Sie sich erneut an";
 
   @override
   String get lblUpdate => "Update";
 
   @override
-  String get lblNewUpdate => "New Update";
+  String get lblNewUpdate => "Neues Update";
 
   @override
-  String get lblOptionalUpdateNotify => "Optional Update Notify";
+  String get lblOptionalUpdateNotify => "Optionales Update Benachrichtigung";
 
   @override
-  String get lblAnUpdateTo => "An Update to";
+  String get lblAnUpdateTo => "Ein Update zu";
 
   @override
   String get lblIsAvailableWouldYouLike =>
-      "is available. Would you like to update?";
+      "ist verfügbar. Möchten sie updaten?";
 
   @override
-  String get lblRegisterAsPartner => "Register as Partner";
+  String get lblRegisterAsPartner => "Als Partner Registrieren";
 
   @override
-  String get lblSignInWithApple => "Sign in with Apple";
+  String get lblSignInWithApple => "Melden Sie sich mit Apple an";
 
   @override
-  String get lblWaitingForProviderApproval => "Waiting for Agency Approval";
+  String get lblWaitingForProviderApproval => "Warte auf Annahme durch Agentur";
 
   @override
-  String get lblFree => "Free";
+  String get lblFree => "Kostenlos";
 
   @override
   String get lblAppleSignInNotAvailable =>
-      "Apple SignIn is not available for your device";
+      "Apple Signin ist für Ihr Gerät nicht verfügbar";
 
   @override
-  String get lblTotalExtraCharges => "Total Extra Charges";
+  String get lblTotalExtraCharges => "Gesamt Extrakosten";
 
   @override
-  String get lblWaitingForResponse => "Waiting for Response";
+  String get lblWaitingForResponse => "Auf Rückantwort warten";
 
   @override
-  String get lblAll => "All";
+  String get lblAll => "Alle";
 
   @override
-  String get noConversation => "No Conversation";
+  String get noConversation => "Kein Chat";
 
   @override
   String get noConversationSubTitle =>
-      "You didn't made any conversation yet. Please book a service to chat with a Agency.";
+      "Noch keine Chats vorhanden. Buchen Sie einen Service, um mit einer Fachkraft zu chatten.";
 
   @override
-  String get noBookingSubTitle => "Looks like you haven't book your order yet";
+  String get noBookingSubTitle =>
+      "Sie haben derzeit noch keine Services gebucht.";
 
   @override
-  String get myReviews => "My Reviews";
+  String get myReviews => "Meine Bewertungen";
 
   @override
-  String get reviewFromProvider => "Review for Agency";
+  String get reviewFromProvider => "Bewertung der Agentur";
 
   @override
-  String get jobBidReviewFromEmployerSubtitle =>
-      "Rating and comments .";
+  String get jobBidReviewFromEmployerSubtitle => "Bewertung durch die Agentur.";
 
   @override
-  String get jobBidYourReviewOfEmployerSubtitle =>
-      "Your rating and review of the agency.";
+  String get jobBidYourReviewOfEmployerSubtitle => "Agentur Bewertung";
 
   @override
-  String get noCategoryFound => "No Category Found";
+  String get noCategoryFound => "Keine Kategorie gefunden";
 
   @override
-  String get noProviderFound => "No AgencyFound";
+  String get noProviderFound => "Keine Agentur gefunden";
 
   @override
-  String get createServiceRequest => "Create Service";
+  String get createServiceRequest => "Service erstellen";
 
   @override
-  String get chooseImages => "Choose Images";
+  String get chooseImages => "Bilder auswählen";
 
   @override
-  String get serviceDescription => "Service Description";
+  String get serviceDescription => "Service Infos";
 
   @override
-  String get addNewService => "Add New Service";
+  String get addNewService => "Neuen Service anlegen";
 
   @override
-  String get newPostJobRequest => "Post New Job Request";
+  String get newPostJobRequest => 'Neuen Auftrag anlegen';
 
   @override
-  String get postJobTitle => "Post Job Title";
+  String get postJobTitle => "Auftragstitel";
 
   @override
-  String get postJobDescription => "Post Job Description";
+  String get postJobDescription => "Beschreibung";
 
   @override
   String get services => "Services";
 
   @override
-  String get myPostJobList => "My Custom Job Request";
+  String get myPostJobList => "Meine Aufträge";
 
   @override
-  String get requestNewJob => "Request New Job";
+  String get requestNewJob => "Jobauftrag erstellen";
 
   @override
-  String get noNotifications => "No Notifications";
+  String get noNotifications => "Keine Benachrichtigungen";
 
   @override
-  String get noNotificationsSubTitle =>
-      "We'll notify you once we have something for you";
+  String get noNotificationsSubTitle => "Wir werden Sie benachrichtigen, sobald wir etwas für Sie haben";
 
   @override
-  String get noFavouriteSubTitle => "Your favourite services will appear here";
+  String get noFavouriteSubTitle => "Hier erscheinen Ihre Favoriten Servcies";
 
   @override
-  String get termsConditionsAccept => "Please accept terms and conditions";
+  String get termsConditionsAccept => "Bitte Allgemeine Geschäftsbedingungen akzeptieren";
 
   @override
-  String get disclaimer => "Disclaimer";
+  String get disclaimer => "Hinweis";
 
   @override
-  String get disclaimerContent =>
-      "You will be asked for payment once your booking is completed.";
+  String get disclaimerContent => "Nach Ihrer Buchung wird eine Anzahlung erforderlich. Sie wird bis zum Abschluss der Arbeiten beim Administrator verwahrt.";
 
   @override
-  String get inputMustBeNumberOrDigit => 'Input must be number or digit';
+  String get inputMustBeNumberOrDigit => 'Eingabe muss Anzahl oder Ziffer sein';
 
   @override
-  String get requiredAfterCountryCode => 'required after country code';
+  String get requiredAfterCountryCode => 'Nach Ländercode erforderlich';
 
   @override
-  String get selectedOtherBookingTime =>
-      'Selected booking time is already passed. Please select another time.';
+  String get selectedOtherBookingTime => 'Dieser Termin ist bereits vergeben. Bitte wählen Sie einen anderen.';
 
   @override
-  String get myServices => 'My Services';
+  String get myServices => 'Meine Services';
 
   @override
-  String get doYouWantToAssign => 'Do you want to assign';
+  String get doYouWantToAssign => 'Möchten Sie zuweisen?';
 
   @override
-  String get bidPrice => 'Bid Rate';
+  String get bidPrice => 'Angebot €';
 
   @override
-  String get accept => 'Accept';
+  String get accept => 'Annehmen';
 
   @override
-  String get price => 'Rate';
+  String get price => 'Honorar';
 
   @override
-  String get remove => 'Remove';
+  String get remove => 'Löschen';
 
   @override
-  String get add => 'Add';
+  String get add => 'Hinzufügen';
 
   @override
-  String get save => 'Save';
+  String get save => 'Speichern';
 
   @override
-  String get createPostJobWithoutSelectService =>
-      'You can\'t create post job without selecting service';
+  String get createPostJobWithoutSelectService => 'Sie können keinen Auftrag erstellen, ohne einen Service auszuwählen';
 
   @override
-  String get selectCategory => 'Select Category';
+  String get selectCategory => 'Kategorie auswählen';
 
   @override
-  String get pleaseAddImage => 'Please Add Image';
+  String get pleaseAddImage => 'Bitte Bild hinzufügen';
 
   @override
-  String get selectedBookingTimeIsAlreadyPassed => 'Selected booking time is already passed. Please select another time.';
+  String get selectedBookingTimeIsAlreadyPassed => 'Dieser Termin ist bereits vergeben. Bitte wählen Sie einen anderen.';
 
   @override
-  String get jobPrice => 'Job Rate';
+  String get jobPrice => 'Extrakosten';
 
   @override
-  String get estimatedPrice => 'Rate';
+  String get estimatedPrice => 'Budget €';
 
   @override
-  String get bidder => 'Bidder List';
+  String get bidder => 'Bewerber';
 
   @override
-  String get assignedProvider => 'Assigned Agency';
+  String get assignedProvider => 'Zugewiesener Fachkraft';
 
   @override
-  String get myPostDetail => 'My Post Detail';
+  String get myPostDetail => 'Auftragsdetail';
 
   @override
-  String get thankYou => 'Thank you!';
+  String get thankYou => 'Danke schön!';
 
   @override
-  String get bookingConfirmedMsg => 'Your booking is confirmed.';
+  String get bookingConfirmedMsg => 'Ihre Buchung ist bestätigt.';
 
   @override
-  String get goToHome => 'Go to Home';
+  String get goToHome => 'Home';
 
   @override
-  String get goToReview => 'Go to Review';
+  String get goToReview => 'Zu Review gehen';
 
   @override
-  String get noServiceAdded => 'No Service Added';
+  String get noServiceAdded => 'Kein Service hinzugefügt';
 
   @override
-  String get noPostJobFound => 'No Post Job Found';
+  String get noPostJobFound => 'Keine Aufträge gefunden';
 
   @override
-  String get noPostJobFoundSubtitle =>
-      'When you post your job, every Agency will be notified, and you can choose your desired Agency to get the job done.';
+  String get noPostJobFoundSubtitle => 'Nach Veröffentlichung Ihres Auftrags werden passende Agenturen benachrichtigt und können sich mit einer kurzen Vorstellung bewerben.';
 
   @override
-  String get pleaseEnterValidOTP => 'Please enter Valid OTP';
+  String get pleaseEnterValidOTP => 'Bitte gültige OTP eingeben';
 
   @override
-  String get confirmOTP => 'Confirm OTP';
+  String get confirmOTP => 'OTP Bestätigen';
 
   @override
-  String get sendingOTP => 'Sending OTP';
+  String get sendingOTP => 'OTP Senden';
 
   @override
-  String get pleaseSelectDifferentSlotThenPrevious =>
-      'Please select different slot then previous';
+  String get pleaseSelectDifferentSlotThenPrevious => 'Bitte wählen Sie ein anderes Zeitfenster.';
 
   @override
-  String get pleaseSelectTheSlotsFirst => 'Please select the slots first';
+  String get pleaseSelectTheSlotsFirst => 'Bitte zuerst Zeitfenster auswählen';
 
   @override
-  String get editTimeSlotsBooking => 'Edit Time Slots Booking';
+  String get editTimeSlotsBooking => 'Zeitplan bearbeiten';
 
   @override
-  String get availableSlots => 'Available Slots';
+  String get availableSlots => 'Verfügbare Zeiten';
 
   @override
-  String get noTimeSlots => 'No Time Slots';
+  String get noTimeSlots => 'Keine Zeitplan';
 
   @override
-  String get bookingDateAndSlot => 'Booking Date & Slot';
+  String get bookingDateAndSlot => 'Datum & Zeit';
 
   @override
-  String get extraCharges => 'Extra Charges';
+  String get extraCharges => 'Extrakosten';
 
   @override
-  String get chatCleared => 'Chat Cleared';
+  String get chatCleared => 'Chat gelöscht';
 
   @override
-  String get clearChat => 'Clear chat';
+  String get clearChat => 'Chat löschen';
 
   @override
-  String get jobRequestSubtitle =>
-      "Didn't find your service? Don't worry, You can post your requirements.";
+  String get jobRequestSubtitle => 'Keinen passenden Service gefunden? Machen Sie sich keine Sorgen, Jetzt kostenlos Auftrag veröffentlichen..';
 
   @override
-  String get verified => 'Verified';
+  String get verified => 'Verifiziert';
 
   @override
-  String get theEnteredCodeIsInvalidPleaseTryAgain =>
-      'The entered code is invalid, please try again';
+  String get theEnteredCodeIsInvalidPleaseTryAgain => 'Der eingegebene Code ist ungültig. Bitte versuchen Sie es erneut';
 
   @override
-  String get otpCodeIsSentToYourMobileNumber =>
-      'OTP Code is sent to your mobile number';
+  String get otpCodeIsSentToYourMobileNumber => 'OTP -Code wird an Ihre Persotel gesendet';
 
   @override
-  String get yourPaymentFailedPleaseTryAgain =>
-      'Your payment failed please try again';
+  String get yourPaymentFailedPleaseTryAgain => 'Ihre Zahlung ist fehlgeschlagen. Bitte versuchen Sie es erneut';
 
   @override
-  String get yourPaymentHasBeenMadeSuccessfully =>
-      'Your payment has been made successfully';
+  String get yourPaymentHasBeenMadeSuccessfully => 'Ihre Zahlung wurde erfolgreich durchgeführt';
 
   @override
-  String get transactionFailed => 'Transaction Failed';
+  String get transactionFailed => 'Transaktion fehlgeschlagen';
 
   @override
-  String get lblStep3 => "Step 3";
+  String get lblStep3 => 'Schritt 3';
 
   @override
-  String get lblAvailableOnTheseDays => "Available On These Days";
+  String get lblAvailableOnTheseDays => 'An diesen Tagen verfügbar';
 
   @override
-  String get internetNotAvailable => 'Your internet appears to be offline';
+  String get internetNotAvailable => 'Ihr Internet scheint offline zu sein';
 
   @override
-  String get pleaseTryAgain => 'Please try again';
+  String get pleaseTryAgain => 'Bitte versuche es erneut';
 
   @override
-  String get somethingWentWrong => 'Something Went Wrong';
+  String get somethingWentWrong => 'Etwas ist schief gelaufen';
 
   @override
-  String get postJob => 'Post Job';
+  String get postJob => 'Aufträge';
 
   @override
-  String get package => 'Package';
+  String get package => 'Paket';
 
   @override
-  String get frequentlyBoughtTogether => 'Frequently Bought Together';
+  String get frequentlyBoughtTogether => 'Wird oft zusammen gebucht';
 
   @override
-  String get endOn => 'Ends On';
+  String get endOn => 'Endet am';
 
   @override
-  String get buy => 'Buy';
+  String get buy => 'Buchen';
 
   @override
-  String get includedServices => 'Included Services';
+  String get includedServices => 'Inklusive Services';
 
   @override
-  String get includedInThisPackage => 'Included in this Package';
+  String get includedInThisPackage => 'In diesem Paket enthalten';
 
   @override
-  String get lblInvalidTransaction => 'Invalid Transaction';
+  String get lblInvalidTransaction => 'Ungültige Transaktion';
 
   @override
   String get getTheseServiceWithThisPackage =>
-      'You will get these services with this package';
+      'Sie erhalten diese Service mit diesem Paket';
 
   @override
-  String get lblNotValidUser => 'You are not a valid customer';
+  String get lblNotValidUser => 'Sie sind kein gültiger Benutzer';
 
   @override
-  String get lblSkip => 'Skip';
+  String get lblSkip => 'Überspringen';
 
   @override
-  String get lblChangeCountry => 'Change Country';
+  String get lblChangeCountry => 'Land ändern';
 
   @override
-  String get lblTimeSlotNotAvailable => 'This Slot is not available';
+  String get lblTimeSlotNotAvailable => 'Dieses Zeitfenster ist leider nicht verfügbar';
 
   @override
-  String get lblAdd => 'add';
+  String get lblAdd => 'hinzufügen';
 
   @override
-  String get lblThisService => 'this service';
+  String get lblThisService => 'Service';
 
   @override
-  String get lblYourCurrenciesNotSupport =>
-      'Your Currencies doesn\'t support CinetPay';
+  String get lblYourCurrenciesNotSupport => 'Ihre Währungen unterstützen Cinetpay nicht';
 
   @override
-  String get lblSignInFailed => 'Sign in failed';
+  String get lblSignInFailed => 'Anmeldung fehlgeschlagen';
 
   @override
-  String get lblUserCancelled => 'customer cancelled';
+  String get lblUserCancelled => 'Benutzer storniert';
 
   @override
-  String get lblTransactionCancelled => 'Transaction cancelled';
+  String get lblTransactionCancelled => 'Transaktion storniert';
 
   @override
-  String get lblExample => 'Example';
+  String get lblExample => 'Beispiel';
 
   @override
-  String get lblCheckOutWithCinetPay => 'Checkout with CinetPay';
+  String get lblCheckOutWithCinetPay => 'Bezahlen mit Cinetpay';
 
   @override
-  String get lblLocationPermissionDenied => 'Location permissions are denied.';
+  String get lblLocationPermissionDenied => 'Standortberechtigungen werden abgelehnt.';
 
   @override
-  String get lblLocationPermissionDeniedPermanently =>
-      'Location permissions are permanently denied, we cannot request permissions.';
+  String get lblLocationPermissionDeniedPermanently => 'Standortberechtigungen werden dauerhaft abgelehnt, wir können keine Berechtigungen beantragen.';
 
   @override
-  String get lblEnableLocation =>
-      'Please make sure Location services are enabled.';
+  String get lblEnableLocation => 'Bitte stellen Sie sicher, dass Standort-Service aktiviert sind.';
 
   @override
-  String get lblNoUserFound => 'No customer Found';
+  String get lblNoUserFound => 'Kein Benutzer gefunden';
 
   @override
-  String get lblUserNotCreated => 'customer Not Created';
+  String get lblUserNotCreated => 'Benutzer nicht erstellt';
 
   @override
-  String get lblTokenExpired => 'Token Expired';
+  String get lblTokenExpired => 'Token lief ab';
 
   @override
-  String get lblConfirmationForDeleteMsg =>
-      'Do you want to delete the message?';
+  String get lblConfirmationForDeleteMsg => 'Möchten Sie diese Nachricht löschen?';
 
   @override
-  String get favouriteProvider => 'Favourite Agency';
+  String get favouriteProvider => 'Lieblingsagenturen';
 
   @override
-  String get noProviderFoundMessage => 'Your favourite agencies  will appear here';
+  String get noProviderFoundMessage => 'Hier erscheinen Ihre favorisierten Fachkräfte';
 
   @override
-  String get personalInfo => 'Personal Info';
+  String get personalInfo => 'Persönliche Daten';
 
   @override
-  String get essentialSkills => 'Essential Skills (comma separated)';
+  String get essentialSkills => 'Fähigkeiten';
 
   @override
-  String get knownLanguages => 'Known Languages';
+  String get knownLanguages => 'Sprachen';
 
   @override
-  String get authorBy => 'Author By';
+  String get authorBy => 'Autor von';
 
   @override
-  String get views => 'Views';
+  String get views => 'Aufrufe';
+
+  @override
+  String get proposals => 'Gebote';
+
+  @override
+  String get viewProposal => 'Gebot ansehen';
+
+  @override
+  String get hireProvider => 'Agentur beauftragen';
+
+  @override
+  String get hireAndContinue => 'Beauftragen & fortfahren';
 
   @override
   String get blogs => 'Blogs';
 
   @override
-  String get noBlogsFound => 'No Blogs Found';
+  String get noBlogsFound => 'Keine Blogs gefunden';
 
   @override
-  String get requestInvoice => 'Request Invoice';
+  String get requestInvoice => 'Rechnung anfordern';
 
   @override
-  String get invoiceSubTitle =>
-      'Enter the email address where you wish to receive your invoice';
+  String get invoiceSubTitle => 'Geben Sie die E-Mail-Adresse ein, an der Sie Ihre Rechnung erhalten möchten';
 
   @override
-  String get sentInvoiceText =>
-      'Please check your email we have sent invoice on your email.';
+  String get sentInvoiceText => 'Bitte prüfen Sie Ihre E-Mails (Inkl. Spam-Ordner). Dort haben wir die Rechnungen gesendet..';
 
   @override
-  String get send => 'Send';
+  String get send => 'Senden';
 
   @override
-  String get published => 'Published';
+  String get published => 'Veröffentlicht';
 
   @override
-  String get clearChatMessage => 'Do you want to clear this chat?';
+  String get clearChatMessage => 'Möchten Sie diesen Chat löschen?';
 
   @override
-  String get deleteMessage => 'Do you want to delete?';
+  String get deleteMessage => 'Möchten Sie löschen?';
 
   @override
-  String get accepted => 'Accepted';
+  String get accepted => 'Akzeptiert';
 
   @override
-  String get onGoing => 'On Going';
+  String get onGoing => 'Im Gange';
 
   @override
-  String get inProgress => 'In Progress';
+  String get inProgress => 'Im Progress';
 
   @override
-  String get cancelled => 'Cancelled';
+  String get cancelled => 'Storniert';
 
   @override
-  String get rejected => 'Rejected';
+  String get rejected => 'Abgelehnt';
 
   @override
-  String get failed => 'Failed';
+  String get failed => 'Fehlgeschlagen';
 
   @override
-  String get completed => 'Completed';
+  String get completed => 'Abgeschloßen';
 
   @override
-  String get pendingApproval => 'Pending Approval';
+  String get pendingApproval => 'Genehmigung Ausstehend';
 
   @override
-  String get waiting => 'Waiting';
+  String get waiting => 'Warten';
 
   @override
-  String get paid => 'Paid';
+  String get paid => 'Bezahlt';
 
   @override
-  String get advancePaid => 'Advance Paid';
+  String get advancePaid => 'Anzahlung bestätigt';
 
   @override
-  String get insufficientBalanceMessage =>
-      'You have an insufficient balance in your wallet. Please choose another method.';
+  String get insufficientBalanceMessage => 'Sie haben eine unzureichende Balance in Ihrer Wallet. Bitte wählen Sie eine andere Methode.';
 
   @override
-  String get cinetPayNotSupportedMessage =>
-      "CinetPay isn't supported by your Currencies";
+  String get cinetPayNotSupportedMessage => 'Cinetpay wird nicht von Ihren Währungen unterstützt';
 
   @override
-  String get loading => 'Loading..';
+  String get loading => 'Wird geladen..';
 
   @override
-  String get walletBalance => 'Wallet Balance';
+  String get walletBalance => 'Wallet';
 
   @override
-  String get payAdvance => 'Pay Advance';
+  String get payAdvance => 'Anzahlungsbetrag';
 
   @override
-  String get advancePaymentMessage =>
-      'Make an advance payment to complete a booking';
+  String get advancePaymentMessage => 'Leisten Sie eine Anzahlung, um die Buchung abzuschließen';
 
   @override
-  String get advancePayAmount => 'Advance Amount';
+  String get advancePayAmount => 'Anzahlungsbetrag';
 
   @override
-  String get remainingAmount => 'Remaining Amount';
+  String get remainingAmount => 'Restbetrag';
 
   @override
-  String get advancePayment => 'Pay Advance';
+  String get advancePayment => 'Anzahlung';
 
   @override
-  String get withExtraAndAdvanceCharge =>
-      'With Extra charge and Advance payment';
+  String get withExtraAndAdvanceCharge => 'Mit Extrakosten und Anzahlung';
 
   @override
-  String get withExtraCharge => 'With Extra Charge';
+  String get withExtraCharge => 'Mit Extrakosten';
 
   @override
-  String get min => 'min';
+  String get min => 'Mindest';
 
   @override
-  String get hour => 'hour';
+  String get hour => 'Stunde';
 
   @override
-  String get customerRatingMessage => 'Tell others what you think';
+  String get customerRatingMessage => 'Teilen Sie Ihre Meinung mit anderen.';
 
   @override
-  String get paymentHistory => 'Payment History';
+  String get paymentHistory => 'Zahlungshistorie';
 
   @override
-  String get message => 'Message';
+  String get message => 'Nachricht';
 
   @override
   String get wallet => 'Wallet';
 
   @override
-  String get payWithFlutterWave => 'Pay With Flutterwave';
+  String get payWithFlutterWave => 'Mit Flutterwave bezahlen';
 
   @override
-  String get goodMorning => 'Good Morning';
+  String get goodMorning => 'Hallo und Guten Morgen';
 
   @override
-  String get goodAfternoon => 'Good Afternoon';
+  String get goodAfternoon => 'Hallo und Guten Tag';
 
   @override
-  String get goodEvening => 'Good Evening';
+  String get goodEvening => 'Hallo und Guten Abend';
 
   @override
-  String get invalidURL => 'Invalid URL';
+  String get invalidURL => 'ungültige URL';
 
   @override
-  String get use24HourFormat => 'Use 24-hour format?';
+  String get use24HourFormat => '24-Stunden-Format verwenden?';
 
   @override
   String get email => 'Email';
 
   @override
-  String get badRequest => 'Bad Request';
+  String get badRequest => 'Schlechte Anfrage';
 
   @override
-  String get forbidden => 'Forbidden';
+  String get forbidden => 'Verboten';
 
   @override
-  String get pageNotFound => 'Page Not Found';
+  String get pageNotFound => 'Seite nicht gefunden';
 
   @override
-  String get tooManyRequests => 'Too Many Requests';
+  String get tooManyRequests => 'Zu viele Anfragen';
 
   @override
-  String get internalServerError => 'Internal Server Error';
+  String get internalServerError => 'Interner Serverfehler';
 
   @override
   String get badGateway => 'Bad Gateway';
 
   @override
-  String get serviceUnavailable => 'Service Unavailable';
+  String get serviceUnavailable => 'Service nicht verfügbar';
 
   @override
   String get gatewayTimeout => 'Gateway Timeout';
 
   @override
-  String get pleaseWait => 'Please wait';
+  String get pleaseWait => 'Bitte Warten';
 
   @override
-  String get externalWallet => 'External Wallet';
+  String get externalWallet => 'Wallet';
 
   @override
-  String get userNotFound => 'customer not found';
+  String get userNotFound => 'Benutzer nicht gefunden';
 
   @override
-  String get requested => 'Requested';
+  String get requested => 'Offen';
 
   @override
-  String get assigned => 'Assigned';
+  String get assigned => 'Zugewiesen';
 
   @override
-  String get reload => 'Reload';
+  String get reload => 'Neu laden';
 
   @override
-  String get lblStripeTestCredential =>
-      'Testing Credential cannot pay more then 500';
+  String get lblStripeTestCredential => 'Testen von Anmeldeinformationen können nicht mehr als 500 bezahlen';
 
   @override
-  String get noDataFoundInFilter =>
-      'Choose the best filter criteria to get the best results';
+  String get noDataFoundInFilter => 'Setzen Sie Filter, um passende Ergebnisse zu erhalten.';
 
   @override
-  String get addYourCountryCode => 'Add your country code';
+  String get addYourCountryCode => 'Ländercode hinzufügen';
 
   @override
-  String get help => 'Help';
+  String get help => 'Hilfe';
 
   @override
-  String get couponCantApplied => "This coupon can't be applied";
+  String get couponCantApplied => 'Dieser Gutschein kann leider nicht angewendet werden';
 
   @override
-  String get priceAmountValidationMessage => 'Rate amount should be grater than 0';
+  String get priceAmountValidationMessage => 'Der Betrag muss > als 0 sein';
 
   @override
-  String get pleaseWaitWhileWeLoadChatDetails => "Please wait while we load chat details...";
+  String get pleaseWaitWhileWeLoadChatDetails => 'Bitte warten, während wir Chat Details laden';
 
   @override
-  String get isNotAvailableForChat => "is not available for chat";
+  String get isNotAvailableForChat => 'ist nicht für den Chat verfügbar';
 
   @override
-  String get connectWithFirebaseForChat => "Connect with firebase for chat";
+  String get connectWithFirebaseForChat => 'Verbinde dich mit Firebase für den Chat';
 
   @override
-  String get closeApp => 'Close App';
+  String get closeApp => 'App schließen';
 
   @override
-  String get providerAddedToFavourite => 'Agency added to Favourite list';
+  String get providerAddedToFavourite => 'Agentur zur Favoriten hinzugefügt';
 
   @override
-  String get providerRemovedFromFavourite => 'Agency removed from Favourite list';
+  String get providerRemovedFromFavourite => 'Agentur von der Favoriten entfernt';
 
   @override
-  String get provideValidCurrentPasswordMessage => 'You must provide a valid current password';
+  String get provideValidCurrentPasswordMessage => 'Sie müssen ein gültiges aktuelles Passwort angeben';
 
   @override
-  String get copied => 'Copied';
+  String get copied => 'Kopiert';
 
   @override
-  String get copyMessage => 'Copy Message';
+  String get copyMessage => 'Nachricht kopieren';
 
   @override
-  String get messageDelete => 'Delete Message';
+  String get messageDelete => 'Nachricht löschen';
 
   @override
-  String get pleaseChooseAnyOnePayment =>
-      'Please choose any one payment method';
+  String get pleaseChooseAnyOnePayment => 'Bitte Zahlungsmethode auswählen';
 
   @override
-  String get myWallet => 'My Wallet';
+  String get myWallet => 'Mein Wallet';
 
   @override
-  String get balance => 'Balance';
+  String get balance => 'Guthaben';
 
   @override
-  String get topUpWallet => 'Top-up Wallet';
+  String get topUpWallet => 'Wallet aufladen';
 
   @override
   String get topUpAmountQuestion =>
-      'What amount would you prefer to top up with?';
+      'Mit welchem Betrag würden Sie lieber aufladen?';
 
   @override
-  String get paymentMethod => 'Payment Method';
+  String get paymentMethod => 'Bezahlverfahren';
 
   @override
-  String get recentTransactionRequests => 'Recent Transaction Requests';
+  String get recentTransactionRequests => 'Aktuelle Transaktionsanfragen';
 
   @override
-  String get selectYourPaymentMethodToAddBalance =>
-      'Select your payment method to add balance';
+  String get selectYourPaymentMethodToAddBalance => 'Zahlungsmethode wählen, um Guthaben aufzuladen';
 
   @override
-  String get proceedToTopUp => 'Proceed to top-up';
+  String get proceedToTopUp => 'Mit Aufladung fortfahren';
 
   @override
-  String get serviceAddedToFavourite => 'Service added to Favourite list';
+  String get serviceAddedToFavourite => 'Service zur Favoriten hinzugefügt';
 
   @override
-  String get serviceRemovedFromFavourite =>
-      'Service removed from Favourite list';
+  String get serviceRemovedFromFavourite => 'Service aus der Favoriten entfernt';
 
   @override
-  String get firebaseRemoteCannotBe => 'Firebase remote cannot be connected';
+  String get firebaseRemoteCannotBe => 'Firebase-Remote kann nicht verbunden werden';
 
   @override
-  String get notificationSetupError => 'Notification setup error';
+  String get notificationSetupError => 'Fehler bei der Benachrichtigungs-Einrichtung';
   @override
-  String get notificationPermissionError => 'Failed to request notification permission';
+  String get notificationPermissionError => 'Benachrichtigungserlaubnis konnte nicht angefordert werden';
   @override
-  String get firebaseInitError => 'Firebase initialization error';
+  String get firebaseInitError => 'Firebase-Initialisierungsfehler';
 
   @override
-  String get search => 'Search';
+  String get search => 'Suchen';
 
   @override
-  String get close => 'Close';
+  String get close => 'Schließen';
 
   @override
-  String get totalAmountShouldBeMoreThan => 'Total amount should be more than';
+  String get totalAmountShouldBeMoreThan => 'Gesamtbetrag sollte mehr als';
 
   @override
-  String get totalAmountShouldBeLessThan => 'Total amount should be less than';
+  String get totalAmountShouldBeLessThan => 'Gesamtbetrag sollte geringer als';
 
   @override
-  String get doYouWantToTopUpYourWallet =>
-      'Do you want to Top Up your wallet now?';
+  String get doYouWantToTopUpYourWallet => 'Möchten Sie jetzt Ihre Wallet aufladen?';
 
   @override
-  String get chooseYourLocation => 'Choose your location';
+  String get chooseYourLocation => 'Standort auswählen';
 
   @override
-  String get connect => 'Connect';
+  String get connect => 'Verbinden';
 
   @override
-  String get transactionId => 'Transaction ID';
+  String get transactionId => 'Transaktions-ID';
 
   @override
-  String get at => 'at';
+  String get at => 'am';
 
   @override
-  String get appliedTaxes => 'Applied Taxes';
+  String get appliedTaxes => 'Steuern';
 
   @override
-  String get accessDeniedContactYourAdmin =>
-      'Access denied. Contact your administrator for assistance.';
+  String get accessDeniedContactYourAdmin => 'Zugriff abgelehnt. Wenden Sie sich an Ihren Administrator, um Unterstützung zu erhalten.';
 
   @override
-  String get yourWalletIsUpdated => 'Your wallet is updated!';
+  String get yourWalletIsUpdated => 'Ihr Wallet ist aktualisiert!';
 
   @override
-  String get by => 'by';
+  String get by => 'von';
 
   @override
-  String get noPaymentMethodFound => 'No Payment Method Found';
+  String get noPaymentMethodFound => 'Keine Zahlungsmethode gefunden';
 
   @override
-  String get theAmountShouldBeEntered => 'The amount should be entered';
+  String get theAmountShouldBeEntered => 'Der Betrag sollte eingegeben werden';
 
   @override
-  String get walletHistory => 'Wallet History';
+  String get walletHistory => 'Mein Wallet';
 
   @override
-  String get debit => 'Debit';
+  String get debit => 'Lastschrift';
 
   @override
-  String get credit => 'Credit';
+  String get credit => 'Kredit';
 
   @override
-  String get youCannotApplyThisCoupon => 'You cannot apply this coupon';
+  String get youCannotApplyThisCoupon => 'Sie können diesen Gutschein nicht anwenden';
 
   @override
-  String get basedOn => 'Based on';
+  String get basedOn => 'Bezogen auf';
 
   @override
-  String get serviceStatusPicMessage =>
-      'Please ensure you pick at least one Booking Status';
+  String get serviceStatusPicMessage => 'Bitte stellen Sie sicher, dass Sie mindestens einen Buchungsstatus auswählen';
 
   @override
-  String get clearFilter => 'Clear Filter';
+  String get clearFilter => 'Filter Klären';
 
   @override
-  String get bookingStatus => 'Booking Status';
+  String get bookingStatus => 'Buchungsstatus';
 
   @override
-  String get addOns => 'Add-ons';
+  String get addOns => 'Extras';
 
   @override
-  String get serviceAddOns => 'Service Add-ons';
+  String get serviceAddOns => 'Extra Service';
 
   @override
-  String get turnOn => 'Turn On';
+  String get turnOn => 'Anschalten';
 
   @override
-  String get turnOff => 'Turn Off';
+  String get turnOff => 'Abschalten';
 
   @override
-  String get serviceVisitType => 'Service Visit Type';
+  String get serviceVisitType => 'Service-Art';
 
   @override
-  String get thisServiceIsOnlineRemote =>
-      'This service will be completed Online/Remotely.';
+  String get thisServiceIsOnlineRemote => 'Dieser Service wird Online/Remote durchgeführt.';
 
   @override
-  String get deleteMessageForAddOnService =>
-      'Do you want to remove this Add-on Service?';
+  String get deleteMessageForAddOnService => 'Möchten Sie diesen Extra entfernen??'; 
 
   @override
-  String get confirmation => 'Confirmation!';
+  String get confirmation => 'Bestätigung!';
 
   @override
-  String get pleaseNoteThatAllServiceMarkedCompleted =>
-      'Please Note That all service add-ons marked as completed!';
+  String get pleaseNoteThatAllServiceMarkedCompleted => 'Bitte beachten Sie, dass alle Service-Extras als Abgeschloßen markiert sind!';
 
   @override
-  String get writeHere => 'Write Here';
+  String get writeHere => 'Hier schreiben';
 
   @override
-  String get isAvailableGoTo =>
-      'is available. Go to Play Store and Download the New Version of the App.';
+  String get isAvailableGoTo => 'ist verfügbar. Gehen Sie zum Store ab und laden Sie die neue Version der App herunter.';
 
   @override
-  String get later => 'Later';
+  String get later => 'Später';
 
   @override
-  String get whyChooseMe => 'Why Choose Me?';
+  String get whyChooseMe => 'Warum mich wählen?';
 
   @override
-  String get useThisCodeToGet => 'Use this code to get';
+  String get useThisCodeToGet => 'Verwenden Sie diesen Code, um zu erhalten';
 
   @override
-  String get off => 'off';
+  String get off => 'aus';
 
   @override
-  String get applied => 'Applied';
+  String get applied => 'Angewandt';
 
   @override
-  String get coupons => 'Coupons';
+  String get coupons => 'Gutscheine';
 
   @override
-  String get handymanList => 'Freelancer List';
+  String get handymanList => 'mein Team';
 
   @override
-  String get noHandymanFound => 'No Freelancer Found';
+  String get noHandymanFound => 'Keine Fachkräfte gefunden';
 
   @override
-  String get back => 'Back';
+  String get back => 'Zurück';
 
   @override
   String get team => 'Team';
 
-  @override
-  String get whyChooseMeAs => 'Why Choose Me as Your Trusted Service Agency';
+  @override 
+  String get whyChooseMeAs => 'Warum Sie mich als Ihre vertrauenswürdigen Agentur auswählen sollten?';
 
   @override
-  String get reason => 'Reason';
+  String get reason => 'Grund';
 
   @override
-  String get pleaseEnterAddressAnd =>
-      'Please Enter Address and Booking Date & Slot';
+  String get pleaseEnterAddressAnd => 'Bitte Adresse, Buchungsdatum und Zeitfentser eingeben';
 
   @override
-  String get pleaseEnterYourAddress => 'Please Enter Your Address';
+  String get pleaseEnterYourAddress => 'Bitte Adresse eingeben';
 
   @override
-  String get pleaseSelectBookingDate => 'Please Select Booking Date & Slot';
+  String get pleaseSelectBookingDate => 'Bitte Buchungsdatum und Zeitfenster auswählen';
 
   @override
-  String get doYouWantTo => 'Do you want to remove this coupon?';
+  String get doYouWantTo => 'Möchten Sie diesen Gutschein entfernen?';
 
   @override
-  String get chooseDateTime => 'Choose Date & Time';
+  String get chooseDateTime => 'Datum und Uhrzeit auswählen';
 
   @override
-  String get airtelMoneyPayment => 'Airtel Money Payment';
+  String get addMoreDates => 'Weitere Daten hinzufügen';
 
   @override
-  String get recommendedForYou => 'Recommended for you';
+  String get airtelMoneyPayment => 'Airtel-Zahlung';
 
   @override
-  String get paymentSuccess => 'Payment Success';
+  String get recommendedForYou => 'für dich empfohlen';
 
   @override
-  String get redirectingToBookings => 'Redirecting to bookings..';
+  String get paymentSuccess => 'Zahlungserfolg';
 
   @override
-  String get transactionIsInProcess => 'Transaction is in process...';
+  String get redirectingToBookings => 'Umleitung zu Buchungen ..';
 
   @override
-  String get pleaseCheckThePayment =>
-      'Please check the payment request is sent to your number';
+  String get transactionIsInProcess => 'Transaktion ist im Prozess ...';
 
   @override
-  String get enterYourMsisdnHere => 'Enter your msisdn here';
+  String get pleaseCheckThePayment => 'Bitte überprüfen Sie, ob die Zahlungsanfrage an Ihre Nummer gesendet wird';
 
   @override
-  String get theTransactionIsStill =>
-      'The transaction is still processing and is in ambiguous state. Please do the transaction enquiry to fetch the transaction status.';
+  String get enterYourMsisdnHere => 'Geben Sie hier Ihre MSISDN ein';
 
   @override
-  String get transactionIsSuccessful => 'Transaction is successful';
+  String get theTransactionIsStill => 'Die Transaktion ist noch in Bearbeitung. Bitte führen Sie eine Statusabfrage durch.';
 
   @override
-  String get incorrectPinHasBeen => 'Incorrect Pin has been entered';
+  String get transactionIsSuccessful => 'Transaktion ist erfolgreich';
 
   @override
-  String get theUserHasExceeded =>
-      'The customer has exceeded their wallet allowed transaction limit';
+  String get incorrectPinHasBeen => 'Eine falsche PIN wurde eingegeben';
 
   @override
-  String get theAmountUserIs =>
-      'The amount customer is trying to transfer is less than the minimum amount allowed';
+  String get theUserHasExceeded => 'Der Benutzer hat die von der Wallet festgelegte Transaktionsgrenze überschritten.';
 
   @override
-  String get userDidnTEnterThePin => "customer didn't enter the pin";
+  String get theAmountUserIs => 'Der Betrag, den der Benutzer überträgt, ist geringer als der zulässige Mindestbetrag';
 
   @override
-  String get transactionInPendingState =>
-      'Transaction in pending state. Please check after sometime';
+  String get userDidnTEnterThePin => 'Der Benutzer hat die PIN nicht eingegeben';
 
   @override
-  String get userWalletDoesNot =>
-      'customer wallet does not have enough money to cover the payable amount';
+  String get transactionInPendingState => 'Transaktion im ausstehenden Zustand. Bitte nach kurzer Zeit überprüfen';
 
   @override
-  String get theTransactionWasRefused => 'The transaction was refused';
+  String get userWalletDoesNot => 'Wallet: Guthaben reicht nicht aus, um den Betrag abzudecken';
 
   @override
-  String get thisIsAGeneric =>
-      'This is a generic refusal that has several possible causes';
+  String get theTransactionWasRefused => 'Die Transaktion wurde abgelehnt';
 
   @override
-  String get payeeIsAlreadyInitiated =>
-      'Payee is already initiated for churn or barred or not registered on Airtel Money platform';
+  String get thisIsAGeneric => 'Dies ist eine generische Ablehnung, die mehrere mögliche Ursachen hat';
 
   @override
-  String get theTransactionWasTimed => 'The transaction was timed out.';
+  String get payeeIsAlreadyInitiated => 'Der Zahlungsempfänger ist bereits für die Abwanderung oder für die Barred oder nicht auf der Airtel Money-Plattform eingeleitet';
 
   @override
-  String get theTransactionWasNot => 'The transaction was not found.';
+  String get theTransactionWasTimed => 'Die Transaktion wurde zeitlich festgelegt.';
 
   @override
-  String get xSignatureAndPayloadDid => 'x-signature and payload did not match';
+  String get theTransactionWasNot => 'Die Transaktion wurde nicht gefunden.';
 
   @override
-  String get encryptionKeyHasBeen =>
-      'Encryption key has been fetched successfully';
+  String get xSignatureAndPayloadDid => 'X-Signatur und Nutzlast stimmten nicht überein';
 
   @override
-  String get couldNotFetchEncryption => 'Could not fetch encryption key';
+  String get encryptionKeyHasBeen => 'Der Verschlüsselungsschlüssel wurde erfolgreich abgerufen';
 
   @override
-  String get transactionHasBeenExpired => 'Transaction has been expired';
+  String get couldNotFetchEncryption => 'Konnte den Verschlüsselungsschlüssel nicht holen';
 
   @override
-  String get ambiguous => 'Ambiguous';
+  String get transactionHasBeenExpired => 'Die Transaktion wurde abgelaufen';
 
   @override
-  String get success => 'Success';
+  String get ambiguous => 'Mehrdeutig';
 
   @override
-  String get incorrectPin => 'Incorrect Pin';
+  String get success => 'Erfolgreich';
 
   @override
-  String get exceedsWithdrawalAmountLimitS =>
-      'Exceeds withdrawal amount limit(s) / Withdrawal amount limit exceeded';
+  String get incorrectPin => 'Falsche Pin';
 
   @override
-  String get invalidAmount => 'Invalid Amount';
+  String get exceedsWithdrawalAmountLimitS => 'Überschreitet die Auszahlungsbetragsgrenze (en) / Abhebungsbetragsgrenze überschritten';
 
   @override
-  String get transactionIdIsInvalid => 'Transaction ID is invalid';
+  String get invalidAmount => 'Ungültiger Betrag';
 
   @override
-  String get inProcess => 'In process';
+  String get transactionIdIsInvalid => 'Die Transaktions-ID ist ungültig';
 
   @override
-  String get notEnoughBalance => 'Not enough balance';
+  String get inProcess => 'Im Prozess';
 
   @override
-  String get refused => 'Refused';
+  String get notEnoughBalance => 'Nicht genug Guthaben';
 
   @override
-  String get doNotHonor => 'Do not honor';
+  String get refused => 'Abgelehnt';
 
   @override
-  String get transactionNotPermittedTo => 'Transaction not permitted to Payee';
+  String get doNotHonor => 'Nicht honoriert';
 
   @override
-  String get transactionTimedOut => 'Transaction Timed Out';
+  String get transactionNotPermittedTo => 'Transaktion nicht dem Zahlungsempfänger gestattet';
 
   @override
-  String get transactionNotFound => 'Transaction Not Found';
+  String get transactionTimedOut => 'Transaktionszeit aus';
 
   @override
-  String get forBidden => 'Forbidden';
+  String get transactionNotFound => 'Transaktion nicht gefunden';
 
   @override
-  String get successfullyFetchedEncryptionKey =>
-      'Successfully fetched Encryption Key';
+  String get forBidden => 'Verboten';
 
   @override
-  String get errorWhileFetchingEncryption =>
-      'Error while fetching encryption key';
+  String get successfullyFetchedEncryptionKey => 'Erfolgreich abgerufene Verschlüsselungsschlüssel';
 
   @override
-  String get transactionExpired => 'Transaction Expired';
+  String get errorWhileFetchingEncryption => 'Fehler beim Abrufen von Verschlüsselungsschlüssel';
 
   @override
-  String get verifyEmail => 'Verify Email';
+  String get transactionExpired => 'Transaktion abgelaufen';
 
   @override
-  String get minRead => 'min read';
+  String get verifyEmail => 'E-Mail bestätigen';
 
   @override
-  String get loadingChats => 'Loading chats...';
+  String get minRead => 'min lesen';
 
   @override
-  String get monthly => 'Monthly';
+  String get loadingChats => 'Chats laden ...';
 
   @override
-  String get noCouponsAvailableMsg =>
-      'No Coupons at the Moment. Keep Checking Back for Exclusive Offers!';
+  String get monthly => 'Monatlich';
 
   @override
-  String get refundPolicy => 'Refund Policy';
+  String get noCouponsAvailableMsg => 'Im Moment keine Gutscheine. Schauen Sie weiter nach exklusiven Angeboten zurück!';
 
   @override
-  String get chooseAnyOnePayment => 'Choose any one payment method first';
+  String get refundPolicy => 'Rückerstattungsrichtlinie';
 
   @override
-  String get january => 'January';
+  String get chooseAnyOnePayment => 'Zuerst Zahlungsmethode auswählen';
 
   @override
-  String get february => 'February';
+  String get january => 'Januar';
 
   @override
-  String get march => 'March';
+  String get february => 'Februar';
+
+  @override
+  String get march => 'Marsch';
 
   @override
   String get april => 'April';
 
   @override
-  String get may => 'May';
+  String get may => 'Mai';
 
   @override
-  String get june => 'June';
+  String get june => 'Juni';
 
   @override
-  String get july => 'July';
+  String get july => 'Juli';
 
   @override
   String get august => 'August';
@@ -1742,786 +1725,776 @@ class LanguageEn extends BaseLanguage {
   String get september => 'September';
 
   @override
-  String get october => 'October';
+  String get october => 'Oktober';
 
   @override
   String get november => 'November';
 
   @override
-  String get december => 'December';
+  String get december => 'Dezember';
 
   @override
-  String get monthName => 'Month Name';
+  String get monthName => 'Monatsname';
 
   @override
-  String get mon => 'Mon';
+  String get mon => 'Mo';
 
   @override
-  String get tue => 'Tue';
+  String get tue => 'Di';
 
   @override
-  String get wed => 'Wed';
+  String get wed => 'Mi';
 
   @override
-  String get thu => 'Thu';
+  String get thu => 'Do';
 
   @override
-  String get fri => 'Fri';
+  String get fri => 'Fr';
 
   @override
-  String get sat => 'Sat';
+  String get sat => 'Sa';
 
   @override
-  String get sun => 'Sun';
+  String get sun => 'So';
 
   @override
-  String get weekName => 'Week Name';
+  String get weekName => 'Wochenname';
 
   @override
-  String get removeThisFile => 'Remove This File';
+  String get removeThisFile => 'Datei Entfernen';
 
   @override
-  String get areYouSureWantToRemoveThisFile =>
-      'Do you want to remove this file?';
+  String get areYouSureWantToRemoveThisFile => 'Möchten Sie diese Datei entfernen?';
 
   @override
-  String get sendMessage => 'Send Message';
+  String get sendMessage => 'Nachricht senden';
 
   @override
-  String get youAreNotConnectedWithChatServer => 'Connect to Chat Server';
+  String get youAreNotConnectedWithChatServer => 'Eine Verbindung zum Chat-Server herstellen';
 
   @override
-  String get NotConnectedWithChatServerMessage =>
-      'You are not connected to the chat server. Tap the button below to connect and start chatting';
+  String get NotConnectedWithChatServerMessage => 'Sie sind nicht mit dem Chatserver verbunden. Tippen Sie auf die Schaltfläche unten, um eine Verbindung herzustellen und mit dem Chatten zu beginnen';
 
   @override
-  String get sentYouAMessage => 'sent you a message';
+  String get sentYouAMessage => 'Hat dir eine Nachricht geschickt';
 
   @override
-  String get pushNotification => 'Push Notification';
+  String get pushNotification => 'Push-Benachrichtigung';
 
   @override
-  String get yourBooking => 'Your Booking';
+  String get yourBooking => 'Ihre Buchung';
 
   @override
-  String get featuredServices => 'Featured Services';
+  String get featuredServices => 'Exklusiv für Sie';
 
   @override
   String get postYourRequestAnd =>
-      'Post your request, and we\'ll \ndo our best to fulfill it';
+      'Veröffentlichen Sie Ihre Aufträge, und wir helfen Ihnen dabei, passende Fachkräfte zu finden.';
 
   @override
-  String get newRequest => 'New Request';
+  String get newRequest => 'Neuer Auftrag';
 
   @override
-  String get upcomingBooking => 'Upcoming Booking';
+  String get upcomingBooking => 'Bevorstehende Buchung';
 
   @override
-  String get theUserHasDenied =>
-      'The customer has denied the use of speech recognition';
+  String get theUserHasDenied => 'Der Benutzer hat die Verwendung der Spracherkennung abgelehnt';
 
   @override
-  String get helloGuest => 'Hello Guest';
+  String get helloGuest => 'Halli Hallo Gast';
 
   @override
-  String get eGCleaningPlumberPest => 'e.g. cleaning, plumber, pest control';
+  String get eGCleaningPlumberPest => 'z.B. Buchhalter, Elektriker, Kellner, Receptionist';
 
   @override
-  String get ifYouDidnTFind =>
-      "If you didn't find our service, don't worry! You can easily post your request.";
+  String get ifYouDidnTFind => 'Jetzt kostenlos Ihren Auftrag inserieren und Angebote einholen.';
 
   @override
-  String get popularServices => 'Popular Services';
+  String get popularServices => 'Beliebte Services';
 
   @override
-  String get canTFindYourServices => "Can't find your services?";
+  String get canTFindYourServices => 'Sie können den passenden Service nicht finden?';
 
   @override
-  String get trackProviderLocation => 'Track Agency Location';
+  String get trackProviderLocation => 'Standort der Agentur live anzeigen';
 
   @override
-  String get trackHandymanLocation => 'Track Freelancer Location';
+  String get trackHandymanLocation => 'Standort der Fachkraft verfolgen';
 
   @override
-  String get handymanLocation => 'Freelancer Location';
+  String get handymanLocation => 'Standort';
 
   @override
-  String get providerLocation => 'Agency Location';
+  String get providerLocation => 'Standort';
 
   @override
-  String get lastUpdatedAt => 'Last updated at:';
+  String get lastUpdatedAt => 'Zuletzt aktualisiert unter:';
 
   @override
-  String get track => 'Track';
+  String get track => 'Verfolgen';
 
   @override
-  String get handymanReached => 'Freelancer Reached? Click to start';
+  String get handymanReached => 'Fachkraft angekommen? Jetzt starten';
 
   @override
-  String get providerReached => 'Agent Reached? Click to start';
+  String get providerReached => 'Agent angekommen? Jetzt starten';
 
   @override
-  String get addBank => "Add bank";
+  String get lblBankDetails => "Bankdaten";
 
   @override
-  String get bankList => "Bank List";
+  String get addBank => "Bank hinzufügen";
 
   @override
-  String get lbldefault => "Default";
+  String get bankList => "Bankenliste";
 
   @override
-  String get setAsDefault => "Set as default";
+  String get lbldefault => "Standard";
 
   @override
-  String get aadharNumber => "Country";
+  String get setAsDefault => "Als Standard einstellen";
 
   @override
-  String get panNumber => "PayPal Account (Optional)";
+  String get aadharNumber => "Addresse";
 
   @override
-  String get lblPleaseEnterAccountNumber => "Please Enter Account Number";
+  String get panNumber => "PayPal-Konto (optioional)";
 
   @override
-  String get lblAccountNumberMustContainOnlyDigits =>
-      "Account number must contain only digits";
+  String get lblPleaseEnterAccountNumber => "Bitte Konto Nr.";
 
   @override
-  String get lblAccountNumberMustBetween11And16Digits =>
-      "Account number must be between 11 and 16 digits";
+  String get lblAccountNumberMustContainOnlyDigits => "Kontonummer darf nur Ziffern enthalten";
 
   @override
-  String get noBankDataTitle => "No Bank Data Found";
+  String get lblAccountNumberMustBetween11And16Digits => "Kontonummer muss zwischen 11 und 16 Ziffern lang sein";
 
   @override
-  String get noBankDataSubTitle => "You didn't add bank yet";
+  String get noBankDataTitle => "Keine Bank gefunden";
 
   @override
-  String get lblBankDetails => "Bank Details";
+  String get noBankDataSubTitle => "Sie haben noch keine Bank hinzugefügt";
 
   @override
-  String get active => 'Active';
+  String get active => 'Aktiv';
 
   @override
-  String get inactive => 'Inactive';
+  String get inactive => 'Inaktiv';
 
   @override
-  String get deleteBankTitle => 'Do you want to delete this bank?';
+  String get deleteBankTitle => 'Möchten Sie diese Bank löschen?';
 
   @override
-  String get lblEdit => 'Edit';
+  String get lblEdit => 'Bearbeiten';
 
   @override
-  String get bankName => "Bank Name";
+  String get bankName => 'Bankname';
 
   @override
-  String get accountNumber => "Account number";
+  String get accountNumber => 'Konto Nr.';
 
   @override
-  String get iFSCCode => "Bank Address";
+  String get iFSCCode => 'Country';
 
   @override
-  String get availableBalance => "Available Balance";
+  String get availableBalance => "Verfügbares Guthaben";
 
   @override
-  String get withdraw => "Withdraw";
+  String get withdraw => "Abheben";
 
   @override
-  String get successful => 'Successful';
+  String get successful => 'Erfolgreich';
 
   @override
-  String get yourWithdrawalRequestHasBeenSuccessfullySubmitted =>
-      'Your withdrawal request has been successfully submitted.';
+  String get yourWithdrawalRequestHasBeenSuccessfullySubmitted => 'Ihr Auszahlungsantrag wurde erfolgreich übermittelt.';
 
   @override
-  String get eg3000 => 'eg" 3000"';
+  String get eg3000 => 'zB" 300"';
 
   @override
-  String get chooseBank => "Choose Bank";
+  String get chooseBank => "Bank auswählen";
 
   @override
-  String get egCentralNationalBank => 'eg" central national bank"';
+  String get egCentralNationalBank => 'zB" Deutsche Bank"';
 
   @override
-  String get topUp => "Top-up";
+  String get topUp => "Aufladen";
 
   @override
-  String get pleaseAddLessThanOrEqualTo => "Please add less than or equal to";
+  String get pleaseAddLessThanOrEqualTo => "Bitte einen gültigen Betrag eingeben";
 
   @override
-  String get lblEnterAmount => "Enter Amount";
+  String get withdrawRequest => "Antrag zurückziehen";
 
   @override
-  String get withdrawRequest => "Withdraw Request";
+  String get lblEnterAmount => "Betrag eingeben";
 
   @override
-  String get btnSave => 'Save';
+  String get btnSave => 'Speichern';
 
   @override
-  String get fullNameOnBankAccount => 'Branch';
+  String get fullNameOnBankAccount => 'Bankfiliale';
 
   @override
-  String get packageIsExpired => 'Package is expired';
+  String get packageIsExpired => 'Paket ist abgelaufen';
 
   @override
-  String get bookPackage => 'Book Package';
+  String get bookPackage => 'Paket buchen';
 
   @override
-  String get packageDescription => 'Package Description';
+  String get packageDescription => 'Paketbeschreibung';
 
   @override
-  String get packagePrice => 'Package Rate';
+  String get packagePrice => 'Paketpreis';
 
   @override
   String get online => 'Online';
 
   @override
-  String get noteAddressIsNot =>
-      'Note: Address is not required for remote services.';
+  String get noteAddressIsNot => 'Hinweis: Für Remote-Service ist keine Adresse erforderlich.';
 
   @override
-  String get wouldYouLikeTo =>
-      'Would you like to proceed and confirm this booking?';
+  String get wouldYouLikeTo => 'Möchten Sie fortfahren und diese Buchung bestätigen?';
 
   @override
-  String get packageName => 'Package Name';
+  String get packageName => 'Paketname';
 
   @override
-  String get feeAppliesForCancellations =>
-      'fee applies for cancellations made within';
+  String get feeAppliesForCancellations => 'Für Stornierungen, die innerhalb dieser Frist erfolgen, fällt eine Gebühr an';
 
   @override
-  String get a => 'A';
+  String get a => 'a';
 
   @override
-  String get byConfirmingYouAgree => 'By confirming, you agree to our';
+  String get byConfirmingYouAgree => 'Mit der Bestätigung erklären Sie sich einverstanden mit unseren';
 
   @override
-  String get and => 'and';
+  String get and => 'und';
 
   @override
-  String get areYouSureYou =>
-      'Are you sure you want to cancel? A cancellation fee may apply based on your service rate';
+  String get areYouSureYou => 'Sind Sie sicher, dass Sie stornieren möchten? Je nach Service kann eine Stornogebühr anfallen';
 
   @override
-  String get totalCancellationFee => 'Total cancellation fee';
+  String get totalCancellationFee => 'Gesamte Stornogebühr';
 
   @override
-  String get goBack => 'Go Back';
+  String get goBack => 'Zurück';
 
   @override
-  String get bookingCancelled => 'Booking Cancelled';
+  String get bookingCancelled => 'Buchung storniert';
+
+  @override 
+  String get yourBookingHasBeen => 'Ihre Buchung wurde erfolgreich storniert. Die Rückerstattung wird innerhalb der kommenden Tage erfolgen';
 
   @override
-  String get yourBookingHasBeen =>
-      'Your booking has been successfully canceled. Applicable refund will be processed within 24 hours';
+  String get noteCheckYourBooking => 'Hinweis: Überprüfen Sie Ihren Buchungsverlauf auf Rückerstattungsdetails';
 
   @override
-  String get noteCheckYourBooking =>
-      'Note: Check your booking history for refund details';
+  String get cancelledReason => 'Grund für Stornierung';
 
   @override
-  String get cancelledReason => 'Cancelled reason';
+  String get refundPaymentDetails => 'Rückerstattung Details';
 
   @override
-  String get refundPaymentDetails => 'Refund Payment Details';
+  String get refundOf => 'Rückerstattung von';
 
   @override
-  String get refundOf => 'Refund of';
+  String get refundAmount => 'Rückerstattungsbetrag';
 
   @override
-  String get refundAmount => 'Refund Amount';
+  String get cancellationFee => 'Stornogebühr';
 
   @override
-  String get cancellationFee => 'Cancellation Fee';
+  String get advancedPayment => 'Anzahlungbetrag';
 
   @override
-  String get advancedPayment => 'Advance payment';
+  String get hoursOfTheScheduled => 'Geplante Stunden';
 
   @override
-  String get hoursOfTheScheduled => 'hours of the scheduled service';
+  String get open => 'OFFEN';
 
   @override
-  String get open => 'OPEN';
+  String get closed => 'Abgeschloßen';
 
   @override
-  String get closed => 'CLOSED';
+  String get createBy => 'Erstellen von';
 
   @override
-  String get createBy => 'Create by';
+  String get repliedBy => 'Beantwortet von';
 
   @override
-  String get repliedBy => 'Replied by';
+  String get closedBy => 'Abgeschloßen von';
 
   @override
-  String get closedBy => 'Closed by';
+  String get helpDesk => 'Helpdesk';
 
   @override
-  String get helpDesk => 'Help Desk';
+  String get addNew => 'Neu hinzufügen';
 
   @override
-  String get addNew => 'Add New';
+  String get queryYet => 'Noch eine Anfrage';
 
   @override
-  String get queryYet => 'Query Yet';
+  String get toSubmitYourProblems => 'Tippen Sie auf „Hinzufügen“ und beschreiben Sie Ihr Anliegen';
 
   @override
-  String get toSubmitYourProblems => 'To submit your problems simply press add button and explain your concern';
+  String get noRecordsFoundFor => 'Keine Datensätze gefunden für';
 
   @override
-  String get noRecordsFoundFor => 'No records found for';
+  String get queries => 'Abfragen.';
 
   @override
-  String get queries => 'queries.';
+  String get noActivityYet => 'Noch keine Aktivität';
 
   @override
-  String get noActivityYet => 'No Activity Yet';
+  String get noRecordsFound => 'Keine Datensätze gefunden';
 
   @override
-  String get noRecordsFound => 'No records found';
+  String get reply => 'Antwort';
 
   @override
-  String get reply => 'Reply';
+  String get eGDuringTheService => 'z.B. Möbel wurden versehentlich beschädigt.';
 
   @override
-  String get eGDuringTheService => 'e.g. During the service, the furniture was accidentally damaged.';
+  String get doYouWantClosedThisQuery => 'Möchten Sie diese Abfrage schließen?';
 
   @override
-  String get doYouWantClosedThisQuery => 'Do you want closed this query';
+  String get markAsClosed => 'Als erledigt markieren';
 
   @override
-  String get markAsClosed => 'Mark as Closed';
+  String get youCanMarkThis => 'Sie können dies als erledigt markieren, wenn Sie mit unserer Antwort zufrieden sind';
 
   @override
-  String get youCanMarkThis => 'You can mark this as closed if you are satisfied with our answer';
+  String get subject => 'Thema';
 
   @override
-  String get subject => 'Subject';
+  String get eGDamagedFurniture => 'z.B. Beschädigte Möbel';
 
   @override
-  String get eGDamagedFurniture => 'e.g. Damaged furniture';
+  String get closedOn => 'Abgeschloßen am:';
 
   @override
-  String get closedOn => 'Closed on:';
+  String get on => 'am';
 
   @override
-  String get on => 'on';
+  String get showMessage => 'Nachricht anzeigen';
 
   @override
-  String get showMessage => 'Show Message';
+  String get yesterday => 'Gestern';
 
   @override
-  String get yesterday => 'Yesterday';
+  String get chooseAction => 'Aktion auswählen';
 
   @override
-  String get chooseAction => 'Choose Action';
+  String get chooseImage => 'Foto auswählen';
 
   @override
-  String get chooseImage => 'Choose Image';
+  String get noteYouCanUpload => 'Hinweis: Sie können Bilder mit den Erweiterungen \'jpg\', \'png\', \'jpeg\' hochladen und nur ein (1) Bild auswählen';
 
   @override
-  String get noteYouCanUpload => 'Note: You can upload image with \'jpg\', \'png\', \'jpeg\' extensions & you can select only one image';
+  String get removeImage => 'Bild entfernen';
 
   @override
-  String get removeImage => 'Remove Image';
-
-  @override
-  String get advancedRefund => 'Advance Refund';
+  String get advancedRefund => 'Erweiterte Rückerstattung';
 
   @override
   String get lblService => 'Service';
 
   @override
-  String get dateRange => 'Date Range';
+  String get dateRange => 'Zeitraum';
 
   @override
-  String get paymentType => 'Payment Type';
+  String get paymentType => 'Zahlungsart';
 
   @override
-  String get reset => 'Reset';
+  String get reset => 'Zurücksetzen';
 
   @override
-  String get noStatusFound => 'No Status Found';
+  String get noStatusFound => 'Kein Status gefunden';
 
   @override
-  String get selectStartDateEndDate => 'Select start date & end date';
+  String get selectStartDateEndDate => 'Start- & Enddatum auswählen';
 
   @override
-  String get handymanNotFound => 'Freelancer Not Found';
+  String get handymanNotFound => 'Fachkraft nicht gefunden';
 
   @override
-  String get providerNotFound => 'Agency Not Found';
+  String get providerNotFound => 'Agentur nicht gefunden';
 
   @override
-  String get rateYourExperience => 'Rate Your Experience';
+  String get rateYourExperience => 'Bewertung abgeben';
 
   @override
-  String get weValueYourFeedback => 'We value your feedback! Please rate your recent experience with our service';
+  String get weValueYourFeedback => 'Ihre Meinung ist uns wichtig. Bewerten Sie Ihre letzte Erfahrung mit unserem Service.';
 
   @override
-  String get viewStatus => 'View Status';
+  String get viewStatus => 'Status anzeigen';
 
   @override
-  String get paymentInfo => 'Payment Info';
+  String get paymentInfo => 'Zahlungsinfo';
 
   @override
   String get mobile => 'Mobile:';
 
   @override
-  String get to => 'to';
+  String get to => 'Zu';
 
   @override
-  String get chooseYourDateRange => 'Choose your Date Range';
+  String get chooseYourDateRange => 'Zeitraum eingeben';
 
   @override
-  String get asHandyman => 'As Freelancer';
+  String get asHandyman => 'Als Fachkraft';
 
   @override
-  String get passwordLengthShouldBe => 'Password length should be 12 to 20 characters.';
+  String get passwordLengthShouldBe =>
+      'Die Länge des Passworts sollte min. 8 Zeichen betragen.';
 
   @override
-  String get passwordMinLengthEight => 'At least 12 characters';
+  String get passwordMinLengthEight => 'Mindestens 8 Zeichen';
 
   @override
-  String get passwordMustIncludeLetter => 'At least one letter (A–Z or a–z)';
+  String get passwordMustIncludeLetter => 'Mindestens ein Buchstabe (A–Z oder a–z)';
 
   @override
-  String get passwordMustIncludeNumber => 'At least one number (0–9)';
+  String get passwordMustIncludeNumber => 'Mindestens eine Ziffer (0–9)';
 
   @override
-  String get passwordRequirementsHint => '• At least 12 to 20 characters\n• At least one letter (A–Z or a–z)\n• At least one number (0–9)';
+  String get passwordRequirementsHint => '• Mindestens 8 Zeichen\n• Mindestens ein Buchstabe (A–Z oder a–z)\n• Mindestens eine Ziffer (0–9)';
 
   @override
-  String get paymentMethodNotSupported => 'Payment method not supported';
+  String get paymentMethodNotSupported => 'Zahlungsmethode nicht unterstützt';
 
   @override
-  String get hintSelectType => 'Select Type';
+  String get hintSelectType => 'Typ auswählen';
 
   @override
-  String get lblSelectSubCategory => "Select SubCategory";
+  String get lblSelectSubCategory => "Unterkategorie auswählen";
 
   @override
-  String get country => "Country";
+  String get country => "Land";
 
   @override
-  String get publish => "Publish";
+  String get state => "Bundesland";
 
   @override
-  String get state => "State";
+  String get city => "Stadt";
 
   @override
-  String get city => "City";
+  String get lblSubCategory => "Unterkategorie";
 
   @override
-  String get lblSubCategory => "SubCategory";
+  String get priceType => "Einsatzart";
 
   @override
-  String get priceType => 'Rate Type';
+  String get totalBudget => "Maximales Budget";
 
   @override
-  String get totalBudget => 'Total Budget';
+  String get jobType => "Jobtyp";
 
   @override
-  String get jobType => 'Job Type';
+  String get jobSchedule => "Zeitraum";
 
   @override
-  String get jobSchedule => 'Job Schedule';
+  String get remoteWorkLevel => "Remote-Level";
 
   @override
-  String get remoteWorkLevel => 'Remote Work Level';
+  String get travelRequirements => "Reisebereitschaft";
 
   @override
-  String get travelRequirements => 'Travel Requirements';
+  String get careerLevel => "Karrierestufe";
 
   @override
-  String get careerLevel => 'Career Level';
+  String get educationLevel => "Bildungsniveau";
 
   @override
-  String get educationLevel => 'Education Level';
+  String get startDate => "Startdatum";
 
   @override
-  String get startDate => 'Start Date';
+  String get endDate => "Enddatum";
 
   @override
-  String get endDate => 'End Date';
+  String get totalDays => "Gesamttage";
 
   @override
-  String get totalDays => 'Total Days';
+  String get totalHours => "Gesamtstunden";
 
   @override
-  String get totalHours => 'Total Hours';
+  String get workingAddress => "Adresse";
 
   @override
-  String get workingAddress => 'Working Address';
+  String get streetAndHouseNr => "Straße und Hausnr.";
 
   @override
-  String get streetAndHouseNr => 'Street and House Number';
+  String get poboxAndCityCountry => "PLZ Stadt & Land";
 
   @override
-  String get poboxAndCityCountry => 'P.O. Box, City, Country';
+  String get skillsAndRequirements => "Anforderungen";
 
   @override
-  String get skillsAndRequirements => 'Skills and Requirements';
+  String get dutiesAndResponsibilities => "Aufgaben";
 
   @override
-  String get dutiesAndResponsibilities => 'Duties and Responsibilities';
+  String get benefits => "Leistungen";
 
   @override
-  String get benefits => 'Benefits';
+  String get publish => "Veröffentlichen";
 
   @override
-  String get selectImgNote => 'Note: You can upload images with \'jpg\', \'png\', \'jpeg\' extensions & you can select multiple images';
+  String get selectImgNote =>
+      "HINWEIS: Sie können Bilder mit \ 'jpg \', \ 'png \', \ 'jpeg \'-Erweiterungen hochladen, und Sie können mehrere Bilder auswählen";
 
   @override
-  String get waitingForAdvancePayment => 'Waiting for advance payment';
+  String get waitingForAdvancePayment => 'Warte auf Anzahlung';
 
   @override
-  String get waitingForPaymentApproval => 'Waiting for payment approval';
+  String get waitingForPaymentApproval => 'Warte auf Zahlungseingang';
 
   // Job Request specific strings
   @override
-  String get waitingForCustomerToConfirm => "Waiting for customer to confirm 'Let's Start Work'";
+  String get waitingForCustomerToConfirm => "Warten auf Kundenbestätigung 'Lass uns starten'";
 
   @override
-  String get workInProgressWaitingForProvider => "Work in progress — waiting for Agency to update or mark done";
+  String get workInProgressWaitingForProvider => "Auftrag im Gange — warte auf Agentur-Update oder Abschluß";
 
   @override
-  String get jobCompletedWaitingForCustomer => "Job is completed — waiting for customer to pay remaining amount";
+  String get jobCompletedWaitingForCustomer => "Auftrag abgeschlossen – Warte auf die Restzahlung des Kunden";
 
   @override
-  String get paymentCompletedDownloadInvoice => "Payment completed. You can download the invoice.";
+  String get paymentCompletedDownloadInvoice => 'Zahlung Abgeschloßen. Sie können die Rechnung herunterladen.';
 
   @override
-  String get waitingForCustomerToAcceptTheBid => 'Waiting for customer to accept the bid';
+  String get waitingForCustomerToAcceptTheBid => 'Warte auf die Zustimmung des Kunden.';
 
   @override
-  String get waitingForProviderToReviewRequest => 'Waiting for Agency to review the request';
+  String get waitingForProviderToSplitPayment => 'Warte auf die Zahlungsaufteilung durch die Agentur';
 
   @override
-  String get bidAssignedToHandyman => 'Bid assigned to handyman';
+  String get waitingForCustomerToPayAdvancePercentage => 'Warte auf die Anzahlung des Kunden';
 
   @override
-  String get waitingForProviderToSplitPayment => 'Waiting for Agency to split payment';
+  String get waitingForCustomerToConfirmWorkDone => 'Warte auf Abschluß-Bestätigung durch den Kunden';
 
   @override
-  String get waitingForCustomerToPayAdvancePercentage => 'Waiting for customer to pay advance percentage';
+  String get waitingForProviderToStartWork => 'Warten auf Arbeitsbeginn durch den Auftragnehmer.';
 
   @override
-  String get waitingForCustomerToConfirmWorkDone => 'Waiting for customer to confirm work done';
+  String get waitingForProviderToResumeWork => 'Arbeit pausiert – Warte auf Fortsetzung durch den Auftragnehmer..';
 
   @override
-  String get waitingForProviderToStartWork => 'Waiting for Agency to start work';
+  String get waitingForProviderToMarkBidAsCompleted => 'Warte darauf, dass der Auftragnehmer den Auftrag als abgeschlossen markiert';
+
+  // Bank details / profile / map (screens)
+  @override
+  String get accountHolderName => 'Name des Kontoinhabers';
+
 
   @override
-  String get waitingForProviderToResumeWork => 'Waiting for Agency to resume work';
+  String get ugcReportService => 'Melden';
 
   @override
-  String get waitingForProviderToMarkBidAsCompleted => 'Waiting for Agency to mark the bid as completed';
+  String get ugcBlockProvider => 'Anbieter blockieren';
 
   @override
-  String get ugcReportService => 'Report';
+  String get ugcReportTitle => 'Diese Dienstleistung melden';
 
   @override
-  String get ugcBlockProvider => 'Block Agency';
+  String get ugcReportProfileTitle => 'Dieses Profil melden';
 
   @override
-  String get ugcReportTitle => 'Report this service';
+  String get ugcReportReviewTitle => 'Diese Bewertung melden';
 
   @override
-  String get ugcReportProfileTitle => 'Report this profile';
+  String get ugcReportReviewSuccess => 'Vielen Dank. Ihre Meldung zu dieser Bewertung wurde erhalten.';
 
   @override
-  String get ugcReportReviewTitle => 'Report this review';
+  String get ugcCannotReportOwnReview => 'Sie können Ihre eigene Bewertung nicht melden.';
 
   @override
-  String get ugcReportReviewSuccess => 'Thank you. Your report about this review was received.';
-
-  @override
-  String get ugcCannotReportOwnReview => 'You cannot report your own review.';
-
-  @override
-  String get ugcSelectReason => 'Reason';
+  String get ugcSelectReason => 'Grund';
 
   @override
   String get ugcDetailsOptional => 'Details (optional)';
 
   @override
-  String get ugcSubmitReport => 'Submit report';
+  String get ugcSubmitReport => 'Meldung senden';
 
   @override
-  String get ugcBlockConfirmTitle => 'Block Agency?';
+  String get ugcBlockConfirmTitle => 'Anbieter blockieren?';
 
   @override
-  String get ugcBlockConfirmMessage => 'You will stop seeing this Agency’s services. Continue?';
+  String get ugcProviderBlockedMessage => 'Sie haben diesen Anbieter blockiert.';
 
   @override
-  String get ugcProviderBlockedMessage => 'You blocked this Agency.';
+  String get ugcBlockConfirmMessage => 'Sie sehen die Angebote dieses Anbieters nicht mehr. Fortfahren?';
 
   @override
   String get ugcReasonSpam => 'Spam';
 
   @override
-  String get ugcReasonHarassment => 'Harassment';
+  String get ugcReasonHarassment => 'Belästigung';
 
   @override
-  String get ugcReasonInappropriate => 'Inappropriate';
+  String get ugcReasonInappropriate => 'Unangemessen';
 
   @override
-  String get ugcReasonFraud => 'Fraud';
+  String get ugcReasonFraud => 'Betrug';
 
   @override
-  String get ugcReasonOther => 'Other';
+  String get ugcReasonOther => 'Sonstiges';
 
-  // *** new words (U-01)
-  // Bank transfer UI
+  // *** neue Woerter (U-01)
+  // Banküberweisung
   @override
-  String get bankTransferDetailsTitle => 'Bank Transfer Details';
+  String get bankTransferDetailsTitle => 'Banküberweisung Details';
 
   @override
-  String get bankTransferIbanLabel => 'IBAN';
+  String get bankTransferIbanLabel => 'Country';
 
   @override
   String get bankTransferBicLabel => 'BIC/SWIFT';
 
   @override
-  String get bankTransferRecipientLabel => 'Recipient';
+  String get bankTransferRecipientLabel => 'Empfaenger';
 
   @override
-  String get bankTransferBankNameAddressLabel => 'Bank Name & Address';
+  String get bankTransferBankNameAddressLabel => 'Bankname & Adresse';
 
   @override
-  String get bankTransferSenderBankBicLabel => 'Your Bank BIC';
+  String get bankTransferSenderBankBicLabel => 'Ihre Bank BIC';
 
   @override
-  String get bankTransferLocalInternationalTitle => 'Local / International Transfer';
+  String get bankTransferLocalInternationalTitle => 'Lokale/Internationale Überweisung';
 
   @override
-  String get bankTransferInstructionsTitle => 'Transfer Instructions';
+  String get bankTransferInstructionsTitle => 'Ueberweisungsanweisungen';
 
   @override
-  String get bankTransferMentionBookingIdPrefix => 'Please mention booking ID';
+  String get bankTransferMentionBookingIdPrefix => 'Bitte Buchungs-ID';
 
   @override
-  String get bankTransferMentionBookingIdSuffix => 'in the transfer description';
+  String get bankTransferMentionBookingIdSuffix => 'in der Ueberweisungsbeschreibung angeben';
 
   @override
-  String get bankTransferPayAmountPrefix => 'Pay exactly';
+  String get bankTransferPayAmountPrefix => 'Bitte genau';
 
   @override
-  String get bankTransferPayAmountSuffix => 'to the account above';
+  String get bankTransferPayAmountSuffix => 'auf das oben genannte Konto ueberweisen';
 
   @override
-  String get bankTransferSendProofPrefix => 'After transfer, send proof to';
+  String get bankTransferSendProofPrefix => 'Nach der Ueberweisung Nachweis senden an';
 
   @override
-  String get ibanNumber => 'IBAN Number';
+  String get ibanNumber => 'IBAN-Nummer';
 
   @override
-  String get bicSwiftCode => 'BIC/SWIFT Code';
-
-  // Job bid progress
-  @override
-  String get jobBidProgressAccept => 'Accept';
+  String get bicSwiftCode => 'BIC / SWIFT-Code';
 
   @override
-  String get jobBidProgressAdvance => 'Pay Advance';
+  String get stripeAccount => 'Stripe-Konto (Optional)';
 
   @override
-  String get jobBidProgressAdvancePaid => 'Advance Paid';
+  String get companyName => 'Firmenname';
 
   @override
-  String get jobBidProgressLetsStart => "Let's Start Work";
+  String get vatNumberOptional => 'USt-IdNr. (optional)';
 
   @override
-  String get jobBidProgressPaid => 'Paid';
+  String get selectAvailability => 'Verfügbarkeit auswählen';
 
   @override
-  String get jobBidProgressRemaining => 'Pay Remaining';
+  String get mobility => 'Mobilität';
 
   @override
-  String get jobBidProgressWork => 'Work';
+  String get serviceAddress => 'Adresse';
 
   @override
-  String get jobBidProgressDone => 'Done';
+  String get knownLanguagesLabel => 'Sprachen';
 
   @override
-  String get jobBidProgressCompleted => 'Completed';
+  String get essentialSkillsLabel => 'Fähigkeiten';
 
   @override
-  String get waitingForAdminApproval => 'Waiting for admin approval';
+  String get yearsOfExperience => 'Berufserfahrung';
 
   @override
-  String get waitingForAdminApprovalPleaseWait => 'Waiting for admin approval. Please wait.';
+  String get certification => 'Zertifizierung';
 
   @override
-  String get waitingForCustomerPayRemainingAmount => 'Waiting for customer to pay remaining amount';
+  String get aboutMe => 'Über mich';
 
   @override
-  String get bidDetailsTitle => 'Bid Details';
+  String get mapStartLabel => 'Starten';
+
+  // Booking slot / time labels
+  @override
+  String get startTime => 'Startzeit';
 
   @override
-  String get bidLabelColon => 'Bid:';
+  String get endTime => 'Endzeit';
 
   @override
-  String get bidCancelledShort => 'Cancelled';
+  String get selectHour => 'Stunde auswählen';
 
   @override
-  String get bidCancelledDetailsUnavailable => 'Bid details unavailable';
+  String get hourPickerOnlyHours => 'Nur volle Stunden (Minuten auf 00)';
 
   @override
-  String get hireProvider => 'Hire Agency';
+  String get durationDay => 'Tag';
 
   @override
-  String get hireAndContinue => 'Hire & Continue';
+  String get durationDays => 'Tage';
 
   @override
-  String get viewProposal => 'View Proposal';
+  String get durationHour => 'Stunde';
+
+  // Angebots-Fortschritt
+  @override
+  String get jobBidProgressAccept => 'Akzeptieren';
 
   @override
-  String get rateEmployer => 'Rate Agency';
+  String get jobBidProgressAdvance => 'Vorauszahlung leisten';
 
   @override
-  String get proposals => 'Proposals';
-
-  // Payment errors
-  @override
-  String get invalidPaymentAmount => 'Invalid payment amount';
+  String get jobBidProgressAdvancePaid => 'Vorauszahlung geleistet';
 
   @override
-  String get invalidResponseTryAgain => 'Invalid response. Please try again.';
+  String get jobBidProgressLetsStart => 'Arbeit beginnen';
 
   @override
-  String get paymentEndpointNotFound => 'Payment endpoint not found';
+  String get jobBidProgressPaid => 'Bezahlt';
 
   @override
-  String get paypalPaymentError => 'PayPal payment error';
+  String get jobBidProgressRemaining => 'Restbetrag zahlen';
 
   @override
-  String get paypalErrorLoadingPage => 'Error loading PayPal page';
+  String get jobBidProgressWork => 'Arbeit';
 
   @override
-  String get paymentVerificationMissingToken => 'Payment verification failed: missing token';
+  String get jobBidProgressDone => 'Fertig';
 
   @override
-  String get paymentVerificationServerError => 'Payment verification server error';
+  String get jobBidProgressCompleted => 'Abgeschlossen';
 
   @override
-  String get errorProcessingPayment => 'Error processing payment';
+  String get waitingForAdminApproval => 'Warten auf Admin-Genehmigung';
 
   @override
-  String get failedToGetPaypalUrl => 'Failed to get PayPal URL';
+  String get waitingForAdminApprovalPleaseWait => 'Warten auf Admin-Genehmigung. Bitte warten.';
 
   @override
-  String get paymentMayHaveBeenProcessed => 'Payment may have been processed. Please check your account.';
+  String get waitingForCustomerPayRemainingAmount => 'Warten auf Kundenzahlung des Restbetrags';
 
   @override
-  String get paymentCompletedSuccessfully => 'Payment completed successfully';
+  String get bidDetailsTitle => 'Angebots-Details';
 
   @override
-  String get verifyingPayment => 'Verifying payment...';
+  String get bidLabelColon => 'Angebot:';
 
-  // Profile / provider info
   @override
-  String get aboutMe => 'About Me';
+  String get bidCancelledShort => 'Storniert';
+
+  @override
+  String get bidCancelledDetailsUnavailable => 'Angebots-Details nicht verfuegbar';
 
   @override
   String get experience => 'Experience';
@@ -2541,54 +2514,57 @@ class LanguageEn extends BaseLanguage {
   @override
   String get yearsOfExperience => 'Years of Experience';
 
-  @override
-  String get essentialSkillsLabel => 'Essential Skills';
+
+
 
   @override
-  String get essentialSkillsHint => 'Enter your skills';
+  String get rateEmployer => 'Arbeitgeber bewerten';
 
   @override
-  String get knownLanguagesLabel => 'Known Languages';
+  String get durationHours => 'Stunden';
+
+  // Payment / webview messages
+  @override
+  String get invalidResponseTryAgain => 'Ungültige Antwort. Bitte versuchen Sie es erneut.';
 
   @override
-  String get selectLanguages => 'Select Languages';
+  String get paymentEndpointNotFound => 'Zahlungs-Endpunkt nicht gefunden. Bitte kontaktieren Sie den Support.';
 
   @override
-  String get tapToSelectLanguages => 'Tap to select languages';
+  String get paypalErrorLoadingPage => 'Fehler beim Laden der PayPal-Seite';
 
   @override
-  String get selectServiceAddress => 'Select Service Address';
+  String get paymentVerificationMissingToken => 'Zahlungsprüfung fehlgeschlagen: Token fehlt';
 
   @override
-  String get serviceAddress => 'Service Address';
+  String get verifyingPayment => 'Zahlung wird geprüft...';
 
   @override
-  String get vatNumberOptional => 'TAX/VAT Number (Optional)';
+  String get paymentVerificationServerError => 'Zahlungsprüfung wegen Serverfehler fehlgeschlagen. Bitte prüfen Sie Ihren Zahlungsstatus oder kontaktieren Sie den Support.';
 
   @override
-  String get companyName => 'Company Name';
+  String get paymentMayHaveBeenProcessed => 'Zahlung wurde möglicherweise bearbeitet. Bitte prüfen Sie Ihren Zahlungsstatus.';
 
   @override
-  String get availabilityLabel => 'Availability: ';
+  String get paymentCompletedSuccessfully => 'Zahlung erfolgreich Abgeschloßen';
 
   @override
-  String get selectAvailability => 'Select Availability';
+  String get errorProcessingPayment => 'Fehler bei der Zahlungsabwicklung';
 
   @override
-  String get travelRequiredLabel => 'Travel Required';
+  String get failedToGetPaypalUrl => 'PayPal-Zahlungslink konnte nicht abgerufen werden. Bitte versuchen Sie es erneut.';
 
+  // Chat policy
   @override
-  String get onsiteFullPresenceLabel => 'Onsite (Full Presence)';
+  String get messageHiddenDueToPolicy => 'Nachricht wegen Richtlinienverstoß ausgeblendet';
 
+  // Help desk
   @override
-  String get visitTypeOnsite => 'Onsite';
+  String get querySubmittedSuccessfully => 'Anfrage erfolgreich gesendet';
 
+  // Service search / sharing / admin approval
   @override
-  String get visitTypeHybrid => 'Hybrid';
-
-  // Booking / service UI
-  @override
-  String get quantityLabel => 'Quantity';
+  String get startSearchingYourService => 'Jetzt passender Service finden';
 
   @override
   String get rateUnitPrice => 'Rate (Unit Rate)';
@@ -2596,426 +2572,464 @@ class LanguageEn extends BaseLanguage {
   @override
   String get lineTotalAmount => 'Total Amount';
 
-  @override
-  String get netAmountLabel => 'Net Amount';
 
+
   @override
-  String get netAmountSubtext => '(Subtotal - Tax)';
+  String get invalidPaymentAmount => 'Ungültiger Zahlungsbetrag. Bitte versuchen Sie es erneut.';
 
   @override
-  String get grandTotalAmountLabel => 'Grand Total Amount';
+  String get paypalPaymentError => 'PayPal-Zahlungsfehler';
 
   @override
-  String get extraChargesBreakdownTitle => 'Extra Charges Breakdown';
+  String get failedToShareToFacebook => 'Teilen auf Facebook fehlgeschlagen. Bitte versuchen Sie es erneut.';
 
   @override
-  String get descriptionHeading => 'Description';
+  String get failedToShareToInstagram => 'Teilen auf Instagram fehlgeschlagen. Bitte versuchen Sie es erneut.';
 
   @override
-  String get cancellationPolicyTitle => 'Cancelation Policy';
+  String get failedToShareToTwitter => 'Teilen auf Twitter fehlgeschlagen. Bitte versuchen Sie es erneut.';
 
   @override
-  String get download => 'Download';
+  String get failedToShareToLinkedIn => 'Teilen auf LinkedIn fehlgeschlagen. Bitte versuchen Sie es erneut.';
 
+  // Common UI labels / placeholders (screens)
   @override
-  String get confirmDone => 'Confirm Done';
+  String get invalidDashboardType => 'Ungültiger Dashboard-Typ';
 
   @override
-  String get letsStartWork => "Let's Start Work";
+  String get amountLabel => 'Betrag';
 
   @override
-  String get payRemaining => 'Pay Remaining';
+  String get transactionTypeLabel => 'Transaktionsart';
 
   @override
-  String get startTime => 'Start Time';
+  String get createdAtLabel => 'Erstellt am';
 
   @override
-  String get endTime => 'End Time';
+  String get selectServiceAddress => 'Adresse auswählen';
 
   @override
-  String get addMoreDates => 'Add More Dates';
+  String get tapToSelectLanguages => 'Tippen, um Sprachen auszuwählen';
 
   @override
-  String get durationHour => 'Hour';
+  String get selectLanguages => 'Sprachen auswählen';
 
   @override
-  String get durationHours => 'Hours';
+  String get essentialSkillsHint => 'z.B. Fähigkeit 1, Fähigkeit 2 (Kommagetrennt)';
 
   @override
-  String get durationDay => 'Day';
+  String get experienceLabel => 'Erfahrung';
 
   @override
-  String get durationDays => 'Days';
+  String get certificationHint => 'z.B. Zertifikat 1, Zertifikat 2 (Kommagetrennt)';
 
   @override
-  String get selectHour => 'Select Hour';
+  String get titleLabel => 'Titel';
 
   @override
-  String get hourPickerOnlyHours => 'Hours Only';
+  String get locationLabel => 'Ort';
 
   @override
-  String get myBookings => 'My Bookings';
+  String get employerLabel => 'Agentur';
 
   @override
-  String get noReviewsYet => 'No reviews yet';
+  String get customerLabel => 'Kunde';
+
 
   @override
-  String get ratingSubmittedSuccessfully => 'Rating submitted successfully';
+  String get ratingSubmittedSuccessfully => 'Bewertung erfolgreich gesendet';
 
-  // Sort / navigation / misc
   @override
-  String get sort => 'Sort';
+  String get sort => 'Sortieren';
 
   @override
-  String get sortAZ => 'A - Z';
+  String get sortPopular => 'Beliebt';
 
   @override
-  String get sortPopular => 'Popular';
+  String get sortAZ => 'A–Z';
+ 
+  @override
+  String get noCityFound => 'Keine Stadt gefunden';
 
   @override
-  String get startSearchingYourService => 'Start searching your service';
+  String get noStateFound => 'Kein Bundesland gefunden';
+
+
+
 
   @override
-  String get transactionTypeLabel => 'Transaction Type';
+  String get holdReasonPrefix => 'Pausengrund:';
 
   @override
-  String get createdAtLabel => 'Created At';
+  String get employerReviewTitle => 'Bewertung Agentur';
 
   @override
-  String get amountLabel => 'Amount';
+  String get customerReviewTitle => 'Bewertung Kunde';
 
   @override
-  String get anonymous => 'Anonymous';
+  String get letsStartWork => 'Arbeit beginnen';
 
   @override
-  String get accountHolderName => 'Account Holder';
+  String get confirmDone => 'Abschluß bestätigen';
 
   @override
-  String get priceSuffixHourly => '/hr';
+  String get payRemaining => 'Restbetrag zahlen';
 
   @override
-  String get priceSuffixDaily => '/day';
+  String get download => 'Herunterladen';
 
+
   @override
-  String get priceSuffixFixed => 'Fixed';
+  String get rateUnitPrice => 'Honorar';
 
   @override
-  String get serviceTypeFixed => 'Fixed';
+  String get quantityLabel => 'Menge';
 
   @override
-  String get serviceTypeDaily => 'Daily';
+  String get lineTotalAmount => 'Gesamtbetrag';
 
   @override
-  String get invalidDashboardType => 'Invalid Dashboard Type';
+  String get netAmountLabel => 'Nettobetrag';
 
   @override
-  String get ugcReportProfileSuccess => 'Report submitted successfully';
+  String get netAmountSubtext => '(Ohne Steuern)';
 
   @override
-  String get messageHiddenDueToPolicy => 'Message hidden due to policy';
+  String get grandTotalAmountLabel => 'Gesamtsumme';
 
   @override
-  String get failedToShareToFacebook => 'Failed to share to Facebook';
+  String get extraChargesBreakdownTitle => 'Aufschlüsselung Extrakosten';
 
   @override
-  String get failedToShareToInstagram => 'Failed to share to Instagram';
+  String get noReviewsYet => 'Noch keine Bewertungen';
 
   @override
-  String get failedToShareToLinkedIn => 'Failed to share to LinkedIn';
+  String get anonymous => 'Anonym';
 
+
   @override
-  String get failedToShareToTwitter => 'Failed to share to Twitter';
+  String get advancePercentWord => 'Anzahlung';
+
+
+
+
+
 
+
+
+
+
   @override
-  String get querySubmittedSuccessfully => 'Query submitted successfully';
+  String get serviceTypeDaily => 'Tag';
 
   @override
-  String get mapStartLabel => 'Start';
+  String get serviceTypeFixed => 'Pauschal';
 
   @override
-  String get noCityFound => 'No city found';
+  String get visitTypeOnsite => 'Vor Ort';
 
   @override
-  String get noStateFound => 'No state found';
+  String get visitTypeHybrid => 'Hybrid';
 
   @override
-  String get locationLabel => 'Location';
+  String get percentOffSuffix => '% Rabatt';
 
   @override
-  String get titleLabel => 'Title';
+  String get bookingsLabel => 'Buchungen';
 
   @override
-  String get employerLabel => 'Agency';
+  String get onsiteFullPresenceLabel => 'Vor Ort (100%)';
 
   @override
-  String get customerLabel => 'Customer';
+  String get remoteWorkShareSuffix => 'Remote';
 
   @override
-  String get stripeAccount => 'Stripe Account (Optional)';
+  String get cancellationPolicyTitle => 'Stornobedingungen';
 
   @override
-  String get advancePercentWord => 'Advance';
+  String get minimumOrdersLabel => 'Mindestbuchung';
 
   @override
-  String get percentOffSuffix => '% off';
+  String get totalBookingsLabel => 'Buchungen';
 
   @override
-  String get remoteWorkShareSuffix => '% Remote';
+  String get availabilityLabel => 'Verfügbarkeit';
 
   @override
-  String get bookingsLabel => 'Bookings';
+  String get completedJobsLabel => 'Abgeschloßene Aufträge';
 
   @override
-  String get totalBookingsLabel => 'Total Bookings';
+  String get travelRequiredLabel => 'Reisebereitschaft';
 
   @override
-  String get completedJobsLabel => 'Completed Jobs';
+  String get descriptionHeading => 'Beschreibung';
+
+
+
 
+
   @override
-  String get minimumOrdersLabel => 'Minimum Orders';
+  String get ugcReportProfileSuccess =>
+      'Vielen Dank. Ihre Meldung wurde erhalten.';
+ 
+
+  // Zahlungsfehler
+
+ 
 
+  // Profil / Anbieterinfo
+
   @override
-  String get customerReviewTitle => 'Customer Review';
+  String get experience => 'Erfahrung';
+
+ 
 
   @override
-  String get employerReviewTitle => 'Agency Review';
+  String get myBookings => 'Meine Buchungen';
 
+ 
+
   @override
-  String get lblTotal => 'Total';
+  String get lblTotal => 'Gesamt';
 
   @override
-  String get lblReasons => 'Reasons';
+  String get lblReasons => 'Gründe';
 
   @override
-  String get lblAddReason => 'Add Reason';
+  String get lblAddReason => 'Grund hinzufügen';
 
   @override
-  String get lblServiceIncluded => 'Service included in this package';
+  String get lblServiceIncluded => 'In diesem Paket enthaltener Service';
 
   @override
-  String get lblPreferences => 'PREFERENCES';
+  String get lblPreferences => 'EINSTELLUNGEN';
 
   @override
-  String get lblLoadingPayPal => 'Loading PayPal...';
+  String get lblLoadingPayPal => 'PayPal wird geladen...';
 
   @override
-  String get lblUploadTimeoutRetry => 'Upload timeout. Please try again with smaller images or check your internet connection.';
+  String get lblUploadTimeoutRetry =>
+      'Upload-Timeout. Bitte kleinere Bilder versuchen oder Verbindung prüfen.';
 
   @override
-  String get lblSelectAtLeastOneLanguage => 'Please select at least one language';
+  String get lblSelectAtLeastOneLanguage =>
+      'Bitte mindestens eine Sprache auswaehlen';
 
   @override
-  String get lblPleaseSelectPaymentMethod => 'Please select a payment method';
+  String get lblPleaseSelectPaymentMethod => 'Bitte Zahlungsmethode auswaehlen';
 
   @override
-  String get lblInvalidPaymentAmountRetry => 'Invalid payment amount. Please try again.';
+  String get lblInvalidPaymentAmountRetry => 'Ungültiger Zahlungsbetrag. Bitte erneut versuchen.';
 
   @override
-  String get lblInvalidServerResponseRetry => 'Invalid response from server. Please try again.';
+  String get lblInvalidServerResponseRetry => 'Ungültige Serverantwort. Bitte erneut versuchen.';
 
   @override
-  String get lblPaymentEndpointNotFound => 'Payment endpoint not found. Please contact support.';
+  String get lblPaymentEndpointNotFound => 'Zahlungsendpunkt nicht gefunden. Bitte Support kontaktieren.';
 
   @override
-  String get lblPaymentVerificationMissingToken => 'Payment verification failed: Missing token';
+  String get lblPaymentVerificationMissingToken => 'Zahlungsverifizierung fehlgeschlagen: Token fehlt';
 
   @override
-  String get lblPaymentVerificationServerError => 'Payment verification failed due to server error. Please check your payment status or contact support.';
+  String get lblPaymentVerificationServerError => 'Zahlungsverifizierung wegen Serverfehler fehlgeschlagen. Bitte Zahlungsstatus prüfen oder Support kontaktieren.';
 
   @override
-  String get lblPaymentMayBeSuccessful => 'Payment may have been successful. Refreshing...';
+  String get lblPaymentMayBeSuccessful => 'Zahlung moeglicherweise erfolgreich. Wird aktualisiert...';
 
   @override
-  String get lblSelectStartEndDates => 'Please select start and end dates';
+  String get lblSelectStartEndDates => 'Bitte Start- und Enddatum auswaehlen';
 
   @override
-  String get lblRatingSubmittedSuccess => 'Rating submitted successfully';
+  String get lblRatingSubmittedSuccess => 'Bewertung erfolgreich eingereicht';
 
   @override
-  String get lblFailedShareFacebook => 'Failed to share to Facebook. Please try again.';
+  String get lblFailedShareFacebook => 'Teilen auf Facebook fehlgeschlagen. Bitte erneut versuchen.';
 
   @override
-  String get lblFailedShareInstagram => 'Failed to share to Instagram. Please try again.';
+  String get lblFailedShareInstagram => 'Teilen auf Instagram fehlgeschlagen. Bitte erneut versuchen.';
 
   @override
-  String get lblFailedShareTwitter => 'Failed to share to Twitter. Please try again.';
+  String get lblFailedShareTwitter => 'Teilen auf Twitter fehlgeschlagen. Bitte erneut versuchen.';
 
   @override
-  String get lblFailedShareLinkedIn => 'Failed to share to LinkedIn. Please try again.';
+  String get lblFailedShareLinkedIn => 'Teilen auf LinkedIn fehlgeschlagen. Bitte erneut versuchen.';
 
   @override
-  String get lblContentCopiedClickIcon => 'Content is copied! Click + icon, then paste and post';
+  String get lblContentCopiedClickIcon => 'Inhalt kopiert! Auf + Symbol klicken, dann einfuegen und posten';
 
   @override
-  String get lblFailedShare => 'Failed to share. Please try again.';
+  String get lblFailedShare => 'Teilen fehlgeschlagen. Bitte erneut versuchen.';
 
   @override
-  String get lblContentCopiedOpeningTwitter => 'Content copied! Opening Twitter...';
+  String get lblContentCopiedOpeningTwitter => 'Inhalt kopiert! Twitter wird geoeffnet...';
 
   @override
-  String get lblContentCopiedPasteInTweet => 'Content is copied! Paste it in the tweet';
+  String get lblContentCopiedPasteInTweet => 'Inhalt kopiert! Im Tweet einfuegen';
 
   @override
-  String get lblFailedOpenTwitter => 'Failed to open Twitter. Content is copied to clipboard.';
+  String get lblFailedOpenTwitter => 'Twitter konnte nicht geoeffnet werden. Inhalt in Zwischenablage kopiert.';
 
   @override
-  String get lblContentCopiedOpeningLinkedIn => 'Content copied! Opening LinkedIn...';
+  String get lblContentCopiedOpeningLinkedIn => 'Inhalt kopiert! LinkedIn wird geoeffnet...';
 
   @override
-  String get lblContentCopiedPasteInPost => 'Content is copied! Paste it in the post';
+  String get lblContentCopiedPasteInPost => 'Inhalt kopiert! Im Beitrag einfuegen';
 
   @override
-  String get lblFailedOpenLinkedIn => 'Failed to open LinkedIn. Content is copied to clipboard.';
+  String get lblFailedOpenLinkedIn => 'LinkedIn konnte nicht geoeffnet werden. Inhalt in Zwischenablage kopiert.';
 
   @override
-  String get lblFileSizeLimitPrefix => 'File size should be less than';
+  String get lblFileSizeLimitPrefix => 'Dateigroesse muss kleiner sein als';
 
   @override
-  String get lblErrorLoadingPayPal => 'Error loading PayPal page';
+  String get lblErrorLoadingPayPal => 'Fehler beim Laden der PayPal-Seite';
 
   @override
-  String get lblPayPalPaymentError => 'PayPal payment error';
+  String get lblPayPalPaymentError => 'PayPal-Zahlungsfehler';
 
   @override
-  String get lblFailedLaunchPayPal => 'Failed to launch PayPal';
+  String get lblFailedLaunchPayPal => 'PayPal konnte nicht gestartet werden';
 
   @override
-  String get lblMessageHiddenPolicy => 'Message hidden due to policy';
+  String get lblMessageHiddenPolicy => 'Nachricht aufgrund von Richtlinien ausgeblendet';
 
   @override
-  String get lblContentCopiedOpening => 'Content copied! Opening';
+  String get lblContentCopiedOpening => 'Inhalt kopiert! Oeffne';
 
   @override
-  String get lblFailedOpenPrefix => 'Failed to open';
+  String get lblFailedOpenPrefix => 'Konnte nicht oeffnen';
 
   @override
-  String get lblContentCopiedToClipboard => 'Content is copied to clipboard.';
+  String get lblContentCopiedToClipboard => 'Inhalt in Zwischenablage kopiert.';
 
   @override
-  String get statusPending => 'Pending';
+  String get statusPending => 'Ausstehend';
 
   @override
-  String get statusAssigned => 'Assigned';
+  String get statusAssigned => 'Zugewiesen';
 
   @override
-  String get statusRequested => 'Requested';
+  String get statusRequested => 'Offen';
 
   @override
-  String get statusAccepted => 'Accepted';
+  String get statusAccepted => 'Akzeptiert';
 
   @override
-  String get statusAdvancePaymentPending => 'Advance Payment Pending';
+  String get statusAdvancePaymentPending => 'Anzahlung ausstehend';
 
   @override
-  String get statusAdvancePaid => 'Advance Paid';
+  String get statusAdvancePaid => 'Anzahlung geleistet';
 
   @override
-  String get statusInProcess => 'In Process';
+  String get statusInProcess => 'In Bearbeitung';
 
   @override
-  String get statusInProgress => 'In Progress';
+  String get statusInProgress => 'In Ausfuehrung';
 
   @override
-  String get statusHold => 'Hold';
+  String get statusHold => 'Angehalten';
 
   @override
-  String get statusDone => 'Done';
+  String get statusDone => 'Erledigt';
 
   @override
-  String get statusConfirmDone => 'Confirm Done';
+  String get statusConfirmDone => 'Erledigung bestaetigt';
 
   @override
-  String get statusCompleted => 'Completed';
+  String get statusCompleted => 'Abgeschlossen';
 
   @override
-  String get statusRemainingPaymentPending => 'Remaining Payment Pending';
+  String get statusRemainingPaymentPending => 'Restzahlung ausstehend';
 
   @override
-  String get statusRemainingPaid => 'Remaining Paid';
+  String get statusRemainingPaid => 'Restzahlung geleistet';
 
   @override
-  String get statusCancelled => 'Cancelled';
+  String get statusCancelled => 'Storniert';
   @override
-  String get lblEnableNotifications => 'Please enable notifications in device settings';
+  String get lblEnableNotifications =>
+      'Bitte Benachrichtigungen in den Geraeteeinstellungen aktivieren';
+
   @override
-  String get selectDate => 'Select Date';
+  String get selectDate => 'Datum auswählen';
   @override
-  String get bookNow => 'Book Now';
+  String get bookNow => 'Jetzt buchen';
   @override
-  String get refreshLocation => 'Refresh location';
+  String get refreshLocation => 'Standort aktualisieren';
   @override
-  String get tapRefreshToLoadLocation => 'Tap refresh to load location';
+  String get tapRefreshToLoadLocation => 'Tippen zum Standort aktualisieren';
   @override
-  String get paymentFailed => 'Payment failed';
+  String get paymentFailed => 'Zahlung fehlgeschlagen';
   @override
-  String get paymentVerificationFailed => 'Payment verification failed';
+  String get paymentVerificationFailed =>
+      'Zahlungsverifizierung fehlgeschlagen';
   @override
-  String get holdReason => 'Hold Reason';
+  String get holdReason => 'Haltegrund';
   @override
-  String get tax => 'Tax';
+  String get tax => 'Steuer';
   @override
-  String get amount => 'Amount';
+  String get amount => 'Betrag';
   @override
-  String get submit => 'Submit';
+  String get submit => 'Absenden';
   @override
-  String get stepBasics => 'Basics';
+  String get stepBasics => 'Grundlagen';
   @override
-  String get stepLocation => 'Location';
+  String get stepLocation => 'Standort';
   @override
-  String get stepSchedule => 'Schedule';
+  String get stepSchedule => 'Zeitplan';
   @override
   String get stepDetails => 'Details';
   @override
-  String get stepBasicsHint => 'Add a clear title and choose category.';
+  String get stepBasicsHint => 'Klaren Titel hinzufügen und Kategorie wählen.';
   @override
-  String get stepLocationHint => 'Set where the work will happen and your address.';
+  String get stepLocationHint => 'Ort der Arbeit und Adresse angeben.';
   @override
-  String get stepScheduleHint => 'Choose rate type, dates, and budget.';
+  String get stepScheduleHint => 'Preistyp, Daten und Budget festlegen.';
   @override
-  String get stepDetailsHint => 'Describe the job and attach images if helpful.';
+  String get stepDetailsHint => 'Job beschreiben und ggf. Bilder anhängen.';
   @override
-  String get next => 'Next';
+  String get next => 'Weiter';
   @override
-  String get myJobRequests => 'My Job Requests';
+  String get myJobRequests => 'Meine Jobanfragen';
   @override
-  String get justNow => 'Just now';
+  String get justNow => 'Gerade eben';
   @override
-  String get minuteAgo => 'minute ago';
+  String get minuteAgo => 'Minute her';
   @override
-  String get minutesAgo => 'minutes ago';
+  String get minutesAgo => 'Minuten her';
   @override
-  String get hourAgo => 'hour ago';
+  String get hourAgo => 'Stunde her';
   @override
-  String get hoursAgo => 'hours ago';
+  String get hoursAgo => 'Stunden her';
   @override
-  String get dayAgo => 'day ago';
+  String get dayAgo => 'Tag her';
   @override
-  String get daysAgo => 'days ago';
+  String get daysAgo => 'Tage her';
   @override
-  String get lblBudgetOrPrice => 'Budget/Rate';
+  String get lblBudgetOrPrice => 'Budget/Preis';
   @override
-  String get lblTotalBudget => 'Total Budget';
+  String get lblTotalBudget => 'Gesamtbudget';
   @override
-  String get lblDutiesAndResponsibilities => 'Duties & Responsibilities';
+  String get lblDutiesAndResponsibilities => 'Aufgaben & Verantwortlichkeiten';
   @override
-  String get addWalletBalance => 'Add wallet balance';
+  String get addWalletBalance => 'Guthaben aufladen';
   @override
   String get visitTypeRemote => 'Remote';
   @override
-  String get fullTime => 'Full Time';
+  String get fullTime => 'Vollzeit';
   @override
-  String get partTime => 'Part Time';
+  String get partTime => 'Teilzeit';
   @override
-  String get notSpecified => 'Not Specified';
+  String get notSpecified => 'Nicht angegeben';
   @override
-  String get bankTransfer => 'Bank Transfer';
+  String get bankTransfer => 'Banküberweisung';
   @override
   String get payPal => 'PayPal';
   @override
   String get stripe => 'Stripe';
   @override
-  String get cash => 'Cash';
-
+  String get cash => 'Bargeld';
+  
   @override String get lblCareerNotSpecified => 'Not Specified';
   @override String get lblCareerEntryLevel => 'Entry Level';
   @override String get lblCareerIntermediateLevel => 'Intermediate Level';
