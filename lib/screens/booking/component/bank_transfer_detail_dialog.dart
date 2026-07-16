@@ -60,7 +60,7 @@ class _BankTransferDetailDialogState extends State<BankTransferDetailDialog> {
             list: [
               TextSpan(text: language.bankTransferPayAmountPrefix, style: primaryTextStyle(size: 12, weight: FontWeight.w600)),
               TextSpan(text: ' ${widget.bookingAmount} ', style: boldTextStyle(size: 14, color: context.primaryColor)),
-              TextSpan(text: 'via bank transfer using the details below:', style: primaryTextStyle(size: 12, weight: FontWeight.w600)),
+              TextSpan(text: language.bankTransferPayAmountSuffix, style: primaryTextStyle(size: 12, weight: FontWeight.w600)),
             ],
           ),
         16.height,
@@ -97,11 +97,11 @@ class _BankTransferDetailDialogState extends State<BankTransferDetailDialog> {
               Text(language.bankTransferLocalInternationalTitle, style: boldTextStyle(size: 14)),
               Divider(),
               10.height,
-              bankDetailsWidget('Account Holder Name:', s.recipient.validate().isNotEmpty ? s.recipient! : 'N/A', false),
-              bankDetailsWidget('IBAN:', s.iban.validate().isNotEmpty ? s.iban! : 'N/A', false),
-              bankDetailsWidget('BIC / Swift:', s.bic.validate().isNotEmpty ? s.bic! : 'N/A', false),
-              bankDetailsWidget('Bank Name:', s.bankName.validate().isNotEmpty ? s.bankName! : 'N/A', false),
-              bankDetailsWidget('Bank Address:', s.bankAddress.validate().isNotEmpty ? s.bankAddress! : 'N/A', false),
+              bankDetailsWidget(language.accountHolderName, s.recipient.validate().isNotEmpty ? s.recipient! : 'N/A', false),
+              bankDetailsWidget(language.ibanNumber, s.iban.validate().isNotEmpty ? s.iban! : 'N/A', false),
+              bankDetailsWidget(language.bicSwiftCode, s.bic.validate().isNotEmpty ? s.bic! : 'N/A', false),
+              bankDetailsWidget(language.bankName, s.bankName.validate().isNotEmpty ? s.bankName! : 'N/A', false),
+              bankDetailsWidget(language.lblBankAddress, s.bankAddress.validate().isNotEmpty ? s.bankAddress! : 'N/A', false),
             ],
           ),
         ),
@@ -116,7 +116,7 @@ class _BankTransferDetailDialogState extends State<BankTransferDetailDialog> {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text('Instructions', style: boldTextStyle(size: 14)),
+              Text(language.bankTransferInstructionsTitle, style: boldTextStyle(size: 14)),
               Divider(),
               10.height,
               if (widget.bookingId != null)
@@ -124,13 +124,13 @@ class _BankTransferDetailDialogState extends State<BankTransferDetailDialog> {
                   list: [
                     TextSpan(text: language.bankTransferMentionBookingIdPrefix, style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
                     TextSpan(text: ' #${widget.bookingId} ', style: boldTextStyle(size: 14, color: context.primaryColor)),
-                    TextSpan(text: 'in the transfer reference.', style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
+                    TextSpan(text: language.bankTransferMentionBookingIdSuffix, style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
                   ],
                 ),
               if (s.email.validate().isNotEmpty)
                 RichTextWidget(
                   list: [
-                    TextSpan(text: 'Send Proof of Payment (screenshot or pdf Document) to:', style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
+                    TextSpan(text: language.bankTransferSendProofPrefix, style: primaryTextStyle(size: 12, weight: FontWeight.w500)),
                     TextSpan(text: ' ${s.email}', style: boldTextStyle(size: 14, color: context.primaryColor)),
                   ],
                 ),

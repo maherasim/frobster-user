@@ -2263,7 +2263,11 @@ class LanguageDe extends BaseLanguage {
   String get paymentCompletedDownloadInvoice => 'Zahlung Abgeschloßen. Sie können die Rechnung herunterladen.';
 
   @override
-  String get waitingForCustomerToAcceptTheBid => 'Warte auf die Zustimmung des Kunden.';
+  String get waitingForCustomerToAcceptTheBid => 'Waiting for customer to accept the bid.';
+  @override
+  String get waitingForProviderToReviewRequest => 'Waiting for provider to review the request';
+  @override
+  String get bidAssignedToHandyman => 'Bid assigned to handyman';
 
   @override
   String get waitingForProviderToSplitPayment => 'Warte auf die Zahlungsaufteilung durch die Agentur';
@@ -2793,10 +2797,13 @@ class LanguageDe extends BaseLanguage {
   String get lblTotal => 'Gesamt';
 
   @override
-  String get lblReasons => 'Gründe';
+  String get lblSectionTitle => 'Section Title';
+  String get lblAboutDescription => 'About Description';
+  String get lblReasonNumber => 'Reason';
+  String get lblReasons => 'Reasons';
 
   @override
-  String get lblAddReason => 'Grund hinzufügen';
+  String get lblAddReason => 'Add Reason';
 
   @override
   String get lblServiceIncluded => 'In diesem Paket enthaltener Service';
@@ -3022,7 +3029,7 @@ class LanguageDe extends BaseLanguage {
   @override
   String get notSpecified => 'Nicht angegeben';
   @override
-  String get bankTransfer => 'Banküberweisung';
+  String get bankTransfer => 'Bank Transfer';
   @override
   String get payPal => 'PayPal';
   @override
@@ -3048,6 +3055,7 @@ class LanguageDe extends BaseLanguage {
   @override String get lblExp3To5Years => '3 to 5 Years';
   @override String get lblExp5To8Years => '5 to 8 Years';
   @override String get lblExp8To10Years => '8 to 10 Years';
+  @override String get lblExpUnspecified => '—';
   @override String get lblExpMoreThan10Years => 'More than 10 Years';
 
   @override String get lblEduNotSpecified => 'Not Specified';
@@ -3074,4 +3082,5 @@ class LanguageDe extends BaseLanguage {
   @override String get lblScheduleContract => 'Contract';
   @override String get lblScheduleTemporary => 'Temporary';
   @override String get lblScheduleInternship => 'Internship';
+  @override String get lblBankAddress => 'Bank Address';
 }

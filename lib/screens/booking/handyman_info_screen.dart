@@ -424,7 +424,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Bookings:',
+                                  '${language.totalBookingsLabel}:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -453,7 +453,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Completed Jobs:',
+                                  '${language.completedJobsLabel}:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,

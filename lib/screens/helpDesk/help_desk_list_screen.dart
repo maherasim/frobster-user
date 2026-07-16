@@ -62,7 +62,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
 
     if (helpDeskStatus.isNotEmpty) {
       selectedTab = helpDeskStatus.first;
-      getHelpDeskListAPI(status: selectedTab.name);
+      getHelpDeskListAPI(status: selectedTab.status.name);
     }
   }
 
@@ -93,7 +93,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
               selectedTab = helpDeskStatus.first;
               page = 1;
               appStore.setLoading(true);
-              getHelpDeskListAPI(status: selectedTab.name);
+              getHelpDeskListAPI(status: selectedTab.status.name);
               setState(() {});
             }).launch(context);
           },
@@ -148,7 +148,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                               selectedTab = helpDeskStatus[index];
                               page = 1;
                               appStore.setLoading(true);
-                              getHelpDeskListAPI(status: selectedTab.name);
+                              getHelpDeskListAPI(status: selectedTab.status.name);
                               setState(() {});
                             },
                           ),
@@ -209,14 +209,14 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                         page++;
                         appStore.setLoading(true);
 
-                        getHelpDeskListAPI(status: selectedTab.name);
+                        getHelpDeskListAPI(status: selectedTab.status.name);
                         setState(() {});
                       }
                     },
                     onSwipeRefresh: () async {
                       page = 1;
 
-                      getHelpDeskListAPI(status: selectedTab.name);
+                      getHelpDeskListAPI(status: selectedTab.status.name);
                       setState(() {});
 
                       return await 2.seconds.delay;
@@ -237,7 +237,7 @@ class _HelpDeskListScreenState extends State<HelpDeskListScreen> {
                       page = 1;
                       appStore.setLoading(true);
 
-                      getHelpDeskListAPI(status: selectedTab.name);
+                      getHelpDeskListAPI(status: selectedTab.status.name);
                       setState(() {});
                     },
                   );

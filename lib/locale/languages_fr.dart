@@ -2695,6 +2695,9 @@ class LanguageFr extends BaseLanguage {
   @override
   String get lblTotal => 'Total';
   @override
+  String get lblSectionTitle => 'Section Title';
+  String get lblAboutDescription => 'About Description';
+  String get lblReasonNumber => 'Reason';
   String get lblReasons => 'Reasons';
   @override
   String get lblAddReason => 'Add Reason';
@@ -2895,6 +2898,7 @@ class LanguageFr extends BaseLanguage {
   @override String get lblExp3To5Years => '3 to 5 Years';
   @override String get lblExp5To8Years => '5 to 8 Years';
   @override String get lblExp8To10Years => '8 to 10 Years';
+  @override String get lblExpUnspecified => '—';
   @override String get lblExpMoreThan10Years => 'More than 10 Years';
 
   @override String get lblEduNotSpecified => 'Not Specified';
@@ -2921,4 +2925,5 @@ class LanguageFr extends BaseLanguage {
   @override String get lblScheduleContract => 'Contract';
   @override String get lblScheduleTemporary => 'Temporary';
   @override String get lblScheduleInternship => 'Internship';
+  @override String get lblBankAddress => 'Bank Address';
 }

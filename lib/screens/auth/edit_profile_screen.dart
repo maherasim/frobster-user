@@ -943,7 +943,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: emailFocus,
                   enabled: !isLoginTypeApple,
                   isValidationRequired: false,
-                  decoration: inputDecoration(context, labelText: 'Mobility'),
+                  decoration: inputDecoration(context, labelText: language.mobility),
                 ),
 
                 16.height,
@@ -1125,7 +1125,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   isValidationRequired: false,
                   minLines: 3,
                   maxLines: 5,
-                  decoration: inputDecoration(context, labelText: 'Experience'),
+                  decoration: inputDecoration(context, labelText: language.experience),
                 ),
                 16.height,
                 DropdownButtonFormField<CareerLevel>(
@@ -1246,8 +1246,8 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: aboutMeFocus,
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
-                      labelText: 'Certification',
-                      hintText: 'e.g. Cert 1, Cert 2 (comma-separated)'),
+                      labelText: language.certification,
+                      hintText: language.certificationHint),
                   isValidationRequired: false,
                 ),
                 16.height,
@@ -1258,7 +1258,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: !isLoginTypeApple,
                   isValidationRequired: false,
                   maxLines: 4,
-                  decoration: inputDecoration(context, labelText: 'About me'),
+                  decoration: inputDecoration(context, labelText: language.aboutMe),
                 ),
                 24.height,
                 // Why Choose Me section
@@ -1268,7 +1268,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   textFieldType: TextFieldType.NAME,
                   controller: whyChooseTitleCont,
                   isValidationRequired: false,
-                  decoration: inputDecoration(context, labelText: 'Section Title'),
+                  decoration: inputDecoration(context, labelText: language.lblSectionTitle),
                 ),
                 12.height,
                 AppTextField(
@@ -1276,7 +1276,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   controller: whyChooseDescCont,
                   isValidationRequired: false,
                   maxLines: 3,
-                  decoration: inputDecoration(context, labelText: 'About Description'),
+                  decoration: inputDecoration(context, labelText: language.lblAboutDescription),
                 ),
                 12.height,
                 Text(language.lblReasons, style: boldTextStyle()),
@@ -1290,7 +1290,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           textFieldType: TextFieldType.NAME,
                           controller: whyChooseReasonConts[i],
                           isValidationRequired: false,
-                          decoration: inputDecoration(context, labelText: 'Reason ${i + 1}'),
+                          decoration: inputDecoration(context, labelText: '${language.lblReasonNumber} ${i + 1}'),
                         ).expand(),
                         if (whyChooseReasonConts.length > 1)
                           IconButton(

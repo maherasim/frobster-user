@@ -165,9 +165,11 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 },
                 children: [
                   // Search + controls
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
+                  ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: context.width() - 32),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
                       AppTextField(
                         controller: _searchController,
                         textFieldType: TextFieldType.OTHER,
@@ -321,7 +323,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                           '${language.search}: "$_searchQuery" • ${items.length}',
                           style: secondaryTextStyle(),
                         ),
-                    ],
+                      ],
+                    ),
                   ),
                   16.height,
 

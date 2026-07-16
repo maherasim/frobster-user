@@ -1684,6 +1684,9 @@ abstract class BaseLanguage {
   String get customerReviewTitle;
   String get employerReviewTitle;
   String get lblTotal;
+  String get lblSectionTitle;
+  String get lblAboutDescription;
+  String get lblReasonNumber;
   String get lblReasons;
   String get lblAddReason;
   String get lblServiceIncluded;
@@ -1772,6 +1775,7 @@ abstract class BaseLanguage {
   String get partTime;
   String get notSpecified;
   String get bankTransfer;
+  String get lblBankAddress;
   String get payPal;
   String get stripe;
   String get cash;
@@ -1796,6 +1800,7 @@ abstract class BaseLanguage {
   String get lblExp3To5Years;
   String get lblExp5To8Years;
   String get lblExp8To10Years;
+  String get lblExpUnspecified;
   String get lblExpMoreThan10Years;
 
   // Education Level

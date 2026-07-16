@@ -191,7 +191,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 1 : 0),
-                            name: 'Category')
+                            name: language.category)
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 1 : 0;
@@ -201,7 +201,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 2 : 1),
-                            name: 'Subcategory')
+                            name: language.lblSubCategory)
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 2 : 1;
@@ -211,7 +211,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 3 : 2),
-                            name: 'Country')
+                            name: language.country)
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 3 : 2;
@@ -221,7 +221,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 4 : 3),
-                            name: 'State')
+                            name: language.state)
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 4 : 3;
@@ -231,7 +231,7 @@ class _FilterScreenState extends State<FilterScreen> {
                     buildItem(
                             isSelected:
                                 isSelected == ((widget.isFromProvider) ? 5 : 4),
-                            name: 'City')
+                            name: language.city)
                         .onTap(() {
                       if (!appStore.isLoading) {
                         isSelected = (widget.isFromProvider) ? 5 : 4;

@@ -291,7 +291,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         children: [
                           Flexible(
                             child: Text(
-                              'Bookings: ${widget.serviceData!.completedBookings.validate()}',
+                              '${language.totalBookingsLabel}: ${widget.serviceData!.completedBookings.validate()}',
                               style: secondaryTextStyle(
                                   size: 9, color: defaultActivityStatus),
                               overflow: TextOverflow.ellipsis,

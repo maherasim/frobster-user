@@ -753,11 +753,13 @@ class OptionListWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      spacing: 0,
+      runSpacing: 4,
       children: List.generate(
         optionList.length,
         (index) => Row(
-          mainAxisAlignment: MainAxisAlignment.start,
+          mainAxisSize: MainAxisSize.min,
           children: [
             InkWell(
               onTap: optionList[index].onTap,
@@ -770,10 +772,11 @@ class OptionListWidget extends StatelessWidget {
                 ),
               ),
             ),
-            8.width,
-            Text("|", style: secondaryTextStyle())
-                .visible(optionList.length != index + 1),
-            8.width,
+            if (optionList.length != index + 1) ...[
+              8.width,
+              Text("|", style: secondaryTextStyle()),
+              8.width,
+            ],
           ],
         ),
       ),

@@ -2,7 +2,7 @@ import 'package:country_picker/country_picker.dart';
 import 'package:flutter/material.dart';
 
 const APP_NAME = 'Persotel User';
-const APP_NAME_TAG_LINE = 'On-Demand Home Services App';
+const APP_NAME_TAG_LINE = 'Führende Auftragsbörse für Gewerbe- und Privatkunden – alle Branchen, weltweit vernetzt';
 var defaultPrimaryColor = Color(0xFFE53935);
 
 
@@ -33,7 +33,7 @@ const TERMS_CONDITION_URL = 'https://persotel.de/terms-of-use/';
 const PRIVACY_POLICY_URL = 'https://persotel.de/privacy-policy/';
 const HELP_AND_SUPPORT_URL = 'https://persotel.de/privacy-policy/';
 const REFUND_POLICY_URL =
-    'https://iqonic.design/licensing-terms-more/#refund-policy';
+    'https://persotel.de/licensing-terms-more/#refund-policy';
 const INQUIRY_SUPPORT_EMAIL = 'hello@persotel.de';
 
 /// You can add help line number here for contact. It's demo number

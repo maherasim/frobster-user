@@ -519,7 +519,7 @@ final List<String> certifications =
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Completed Jobs:',
+                                  '${language.completedJobsLabel}:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,

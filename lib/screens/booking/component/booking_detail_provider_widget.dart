@@ -255,7 +255,7 @@ class BookingDetailProviderWidgetState
                       ).flexible(),
                       12.width,
                       Text(
-                        'Bookings: ${widget.providerData.totalBooking.validate()}',
+                        '${language.totalBookingsLabel}: ${widget.providerData.totalBooking.validate()}',
                         style: primaryTextStyle(size: 12),
                         maxLines: 1,
                         overflow: TextOverflow.ellipsis,
@@ -303,7 +303,7 @@ class BookingDetailProviderWidgetState
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Completed Jobs:',
+                        '${language.completedJobsLabel}:',
                         style: boldTextStyle(
                             size: 12,
                             color: appStore.isDarkMode
@@ -333,7 +333,7 @@ class BookingDetailProviderWidgetState
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          'Languages:',
+                          '${language.knownLanguagesLabel}:',
                           style: boldTextStyle(
                               size: 12,
                               color: appStore.isDarkMode
