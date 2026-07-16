@@ -3138,4 +3138,49 @@ class LanguageDe extends BaseLanguage {
   String get stripe => 'Stripe';
   @override
   String get cash => 'Bargeld';
+
+  @override String get lblCareerNotSpecified => 'Nicht angegeben';
+  @override String get lblCareerEntryLevel => 'Berufseinsteiger';
+  @override String get lblCareerIntermediateLevel => 'Mittelstufe';
+  @override String get lblCareerExperienced => 'Erfahren';
+  @override String get lblCareerProfessional => 'Professionell';
+  @override String get lblCareerMiddleManagement => 'Mittleres Management';
+  @override String get lblCareerExecutiveManagement => 'Leitungsebene';
+  @override String get lblCareerSeniorManagement => 'Senior Management';
+  @override String get lblCareerDirector => 'Direktor';
+  @override String get lblCareerTechnician => 'Techniker';
+  @override String get lblCareerLeader => 'Führungskraft';
+  @override String get lblCareerManager => 'Manager';
+
+  @override String get lblExpLessThan1Year => 'Weniger als 1 Jahr';
+  @override String get lblExp1To3Years => '1 bis 3 Jahre';
+  @override String get lblExp3To5Years => '3 bis 5 Jahre';
+  @override String get lblExp5To8Years => '5 bis 8 Jahre';
+  @override String get lblExp8To10Years => '8 bis 10 Jahre';
+  @override String get lblExpMoreThan10Years => 'Mehr als 10 Jahre';
+
+  @override String get lblEduNotSpecified => 'Nicht angegeben';
+  @override String get lblEduAnyGraduate => 'Beliebiger Abschluss';
+  @override String get lblEduApprenticeship => 'Ausbildungsabschluss';
+  @override String get lblEduTraineeship => 'Praktikumsabschluss';
+  @override String get lblEduSecondaryDegree => 'Sekundarabschluss';
+  @override String get lblEduUndergraduate => 'Bachelorstudium';
+  @override String get lblEduHighSchool => 'Abitur';
+  @override String get lblEduAssociate => 'Fachhochschulabschluss';
+  @override String get lblEduCollege => 'Hochschulabschluss';
+  @override String get lblEduUniversity => 'Universitätsabschluss';
+  @override String get lblEduBachelors => 'Bachelorabschluss';
+  @override String get lblEduMasters => 'Masterabschluss';
+  @override String get lblEduDoctorate => 'Doktortitel';
+  @override String get lblEduProfessional => 'Berufsabschluss';
+
+  @override String get lblPriceHourly => 'Stündlich';
+  @override String get lblPriceFixed => 'Pauschal';
+  @override String get lblPriceDaily => 'Täglich';
+
+  @override String get lblScheduleFullTime => 'Vollzeit';
+  @override String get lblSchedulePartTime => 'Teilzeit';
+  @override String get lblScheduleContract => 'Vertrag';
+  @override String get lblScheduleTemporary => 'Befristet';
+  @override String get lblScheduleInternship => 'Praktikum';
 }

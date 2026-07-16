@@ -1775,4 +1775,56 @@ abstract class BaseLanguage {
   String get payPal;
   String get stripe;
   String get cash;
+
+  // Career Level
+  String get lblCareerNotSpecified;
+  String get lblCareerEntryLevel;
+  String get lblCareerIntermediateLevel;
+  String get lblCareerExperienced;
+  String get lblCareerProfessional;
+  String get lblCareerMiddleManagement;
+  String get lblCareerExecutiveManagement;
+  String get lblCareerSeniorManagement;
+  String get lblCareerDirector;
+  String get lblCareerTechnician;
+  String get lblCareerLeader;
+  String get lblCareerManager;
+
+  // Years of Experience
+  String get lblExpLessThan1Year;
+  String get lblExp1To3Years;
+  String get lblExp3To5Years;
+  String get lblExp5To8Years;
+  String get lblExp8To10Years;
+  String get lblExpMoreThan10Years;
+
+  // Education Level
+  String get lblEduNotSpecified;
+  String get lblEduAnyGraduate;
+  String get lblEduApprenticeship;
+  String get lblEduTraineeship;
+  String get lblEduSecondaryDegree;
+  String get lblEduUndergraduate;
+  String get lblEduHighSchool;
+  String get lblEduAssociate;
+  String get lblEduCollege;
+  String get lblEduUniversity;
+  String get lblEduBachelors;
+  String get lblEduMasters;
+  String get lblEduDoctorate;
+  String get lblEduProfessional;
+
+  // Price Type
+  String get lblPriceHourly;
+  String get lblPriceFixed;
+  String get lblPriceDaily;
+
+  // Job Type (reuses visitTypeOnsite, visitTypeHybrid, visitTypeRemote)
+
+  // Job Schedule
+  String get lblScheduleFullTime;
+  String get lblSchedulePartTime;
+  String get lblScheduleContract;
+  String get lblScheduleTemporary;
+  String get lblScheduleInternship;
 }

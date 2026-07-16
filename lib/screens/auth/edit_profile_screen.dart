@@ -920,7 +920,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         return DropdownMenuItem<String>(
                           value: e,
                           child: Text(
-                            e,
+                            e == 'Full Time' ? language.fullTime : language.visitTypeHybrid,
                             style: primaryTextStyle(),
                             maxLines: 1,
                             overflow: TextOverflow.ellipsis,
@@ -1137,7 +1137,25 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   items: CareerLevel.values.map((CareerLevel e) {
                     return DropdownMenuItem<CareerLevel>(
                       value: e,
-                      child: Text(e.displayName, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        switch (e) {
+                          CareerLevel.notSpecified => language.lblCareerNotSpecified,
+                          CareerLevel.entryLevel => language.lblCareerEntryLevel,
+                          CareerLevel.intermediateLevel => language.lblCareerIntermediateLevel,
+                          CareerLevel.experienced => language.lblCareerExperienced,
+                          CareerLevel.professional => language.lblCareerProfessional,
+                          CareerLevel.middleManagement => language.lblCareerMiddleManagement,
+                          CareerLevel.executiveManagement => language.lblCareerExecutiveManagement,
+                          CareerLevel.seniorManagement => language.lblCareerSeniorManagement,
+                          CareerLevel.director => language.lblCareerDirector,
+                          CareerLevel.technician => language.lblCareerTechnician,
+                          CareerLevel.leader => language.lblCareerLeader,
+                          CareerLevel.manager => language.lblCareerManager,
+                        },
+                        style: primaryTextStyle(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     );
                   }).toList(),
                   onChanged: (CareerLevel? value) {
@@ -1157,7 +1175,27 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   items: EducationLevel.values.map((EducationLevel e) {
                     return DropdownMenuItem<EducationLevel>(
                       value: e,
-                      child: Text(e.displayName, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        switch (e) {
+                          EducationLevel.notSpecified => language.lblEduNotSpecified,
+                          EducationLevel.anyGraduate => language.lblEduAnyGraduate,
+                          EducationLevel.apprenticeshipDegree => language.lblEduApprenticeship,
+                          EducationLevel.traineeshipDegree => language.lblEduTraineeship,
+                          EducationLevel.secondaryDegree => language.lblEduSecondaryDegree,
+                          EducationLevel.undergraduateDiploma => language.lblEduUndergraduate,
+                          EducationLevel.highSchoolGraduate => language.lblEduHighSchool,
+                          EducationLevel.associateDegree => language.lblEduAssociate,
+                          EducationLevel.collegeDegree => language.lblEduCollege,
+                          EducationLevel.universityDegree => language.lblEduUniversity,
+                          EducationLevel.bachelorsDegree => language.lblEduBachelors,
+                          EducationLevel.mastersDegree => language.lblEduMasters,
+                          EducationLevel.doctorateDegree => language.lblEduDoctorate,
+                          EducationLevel.professionalDegree => language.lblEduProfessional,
+                        },
+                        style: primaryTextStyle(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     );
                   }).toList(),
                   onChanged: (EducationLevel? value) {
@@ -1170,14 +1208,26 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                 ),
                 16.height,
                 DropdownButtonFormField<YearsOfExperience>(
-                  decoration: inputDecoration(context, labelText: 'Years of experience'),
+                  decoration: inputDecoration(context, labelText: language.yearsOfExperience),
                   isExpanded: true,
                   initialValue: selectedYearsOfExperience,
                   dropdownColor: context.cardColor,
                   items: YearsOfExperience.values.map((YearsOfExperience e) {
                     return DropdownMenuItem<YearsOfExperience>(
                       value: e,
-                      child: Text(e.displayName, style: primaryTextStyle(), maxLines: 1, overflow: TextOverflow.ellipsis),
+                      child: Text(
+                        switch (e) {
+                          YearsOfExperience.lessThan1 => language.lblExpLessThan1Year,
+                          YearsOfExperience.oneTo3 => language.lblExp1To3Years,
+                          YearsOfExperience.threeTo5 => language.lblExp3To5Years,
+                          YearsOfExperience.fiveTo8 => language.lblExp5To8Years,
+                          YearsOfExperience.eightTo10 => language.lblExp8To10Years,
+                          YearsOfExperience.moreThan10 => language.lblExpMoreThan10Years,
+                        },
+                        style: primaryTextStyle(),
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                      ),
                     );
                   }).toList(),
                   onChanged: (YearsOfExperience? value) {

@@ -577,10 +577,16 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: PriceType.values.map((PriceType e) {
                                       return DropdownMenuItem<PriceType>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            PriceType.hourly => language.lblPriceHourly,
+                                            PriceType.fixed => language.lblPriceFixed,
+                                            PriceType.daily => language.lblPriceDaily,
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (PriceType? value) async {
@@ -605,10 +611,16 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: JobType.values.map((JobType e) {
                                       return DropdownMenuItem<JobType>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            JobType.onSite => language.visitTypeOnsite,
+                                            JobType.hybrid => language.visitTypeHybrid,
+                                            JobType.remote => language.visitTypeRemote,
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (JobType? value) async {
@@ -799,10 +811,18 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: JobSchedule.values.map((JobSchedule e) {
                                       return DropdownMenuItem<JobSchedule>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            JobSchedule.fullTime => language.lblScheduleFullTime,
+                                            JobSchedule.partTime => language.lblSchedulePartTime,
+                                            JobSchedule.contract => language.lblScheduleContract,
+                                            JobSchedule.temporary => language.lblScheduleTemporary,
+                                            JobSchedule.internship => language.lblScheduleInternship,
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (JobSchedule? value) async {
@@ -831,10 +851,18 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: RemoteWorkLevel.values.map((RemoteWorkLevel e) {
                                       return DropdownMenuItem<RemoteWorkLevel>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            RemoteWorkLevel.onsite0 => language.onsiteFullPresenceLabel,
+                                            RemoteWorkLevel.remote25 => '25% ${language.remoteWorkShareSuffix}',
+                                            RemoteWorkLevel.remote50 => '50% ${language.remoteWorkShareSuffix}',
+                                            RemoteWorkLevel.remote75 => '75% ${language.remoteWorkShareSuffix}',
+                                            RemoteWorkLevel.remote100 => '100% ${language.remoteWorkShareSuffix}',
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (RemoteWorkLevel? value) async {
@@ -858,10 +886,25 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: CareerLevel.values.map((CareerLevel e) {
                                       return DropdownMenuItem<CareerLevel>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            CareerLevel.notSpecified => language.lblCareerNotSpecified,
+                                            CareerLevel.entryLevel => language.lblCareerEntryLevel,
+                                            CareerLevel.intermediateLevel => language.lblCareerIntermediateLevel,
+                                            CareerLevel.experienced => language.lblCareerExperienced,
+                                            CareerLevel.professional => language.lblCareerProfessional,
+                                            CareerLevel.middleManagement => language.lblCareerMiddleManagement,
+                                            CareerLevel.executiveManagement => language.lblCareerExecutiveManagement,
+                                            CareerLevel.seniorManagement => language.lblCareerSeniorManagement,
+                                            CareerLevel.director => language.lblCareerDirector,
+                                            CareerLevel.technician => language.lblCareerTechnician,
+                                            CareerLevel.leader => language.lblCareerLeader,
+                                            CareerLevel.manager => language.lblCareerManager,
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (CareerLevel? value) async {
@@ -891,10 +934,15 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: TravelRequirement.values.map((TravelRequirement e) {
                                       return DropdownMenuItem<TravelRequirement>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            TravelRequirement.no => language.lblNo,
+                                            TravelRequirement.yes => language.lblYes,
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (TravelRequirement? value) async {
@@ -921,10 +969,27 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                     items: EducationLevel.values.map((EducationLevel e) {
                                       return DropdownMenuItem<EducationLevel>(
                                         value: e,
-                                        child: Text(e.displayName,
-                                            style: primaryTextStyle(),
-                                            maxLines: 1,
-                                            overflow: TextOverflow.ellipsis),
+                                        child: Text(
+                                          switch (e) {
+                                            EducationLevel.notSpecified => language.lblEduNotSpecified,
+                                            EducationLevel.anyGraduate => language.lblEduAnyGraduate,
+                                            EducationLevel.apprenticeshipDegree => language.lblEduApprenticeship,
+                                            EducationLevel.traineeshipDegree => language.lblEduTraineeship,
+                                            EducationLevel.secondaryDegree => language.lblEduSecondaryDegree,
+                                            EducationLevel.undergraduateDiploma => language.lblEduUndergraduate,
+                                            EducationLevel.highSchoolGraduate => language.lblEduHighSchool,
+                                            EducationLevel.associateDegree => language.lblEduAssociate,
+                                            EducationLevel.collegeDegree => language.lblEduCollege,
+                                            EducationLevel.universityDegree => language.lblEduUniversity,
+                                            EducationLevel.bachelorsDegree => language.lblEduBachelors,
+                                            EducationLevel.mastersDegree => language.lblEduMasters,
+                                            EducationLevel.doctorateDegree => language.lblEduDoctorate,
+                                            EducationLevel.professionalDegree => language.lblEduProfessional,
+                                          },
+                                          style: primaryTextStyle(),
+                                          maxLines: 1,
+                                          overflow: TextOverflow.ellipsis,
+                                        ),
                                       );
                                     }).toList(),
                                     onChanged: (EducationLevel? value) async {

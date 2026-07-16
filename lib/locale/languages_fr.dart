@@ -2876,4 +2876,49 @@ class LanguageFr extends BaseLanguage {
   String get stripe => 'Stripe';
   @override
   String get cash => 'Cash';
+
+  @override String get lblCareerNotSpecified => 'Not Specified';
+  @override String get lblCareerEntryLevel => 'Entry Level';
+  @override String get lblCareerIntermediateLevel => 'Intermediate Level';
+  @override String get lblCareerExperienced => 'Experienced';
+  @override String get lblCareerProfessional => 'Professional';
+  @override String get lblCareerMiddleManagement => 'Middle Management';
+  @override String get lblCareerExecutiveManagement => 'Executive Management';
+  @override String get lblCareerSeniorManagement => 'Senior Management';
+  @override String get lblCareerDirector => 'Director';
+  @override String get lblCareerTechnician => 'Technician';
+  @override String get lblCareerLeader => 'Leader';
+  @override String get lblCareerManager => 'Manager';
+
+  @override String get lblExpLessThan1Year => 'Less than 1 Year';
+  @override String get lblExp1To3Years => '1 to 3 Years';
+  @override String get lblExp3To5Years => '3 to 5 Years';
+  @override String get lblExp5To8Years => '5 to 8 Years';
+  @override String get lblExp8To10Years => '8 to 10 Years';
+  @override String get lblExpMoreThan10Years => 'More than 10 Years';
+
+  @override String get lblEduNotSpecified => 'Not Specified';
+  @override String get lblEduAnyGraduate => 'Any Graduate';
+  @override String get lblEduApprenticeship => 'Apprenticeship Degree';
+  @override String get lblEduTraineeship => 'Traineeship Degree';
+  @override String get lblEduSecondaryDegree => 'Secondary Degree';
+  @override String get lblEduUndergraduate => 'Undergraduate Diploma';
+  @override String get lblEduHighSchool => 'High School Graduate';
+  @override String get lblEduAssociate => 'Associate Degree';
+  @override String get lblEduCollege => 'College Degree';
+  @override String get lblEduUniversity => 'University Degree';
+  @override String get lblEduBachelors => "Bachelor's Degree";
+  @override String get lblEduMasters => "Master's Degree";
+  @override String get lblEduDoctorate => 'Doctorate Degree';
+  @override String get lblEduProfessional => 'Professional Degree';
+
+  @override String get lblPriceHourly => 'Hourly';
+  @override String get lblPriceFixed => 'Fixed';
+  @override String get lblPriceDaily => 'Daily';
+
+  @override String get lblScheduleFullTime => 'Full-time';
+  @override String get lblSchedulePartTime => 'Part-time';
+  @override String get lblScheduleContract => 'Contract';
+  @override String get lblScheduleTemporary => 'Temporary';
+  @override String get lblScheduleInternship => 'Internship';
 }
