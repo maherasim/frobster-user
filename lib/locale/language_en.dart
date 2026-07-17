@@ -1,7 +1,7 @@
 import '../utils/configs.dart';
 import 'languages.dart';
 
-class LanguageDe extends BaseLanguage {
+class LanguageEn extends BaseLanguage {
   @override
   String get walkTitle1 => 'Konto Kostenlos erstellen und loslegen';
 
@@ -125,7 +125,7 @@ class LanguageDe extends BaseLanguage {
   String get hintOldPasswordTxt => "Altes Passwort eingeben";
 
   @override
-  String get hintAddress => "Addresse
+  String get hintAddress => "Addresse";
 
   @override
   String get lblGallery => "Galerie";
@@ -2500,26 +2500,6 @@ class LanguageDe extends BaseLanguage {
   @override
   String get bidCancelledDetailsUnavailable => 'Angebots-Details nicht verfuegbar';
 
-  @override
-  String get experience => 'Experience';
-
-  @override
-  String get experienceLabel => 'Experiences';
-
-  @override
-  String get certification => 'Certification';
-
-  @override
-  String get certificationHint => 'Enter your certifications';
-
-  @override
-  String get mobility => 'Mobility';
-
-  @override
-  String get yearsOfExperience => 'Years of Experience';
-
-
-
 
   @override
   String get rateEmployer => 'Arbeitgeber bewerten';
@@ -2569,13 +2549,6 @@ class LanguageDe extends BaseLanguage {
   // Service search / sharing / admin approval
   @override
   String get startSearchingYourService => 'Jetzt passender Service finden';
-
-  @override
-  String get rateUnitPrice => 'Rate (Unit Rate)';
-
-  @override
-  String get lineTotalAmount => 'Total Amount';
-
 
 
   @override

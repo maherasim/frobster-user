@@ -165,11 +165,9 @@ class _CategoryScreenState extends State<CategoryScreen> {
                 },
                 children: [
                   // Search + controls
-                  ConstrainedBox(
-                    constraints: BoxConstraints(maxWidth: context.width() - 32),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
                       AppTextField(
                         controller: _searchController,
                         textFieldType: TextFieldType.OTHER,
@@ -200,106 +198,97 @@ class _CategoryScreenState extends State<CategoryScreen> {
                       ),
                       12.height,
                       Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Container(
-                            decoration: BoxDecoration(
-                              color: context.cardColor,
-                              borderRadius: radius(8),
-                              border: Border.all(color: context.dividerColor),
-                            ),
-                            child: Row(
-                              children: [
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.grid_view_rounded,
-                                    color: _isGridView ? primaryColor : appTextSecondaryColor,
-                                  ),
-                                  onPressed: () {
-                                    _isGridView = true;
-                                    setState(() {});
-                                  },
-                                  tooltip: 'Grid',
+                          // Left group: view toggle + optional grid-count picker
+                          Row(
+                            mainAxisSize: MainAxisSize.min,
+                            children: [
+                              Container(
+                                decoration: BoxDecoration(
+                                  color: context.cardColor,
+                                  borderRadius: radius(8),
+                                  border: Border.all(color: context.dividerColor),
                                 ),
-                                VerticalDivider(width: 1, thickness: 1).withWidth(1),
-                                IconButton(
-                                  icon: Icon(
-                                    Icons.view_list_rounded,
-                                    color: !_isGridView ? primaryColor : appTextSecondaryColor,
+                                child: Row(
+                                  mainAxisSize: MainAxisSize.min,
+                                  children: [
+                                    IconButton(
+                                      constraints: BoxConstraints(),
+                                      padding: EdgeInsets.all(10),
+                                      icon: Icon(
+                                        Icons.grid_view_rounded,
+                                        size: 20,
+                                        color: _isGridView ? primaryColor : appTextSecondaryColor,
+                                      ),
+                                      onPressed: () { _isGridView = true; setState(() {}); },
+                                    ),
+                                    VerticalDivider(width: 1, thickness: 1).withWidth(1),
+                                    IconButton(
+                                      constraints: BoxConstraints(),
+                                      padding: EdgeInsets.all(10),
+                                      icon: Icon(
+                                        Icons.view_list_rounded,
+                                        size: 20,
+                                        color: !_isGridView ? primaryColor : appTextSecondaryColor,
+                                      ),
+                                      onPressed: () { _isGridView = false; setState(() {}); },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              if (_isGridView) ...[
+                                8.width,
+                                Container(
+                                  decoration: BoxDecoration(
+                                    color: context.cardColor,
+                                    borderRadius: radius(8),
+                                    border: Border.all(color: context.dividerColor),
                                   ),
-                                  onPressed: () {
-                                    _isGridView = false;
-                                    setState(() {});
-                                  },
-                                  tooltip: 'List',
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                          minimumSize: Size.zero,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                        onPressed: () { _gridCount = 2; setState(() {}); },
+                                        child: Text('2x', style: primaryTextStyle(color: _gridCount == 2 ? primaryColor : textPrimaryColorGlobal)),
+                                      ),
+                                      VerticalDivider(width: 1, thickness: 1).withWidth(1),
+                                      TextButton(
+                                        style: TextButton.styleFrom(
+                                          padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
+                                          minimumSize: Size.zero,
+                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                        ),
+                                        onPressed: () { _gridCount = 3; setState(() {}); },
+                                        child: Text('3x', style: primaryTextStyle(color: _gridCount == 3 ? primaryColor : textPrimaryColorGlobal)),
+                                      ),
+                                    ],
+                                  ),
                                 ),
                               ],
-                            ),
+                            ],
                           ),
-                          12.width,
-                          if (_isGridView)
-                            Container(
-                              decoration: BoxDecoration(
-                                color: context.cardColor,
-                                borderRadius: radius(8),
-                                border: Border.all(color: context.dividerColor),
-                              ),
-                              child: Row(
-                                children: [
-                                  TextButton(
-                                    onPressed: () {
-                                      _gridCount = 2;
-                                      setState(() {});
-                                    },
-                                    child: Text(
-                                      '2x',
-                                      style: primaryTextStyle(color: _gridCount == 2 ? primaryColor : textPrimaryColorGlobal),
-                                    ),
-                                  ),
-                                  VerticalDivider(width: 1, thickness: 1).withWidth(1),
-                                  TextButton(
-                                    onPressed: () {
-                                      _gridCount = 3;
-                                      setState(() {});
-                                    },
-                                    child: Text(
-                                      '3x',
-                                      style: primaryTextStyle(color: _gridCount == 3 ? primaryColor : textPrimaryColorGlobal),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          Spacer(),
+                          // Sort button on the right
                           PopupMenuButton<String>(
                             tooltip: 'Sort',
-                            onSelected: (v) {
-                              _sortMode = v;
-                              setState(() {});
-                            },
+                            onSelected: (v) { _sortMode = v; setState(() {}); },
                             itemBuilder: (context) => [
                               PopupMenuItem(
                                 value: 'popular',
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.trending_up, size: 18),
-                                    8.width,
-                                    Text(language.sortPopular),
-                                  ],
-                                ),
+                                child: Row(children: [Icon(Icons.trending_up, size: 18), 8.width, Text(language.sortPopular)]),
                               ),
                               PopupMenuItem(
                                 value: 'az',
-                                child: Row(
-                                  children: [
-                                    Icon(Icons.sort_by_alpha, size: 18),
-                                    8.width,
-                                    Text(language.sortAZ),
-                                  ],
-                                ),
+                                child: Row(children: [Icon(Icons.sort_by_alpha, size: 18), 8.width, Text(language.sortAZ)]),
                               ),
                             ],
                             child: Container(
-                              padding: EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                              padding: EdgeInsets.symmetric(horizontal: 10, vertical: 8),
                               decoration: BoxDecoration(
                                 color: context.cardColor,
                                 borderRadius: radius(8),
@@ -308,8 +297,8 @@ class _CategoryScreenState extends State<CategoryScreen> {
                               child: Row(
                                 mainAxisSize: MainAxisSize.min,
                                 children: [
-                                  Icon(Icons.sort_rounded),
-                                  6.width,
+                                  Icon(Icons.sort_rounded, size: 20),
+                                  4.width,
                                   Text(language.sort),
                                 ],
                               ),
@@ -325,7 +314,6 @@ class _CategoryScreenState extends State<CategoryScreen> {
                         ),
                       ],
                     ),
-                  ),
                   16.height,
 
                   if (items.isEmpty)

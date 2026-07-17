@@ -125,7 +125,7 @@ class LanguageDe extends BaseLanguage {
   String get hintOldPasswordTxt => "Altes Passwort eingeben";
 
   @override
-  String get hintAddress => "Addresse
+  String get hintAddress => "Addresse";
 
   @override
   String get lblGallery => "Galerie";

@@ -41,22 +41,17 @@ class _WalletPayPalWebViewScreenState extends State<WalletPayPalWebViewScreen> {
       ..setBackgroundColor(Colors.white)
       ..setNavigationDelegate(NavigationDelegate(
         onPageStarted: (url) => log('Wallet PayPal Started: $url'),
-        onPageFinished: (url) async {
-          log('Wallet PayPal Finished: $url');
-          final uri = Uri.tryParse(url);
-          if (uri == null) return;
-          final path = uri.path.toLowerCase();
-
-          if (path.contains('wallet-paypal/success')) {
-            await _handleSuccess(url);
-          } else if (path.contains('wallet-paypal/cancel')) {
-            _handleCancel();
-          }
-        },
+        onPageFinished: (url) => log('Wallet PayPal Finished: $url'),
         onNavigationRequest: (request) {
           final uri = Uri.tryParse(request.url);
           if (uri != null) {
             final path = uri.path.toLowerCase();
+            // Intercept before the WebView makes the request so the backend
+            // is only called once — by Flutter's authenticated GET below.
+            if (path.contains('wallet-paypal/success')) {
+              _handleSuccess(request.url);
+              return NavigationDecision.prevent;
+            }
             if (path.contains('wallet-paypal/cancel')) {
               _handleCancel();
               return NavigationDecision.prevent;
@@ -87,7 +82,6 @@ class _WalletPayPalWebViewScreenState extends State<WalletPayPalWebViewScreen> {
     try {
       final uri = Uri.parse(url);
       final token = uri.queryParameters['token'];
-      final userId = uri.queryParameters['user_id'];
       final amount = uri.queryParameters['amount'];
 
       if (token == null || token.isEmpty) {
@@ -101,7 +95,6 @@ class _WalletPayPalWebViewScreenState extends State<WalletPayPalWebViewScreen> {
       await Future.delayed(const Duration(milliseconds: 800));
 
       final endpoint = 'wallet-paypal/success?token=$token'
-          '${userId != null ? '&user_id=$userId' : ''}'
           '${amount != null ? '&amount=$amount' : ''}';
 
       final successResponse = await buildHttpResponse(endpoint, method: HttpMethodType.GET);
