@@ -6,7 +6,14 @@
       "Bash(\"/c/Program Files/Android/Android Studio/jbr/bin/jarsigner.exe\" -verify -verbose -certs /d/Germany/frobster-user/build/app/outputs/bundle/release/app-release.aab)",
       "Bash(\"/c/Program Files/Android/Android Studio/jbr/bin/jarsigner.exe\" -verify /d/Germany/frobster-user/build/app/outputs/bundle/release/app-release.aab)",
       "Bash(echo \"=== local.properties \\(should reflect latest build\\) ===\" *)",
-      "Read(//c/Users/MUSKAN COMPUTERS/AppData/Local/Android/sdk/build-tools/**)"
+      "Read(//c/Users/MUSKAN COMPUTERS/AppData/Local/Android/sdk/build-tools/**)",
+      "Bash(\"/c/Program Files/Android/Android Studio/jbr/bin/keytool.exe\" -list -v -keystore /d/Germany/provider-app/keystores/provider-upload-keystore.jks -alias upload -storepass \"4bf915b45ddcf086f3a0fafab9b00f4c\")",
+      "Read(//d/Germany/provider-app/android/app/**)",
+      "Bash(xxd)",
+      "Read(//d/Germany/provider-app/build/app/outputs/mapping/release/**)"
+    ],
+    "additionalDirectories": [
+      "D:\\Germany\\provider-app\\android\\app"
     ]
   }
 }
