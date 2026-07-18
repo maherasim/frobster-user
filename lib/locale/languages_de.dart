@@ -2264,10 +2264,11 @@ class LanguageDe extends BaseLanguage {
 
   @override
   String get waitingForCustomerToAcceptTheBid => 'Warte auf die Zustimmung des Kunden.';
-  @override
+    @override
   String get waitingForProviderToReviewRequest => 'Warte auf die Prüfung der Anfrage durch die Agentur';
   @override
   String get bidAssignedToHandyman => 'Angebot dem Handwerker zugewiesen';
+
 
   @override
   String get waitingForProviderToSplitPayment => 'Warte auf die Zahlungsaufteilung durch die Agentur';
@@ -2628,7 +2629,6 @@ class LanguageDe extends BaseLanguage {
   @override
   String get sortAZ => 'A–Z';
 
- 
   @override
   String get noCityFound => 'Keine Stadt gefunden';
 
@@ -2753,24 +2753,28 @@ class LanguageDe extends BaseLanguage {
   String get ugcReportProfileSuccess =>
       'Vielen Dank. Ihre Meldung wurde erhalten.';
  
+  // Profil / Anbieterinfo
 
   @override
   String get experience => 'Erfahrung';
  
+
+
   @override
   String get myBookings => 'Meine Buchungen';
 
 
 
   // Sortierung / Navigation / Sonstiges
-
-
  
+
+
+
   @override
   String get lblTotal => 'Gesamt';
 
   @override
-  String get lblSectionTitle => 'Abschnittstitel';
+    String get lblSectionTitle => 'Abschnittstitel';
   String get lblAboutDescription => 'Über Beschreibung';
   String get lblReasonNumber => 'Grund';
   String get lblReasons => 'Gründe';
@@ -3003,7 +3007,7 @@ class LanguageDe extends BaseLanguage {
   String get notSpecified => 'Nicht angegeben';
   @override
   String get bankTransfer => 'Banküberweisung';
-  @override
+    @override
   String get lblBankAddress => 'Adresse der Bank';
   @override
   String get payPal => 'PayPal';
@@ -3012,7 +3016,6 @@ class LanguageDe extends BaseLanguage {
   @override
   String get cash => 'Bargeld';
   
-
   @override
   String get lblCareerNotSpecified => 'Nicht angegeben';
 
