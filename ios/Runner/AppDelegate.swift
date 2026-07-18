@@ -13,8 +13,9 @@ import GoogleMaps
         UNUserNotificationCenter.current().delegate = self as? UNUserNotificationCenterDelegate
       }
 
-      GeneratedPluginRegistrant.register(with: self)
+      // Must be called before GeneratedPluginRegistrant (Google Maps iOS requirement)
       GMSServices.provideAPIKey("AIzaSyAjv93Swuiuvx39MuQsHU8S-WpODcg9Z7k")
+      GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
 }

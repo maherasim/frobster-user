@@ -28,6 +28,10 @@ class PusherChatService {
   }) async {
     if (PUSHER_APP_KEY.isEmpty) return; // credentials not configured yet
 
+    // Pusher's native iOS SDK can crash with private-channel auth on iOS.
+    // The 15-second polling timer in the chat screen is a sufficient fallback.
+    if (Platform.isIOS) return;
+
     await dispose(); // clean up any previous subscription
 
     try {
@@ -72,7 +76,10 @@ class PusherChatService {
             return jsonDecode(res.body);
           } catch (e) {
             log('Pusher auth error: $e');
-            return {};
+            // Return a well-formed auth failure rather than empty map.
+            // An empty map can crash the native iOS Pusher SDK when it tries
+            // to read the required "auth" key and gets nil.
+            return {'auth': ''};
           }
         },
       );
