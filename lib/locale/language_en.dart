@@ -966,7 +966,7 @@ class LanguageEn extends BaseLanguage {
   String get noTimeSlots => 'Keine Zeitplan';
 
   @override
-  String get bookingDateAndSlot => 'Datum & Zeit';
+  String get bookingDateAndSlot => 'Booking Date & Slot';
 
   @override
   String get extraCharges => 'Extrakosten';
@@ -1117,7 +1117,7 @@ class LanguageEn extends BaseLanguage {
   String get authorBy => 'Autor von';
 
   @override
-  String get views => 'Aufrufe';
+  String get views => 'Views';
 
   @override
   String get proposals => 'Gebote';
@@ -1419,7 +1419,7 @@ class LanguageEn extends BaseLanguage {
   String get connect => 'Verbinden';
 
   @override
-  String get transactionId => 'Transaktions-ID';
+  String get transactionId => 'Transaction ID';
 
   @override
   String get at => 'am';
@@ -1551,7 +1551,7 @@ class LanguageEn extends BaseLanguage {
   String get chooseDateTime => 'Datum und Uhrzeit auswählen';
 
   @override
-  String get addMoreDates => 'Weitere Daten hinzufügen';
+  String get addMoreDates => 'Add more Dates';
 
   @override
   String get airtelMoneyPayment => 'Airtel-Zahlung';
@@ -2219,7 +2219,7 @@ class LanguageEn extends BaseLanguage {
   String get totalHours => "Gesamtstunden";
 
   @override
-  String get workingAddress => "Adresse";
+  String get workingAddress => 'Working Address';
 
   @override
   String get streetAndHouseNr => "Straße und Hausnr.";
@@ -2626,10 +2626,10 @@ class LanguageEn extends BaseLanguage {
   String get sortAZ => 'A–Z';
  
   @override
-  String get noCityFound => 'Keine Stadt gefunden';
+  String get noCityFound => 'No City Found';
 
   @override
-  String get noStateFound => 'Kein Bundesland gefunden';
+  String get noStateFound => 'No State Found';
 
 
 
@@ -2727,7 +2727,7 @@ class LanguageEn extends BaseLanguage {
   String get minimumOrdersLabel => 'Mindestbuchung';
 
   @override
-  String get totalBookingsLabel => 'Buchungen';
+  String get totalBookingsLabel => 'Total Booking';
 
   @override
   String get availabilityLabel => 'Verfügbarkeit';
@@ -2736,7 +2736,7 @@ class LanguageEn extends BaseLanguage {
   String get completedJobsLabel => 'Abgeschloßene Aufträge';
 
   @override
-  String get travelRequiredLabel => 'Reisebereitschaft';
+  String get travelRequiredLabel => 'Travel required';
 
   @override
   String get descriptionHeading => 'Beschreibung';
@@ -2996,7 +2996,7 @@ class LanguageEn extends BaseLanguage {
   @override
   String get visitTypeRemote => 'Remote';
   @override
-  String get fullTime => 'Vollzeit';
+  String get fullTime => 'Full Time';
   @override
   String get partTime => 'Teilzeit';
   @override
@@ -3045,6 +3045,12 @@ class LanguageEn extends BaseLanguage {
   @override String get lblEduMasters => "Master's Degree";
   @override String get lblEduDoctorate => 'Doctorate Degree';
   @override String get lblEduProfessional => 'Professional Degree';
+  @override String get lblEduNotSpecified2 => 'Bachelor';
+  @override String get lblEduAnyGraduate2 => 'Master';
+  @override String get lblEduApprenticeship2 => 'State Examination (Staatsexamen)';
+  @override String get lblEduTraineeship2 => 'Doctorate (PhD)';
+  @override String get lblEduSecondaryDegree2 => 'Habilitation';
+  @override String get lblEduUndergraduate2 => 'Professorship';
 
   @override String get lblPriceHourly => 'Hourly';
   @override String get lblPriceFixed => 'Fixed';
@@ -3056,4 +3062,20 @@ class LanguageEn extends BaseLanguage {
   @override String get lblScheduleTemporary => 'Temporary';
   @override String get lblScheduleInternship => 'Internship';
   @override String get lblBankAddress => 'Bank Address';
+  @override String get na => 'N/A';
+  @override String get all => 'All';
+  @override String get provider => 'Provider';
+  @override String get handyman => 'Handyman';
+  @override String get remaining => 'Remaining';
+  @override String get work => 'Work';
+  @override String get writeReviewHint => 'Write your review here...';
+  @override String get totalPrice => 'Total Price';
+  @override String get totalServices => 'Total Services';
+  @override String get paypalPaymentTitle => 'PayPal Payment';
+  @override String get redirecting => 'Redirecting...';
+  @override String get rateService => 'Rate a Service';
+  @override String get skillsHint => 'e.g. Skill 1, Skill 2 (comma-separated)';
+  @override String get paypalUrlFailed => 'Failed to get PayPal payment URL. Please try again.';
+  @override String get locationNotAvailableMsg => 'Location not available. Worker may not have shared location yet, or the request failed. Tap refresh to try again.';
+  @override String get bankTransferPendingMsg => 'Payment submitted via Bank Transfer. Awaiting admin confirmation.';
 }

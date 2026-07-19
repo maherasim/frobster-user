@@ -423,7 +423,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
         } else {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
-          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+          toast(errorMsg ?? language.paypalUrlFailed);
         }
       } else {
         appStore.setLoading(false);

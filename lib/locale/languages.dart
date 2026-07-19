@@ -1818,6 +1818,12 @@ abstract class BaseLanguage {
   String get lblEduMasters;
   String get lblEduDoctorate;
   String get lblEduProfessional;
+  String get lblEduNotSpecified2;
+  String get lblEduAnyGraduate2;
+  String get lblEduApprenticeship2;
+  String get lblEduTraineeship2;
+  String get lblEduSecondaryDegree2;
+  String get lblEduUndergraduate2;
 
   // Price Type
   String get lblPriceHourly;
@@ -1832,4 +1838,22 @@ abstract class BaseLanguage {
   String get lblScheduleContract;
   String get lblScheduleTemporary;
   String get lblScheduleInternship;
+
+  // General missing keys
+  String get na;
+  String get all;
+  String get provider;
+  String get handyman;
+  String get remaining;
+  String get work;
+  String get writeReviewHint;
+  String get totalPrice;
+  String get totalServices;
+  String get paypalPaymentTitle;
+  String get redirecting;
+  String get rateService;
+  String get skillsHint;
+  String get paypalUrlFailed;
+  String get locationNotAvailableMsg;
+  String get bankTransferPendingMsg;
 }

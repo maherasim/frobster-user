@@ -29,7 +29,7 @@ class TimeSlotsList extends StatelessWidget {
                     spacing: 8,
                     children: [
                       Text(
-                        'Date:',
+                        '${language.lblDate}:',
                         style: secondaryTextStyle(),
                       ),
                       Marquee(
@@ -65,7 +65,7 @@ class TimeSlotsList extends StatelessWidget {
                     spacing: 8,
                     children: [
                       Text(
-                        'End Time:',
+                        '${language.endTime}:',
                         style: secondaryTextStyle(),
                       ),
                       Marquee(
@@ -82,7 +82,7 @@ class TimeSlotsList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Nbr Hours:',
+                        '${language.totalHours}:',
                         style: secondaryTextStyle(),
                       ),
                       8.width,
@@ -100,7 +100,7 @@ class TimeSlotsList extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
-                        'Nbr Days:',
+                        '${language.totalDays}:',
                         style: secondaryTextStyle(),
                       ),
                       8.width,

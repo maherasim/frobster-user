@@ -162,7 +162,7 @@ class _WalletPayPalWebViewScreenState extends State<WalletPayPalWebViewScreen> {
             ).paddingSymmetric(horizontal: 32),
             32.height,
             Text(
-              'Redirecting...',
+              language.redirecting,
               style: secondaryTextStyle(size: 12, color: textSecondaryColorGlobal),
             ),
           ],
@@ -176,7 +176,7 @@ class _WalletPayPalWebViewScreenState extends State<WalletPayPalWebViewScreen> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'PayPal Payment',
+          language.paypalPaymentTitle,
           style: boldTextStyle(color: Colors.white, size: APP_BAR_TEXT_SIZE),
         ),
         flexibleSpace: Container(

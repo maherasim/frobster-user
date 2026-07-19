@@ -72,17 +72,17 @@ class PriceWidget extends StatelessWidget {
               ),
             if (isHourlyService)
               Text(
-                '/Hour',
+                '/${language.lblPriceHourly}',
                 style: secondaryTextStyle(color: hourlyTextColor, size: 12),
               ),
             if (isDailyService)
               Text(
-                '/Day',
+                '/${language.lblPriceDaily}',
                 style: secondaryTextStyle(color: hourlyTextColor, size: 12),
               ),
             if (isFixedService)
               Text(
-                '/Fix',
+                '/${language.lblPriceFixed}',
                 style: secondaryTextStyle(color: hourlyTextColor, size: 12),
               ),
           ],

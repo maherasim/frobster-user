@@ -40,10 +40,10 @@ Future<void> saveHelpDeskMultiPart(
     try {
       log("Response: $temp");
       
-      String message = 'Query submitted successfully';
+      String message = language.querySubmittedSuccessfully;
       if (temp.toString().isNotEmpty && temp.toString().isJson()) {
         final jsonResponse = jsonDecode(temp);
-        message = jsonResponse['message']?.toString() ?? 'Query submitted successfully';
+        message = jsonResponse['message']?.toString() ?? language.querySubmittedSuccessfully;
       }
       
       appStore.setLoading(false);

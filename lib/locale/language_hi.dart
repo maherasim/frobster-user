@@ -2894,6 +2894,12 @@ class LanguageHi extends BaseLanguage {
   @override String get lblEduMasters => "Master's Degree";
   @override String get lblEduDoctorate => 'Doctorate Degree';
   @override String get lblEduProfessional => 'Professional Degree';
+  @override String get lblEduNotSpecified2 => 'Bachelor';
+  @override String get lblEduAnyGraduate2 => 'Master';
+  @override String get lblEduApprenticeship2 => 'State Examination (Staatsexamen)';
+  @override String get lblEduTraineeship2 => 'Doctorate (PhD)';
+  @override String get lblEduSecondaryDegree2 => 'Habilitation';
+  @override String get lblEduUndergraduate2 => 'Professorship';
 
   @override String get lblPriceHourly => 'Hourly';
   @override String get lblPriceFixed => 'Fixed';
@@ -2905,4 +2911,20 @@ class LanguageHi extends BaseLanguage {
   @override String get lblScheduleTemporary => 'Temporary';
   @override String get lblScheduleInternship => 'Internship';
   @override String get lblBankAddress => 'Bank Address';
+  @override String get na => 'N/A';
+  @override String get all => 'All';
+  @override String get provider => 'Provider';
+  @override String get handyman => 'Handyman';
+  @override String get remaining => 'Remaining';
+  @override String get work => 'Work';
+  @override String get writeReviewHint => 'Write your review here...';
+  @override String get totalPrice => 'Total Price';
+  @override String get totalServices => 'Total Services';
+  @override String get paypalPaymentTitle => 'PayPal Payment';
+  @override String get redirecting => 'Redirecting...';
+  @override String get rateService => 'Rate a Service';
+  @override String get skillsHint => 'e.g. Skill 1, Skill 2 (comma-separated)';
+  @override String get paypalUrlFailed => 'Failed to get PayPal payment URL. Please try again.';
+  @override String get locationNotAvailableMsg => 'Location not available. Worker may not have shared location yet, or the request failed. Tap refresh to try again.';
+  @override String get bankTransferPendingMsg => 'Payment submitted via Bank Transfer. Awaiting admin confirmation.';
 }

@@ -61,6 +61,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
   void init() async {
     log('BookingPaymentDialog initialized - amount: ${widget.amount}, isForAdvancePayment: ${widget.isForAdvancePayment}');
     future = getPaymentGateways(requireCOD: !widget.isForAdvancePayment);
+    await appStore.setUserWalletAmount();
     setState(() {});
   }
 
@@ -396,7 +397,7 @@ class _BookingPaymentDialogState extends State<BookingPaymentDialog> {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
           log('PayPal API - Missing URL: status=$status, url=$approvalUrl');
-          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+          toast(errorMsg ?? language.paypalUrlFailed);
         }
       } else {
         appStore.setLoading(false);

@@ -2,6 +2,7 @@ import 'package:booking_system_flutter/component/selected_item_widget.dart';
 import 'package:booking_system_flutter/model/state_list_model.dart';
 import 'package:flutter/material.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:booking_system_flutter/main.dart';
 
 import '../../../component/empty_error_state_widget.dart';
 
@@ -26,7 +27,7 @@ class _FilterStateComponentState extends State<FilterStateComponent> {
   Widget build(BuildContext context) {
     if (widget.stateList.isEmpty) {
       return NoDataWidget(
-        title: 'No State Found',
+        title: language.noStateFound,
         imageWidget: EmptyStateWidget(),
       );
     }

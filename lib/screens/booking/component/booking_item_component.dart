@@ -34,20 +34,17 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
   String? _providerCityCountryLabel;
 
   String _formatVisitType(String value) {
-    final trimmed = value.trim();
-    if (trimmed.isEmpty) return '';
-    final upper = trimmed.toUpperCase();
-    switch (upper) {
-      case 'ON_SITE':
+    switch (value.trim().toLowerCase()) {
+      case 'on_site':
+      case 'onsite':
         return language.visitTypeOnsite;
+      case 'hybrid':
+        return language.visitTypeHybrid;
+      case 'remote':
+      case 'online':
+        return language.visitTypeRemote;
       default:
-        final normalized = trimmed.replaceAll('_', ' ').replaceAll('-', ' ');
-        final parts = normalized.split(RegExp(r'\s+'));
-        return parts
-            .map((w) => w.isEmpty
-                ? w
-                : '${w[0].toUpperCase()}${w.substring(1).toLowerCase()}')
-            .join(' ');
+        return value.trim();
     }
   }
 
@@ -487,7 +484,7 @@ class _BookingItemComponentState extends State<BookingItemComponent> {
                   6.height,
                   if (widget.bookingData.visitType.validate().isNotEmpty)
                     Text(
-                      'Job type: ${_formatVisitType(widget.bookingData.visitType.validate())}',
+                      '${language.jobType}: ${_formatVisitType(widget.bookingData.visitType.validate())}',
                       style: primaryTextStyle(size: 12),
                       overflow: TextOverflow.ellipsis,
                       maxLines: 1,

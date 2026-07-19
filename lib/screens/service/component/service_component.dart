@@ -1,4 +1,3 @@
-import 'dart:math';
 
 import 'package:booking_system_flutter/component/cached_image_widget.dart';
 import 'package:booking_system_flutter/component/disabled_rating_bar_widget.dart';
@@ -19,7 +18,6 @@ import 'package:booking_system_flutter/utils/string_extensions.dart';
 import 'package:booking_system_flutter/utils/ugc_blocked_utils.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_mobx/flutter_mobx.dart';
-import 'package:intl/intl.dart';
 import 'package:nb_utils/nb_utils.dart';
 import '../../../component/social_icons_list.dart';
 import '../../../model/city_list_model.dart';
@@ -67,8 +65,6 @@ class ServiceComponentState extends State<ServiceComponent> {
     super.initState();
     init();
   }
-
-  int get randomNumber => Random().nextInt(20001);
 
   Future<void> init() async {
     // Initialize any required data
@@ -556,7 +552,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Services: ${widget.serviceData.providerTotalServices ?? 0}',
+                              '${language.services}: ${widget.serviceData.providerTotalServices ?? 0}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),
@@ -564,7 +560,7 @@ class ServiceComponentState extends State<ServiceComponent> {
                               overflow: TextOverflow.ellipsis,
                             ),
                             Text(
-                              'Views: ${widget.serviceData.totalViews ?? NumberFormat("#,###").format(randomNumber)}',
+                              '${language.views}: ${widget.serviceData.totalViews ?? 0}',
                               style: secondaryTextStyle(
                                   size: 10,
                                   color: Theme.of(context).colorScheme.onSurface),

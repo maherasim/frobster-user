@@ -461,7 +461,7 @@ final List<String> certifications =
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Booking:',
+                                  '${language.booking}:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,
@@ -490,7 +490,7 @@ final List<String> certifications =
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
                                 Text(
-                                  'Total Services:',
+                                  '${language.totalServices}:',
                                   style: boldTextStyle(size: LABEL_TEXT_SIZE),
                                 ),
                                 8.width,

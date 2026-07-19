@@ -342,7 +342,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         icon: Icons.h_mobiledata,
                         iconColor: gradientRed,
                         title: language.titleLabel,
-                        value: postJobDetail!.postRequest?.title?.validate() ?? 'N/A',
+                        value: postJobDetail!.postRequest?.title?.validate() ?? language.na,
                       ),
                       _buildInfoCard(
                         icon: Icons.location_on,
@@ -350,7 +350,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         title: language.locationLabel,
                         value: postJobDetail!.postRequest != null
                             ? "${postJobDetail!.postRequest?.city?.name}${(postJobDetail!.postRequest?.country?.name ?? '').isEmpty ? '' : ', ${postJobDetail!.postRequest?.country?.name}'}"
-                            : 'N/A',
+                            : language.na,
                       ),
                       _buildInfoCard(
                         icon: Icons.business_center,
@@ -358,7 +358,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         title: language.jobType,
                         value: (postJobDetail!.postRequest?.type != null)
                             ? postJobDetail!.postRequest!.type.displayName.validate()
-                            : 'N/A',
+                            : language.na,
                         customValueWidget: (postJobDetail!.postRequest?.type != null)
                             ? Container(
                                 padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
@@ -382,27 +382,27 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                       _buildInfoCard(
                         icon: Icons.event_available,
                         iconColor: Colors.blue,
-                        title: 'Start Date',
+                        title: language.startDate,
                         value: postJobDetail!.postRequest?.startDate != null
                             ? formatDate(
                                 postJobDetail!.postRequest?.startDate
                                     ?.toIso8601String()
                                     .validate(),
                                 showDateWithTime: true)
-                            : 'N/A',
+                            : language.na,
                         isDate: true,
                       ),
                       _buildInfoCard(
                         icon: Icons.event_busy,
                         iconColor: Colors.red,
-                        title: 'End Date',
+                        title: language.endDate,
                         value: postJobDetail!.postRequest?.endDate != null
                             ? formatDate(
                                 postJobDetail!.postRequest?.endDate
                                     ?.toIso8601String()
                                     .validate(),
                                 showDateWithTime: true)
-                            : 'N/A',
+                            : language.na,
                         isDate: true,
                       ),
                       _buildInfoCard(
@@ -410,14 +410,14 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                         iconColor: Colors.indigo,
                         title: language.employerLabel,
                         value:
-                            postJobDetail!.provider?.displayName.validate() ?? 'N/A',
+                            postJobDetail!.provider?.displayName.validate() ?? language.na,
                       ),
                       _buildInfoCard(
                         icon: Icons.person_outline,
                         iconColor: Colors.green,
                         title: language.customerLabel,
                         value:
-                            postJobDetail!.customer?.displayName.validate() ?? 'N/A',
+                            postJobDetail!.customer?.displayName.validate() ?? language.na,
                       ),
                     ],
                   ),
@@ -914,7 +914,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                 children: [
                   Row(
                     children: [
-                      Text('Advance Payment(${postJobDetail?.advancePercent ?? 0}%)',
+                      Text('${language.jobBidProgressAdvance}(${postJobDetail?.advancePercent ?? 0}%)',
                               style: secondaryTextStyle(size: 14))
                           .expand(),
                       16.width,
@@ -1308,7 +1308,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                     isBoldText: true,
                   ),
                   if ((data.advancePercent ?? 0) > 0)
-                    Text('• Advance ${data.advancePercent?.toString() ?? "0"}%',
+                    Text('• ${language.jobBidProgressAdvance} ${data.advancePercent?.toString() ?? "0"}%',
                         style: secondaryTextStyle(size: 12)),
                 ],
               ),
@@ -1388,23 +1388,23 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
   String _labelForStatus(RequestStatus s) {
     switch (s) {
       case RequestStatus.accepted:
-        return 'Accept';
+        return language.accept;
       case RequestStatus.advancePaymentPending:
-        return 'Advance';
+        return language.jobBidProgressAdvance;
       case RequestStatus.advancePaid:
-        return 'Advance Paid';
+        return language.advancePaid;
       case RequestStatus.inProcess:
-        return "Let's Start";
+        return language.letsStartWork;
       case RequestStatus.inProgress:
-        return 'Work';
+        return language.work;
       case RequestStatus.done:
-        return 'Done';
+        return language.done;
       case RequestStatus.completed:
-        return 'Completed';
+        return language.completed;
       case RequestStatus.remainingPaymentPending:
-        return 'Remaining';
+        return language.remaining;
       case RequestStatus.remainingPaid:
-        return 'Paid';
+        return language.paid;
       default:
         return '';
     }
@@ -1514,7 +1514,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
                               textCapitalization: TextCapitalization.sentences,
                               decoration: inputDecoration(
                                 context,
-                                labelText: 'Write your review here...',
+                                labelText: language.writeReviewHint,
                               ).copyWith(
                                   fillColor: appStore.isDarkMode
                                       ? context.dividerColor

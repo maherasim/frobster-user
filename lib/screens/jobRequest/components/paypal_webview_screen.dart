@@ -207,7 +207,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
           // Show warning but still return success (backend might have processed it)
           setState(() {
             showSuccessScreen = true;
-            successMessage = 'Payment may have been processed. Please verify your payment status.';
+            successMessage = language.paymentMayHaveBeenProcessed;
           });
           
           // Auto-close after 3 seconds with warning
@@ -244,7 +244,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
           // Token exists, payment might be processed but we can't verify
           setState(() {
             showSuccessScreen = true;
-            successMessage = 'Payment may have been processed. Please verify your payment status.';
+            successMessage = language.paymentMayHaveBeenProcessed;
           });
           
           // Auto-close after 3 seconds with warning
@@ -315,7 +315,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     if (paymentData!['txn_id'] != null)
-                      _buildInfoRow('Transaction ID', paymentData!['txn_id'].toString()),
+                      _buildInfoRow(language.transactionId, paymentData!['txn_id'].toString()),
                     if (paymentData!['amount'] != null)
                       _buildInfoRow(language.amountLabel, (paymentData!['amount'] is num
                           ? (paymentData!['amount'] as num) 
@@ -328,7 +328,7 @@ class _PayPalWebViewScreenState extends State<PayPalWebViewScreen> {
             ],
             32.height,
             Text(
-              'Redirecting...',
+              language.redirecting,
               style: secondaryTextStyle(size: 12, color: textSecondaryColorGlobal),
             ),
           ],

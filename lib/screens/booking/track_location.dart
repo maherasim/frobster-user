@@ -353,7 +353,7 @@ class _TrackLocationState extends State<TrackLocation>
                   mainAxisSize: MainAxisSize.min,
                   children: [
                     Text(
-                      'Location not available. Worker may not have shared location yet, or the request failed. Tap refresh to try again.',
+                      language.locationNotAvailableMsg,
                       style: TextStyle(
                         color: Colors.white,
                         fontSize: 12,

@@ -144,7 +144,7 @@ class NotificationWidget extends StatelessWidget {
                   Text(
                     data.data?.type.validate().isNotEmpty == true
                         ? data.data!.type.validate().split('_').join(' ').capitalizeFirstLetter()
-                        : 'Notification',
+                        : language.lblNotification,
                     style: boldTextStyle(size: 12),
                   ).expand(),
                   Text(_formatNotificationTime(data.createdAt), style: secondaryTextStyle()),

@@ -42,6 +42,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
 
   void init() async {
     future = getPaymentGateways(requireCOD: false);
+    await appStore.setUserWalletAmount();
     setState(() {});
   }
   @override
@@ -216,7 +217,7 @@ class _PaymentDialogState extends State<PaymentDialog> {
         } else {
           appStore.setLoading(false);
           final errorMsg = jsonResponse['error'] as String? ?? jsonResponse['message'] as String?;
-          toast(errorMsg ?? 'Failed to get PayPal payment URL. Please try again.');
+          toast(errorMsg ?? language.paypalUrlFailed);
         }
       } else {
         appStore.setLoading(false);

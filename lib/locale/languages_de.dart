@@ -3020,37 +3020,37 @@ class LanguageDe extends BaseLanguage {
   String get lblCareerNotSpecified => 'Nicht angegeben';
 
   @override
-  String get lblCareerEntryLevel => 'Einsteiger';
+  String get lblCareerEntryLevel => 'Praktikant';
 
   @override
-  String get lblCareerIntermediateLevel => 'Fortgeschritten';
+  String get lblCareerIntermediateLevel => 'Werkstudent';
 
   @override
-  String get lblCareerExperienced => 'Mit Berufserfahrung';
+  String get lblCareerExperienced => 'Einsteiger';
 
   @override
   String get lblCareerProfessional => 'Fachkraft';
 
   @override
-  String get lblCareerMiddleManagement => 'Mittleres Management';
+  String get lblCareerMiddleManagement => 'Spezialist';
 
   @override
-  String get lblCareerExecutiveManagement => 'Führungsebene';
+  String get lblCareerExecutiveManagement => 'Teamleiter';
 
   @override
-  String get lblCareerSeniorManagement => 'Senior Management';
+  String get lblCareerSeniorManagement => 'Abteilungsleiter';
 
   @override
-  String get lblCareerDirector => 'Direktion';
+  String get lblCareerDirector => 'Meister';
 
   @override
-  String get lblCareerTechnician => 'Techniker';
+  String get lblCareerTechnician => 'Führungskraft';
 
   @override
-  String get lblCareerLeader => 'Teamleitung';
+  String get lblCareerLeader => 'Manager';
 
   @override
-  String get lblCareerManager => 'Manager';
+  String get lblCareerManager => 'Geschäftsführung';
 
 
   @override String get lblExpUnspecified => '—';
@@ -3062,20 +3062,34 @@ class LanguageDe extends BaseLanguage {
   @override String get lblExpMoreThan10Years => 'Mehr als 10 Jahre';
 
 
-  @override String get lblEduNotSpecified => 'Nicht angegeben';
-  @override String get lblEduAnyGraduate => 'Beliebiger Abschluss';
-  @override String get lblEduApprenticeship => 'Ausbildungsabschluss';
-  @override String get lblEduTraineeship => 'Praktikumsabschluss';
-  @override String get lblEduSecondaryDegree => 'Sekundarabschluss';
-  @override String get lblEduUndergraduate => 'Bachelorstudium';
-  @override String get lblEduHighSchool => 'Abitur';
-  @override String get lblEduAssociate => 'Fachhochschulabschluss';
-  @override String get lblEduCollege => 'Hochschulabschluss';
-  @override String get lblEduUniversity => 'Universitätsabschluss';
-  @override String get lblEduBachelors => 'Bachelorabschluss';
-  @override String get lblEduMasters => 'Masterabschluss';
-  @override String get lblEduDoctorate => 'Doktortitel';
-  @override String get lblEduProfessional => 'Berufsabschluss';
+  @override String get lblEduNotSpecified => 'Grundschule';
+  @override String get lblEduAnyGraduate => 'Hauptschule';
+  @override String get lblEduApprenticeship => 'Realschule';
+  @override String get lblEduTraineeship => 'Gesamtschule';
+  @override String get lblEduSecondaryDegree => 'Gymnasium';
+  @override String get lblEduUndergraduate => 'Hauptschulabschluss';
+  @override String get lblEduHighSchool => 'Realschulabschluss (Mittlere Reife)';
+  @override String get lblEduAssociate => 'Fachhochschulreife (Fachabitur)';
+  @override String get lblEduCollege => 'Allgemeine Hochschulreife (Abitur)';
+  @override String get lblEduUniversity => 'Berufsausbildung / Ausbildung';
+  @override String get lblEduBachelors => 'Berufsschule';
+  @override String get lblEduMasters => 'Fachschule';
+  @override String get lblEduDoctorate => 'Fachhochschule';
+  @override String get lblEduProfessional => 'Universität';
+  @override String get lblEduNotSpecified2 => 'Bachelor';
+  @override String get lblEduAnyGraduate2 => 'Master';
+  @override String get lblEduApprenticeship2 => 'Staatsexamen';
+  @override String get lblEduTraineeship2 => 'Promotion (Doktor)';
+  @override String get lblEduSecondaryDegree2 => 'Habilitation';
+  @override String get lblEduUndergraduate2 => 'Professur';
+
+
+
+
+
+
+
+
 
   @override String get lblPriceHourly => 'Stündlich';
   @override String get lblPriceFixed => 'Pauschal';
@@ -3086,4 +3100,24 @@ class LanguageDe extends BaseLanguage {
   @override String get lblScheduleContract => 'Vertrag';
   @override String get lblScheduleTemporary => 'Befristet';
   @override String get lblScheduleInternship => 'Praktikum';
+
+
+
+  // New words
+  @override String get na => 'K.A.';
+  @override String get all => 'Alle';
+  @override String get provider => 'Agentur';
+  @override String get handyman => 'Fachkäfte';
+  @override String get remaining => 'Restbetrag';
+  @override String get work => 'Arbeit';
+  @override String get writeReviewHint => 'Schreiben Sie hier Ihre Bewertung...';
+  @override String get totalPrice => 'Gesamtpreis';
+  @override String get totalServices => 'Gesamte Dienstleistungen';
+  @override String get paypalPaymentTitle => 'PayPal-Zahlung';
+  @override String get redirecting => 'Weiterleiten...';
+  @override String get rateService => 'Dienstleistung bewerten';
+  @override String get skillsHint => 'z.B. Fähigkeit 1, Fähigkeit 2 (kommagetrennt)';
+  @override String get paypalUrlFailed => 'PayPal-Zahlungs-URL konnte nicht abgerufen werden. Bitte erneut versuchen.';
+  @override String get locationNotAvailableMsg => 'Standort nicht verfügbar. Der Mitarbeiter hat möglicherweise noch keinen Standort geteilt, oder die Anfrage ist fehlgeschlagen. Tippen Sie auf Aktualisieren, um es erneut zu versuchen.';
+  @override String get bankTransferPendingMsg => 'Zahlung per Banküberweisung eingereicht. Warte auf Bestätigung durch den Administrator.';
 }

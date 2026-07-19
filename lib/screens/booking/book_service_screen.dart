@@ -1050,7 +1050,7 @@ class _BookServiceScreenState extends State<BookServiceScreen> {
               children: [
                 Icon(Icons.add_circle_outline_rounded, size: 20),
                 Text(
-                  'Add more Dates',
+                  language.addMoreDates,
                   style: secondaryTextStyle(),
                 ),
               ],

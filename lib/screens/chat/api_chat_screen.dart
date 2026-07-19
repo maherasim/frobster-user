@@ -228,7 +228,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       } catch (_) {
         createdAtMs = DateTime.now().millisecondsSinceEpoch;
       }
-      final text = e.hidden ? 'Message hidden due to policy' : (e.message ?? '');
+      final text = e.hidden ? language.messageHiddenDueToPolicy : (e.message ?? '');
       final m = ChatMessageModel(
         senderId: isMe ? appStore.uid : widget.otherUserId.toString(),
         receiverId: isMe ? widget.otherUserId.toString() : appStore.uid,

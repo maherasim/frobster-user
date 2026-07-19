@@ -125,8 +125,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   String _formatTravelRequired(String value) {
     final v = value.trim().toLowerCase();
-    if (v == 'true' || v == '1') return 'Yes';
-    if (v == 'false' || v == '0') return 'No';
+    if (v == 'true' || v == '1') return language.lblYes;
+    if (v == 'false' || v == '0') return language.lblNo;
     return _titleCase(value);
   }
 
@@ -493,7 +493,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                             final city = primaryCity.isNotEmpty ? primaryCity : fallbackCity;
                             final country = primaryCountry.isNotEmpty ? primaryCountry : fallbackCountry;
                             final label = (city.isEmpty && country.isEmpty)
-                                ? 'N/A'
+                                ? language.na
                                 : "$city${(city.isNotEmpty && country.isNotEmpty) ? ' - ' : ''}$country";
                             return Text(
                               label,
@@ -579,7 +579,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             .validate() >
                                         0)
                                 attributeRow(
-                                  'Discount',
+                                  language.lblDiscount,
                                   "${snap.data!.serviceDetail!.discount.validate()}%",
                                   valueColor: defaultActivityStatus, // green color
                                 ),
@@ -591,7 +591,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                   language.minimumOrdersLabel,
                                   (() {
                                     final v = snap.data?.serviceDetail?.minimumOrders.validate() ?? '';
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.na : v;
                                   })(),
                                 ),
                               10.height,
@@ -604,7 +604,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             ?.visitType
                                             .validate() ??
                                         '');
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.na : v;
                                   })(),
                                 ),
                               10.height,
@@ -617,12 +617,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             ?.remoteWorkLevel
                                             .validate() ??
                                         '');
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.na : v;
                                   })(),
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Career level',
+                                  language.careerLevel,
                                   (() {
                                     final v = _titleCase(snap
                                             .data
@@ -630,12 +630,12 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             ?.careerLevel
                                             .validate() ??
                                         '');
-                                    return v.isEmpty ? 'N/A' : v;
+                                    return v.isEmpty ? language.na : v;
                                   })(),
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Travel required',
+                                  language.travelRequiredLabel,
                                   (() {
                                     final raw = snap
                                             .data
@@ -644,7 +644,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                             .validate() ??
                                         '';
                                     final v = _formatTravelRequired(raw);
-                                    return raw.trim().isEmpty ? 'N/A' : v;
+                                    return raw.trim().isEmpty ? language.na : v;
                                   })(),
                                 ),
                               ],
@@ -658,7 +658,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           children: [
                             Flexible(
                               child: Text(
-                                'Views',
+                                language.views,
                                 style: secondaryTextStyle(size: 13),
                                 textAlign: TextAlign.left,
                               ),
@@ -683,7 +683,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                           children: [
                             Flexible(
                               child: Text(
-                                'Total Booking',
+                                language.totalBookingsLabel,
                                 style: secondaryTextStyle(size: 13),
                                 textAlign: TextAlign.left,
                               ),

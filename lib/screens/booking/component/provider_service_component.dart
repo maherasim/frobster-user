@@ -252,7 +252,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         6.width,
                         if (widget.serviceData!.discount.validate() > 0)
                           Text(
-                            "${widget.serviceData!.discount.validate()}% off",
+                            "${widget.serviceData!.discount.validate()}${language.percentOffSuffix}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 1,
                             style: TextStyle(
@@ -283,7 +283,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                         );
                       }),
                       Text(
-                        'Job Type : ${visitTypeLabel(widget.serviceData?.visitType)}',
+                        '${language.jobType}: ${visitTypeLabel(widget.serviceData?.visitType)}',
                         style: secondaryTextStyle(
                             size: 10, color: defaultActivityStatus),
                       ),
@@ -301,7 +301,7 @@ class _ProviderServiceComponentState extends State<ProviderServiceComponent> {
                           8.width,
                           Flexible(
                             child: Text(
-                              'Views: ${widget.serviceData!.totalViews.validate()}',
+                              '${language.views}: ${widget.serviceData!.totalViews.validate()}',
                               style: secondaryTextStyle(
                                   size: 9, color: defaultActivityStatus),
                               overflow: TextOverflow.ellipsis,

@@ -829,7 +829,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   nextFocus: mobileFocus,
                   enabled: !isLoginTypeApple,
                   isValidationRequired: false,
-                  decoration: inputDecoration(context, labelText: 'VAT Number (optional)'),
+                  decoration: inputDecoration(context, labelText: language.vatNumberOptional),
                 ),
                 16.height,
                 // AppTextField(
@@ -1085,7 +1085,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                         Expanded(
                           child: Text(
                             selectedLanguages.isEmpty
-                                ? 'Select languages'
+                                ? language.selectLanguages
                                 : selectedLanguages
                                     .map((k) =>
                                         profileLanguageOptions[k] ?? k)
@@ -1112,7 +1112,7 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                   enabled: !isLoginTypeApple,
                   decoration: inputDecoration(context,
                       labelText: language.essentialSkills,
-                      hintText: 'e.g. Skill 1, Skill 2 (comma-separated)'),
+                      hintText: language.skillsHint),
                   isValidationRequired: false,
                 ),
                 16.height,
@@ -1191,6 +1191,12 @@ class EditProfileScreenState extends State<EditProfileScreen> {
                           EducationLevel.mastersDegree => language.lblEduMasters,
                           EducationLevel.doctorateDegree => language.lblEduDoctorate,
                           EducationLevel.professionalDegree => language.lblEduProfessional,
+                          EducationLevel.notSpecified2 => language.lblEduNotSpecified2,
+                          EducationLevel.anyGraduate2 => language.lblEduAnyGraduate2,
+                          EducationLevel.apprenticeshipDegree2 => language.lblEduApprenticeship2,
+                          EducationLevel.traineeshipDegree2 => language.lblEduTraineeship2,
+                          EducationLevel.secondaryDegree2 => language.lblEduSecondaryDegree2,
+                          EducationLevel.undergraduateDiploma2 => language.lblEduUndergraduate2,
                         },
                         style: primaryTextStyle(),
                         maxLines: 1,
