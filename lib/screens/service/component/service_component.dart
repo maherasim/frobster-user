@@ -300,7 +300,7 @@ class ServiceComponentState extends State<ServiceComponent> {
     }
     
     final String cityCountry = (mappedCity.isEmpty && mappedCountry.isEmpty)
-        ? 'N/A'
+        ? language.na
         : (mappedCity.isNotEmpty && mappedCountry.isNotEmpty
             ? '${mappedCity} - ${mappedCountry}'
             : '${mappedCity}${mappedCountry}');
