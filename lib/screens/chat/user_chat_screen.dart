@@ -391,7 +391,7 @@ class _UserChatScreenState extends State<UserChatScreen>
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: context.primaryColor,
-          leadingWidth: context.width(),
+          leadingWidth: context.width() - 60,
           systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: context.primaryColor,
               statusBarBrightness: Brightness.dark,
@@ -512,7 +512,6 @@ class _UserChatScreenState extends State<UserChatScreen>
                     title: language.noConversation,
                     imageWidget: EmptyStateWidget(),
                   ),
-                  shrinkWrap: true,
                   viewType: ViewType.list,
                   itemBuilder: (context, snap, index) {
                     ChatMessageModel data = ChatMessageModel.fromJson(

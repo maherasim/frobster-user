@@ -333,7 +333,7 @@ class _ApiChatScreenState extends State<ApiChatScreen> {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          leadingWidth: context.width(),
+          leadingWidth: context.width() - 60,
           systemOverlayStyle: SystemUiOverlayStyle(
               statusBarColor: Colors.transparent,
               statusBarBrightness: Brightness.dark,

@@ -73,7 +73,8 @@ class PusherChatService {
                 'socket_id': socketId,
               },
             );
-            return jsonDecode(res.body);
+            final data = jsonDecode(res.body);
+            return data is Map && data.containsKey('auth') ? data : {'auth': ''};
           } catch (e) {
             log('Pusher auth error: $e');
             // Return a well-formed auth failure rather than empty map.

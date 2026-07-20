@@ -1385,6 +1385,8 @@ PODS:
   - flutter_inappwebview_ios/Core (0.0.1):
     - Flutter
     - OrderedSet (~> 6.0.3)
+  - flutter_keyboard_visibility_temp_fork (0.0.1):
+    - Flutter
   - flutter_local_notifications (0.0.1):
     - Flutter
   - flutter_paystack (0.0.1):
@@ -1566,6 +1568,7 @@ PODS:
   - nanopb/encode (3.30910.0)
   - nb_utils (0.0.1):
     - Flutter
+  - NWWebSocket (0.5.10)
   - OrderedSet (6.0.3)
   - package_info_plus (0.4.5):
     - Flutter
@@ -1581,6 +1584,15 @@ PODS:
   - PromisesObjC (2.4.0)
   - PromisesSwift (2.4.0):
     - PromisesObjC (= 2.4.0)
+  - pusher_channels_flutter (0.0.1):
+    - Flutter
+    - PusherSwift (~> 10.1.9)
+  - PusherSwift (10.1.10):
+    - NWWebSocket (~> 0.5.10)
+    - PusherTweetNacl (~> 1.2.0)
+  - PusherTweetNacl (1.2.0)
+  - quill_native_bridge_ios (0.0.1):
+    - Flutter
   - razorpay-core-pod (1.0.6)
   - razorpay-pod (1.5.3):
     - razorpay-core-pod (= 1.0.6)
@@ -1688,6 +1700,7 @@ DEPENDENCIES:
   - Flutter (from `Flutter`)
   - flutter_custom_tabs_ios (from `.symlinks/plugins/flutter_custom_tabs_ios/ios`)
   - flutter_inappwebview_ios (from `.symlinks/plugins/flutter_inappwebview_ios/ios`)
+  - flutter_keyboard_visibility_temp_fork (from `.symlinks/plugins/flutter_keyboard_visibility_temp_fork/ios`)
   - flutter_local_notifications (from `.symlinks/plugins/flutter_local_notifications/ios`)
   - flutter_paystack (from `.symlinks/plugins/flutter_paystack/ios`)
   - fluttertoast (from `.symlinks/plugins/fluttertoast/ios`)
@@ -1703,6 +1716,8 @@ DEPENDENCIES:
   - path_provider_foundation (from `.symlinks/plugins/path_provider_foundation/darwin`)
   - permission_handler_apple (from `.symlinks/plugins/permission_handler_apple/ios`)
   - phonepe_payment_sdk (from `.symlinks/plugins/phonepe_payment_sdk/ios`)
+  - pusher_channels_flutter (from `.symlinks/plugins/pusher_channels_flutter/ios`)
+  - quill_native_bridge_ios (from `.symlinks/plugins/quill_native_bridge_ios/ios`)
   - razorpay_flutter (from `.symlinks/plugins/razorpay_flutter/ios`)
   - share_plus (from `.symlinks/plugins/share_plus/ios`)
   - shared_preferences_foundation (from `.symlinks/plugins/shared_preferences_foundation/darwin`)
@@ -1753,10 +1768,13 @@ SPEC REPOS:
     - MidtransCoreKit
     - MidtransKit
     - nanopb
+    - NWWebSocket
     - OrderedSet
     - PhonePePayment
     - PromisesObjC
     - PromisesSwift
+    - PusherSwift
+    - PusherTweetNacl
     - razorpay-core-pod
     - razorpay-pod
     - RecaptchaInterop
@@ -1799,6 +1817,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/flutter_custom_tabs_ios/ios"
   flutter_inappwebview_ios:
     :path: ".symlinks/plugins/flutter_inappwebview_ios/ios"
+  flutter_keyboard_visibility_temp_fork:
+    :path: ".symlinks/plugins/flutter_keyboard_visibility_temp_fork/ios"
   flutter_local_notifications:
     :path: ".symlinks/plugins/flutter_local_notifications/ios"
   flutter_paystack:
@@ -1829,6 +1849,10 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/permission_handler_apple/ios"
   phonepe_payment_sdk:
     :path: ".symlinks/plugins/phonepe_payment_sdk/ios"
+  pusher_channels_flutter:
+    :path: ".symlinks/plugins/pusher_channels_flutter/ios"
+  quill_native_bridge_ios:
+    :path: ".symlinks/plugins/quill_native_bridge_ios/ios"
   razorpay_flutter:
     :path: ".symlinks/plugins/razorpay_flutter/ios"
   share_plus:
@@ -1889,6 +1913,7 @@ SPEC CHECKSUMS:
   Flutter: cabc95a1d2626b1b06e7179b784ebcf0c0cde467
   flutter_custom_tabs_ios: 87333f36c33a5971502766aca2f6ff4823b09bda
   flutter_inappwebview_ios: b89ba3482b96fb25e00c967aae065701b66e9b99
+  flutter_keyboard_visibility_temp_fork: 95b2d534bacf6ac62e7fcbe5c2a9e2c2a17ce06f
   flutter_local_notifications: 395056b3175ba4f08480a7c5de30cd36d69827e4
   flutter_paystack: 326a709af45c9cce86aab60486a5ddf63d58e5ac
   fluttertoast: 2c67e14dce98bbdb200df9e1acf610d7a6264ea1
@@ -1913,6 +1938,7 @@ SPEC CHECKSUMS:
   MidtransKit: f230a539a9b57bd314a91d78044ceee95fb76751
   nanopb: fad817b59e0457d11a5dfbde799381cd727c1275
   nb_utils: f4e2d76a9018f7ac0ed7823d8efd6eca639c01a5
+  NWWebSocket: 873eb4b18acd0317da70cdba388d792a3187ce00
   OrderedSet: e539b66b644ff081c73a262d24ad552a69be3a94
   package_info_plus: af8e2ca6888548050f16fa2f1938db7b5a5df499
   path_provider_foundation: 080d55be775b7414fd5a5ef3ac137b97b097e564
@@ -1921,6 +1947,10 @@ SPEC CHECKSUMS:
   PhonePePayment: 5a37a381127bfdd635b3a85123ad96a421288b2a
   PromisesObjC: f5707f49cb48b9636751c5b2e7d227e43fba9f47
   PromisesSwift: 9d77319bbe72ebf6d872900551f7eeba9bce2851
+  pusher_channels_flutter: 2723222f2686852dd91d13780938d11cca114a39
+  PusherSwift: 6022fe6584b4317dc5c177091292b2a4d80a8c35
+  PusherTweetNacl: 015f56f2cf010e718703f2bd9bca66fdcc91b208
+  quill_native_bridge_ios: f47af4b14e7757968486641656c5d23250cee521
   razorpay-core-pod: 6da5fb4ed280279d665507fdb50e213d793a5fe2
   razorpay-pod: 4385cf844aa29389313b741e20c72fe668970d49
   razorpay_flutter: 0e98e4fcaae27ad50e011d85f66d85e0a008754a
