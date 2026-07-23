@@ -1785,7 +1785,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
         Column(
           children: [
             AnimatedScrollView(
-              padding: EdgeInsets.only(bottom: 60),
+              padding: EdgeInsets.only(bottom: 60 + MediaQuery.of(context).padding.bottom),
               physics: AlwaysScrollableScrollPhysics(),
               listAnimationType: ListAnimationType.FadeIn,
               children: [
@@ -2147,7 +2147,7 @@ class _BookingDetailScreenState extends State<BookingDetailScreen>
             SizedBox(
                     width: MediaQuery.of(context).size.width,
                     child: _action(bookingResponse: snap.data!))
-                .paddingSymmetric(horizontal: 16.0, vertical: 12.0)
+                .paddingOnly(left: 16, right: 16, top: 12, bottom: 12 + MediaQuery.of(context).padding.bottom)
           ],
         ),
       ],
