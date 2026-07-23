@@ -16,7 +16,6 @@ import 'package:nb_utils/nb_utils.dart';
 
 import '../../component/base_scaffold_widget.dart';
 import '../../component/empty_error_state_widget.dart';
-import '../../model/get_my_post_job_list_response.dart';
 import '../../utils/colors.dart';
 import 'component/handyman_staff_members_component.dart';
 import 'component/provider_service_component.dart';
@@ -51,18 +50,25 @@ String _availabilityDisplay(String? raw) {
   }).join(' ');
 }
 
-/// Convert raw DB education value (e.g. high_school_graduate) to a human-readable label.
+/// Convert raw DB education value (e.g. university_degree) to localized label.
 String _educationDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return '';
-  try {
-    return EducationLevel.values
-        .firstWhere((e) => e.backendValue == raw.trim().toLowerCase())
-        .displayName;
-  } catch (_) {}
-  return raw.trim().replaceAll('_', ' ').split(' ').map((w) {
-    if (w.isEmpty) return '';
-    return w[0].toUpperCase() + w.substring(1).toLowerCase();
-  }).join(' ');
+  if (raw == null || raw.isEmpty) return language.eduNotSpecified;
+  switch (raw.trim().toLowerCase()) {
+    case 'any_graduate': return language.eduAnyGraduate;
+    case 'apprenticeship_degree': return language.eduApprenticeshipDegree;
+    case 'traineeship_degree': return language.eduTraineeshipDegree;
+    case 'secondary_degree': return language.eduSecondaryDegree;
+    case 'undergraduate_diploma': return language.eduUndergraduateDiploma;
+    case 'high_school_graduate': return language.eduHighSchoolGraduate;
+    case 'associate_degree': return language.eduAssociateDegree;
+    case 'college_degree': return language.eduCollegeDegree;
+    case 'university_degree': return language.eduUniversityDegree;
+    case 'bachelors_degree': return language.eduBachelorsDegree;
+    case 'masters_degree': return language.eduMastersDegree;
+    case 'doctorate_degree': return language.eduDoctorateDegree;
+    case 'professional_degree': return language.eduProfessionalDegree;
+    default: return language.eduNotSpecified;
+  }
 }
 
 class HandymanInfoScreen extends StatefulWidget {

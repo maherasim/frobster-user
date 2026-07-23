@@ -3138,4 +3138,74 @@ class LanguageDe extends BaseLanguage {
   String get stripe => 'Stripe';
   @override
   String get cash => 'Bargeld';
+
+  // Education levels
+  @override
+  String get eduNotSpecified => 'Nicht angegeben';
+  @override
+  String get eduAnyGraduate => 'Beliebiger Abschluss';
+  @override
+  String get eduApprenticeshipDegree => 'Ausbildungsabschluss';
+  @override
+  String get eduTraineeshipDegree => 'Praktikumsabschluss';
+  @override
+  String get eduSecondaryDegree => 'Sekundarschulabschluss';
+  @override
+  String get eduUndergraduateDiploma => 'Vordiplom';
+  @override
+  String get eduHighSchoolGraduate => 'Abitur';
+  @override
+  String get eduAssociateDegree => 'Fachhochschulreife';
+  @override
+  String get eduCollegeDegree => 'Hochschulabschluss';
+  @override
+  String get eduUniversityDegree => 'Universitätsabschluss';
+  @override
+  String get eduBachelorsDegree => 'Bachelor-Abschluss';
+  @override
+  String get eduMastersDegree => 'Master-Abschluss';
+  @override
+  String get eduDoctorateDegree => 'Doktorgrad';
+  @override
+  String get eduProfessionalDegree => 'Berufsabschluss';
+
+  // Career levels
+  @override
+  String get careerNotSpecified => 'Nicht angegeben';
+  @override
+  String get careerEntryLevel => 'Berufseinsteiger';
+  @override
+  String get careerIntermediateLevel => 'Mittleres Niveau';
+  @override
+  String get careerExperienced => 'Erfahren';
+  @override
+  String get careerProfessional => 'Fachkraft';
+  @override
+  String get careerMiddleManagement => 'Mittleres Management';
+  @override
+  String get careerExecutiveManagement => 'Führungsebene';
+  @override
+  String get careerSeniorManagement => 'Oberes Management';
+  @override
+  String get careerDirector => 'Direktor';
+  @override
+  String get careerTechnician => 'Techniker';
+  @override
+  String get careerLeader => 'Führungskraft';
+  @override
+  String get careerManager => 'Manager';
+
+  // Years of experience
+  @override
+  String get expLessThan1 => 'Weniger als 1 Jahr';
+  @override
+  String get exp1To3 => '1 bis 3 Jahre';
+  @override
+  String get exp3To5 => '3 bis 5 Jahre';
+  @override
+  String get exp5To8 => '5 bis 8 Jahre';
+  @override
+  String get exp8To10 => '8 bis 10 Jahre';
+  @override
+  String get expMoreThan10 => 'Mehr als 10 Jahre';
 }
