@@ -3008,7 +3008,7 @@ class LanguageEn extends BaseLanguage {
   @override
   String get stripe => 'Stripe';
   @override
-  String get cash => 'Bargeld';
+  String get cash => 'Cash';
   
   @override String get lblCareerNotSpecified => 'Not Specified';
   @override String get lblCareerEntryLevel => 'Entry Level';
@@ -3078,8 +3078,6 @@ class LanguageEn extends BaseLanguage {
   @override String get paypalUrlFailed => 'Failed to get PayPal payment URL. Please try again.';
   @override String get locationNotAvailableMsg => 'Location not available. Worker may not have shared location yet, or the request failed. Tap refresh to try again.';
   @override String get bankTransferPendingMsg => 'Payment submitted via Bank Transfer. Awaiting admin confirmation.';
-}
-  String get cash => 'Cash';
 
   // Education levels
   @override
