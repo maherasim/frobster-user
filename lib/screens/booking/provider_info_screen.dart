@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter_html/flutter_html.dart';
 import 'package:booking_system_flutter/component/loader_widget.dart';
 import 'package:booking_system_flutter/component/user_info_widget.dart';
 import 'package:booking_system_flutter/component/view_all_label_component.dart';
@@ -597,12 +598,24 @@ final List<String> certifications =
                             Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                Text(language.aboutMe, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
-                                5.height,
-                                Text(data.userData!.aboutMe.validate(),
-                                    style: secondaryTextStyle(size: 12)),
+                                Text(language.aboutMe, style: boldTextStyle(size: LABEL_TEXT_SIZE))
+                                    .paddingSymmetric(horizontal: 16),
+                                Html(
+                                  data: data.userData!.aboutMe.validate(),
+                                  style: {
+                                    "body": Style(
+                                      fontSize: FontSize(12.0),
+                                      color: secondaryTextColor,
+                                      margin: Margins.zero,
+                                      padding: HtmlPaddings.only(left: 16, right: 16),
+                                    ),
+                                    "p": Style(margin: Margins.only(top: 4, bottom: 4)),
+                                    "ul": Style(margin: Margins.only(top: 4, bottom: 4)),
+                                    "li": Style(margin: Margins.only(bottom: 2)),
+                                  },
+                                ),
                               ],
-                            ).paddingSymmetric(horizontal: 16),
+                            ),
                           ],
                           32.height,
                           servicesWidget(
