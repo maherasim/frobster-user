@@ -172,7 +172,6 @@ class _BankDetailsState extends State<BankDetails> {
                   borderRadius: BorderRadius.circular(8),
                   backgroundColor: context.cardColor,
                 ),
-                width: context.width(),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

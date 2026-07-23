@@ -112,9 +112,9 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
 
   String _formatRemoteLevel(String value) {
     final v = value.trim().toLowerCase();
-    if (v == 'onsite') return language.visitTypeOnsite;
+    if (v == 'onsite') return '0% ${language.visitTypeRemote}';
     if (v == 'hybrid') return language.visitTypeHybrid;
-    if (v == 'remote') return language.visitTypeRemote;
+    if (v == 'remote') return '100% ${language.visitTypeRemote}';
     if (v.endsWith('_remote')) {
       final pct = v.split('_').first;
       final numOnly = pct.replaceAll(RegExp(r'[^0-9]'), '');
