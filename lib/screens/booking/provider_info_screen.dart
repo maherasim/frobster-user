@@ -329,11 +329,18 @@ final List<String> certifications =
                               children: [
                                 Text(language.experienceLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE))
                                     .paddingSymmetric(horizontal: 16),
-                                5.height,
-                                Text(
-                                  data.userData!.experience!.replaceAll(RegExp(r'[\[\]"]'), '').trim(),
-                                  style: secondaryTextStyle(size: 12),
-                                ).paddingSymmetric(horizontal: 16),
+                                Html(
+                                  data: '<p>${data.userData!.experience!.replaceAll(RegExp(r'[\[\]"]'), '').trim()}</p>',
+                                  style: {
+                                    "body": Style(
+                                      fontSize: FontSize(12.0),
+                                      color: secondaryTextColor,
+                                      margin: Margins.zero,
+                                      padding: HtmlPaddings.only(left: 16, right: 16),
+                                    ),
+                                    "p": Style(margin: Margins.only(top: 4, bottom: 4)),
+                                  },
+                                ),
                               ],
                             ),
                           ],
@@ -342,7 +349,8 @@ final List<String> certifications =
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(language.availabilityLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('${language.availabilityLabel}:', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                8.width,
                                 Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
                               ],
