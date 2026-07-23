@@ -328,10 +328,11 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                             Row(
                               mainAxisAlignment: MainAxisAlignment.start,
                               children: [
-                                Text(language.availabilityLabel, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                Text('${language.availabilityLabel}:', style: boldTextStyle(size: LABEL_TEXT_SIZE)),
+                                8.width,
                                 Text(_availabilityDisplay(data.userData!.availability),
                                     style: secondaryTextStyle(size: 12)),
-                      ],
+                              ],
                             ).paddingSymmetric(horizontal: 16),
                           ],
                           if (mobilityList.isNotEmpty) ...[
