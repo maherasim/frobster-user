@@ -8,7 +8,6 @@ import 'package:booking_system_flutter/main.dart';
 import 'package:booking_system_flutter/model/provider_info_response.dart';
 import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/service_detail_response.dart';
-import 'package:booking_system_flutter/model/get_my_post_job_list_response.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/network/rest_apis.dart';
 import 'package:flutter/material.dart';
@@ -34,42 +33,57 @@ String _availabilityDisplay(String? raw) {
   }).join(' ');
 }
 
-/// Map backend education value (e.g. high_school_graduate) to display label (e.g. High school graduate).
+/// Map backend education value (e.g. university_degree) to localized display label.
 String _educationDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return language.notSpecified;
-  final v = raw.trim().toLowerCase();
-  final level = EducationLevel.values.firstWhere(
-    (e) => e.backendValue.toLowerCase() == v,
-    orElse: () => EducationLevel.notSpecified,
-  );
-  if (level == EducationLevel.notSpecified) return language.notSpecified;
-  return level.displayName;
+  if (raw == null || raw.isEmpty) return language.eduNotSpecified;
+  switch (raw.trim().toLowerCase()) {
+    case 'any_graduate': return language.eduAnyGraduate;
+    case 'apprenticeship_degree': return language.eduApprenticeshipDegree;
+    case 'traineeship_degree': return language.eduTraineeshipDegree;
+    case 'secondary_degree': return language.eduSecondaryDegree;
+    case 'undergraduate_diploma': return language.eduUndergraduateDiploma;
+    case 'high_school_graduate': return language.eduHighSchoolGraduate;
+    case 'associate_degree': return language.eduAssociateDegree;
+    case 'college_degree': return language.eduCollegeDegree;
+    case 'university_degree': return language.eduUniversityDegree;
+    case 'bachelors_degree': return language.eduBachelorsDegree;
+    case 'masters_degree': return language.eduMastersDegree;
+    case 'doctorate_degree': return language.eduDoctorateDegree;
+    case 'professional_degree': return language.eduProfessionalDegree;
+    default: return language.eduNotSpecified;
+  }
 }
 
-/// Map backend career level value (e.g. entry_level) to display label (e.g. Entry Level).
+/// Map backend career level value (e.g. entry_level) to localized display label.
 String _careerLevelDisplay(String? raw) {
-  if (raw == null || raw.isEmpty) return language.notSpecified;
-  final v = raw.trim().toLowerCase();
-  final level = CareerLevel.values.firstWhere(
-    (e) => e.backendValue.toLowerCase() == v,
-    orElse: () => CareerLevel.notSpecified,
-  );
-  if (level == CareerLevel.notSpecified) return language.notSpecified;
-  return level.displayName;
+  if (raw == null || raw.isEmpty) return language.careerNotSpecified;
+  switch (raw.trim().toLowerCase()) {
+    case 'entry_level': return language.careerEntryLevel;
+    case 'intermediate_level': return language.careerIntermediateLevel;
+    case 'experienced': return language.careerExperienced;
+    case 'professional': return language.careerProfessional;
+    case 'middle_management': return language.careerMiddleManagement;
+    case 'executive_management': return language.careerExecutiveManagement;
+    case 'senior_management': return language.careerSeniorManagement;
+    case 'director': return language.careerDirector;
+    case 'technician': return language.careerTechnician;
+    case 'leader': return language.careerLeader;
+    case 'manager': return language.careerManager;
+    default: return language.careerNotSpecified;
+  }
 }
 
-/// Map backend years of experience value (e.g. less_than_1) to display label (e.g. Less than 1 Year).
+/// Map backend years of experience value (e.g. more_than_10) to localized display label.
 String _yearsOfExperienceDisplay(String? raw) {
   if (raw == null || raw.isEmpty) return language.notSpecified;
-  final v = raw.trim().toLowerCase();
-  try {
-    final level = YearsOfExperience.values.firstWhere(
-      (e) => e.backendValue.toLowerCase() == v,
-    );
-    return level.displayName;
-  } catch (e) {
-    // If backend value doesn't match any enum, return "Not Specified"
-    return language.notSpecified;
+  switch (raw.trim().toLowerCase()) {
+    case 'less_than_1': return language.expLessThan1;
+    case '1_to_3': return language.exp1To3;
+    case '3_to_5': return language.exp3To5;
+    case '5_to_8': return language.exp5To8;
+    case '8_to_10': return language.exp8To10;
+    case 'more_than_10': return language.expMoreThan10;
+    default: return language.notSpecified;
   }
 }
 
@@ -334,7 +348,7 @@ final List<String> certifications =
                                   style: {
                                     "body": Style(
                                       fontSize: FontSize(12.0),
-                                      color: secondaryTextColor,
+                                      color: textSecondaryColorGlobal,
                                       margin: Margins.zero,
                                       padding: HtmlPaddings.only(left: 16, right: 16),
                                     ),
@@ -613,7 +627,7 @@ final List<String> certifications =
                                   style: {
                                     "body": Style(
                                       fontSize: FontSize(12.0),
-                                      color: secondaryTextColor,
+                                      color: textSecondaryColorGlobal,
                                       margin: Margins.zero,
                                       padding: HtmlPaddings.only(left: 16, right: 16),
                                     ),

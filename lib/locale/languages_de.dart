@@ -3015,52 +3015,38 @@ class LanguageDe extends BaseLanguage {
   String get stripe => 'Stripe';
   @override
   String get cash => 'Bargeld';
-  
   @override
   String get lblCareerNotSpecified => 'Nicht angegeben';
-
   @override
   String get lblCareerEntryLevel => 'Praktikant';
-
   @override
   String get lblCareerIntermediateLevel => 'Werkstudent';
-
   @override
   String get lblCareerExperienced => 'Einsteiger';
-
   @override
   String get lblCareerProfessional => 'Fachkraft';
-
   @override
   String get lblCareerMiddleManagement => 'Spezialist';
-
   @override
   String get lblCareerExecutiveManagement => 'Teamleiter';
-
   @override
   String get lblCareerSeniorManagement => 'Abteilungsleiter';
-
   @override
   String get lblCareerDirector => 'Meister';
-
   @override
   String get lblCareerTechnician => 'Führungskraft';
-
   @override
   String get lblCareerLeader => 'Manager';
-
   @override
   String get lblCareerManager => 'Geschäftsführung';
 
-
-  @override String get lblExpUnspecified => '—';
+  @override String get lblExpUnspecified => '-';
   @override String get lblExpLessThan1Year => 'Weniger als 1 Jahr';
   @override String get lblExp1To3Years => '1 bis 3 Jahre';
   @override String get lblExp3To5Years => '3 bis 5 Jahre';
   @override String get lblExp5To8Years => '5 bis 8 Jahre';
   @override String get lblExp8To10Years => '8 bis 10 Jahre';
   @override String get lblExpMoreThan10Years => 'Mehr als 10 Jahre';
-
 
   @override String get lblEduNotSpecified => 'Grundschule';
   @override String get lblEduAnyGraduate => 'Hauptschule';
@@ -3083,14 +3069,6 @@ class LanguageDe extends BaseLanguage {
   @override String get lblEduSecondaryDegree2 => 'Habilitation';
   @override String get lblEduUndergraduate2 => 'Professur';
 
-
-
-
-
-
-
-
-
   @override String get lblPriceHourly => 'Stündlich';
   @override String get lblPriceFixed => 'Pauschal';
   @override String get lblPriceDaily => 'Täglich';
@@ -3101,9 +3079,6 @@ class LanguageDe extends BaseLanguage {
   @override String get lblScheduleTemporary => 'Befristet';
   @override String get lblScheduleInternship => 'Praktikum';
 
-
-
-  // New words
   @override String get na => 'K.A.';
   @override String get all => 'Alle';
   @override String get provider => 'Agentur';
@@ -3120,4 +3095,39 @@ class LanguageDe extends BaseLanguage {
   @override String get paypalUrlFailed => 'PayPal-Zahlungs-URL konnte nicht abgerufen werden. Bitte erneut versuchen.';
   @override String get locationNotAvailableMsg => 'Standort nicht verfügbar. Der Mitarbeiter hat möglicherweise noch keinen Standort geteilt, oder die Anfrage ist fehlgeschlagen. Tippen Sie auf Aktualisieren, um es erneut zu versuchen.';
   @override String get bankTransferPendingMsg => 'Zahlung per Banküberweisung eingereicht. Warte auf Bestätigung durch den Administrator.';
+
+  @override String get eduNotSpecified => 'Nicht angegeben';
+  @override String get eduAnyGraduate => 'Beliebiger Abschluss';
+  @override String get eduApprenticeshipDegree => 'Ausbildungsabschluss';
+  @override String get eduTraineeshipDegree => 'Praktikumsabschluss';
+  @override String get eduSecondaryDegree => 'Sekundarschulabschluss';
+  @override String get eduUndergraduateDiploma => 'Vordiplom';
+  @override String get eduHighSchoolGraduate => 'Abitur';
+  @override String get eduAssociateDegree => 'Fachhochschulreife';
+  @override String get eduCollegeDegree => 'Hochschulabschluss';
+  @override String get eduUniversityDegree => 'Universitätsabschluss';
+  @override String get eduBachelorsDegree => 'Bachelor-Abschluss';
+  @override String get eduMastersDegree => 'Master-Abschluss';
+  @override String get eduDoctorateDegree => 'Doktorgrad';
+  @override String get eduProfessionalDegree => 'Berufsabschluss';
+
+  @override String get careerNotSpecified => 'Nicht angegeben';
+  @override String get careerEntryLevel => 'Berufseinsteiger';
+  @override String get careerIntermediateLevel => 'Mittleres Niveau';
+  @override String get careerExperienced => 'Erfahren';
+  @override String get careerProfessional => 'Fachkraft';
+  @override String get careerMiddleManagement => 'Mittleres Management';
+  @override String get careerExecutiveManagement => 'Führungsebene';
+  @override String get careerSeniorManagement => 'Oberes Management';
+  @override String get careerDirector => 'Direktor';
+  @override String get careerTechnician => 'Techniker';
+  @override String get careerLeader => 'Führungskraft';
+  @override String get careerManager => 'Manager';
+
+  @override String get expLessThan1 => 'Weniger als 1 Jahr';
+  @override String get exp1To3 => '1 bis 3 Jahre';
+  @override String get exp3To5 => '3 bis 5 Jahre';
+  @override String get exp5To8 => '5 bis 8 Jahre';
+  @override String get exp8To10 => '8 bis 10 Jahre';
+  @override String get expMoreThan10 => 'Mehr als 10 Jahre';
 }

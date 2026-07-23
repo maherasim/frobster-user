@@ -1856,4 +1856,42 @@ abstract class BaseLanguage {
   String get paypalUrlFailed;
   String get locationNotAvailableMsg;
   String get bankTransferPendingMsg;
+
+  // Education levels (used by provider/handyman info screens)
+  String get eduNotSpecified;
+  String get eduAnyGraduate;
+  String get eduApprenticeshipDegree;
+  String get eduTraineeshipDegree;
+  String get eduSecondaryDegree;
+  String get eduUndergraduateDiploma;
+  String get eduHighSchoolGraduate;
+  String get eduAssociateDegree;
+  String get eduCollegeDegree;
+  String get eduUniversityDegree;
+  String get eduBachelorsDegree;
+  String get eduMastersDegree;
+  String get eduDoctorateDegree;
+  String get eduProfessionalDegree;
+
+  // Career levels (used by provider/handyman info screens)
+  String get careerNotSpecified;
+  String get careerEntryLevel;
+  String get careerIntermediateLevel;
+  String get careerExperienced;
+  String get careerProfessional;
+  String get careerMiddleManagement;
+  String get careerExecutiveManagement;
+  String get careerSeniorManagement;
+  String get careerDirector;
+  String get careerTechnician;
+  String get careerLeader;
+  String get careerManager;
+
+  // Years of experience (used by provider/handyman info screens)
+  String get expLessThan1;
+  String get exp1To3;
+  String get exp3To5;
+  String get exp5To8;
+  String get exp8To10;
+  String get expMoreThan10;
 }
