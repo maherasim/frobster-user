@@ -6,6 +6,15 @@ import 'package:booking_system_flutter/model/service_data_model.dart';
 import 'package:booking_system_flutter/model/user_data_model.dart';
 import 'package:booking_system_flutter/utils/colors.dart';
 
+/// Safely cast JSON numeric values to int (API may return int or double).
+int? _toInt(dynamic v) {
+  if (v == null) return null;
+  if (v is int) return v;
+  if (v is double) return v.toInt();
+  if (v is String) return int.tryParse(v);
+  return null;
+}
+
 class GetPostJobResponse {
   Pagination? pagination;
   List<PostJobData>? myPostJobData;
@@ -151,10 +160,10 @@ class PostJobData {
       customerProfile :json['customer_profile'],
       canBid :json['can_bid'],
       createdAt :json['created_at'],
-      categoryId :json['category_id'],
-      subCategoryId :json['subcategory_id'],
-      countryId :json['country_id'],
-      cityId :json['city_id'],
+      categoryId: _toInt(json['category_id']),
+      subCategoryId: _toInt(json['subcategory_id']),
+      countryId: _toInt(json['country_id']),
+      cityId: _toInt(json['city_id']),
       startDate :json['start_date'],
       endDate :json['end_date'],
       totalDays :json['total_days'],
@@ -163,7 +172,7 @@ class PostJobData {
       status: RequestStatus.values.firstWhere((e) => e.backendValue == (json['status']), orElse: () => RequestStatus.requested),
       type: JobType.values.firstWhere((e) => e.backendValue == json['type'], orElse: () => JobType.onSite),
 
-      stateId :json['state_id'],
+      stateId: _toInt(json['state_id']),
       latitude: (json['latitude'] != null) ? double.tryParse(json['latitude'].toString()) : null,
       longitude: (json['longitude'] != null) ? double.tryParse(json['longitude'].toString()) : null,
       priceType: PriceType.values.firstWhere((e) => e.backendValue == (json['price_type'] ?? json["job_price"]), orElse: () => PriceType.fixed),
@@ -182,7 +191,7 @@ class PostJobData {
       duties :json['duties'],
       benefits :json['benefits'],
       totalBudget :json['total_budget'],
-      acceptedBidId: json["accepted_bid_id"],
+      acceptedBidId: _toInt(json["accepted_bid_id"]),
       service: json['service'] == null ? [] : List<ServiceData>.from(json['service'].map((e) => ServiceData.fromJson(e))),
       images: json["images"] == null ? [] : List<String>.from(json["images"]!.map((x) => x)),
       date: json["date"] == null ? null : DateTime.parse(json["date"]),
