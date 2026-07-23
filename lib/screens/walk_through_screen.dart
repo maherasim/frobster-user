@@ -72,8 +72,8 @@ class _WalkThroughScreenState extends State<WalkThroughScreen> {
           ),
           Positioned(
             top: 106,
+            bottom: 80 + MediaQuery.of(context).padding.bottom,
             width: context.width(),
-            height: context.height(),
             child: PageView.builder(
               itemCount: pages.length,
               itemBuilder: (BuildContext context, int index) {
@@ -105,55 +105,63 @@ class _WalkThroughScreenState extends State<WalkThroughScreen> {
             ),
           ),
           Positioned(
-            bottom: 16 + MediaQuery.of(context).padding.bottom,
-            left: 16,
-            right: 16,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                TextButton(
-                  style: ButtonStyle(
-                      padding: WidgetStateProperty.all(EdgeInsets.zero)),
-                  onPressed: () async {
-                    await setValue(IS_FIRST_TIME, false);
-                    DashboardScreen().launch(context,
-                        isNewTask: true,
-                        pageRouteAnimation: PageRouteAnimation.Fade);
-                  },
-                  child: Text(language.lblSkip,
-                      style: boldTextStyle(color: primaryColor)),
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: SafeArea(
+              top: false,
+              child: Container(
+                color: context.scaffoldBackgroundColor,
+                padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    TextButton(
+                      style: ButtonStyle(
+                          padding: WidgetStateProperty.all(EdgeInsets.zero)),
+                      onPressed: () async {
+                        await setValue(IS_FIRST_TIME, false);
+                        DashboardScreen().launch(context,
+                            isNewTask: true,
+                            pageRouteAnimation: PageRouteAnimation.Fade);
+                      },
+                      child: Text(language.lblSkip,
+                          style: boldTextStyle(color: primaryColor)),
+                    ),
+                    DotIndicator(
+                      pageController: pageController,
+                      pages: pages,
+                      indicatorColor: primaryColor,
+                      unselectedIndicatorColor:
+                          primaryColor.withValues(alpha: 0.5),
+                      currentBoxShape: BoxShape.circle,
+                      boxShape: BoxShape.circle,
+                      dotSize: 6,
+                    ),
+                    TextButton(
+                      style: ButtonStyle(
+                          padding: WidgetStateProperty.all(EdgeInsets.zero)),
+                      onPressed: () async {
+                        if (currentPosition == pages.length) {
+                          await setValue(IS_FIRST_TIME, false);
+                          DashboardScreen().launch(context,
+                              isNewTask: true,
+                              pageRouteAnimation: PageRouteAnimation.Fade);
+                        } else {
+                          pageController.nextPage(
+                              duration: 500.milliseconds,
+                              curve: Curves.linearToEaseOut);
+                        }
+                      },
+                      child: Text(
+                          currentPosition == pages.length
+                              ? language.getStarted
+                              : language.btnNext,
+                          style: boldTextStyle(color: primaryColor)),
+                    ),
+                  ],
                 ),
-                DotIndicator(
-                  pageController: pageController,
-                  pages: pages,
-                  indicatorColor: primaryColor,
-                  unselectedIndicatorColor: primaryColor.withValues(alpha: 0.5),
-                  currentBoxShape: BoxShape.circle,
-                  boxShape: BoxShape.circle,
-                  dotSize: 6,
-                ),
-                TextButton(
-                  style: ButtonStyle(
-                      padding: WidgetStateProperty.all(EdgeInsets.zero)),
-                  onPressed: () async {
-                    if (currentPosition == pages.length) {
-                      await setValue(IS_FIRST_TIME, false);
-                      DashboardScreen().launch(context,
-                          isNewTask: true,
-                          pageRouteAnimation: PageRouteAnimation.Fade);
-                    } else {
-                      pageController.nextPage(
-                          duration: 500.milliseconds,
-                          curve: Curves.linearToEaseOut);
-                    }
-                  },
-                  child: Text(
-                      currentPosition == pages.length
-                          ? language.getStarted
-                          : language.btnNext,
-                      style: boldTextStyle(color: primaryColor)),
-                ),
-              ],
+              ),
             ),
           ),
         ],
