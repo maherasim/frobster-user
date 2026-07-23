@@ -24,16 +24,24 @@ import '../service/view_all_service_screen.dart';
 // NOTE: This screen is READ-ONLY. No edit/update functionality should be added.
 // CustomImagePicker or any upload components should NEVER be used here.
 
-/// Strip HTML tags and normalize whitespace from a string.
+/// Strip HTML tags, decode HTML entities, and normalize whitespace.
 String _stripHtml(String text) {
   if (text.isEmpty) return text;
   return text
       .replaceAll(RegExp(r'<[^>]*>'), '')
-      .replaceAll(RegExp(r'&nbsp;'), ' ')
-      .replaceAll(RegExp(r'&amp;'), '&')
-      .replaceAll(RegExp(r'&lt;'), '<')
-      .replaceAll(RegExp(r'&gt;'), '>')
-      .replaceAll(RegExp(r'&quot;'), '"')
+      .replaceAll('&auml;', 'ä')
+      .replaceAll('&uuml;', 'ü')
+      .replaceAll('&ouml;', 'ö')
+      .replaceAll('&Auml;', 'Ä')
+      .replaceAll('&Uuml;', 'Ü')
+      .replaceAll('&Ouml;', 'Ö')
+      .replaceAll('&szlig;', 'ß')
+      .replaceAll('&nbsp;', ' ')
+      .replaceAll('&amp;', '&')
+      .replaceAll('&lt;', '<')
+      .replaceAll('&gt;', '>')
+      .replaceAll('&quot;', '"')
+      .replaceAll('&apos;', "'")
       .replaceAll(RegExp(r'\s+'), ' ')
       .trim();
 }
@@ -156,10 +164,10 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
               // Clean skills - remove brackets, quotes, double commas
               final List<String> skills = data.userData?.skills != null
                   ? data.userData!.skillsArray
-                      .map((e) => e
-                          .replaceAll(RegExp(r'[\[\]"]'), '') // Remove brackets and quotes
-                          .replaceAll(RegExp(r',+'), ',') // Remove double commas
-                          .trim())
+                      .map((e) => _stripHtml(e
+                          .replaceAll(RegExp(r'[\[\]"]'), '')
+                          .replaceAll(RegExp(r',+'), ',')
+                          .trim()))
                       .where((e) => e.isNotEmpty)
                       .toList()
                   : [];
@@ -495,7 +503,7 @@ class HandymanInfoScreenState extends State<HandymanInfoScreen> {
                               children: [
                                 Text(language.aboutMe, style: boldTextStyle(size: LABEL_TEXT_SIZE)),
                                 5.height,
-                                Text(data.userData!.aboutMe.validate(),
+                                Text(_stripHtml(data.userData!.aboutMe.validate()),
                                     style: secondaryTextStyle(size: 12)),
                       ],
                             ).paddingSymmetric(horizontal: 16),
