@@ -713,7 +713,7 @@ class _PaymentScreenState extends State<PaymentScreen> {
                   child: Text(
                     "${language.lblPayNow} ${widget.isForAdvancePayment ? getAdvancePaymentAmount.toPriceFormat() : getRemainingAmount.toPriceFormat()}",
                   ),
-                ).withWidth(context.width()).paddingAll(16),
+                ).withWidth(context.width()).paddingOnly(left: 16, right: 16, top: 16, bottom: 16 + MediaQuery.of(context).padding.bottom),
             ],
           ),
         ],

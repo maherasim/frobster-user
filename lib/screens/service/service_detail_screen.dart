@@ -804,7 +804,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                   bookNow(snap.data!);
                 },
                 child: Text(language.lblBookNow, style: boldTextStyle(color: white)),
-              ).withWidth(context.width()).paddingSymmetric(horizontal: 16.0, vertical: 10.0)
+              ).withWidth(context.width()).paddingOnly(left: 16.0, right: 16.0, top: 10.0, bottom: 10.0 + MediaQuery.of(context).padding.bottom)
             ],
           ),
         );

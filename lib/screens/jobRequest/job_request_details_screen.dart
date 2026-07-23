@@ -227,7 +227,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
       children: [
         Expanded(
           child: AnimatedScrollView(
-            padding: EdgeInsets.only(bottom: 60, top: 16, right: 16, left: 16),
+            padding: EdgeInsets.only(bottom: 60 + MediaQuery.of(context).padding.bottom, top: 16, right: 16, left: 16),
             physics: AlwaysScrollableScrollPhysics(),
             onSwipeRefresh: () async {
               init();
