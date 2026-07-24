@@ -82,16 +82,19 @@ class _WalkThroughScreenState extends State<WalkThroughScreen> {
                   padding: EdgeInsets.only(left: 30, right: 30),
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
+                    mainAxisSize: MainAxisSize.max,
                     children: [
-                      Image.asset(page.image.validate(),
-                          height: context.height() * 0.45),
-                      76.height,
+                      Expanded(
+                        child: Image.asset(page.image.validate(),
+                            fit: BoxFit.contain),
+                      ),
+                      24.height,
                       Text(page.title.toString(),
                           style: boldTextStyle(size: 22)),
                       16.height,
                       Text(page.subTitle.toString(),
                           style: secondaryTextStyle()),
+                      8.height,
                     ],
                   ),
                 );
