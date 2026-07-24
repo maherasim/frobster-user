@@ -1345,42 +1345,44 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
     ];
     final activeIndex = steps.indexOf(status);
 
-    return SizedBox(
-      height: 26,
-      child: ListView.separated(
-        scrollDirection: Axis.horizontal,
-        physics: BouncingScrollPhysics(),
-        padding: EdgeInsets.zero,
-        itemCount: steps.length,
-        separatorBuilder: (_, __) => 12.width,
-        itemBuilder: (context, i) {
-          final bool isActive = i <= activeIndex && activeIndex >= 0;
-          return Column(
-            mainAxisSize: MainAxisSize.min,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Container(
-                width: 64,
-                height: 4,
-                decoration: BoxDecoration(
-                  gradient: isActive ? appPrimaryGradient : null,
-                  color: isActive ? null : context.dividerColor,
-                  borderRadius: radius(6),
+    return ClipRect(
+      child: SizedBox(
+        height: 26,
+        child: ListView.separated(
+          scrollDirection: Axis.horizontal,
+          physics: ClampingScrollPhysics(),
+          padding: EdgeInsets.zero,
+          itemCount: steps.length,
+          separatorBuilder: (_, __) => 12.width,
+          itemBuilder: (context, i) {
+            final bool isActive = i <= activeIndex && activeIndex >= 0;
+            return Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Container(
+                  width: 64,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    gradient: isActive ? appPrimaryGradient : null,
+                    color: isActive ? null : context.dividerColor,
+                    borderRadius: radius(6),
+                  ),
                 ),
-              ),
-              6.height,
-              SizedBox(
-                width: 64,
-                child: Text(
-                  _labelForStatus(steps[i]),
-                  style: secondaryTextStyle(size: 10),
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
+                6.height,
+                SizedBox(
+                  width: 64,
+                  child: Text(
+                    _labelForStatus(steps[i]),
+                    style: secondaryTextStyle(size: 10),
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 ),
-              ),
-            ],
-          );
-        },
+              ],
+            );
+          },
+        ),
       ),
     ).paddingBottom(16);
   }
