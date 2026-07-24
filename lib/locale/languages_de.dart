@@ -21,21 +21,21 @@ class LanguageDe extends BaseLanguage {
   String get signUp => "Kostenlos Anmelden";
 
   @override
-  String get hintFirstNameTxt => "Vornamen eingeben";
+  String get hintFirstNameTxt => "Vorname eingeben";
 
   @override
-  String get hintLastNameTxt => "Nachnamen eingeben";
+  String get hintLastNameTxt => "Username eingeben";
 
   @override
   String get hintContactNumberTxt => "Geben Sie Ihre Kontaktnummer ein";
 
   @override
-  String get designation => 'Bezeichnung';
+  String get designation => 'Beruf';
 
   String get hintEmailAddressTxt => "E-Mailadresse eingeben";
 
   @override
-  String get hintUserNameTxt => 'Nutzername';
+  String get hintUserNameTxt => 'Vollständiger Vor- und Nachname';
 
   @override
   String get hintPasswordTxt => "Neues Passwort eingeben";
@@ -213,8 +213,7 @@ class LanguageDe extends BaseLanguage {
   String get service => "Services";
 
   @override
-  String get lblCancelReason =>
-      "Bitte Grund eingeben, um diese Buchung zu stornieren.";
+  String get lblCancelReason => "Bitte Grund eingeben, um diese Buchung zu stornieren.";
 
   @override
   String get enterReason => "Grund hier angeben";
@@ -628,7 +627,7 @@ class LanguageDe extends BaseLanguage {
   String get lblInvalidCoupon => "Gutscheincode ist ungültig";
 
   @override
-  String get lblSelectCode => "Bitte Gutscheincode auswählen";
+  String get lblSelectCode => "Gutscheincode auswählen";
 
   @override
   String get lblBackPressMsg => "Drücken Sie erneut, um die App zu verlassen";
@@ -1353,7 +1352,7 @@ class LanguageDe extends BaseLanguage {
   String get messageDelete => 'Nachricht löschen';
 
   @override
-  String get pleaseChooseAnyOnePayment => 'Bitte Zahlungsmethode auswählen';
+  String get pleaseChooseAnyOnePayment => 'Zahlungsmethode auswählen';
 
   @override
   String get myWallet => 'Mein Wallet';
@@ -1538,7 +1537,7 @@ class LanguageDe extends BaseLanguage {
   String get pleaseEnterAddressAnd => 'Bitte Adresse, Buchungsdatum und Zeitfentser eingeben';
 
   @override
-  String get pleaseEnterYourAddress => 'Bitte Adresse eingeben';
+  String get pleaseEnterYourAddress => 'Adresse eingeben';
 
   @override
   String get pleaseSelectBookingDate => 'Bitte Buchungsdatum und Zeitfenster auswählen';
@@ -1860,7 +1859,7 @@ class LanguageDe extends BaseLanguage {
   String get panNumber => "PayPal-Konto (optioional)";
 
   @override
-  String get lblPleaseEnterAccountNumber => "Bitte Konto Nr.";
+  String get lblPleaseEnterAccountNumber => "Konto Nr.";
 
   @override
   String get lblAccountNumberMustContainOnlyDigits => "Kontonummer darf nur Ziffern enthalten";
@@ -2373,7 +2372,7 @@ class LanguageDe extends BaseLanguage {
   String get bankTransferInstructionsTitle => 'Überweisungsanweisungen';
 
   @override
-  String get bankTransferMentionBookingIdPrefix => 'Bitte Buchungs-ID';
+  String get bankTransferMentionBookingIdPrefix => 'Buchungs-ID';
 
   @override
   String get bankTransferMentionBookingIdSuffix => 'in der Überweisungsbeschreibung angeben';
@@ -3097,7 +3096,7 @@ class LanguageDe extends BaseLanguage {
   @override String get paypalUrlFailed => 'PayPal-Zahlungs-URL konnte nicht abgerufen werden. Bitte erneut versuchen.';
   @override String get locationNotAvailableMsg => 'Standort nicht verfügbar. Der Mitarbeiter hat möglicherweise noch keinen Standort geteilt, oder die Anfrage ist fehlgeschlagen. Tippen Sie auf Aktualisieren, um es erneut zu versuchen.';
   @override String get bankTransferPendingMsg => 'Zahlung per Banküberweisung eingereicht. Warte auf Bestätigung durch den Administrator.';
-  //Testing things
+//Testing things
   
   @override String get eduNotSpecified => 'Nicht angegeben';
   @override String get eduAnyGraduate => 'Beliebiger Abschluss';
@@ -3132,5 +3131,4 @@ class LanguageDe extends BaseLanguage {
   @override String get exp3To5 => '3 bis 5 Jahre';
   @override String get exp5To8 => '5 bis 8 Jahre';
   @override String get exp8To10 => '8 bis 10 Jahre';
-  @override String get expMoreThan10 => 'Mehr als 10 Jahre';
-}
+  @override String get expMoreThan10 => 'Mehr als 10 Jahre';}
