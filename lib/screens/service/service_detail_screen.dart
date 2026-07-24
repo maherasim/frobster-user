@@ -87,6 +87,24 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
     return t.capitalizeFirstLetter();
   }
 
+  String _careerLevelDisplay(String? raw) {
+    if (raw == null || raw.isEmpty) return language.careerNotSpecified;
+    switch (raw.trim().toLowerCase()) {
+      case 'entry_level': return language.careerEntryLevel;
+      case 'intermediate_level': return language.careerIntermediateLevel;
+      case 'experienced': return language.careerExperienced;
+      case 'professional': return language.careerProfessional;
+      case 'middle_management': return language.careerMiddleManagement;
+      case 'executive_management': return language.careerExecutiveManagement;
+      case 'senior_management': return language.careerSeniorManagement;
+      case 'director': return language.careerDirector;
+      case 'technician': return language.careerTechnician;
+      case 'leader': return language.careerLeader;
+      case 'manager': return language.careerManager;
+      default: return language.careerNotSpecified;
+    }
+  }
+
   String _titleCase(String input) {
     final normalized = input.replaceAll('_', ' ').replaceAll('-', ' ').trim();
     if (normalized.isEmpty) return '';
@@ -622,16 +640,8 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                                 ),
                               10.height,
                                 attributeRow(
-                                  'Career level',
-                                  (() {
-                                    final v = _titleCase(snap
-                                            .data
-                                            ?.serviceDetail
-                                            ?.careerLevel
-                                            .validate() ??
-                                        '');
-                                    return v.isEmpty ? 'N/A' : v;
-                                  })(),
+                                  language.careerLevel,
+                                  _careerLevelDisplay(snap.data?.serviceDetail?.careerLevel),
                                 ),
                               10.height,
                                 attributeRow(
@@ -804,7 +814,7 @@ class _ServiceDetailScreenState extends State<ServiceDetailScreen>
                   bookNow(snap.data!);
                 },
                 child: Text(language.lblBookNow, style: boldTextStyle(color: white)),
-              ).withWidth(context.width()).paddingOnly(left: 16.0, right: 16.0, top: 10.0, bottom: 10.0 + MediaQuery.of(context).padding.bottom)
+              ).withWidth(context.width()).paddingOnly(left: 16.0, right: 16.0, top: 10.0, bottom: 10.0 + MediaQuery.of(context).viewPadding.bottom)
             ],
           ),
         );
