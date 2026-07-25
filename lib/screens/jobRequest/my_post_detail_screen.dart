@@ -17,6 +17,7 @@ import 'package:booking_system_flutter/screens/jobRequest/components/bidder_item
 import 'package:booking_system_flutter/utils/common.dart';
 import 'package:booking_system_flutter/utils/constant.dart';
 import 'package:booking_system_flutter/utils/extensions/num_extenstions.dart';
+import 'package:booking_system_flutter/utils/job_posting_enum_localizations.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:booking_system_flutter/utils/model_keys.dart';
 import 'package:flutter/material.dart';
@@ -229,10 +230,10 @@ class _MyPostDetailScreenState extends State<MyPostDetailScreen> {
         attributeRow(language.lblTotalBudget, (data.totalBudget.validate()).toPriceFormat()),
         attributeRow(language.totalDays, data.totalDays?.toString() ?? '0'),
         attributeRow(language.totalHours, data.totalHours?.toString() ?? '0'),
-        attributeRow(language.remoteWorkLevel, data.remoteWorkLevel?.displayName ?? language.notSpecified),
-        attributeRow(language.travelRequiredLabel, data.travelRequired?.displayName ?? language.notSpecified),
-        attributeRow(language.careerLevel, data.careerLevel?.displayName ?? language.notSpecified),
-        attributeRow(language.educationLevel, data.educationLevel?.displayName ?? language.notSpecified),
+        attributeRow(language.remoteWorkLevel, data.remoteWorkLevel?.localizedLabel ?? language.notSpecified),
+        attributeRow(language.travelRequiredLabel, data.travelRequired?.localizedLabel ?? language.notSpecified),
+        attributeRow(language.careerLevel, data.careerLevel?.localizedLabel ?? language.notSpecified),
+        attributeRow(language.educationLevel, data.educationLevel?.localizedLabel ?? language.notSpecified),
 
         // Description Section
         if (data.description.validate().isNotEmpty) ...[
