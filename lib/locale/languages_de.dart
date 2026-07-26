@@ -2717,7 +2717,7 @@ class LanguageDe extends BaseLanguage {
   String get bookingsLabel => 'Buchungen';
 
   @override
-  String get onsiteFullPresenceLabel => 'Vor Ort (100%)';
+  String get onsiteFullPresenceLabel => '100 % vor Ort';
 
   @override
   String get remoteWorkShareSuffix => 'Remote';
@@ -3098,33 +3098,33 @@ class LanguageDe extends BaseLanguage {
   @override String get bankTransferPendingMsg => 'Zahlung per Banküberweisung eingereicht. Warte auf Bestätigung durch den Administrator.';
 //Testing things
   
-  @override String get eduNotSpecified => 'Nicht angegeben';
-  @override String get eduAnyGraduate => 'Beliebiger Abschluss';
-  @override String get eduApprenticeshipDegree => 'Ausbildungsabschluss';
-  @override String get eduTraineeshipDegree => 'Praktikumsabschluss';
-  @override String get eduSecondaryDegree => 'Sekundarschulabschluss';
-  @override String get eduUndergraduateDiploma => 'Vordiplom';
-  @override String get eduHighSchoolGraduate => 'Abitur';
+  @override String get eduNotSpecified => 'Grundschule';
+  @override String get eduAnyGraduate => 'Hauptschule';
+  @override String get eduApprenticeshipDegree => 'Realschule';
+  @override String get eduTraineeshipDegree => 'Gesamtschule';
+  @override String get eduSecondaryDegree => 'Gymnasium';
+  @override String get eduUndergraduateDiploma => 'Hauptschulabschluss';
+  @override String get eduHighSchoolGraduate => 'Realschulabschluss';
   @override String get eduAssociateDegree => 'Fachhochschulreife';
-  @override String get eduCollegeDegree => 'Hochschulabschluss';
-  @override String get eduUniversityDegree => 'Universitätsabschluss';
-  @override String get eduBachelorsDegree => 'Bachelor-Abschluss';
-  @override String get eduMastersDegree => 'Master-Abschluss';
-  @override String get eduDoctorateDegree => 'Doktorgrad';
-  @override String get eduProfessionalDegree => 'Berufsabschluss';
+  @override String get eduCollegeDegree => 'Allgemeine Hochschulreife';
+  @override String get eduUniversityDegree => 'Abitur';
+  @override String get eduBachelorsDegree => 'Berufsschule';
+  @override String get eduMastersDegree => 'Fachschule';
+  @override String get eduDoctorateDegree => 'Fachhochschule';
+  @override String get eduProfessionalDegree => 'Universität';
 
   @override String get careerNotSpecified => 'Nicht angegeben';
-  @override String get careerEntryLevel => 'Berufseinsteiger';
-  @override String get careerIntermediateLevel => 'Mittleres Niveau';
-  @override String get careerExperienced => 'Erfahren';
+  @override String get careerEntryLevel => 'Einsteiger';
+  @override String get careerIntermediateLevel => 'Werkstudent';
+  @override String get careerExperienced => 'Mit Berufserfahrung';
   @override String get careerProfessional => 'Fachkraft';
-  @override String get careerMiddleManagement => 'Mittleres Management';
-  @override String get careerExecutiveManagement => 'Führungsebene';
-  @override String get careerSeniorManagement => 'Oberes Management';
-  @override String get careerDirector => 'Direktor';
-  @override String get careerTechnician => 'Techniker';
-  @override String get careerLeader => 'Führungskraft';
-  @override String get careerManager => 'Manager';
+  @override String get careerMiddleManagement => 'Spezialist';
+  @override String get careerExecutiveManagement => 'Führungskraft';
+  @override String get careerSeniorManagement => 'Senior Management';
+  @override String get careerDirector => 'Meister';
+  @override String get careerTechnician => 'Branchenexperte';
+  @override String get careerLeader => 'Manager';
+  @override String get careerManager => 'Geschäftsführung';
 
   @override String get expLessThan1 => 'Weniger als 1 Jahr';
   @override String get exp1To3 => '1 bis 3 Jahre';
