@@ -384,7 +384,7 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
       totalBudget = totalBudget;
     }
 
-    totalBudgetCont.text = totalBudget.toString();
+    totalBudgetCont.text = totalBudget != null ? totalBudget.toStringAsFixed(2) : '';
   }
 
   List<File> imageFiles = [];
@@ -988,12 +988,12 @@ class _CreatePostRequestScreenState extends State<CreatePostRequestScreen> {
                                             EducationLevel.mastersDegree => language.eduMastersDegree,
                                             EducationLevel.doctorateDegree => language.eduDoctorateDegree,
                                             EducationLevel.professionalDegree => language.eduProfessionalDegree,
-                                            EducationLevel.notSpecified2 => language.lblEduNotSpecified2,
-                                            EducationLevel.anyGraduate2 => language.lblEduAnyGraduate2,
-                                            EducationLevel.apprenticeshipDegree2 => language.lblEduApprenticeship2,
-                                            EducationLevel.traineeshipDegree2 => language.lblEduTraineeship2,
-                                            EducationLevel.secondaryDegree2 => language.lblEduSecondaryDegree2,
-                                            EducationLevel.undergraduateDiploma2 => language.lblEduUndergraduate2,
+                                            EducationLevel.notSpecified2 => language.lblEduBachelor,
+                                            EducationLevel.anyGraduate2 => language.lblEduMaster,
+                                            EducationLevel.apprenticeshipDegree2 => language.lblEduStaatsexamen,
+                                            EducationLevel.traineeshipDegree2 => language.lblEduPromotion,
+                                            EducationLevel.secondaryDegree2 => language.lblEduHabilitation,
+                                            EducationLevel.undergraduateDiploma2 => language.lblEduProfessur,
                                           },
                                           style: primaryTextStyle(),
                                           maxLines: 1,

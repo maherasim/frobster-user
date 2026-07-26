@@ -12,6 +12,63 @@ CategoryData? _findCategoryById(List<CategoryData> list, int? id) {
   return found.isEmpty ? null : found.first;
 }
 
+Future<CategoryData?> _showCategoryPicker(BuildContext context, List<CategoryData> items, String title) async {
+  final TextEditingController searchCtrl = TextEditingController();
+  List<CategoryData> filtered = List.from(items);
+
+  return showDialog<CategoryData>(
+    context: context,
+    builder: (ctx) => StatefulBuilder(
+      builder: (ctx, setDialogState) => AlertDialog(
+        title: Text(title, style: boldTextStyle()),
+        contentPadding: EdgeInsets.fromLTRB(16, 12, 16, 8),
+        content: SizedBox(
+          width: double.maxFinite,
+          height: 380,
+          child: Column(
+            children: [
+              TextField(
+                controller: searchCtrl,
+                autofocus: true,
+                style: primaryTextStyle(),
+                decoration: InputDecoration(
+                  hintText: language.lblSearchFor,
+                  prefixIcon: Icon(Icons.search, size: 20),
+                  isDense: true,
+                  border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+                  contentPadding: EdgeInsets.symmetric(vertical: 10, horizontal: 12),
+                ),
+                onChanged: (q) => setDialogState(() {
+                  filtered = items.where((e) => e.name.validate().toLowerCase().contains(q.toLowerCase())).toList();
+                }),
+              ),
+              8.height,
+              Expanded(
+                child: filtered.isEmpty
+                    ? Center(child: Text(language.noDataAvailable, style: secondaryTextStyle()))
+                    : ListView.builder(
+                        itemCount: filtered.length,
+                        itemBuilder: (_, i) => ListTile(
+                          dense: true,
+                          title: Text(filtered[i].name.validate(), style: primaryTextStyle()),
+                          onTap: () => Navigator.pop(ctx, filtered[i]),
+                        ),
+                      ),
+              ),
+            ],
+          ),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Navigator.pop(ctx),
+            child: Text(language.lblCancel),
+          ),
+        ],
+      ),
+    ),
+  );
+}
+
 class CategorySubCatDropDown extends StatefulWidget {
   final int? categoryId;
   final int? subCategoryId;
@@ -34,18 +91,17 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
   CategoryData? selectedCategory;
   CategoryData? selectedSubCategory;
 
+  final _catKey = GlobalKey<FormFieldState>();
+  final _subCatKey = GlobalKey<FormFieldState>();
+
   @override
   void initState() {
     super.initState();
-    init();
-  }
-
-  void init() async {
     getCategory();
   }
 
   Future<void> getSubCategory({required int categoryId}) async {
-    await getSubCategoryList(catId: categoryId.toInt()).then((value) {
+    await getSubCategoryList(catId: categoryId).then((value) {
       subCategoryList = value.categoryList.validate();
 
       if (widget.subCategoryId != null) {
@@ -54,34 +110,24 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
           widget.onSubCategorySelect.call(selectedSubCategory?.id.validate());
         }
       }
-
       setState(() {});
-    }).catchError((e) {
-      log(e.toString());
-    });
+    }).catchError((e) => log(e.toString()));
   }
 
   Future<void> getCategory() async {
     appStore.setLoading(true);
-
-    await getCategoryList( CATEGORY_LIST_ALL).then((value) {
+    await getCategoryList(CATEGORY_LIST_ALL).then((value) {
       categoryList = value.categoryList ?? [];
 
       if (widget.categoryId != null) {
         selectedCategory = _findCategoryById(categoryList, widget.categoryId);
         if (selectedCategory != null) {
           widget.onCategorySelect.call(selectedCategory?.id.validate());
-        }
-
-        if (widget.subCategoryId != null && selectedCategory != null) {
-          getSubCategory(categoryId: selectedCategory!.id.validate());
+          if (widget.subCategoryId != null) getSubCategory(categoryId: selectedCategory!.id.validate());
         }
       }
       setState(() {});
-    }).catchError((e) {
-      toast(e.toString(), print: true);
-    });
-
+    }).catchError((e) => toast(e.toString(), print: true));
     appStore.setLoading(false);
   }
 
@@ -90,100 +136,92 @@ class _CategorySubCatDropDownState extends State<CategorySubCatDropDown> {
     if (mounted) super.setState(fn);
   }
 
-  String getStringValue() {
-    if (selectedCategory == null) {
-      return language.selectCategory;
-    } else {
-      return language.lblSubCategory;
-    }
+  Widget _buildPickerField({
+    required GlobalKey<FormFieldState> fieldKey,
+    required String label,
+    required CategoryData? selected,
+    required List<CategoryData> items,
+    required bool validate,
+    required Future<void> Function(CategoryData) onSelect,
+  }) {
+    return FormField<CategoryData>(
+      key: fieldKey,
+      initialValue: selected,
+      validator: validate ? (v) => v == null ? errorThisFieldRequired : null : null,
+      builder: (state) => InkWell(
+        onTap: () async {
+          if (items.isEmpty) return;
+          final result = await _showCategoryPicker(context, items, label);
+          if (result != null) {
+            await onSelect(result);
+            state.didChange(result);
+          }
+        },
+        borderRadius: BorderRadius.circular(8),
+        child: InputDecorator(
+          decoration: inputDecoration(context, labelText: label).copyWith(
+            errorText: state.errorText,
+            suffixIcon: Icon(Icons.arrow_drop_down, color: Colors.grey),
+          ),
+          child: Text(
+            selected?.name.validate() ?? '',
+            style: primaryTextStyle(),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+          ),
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    // Dedupe by id so DropdownButton never sees duplicate values
-    final uniqueCategories = categoryList.fold<Map<int, CategoryData>>(<int, CategoryData>{}, (m, e) {
+    final uniqueCategories = categoryList.fold<Map<int, CategoryData>>({}, (m, e) {
       if (e.id != null) m[e.id!] = e;
       return m;
     }).values.toList();
-    final uniqueSubCategories = subCategoryList.fold<Map<int, CategoryData>>(<int, CategoryData>{}, (m, e) {
+    final uniqueSubCategories = subCategoryList.fold<Map<int, CategoryData>>({}, (m, e) {
       if (e.id != null) m[e.id!] = e;
       return m;
     }).values.toList();
 
-    // Resolve value from current list so it's exactly one of the items (reference equality)
-    final categoryValue = selectedCategory == null
-        ? null
-        : _findCategoryById(uniqueCategories, selectedCategory!.id);
-    final subCategoryValue = selectedSubCategory == null
-        ? null
-        : _findCategoryById(uniqueSubCategories, selectedSubCategory!.id);
+    final resolvedCategory = _findCategoryById(uniqueCategories, selectedCategory?.id);
+    final resolvedSubCategory = _findCategoryById(uniqueSubCategories, selectedSubCategory?.id);
 
-    return Container(
-      child: Column(
-        children: [
-          DropdownButtonFormField<CategoryData>(
-            initialValue: categoryValue,
-            decoration: inputDecoration(
-              context,
-              labelText: language.lblCategory,
-            ),
-            dropdownColor: context.cardColor,
-            isExpanded: true,
-            items: uniqueCategories.map((data) {
-              return DropdownMenuItem<CategoryData>(
-                value: data,
-                child: Text(data.name.validate(), style: primaryTextStyle()),
-              );
-            }).toList(),
-            validator: widget.isCategoryValidate.validate(value: true)
-                ? (value) {
-                    if (value == null) return errorThisFieldRequired;
-
-                    return null;
-                  }
-                : null,
-            onChanged: (CategoryData? value) async {
-              selectedCategory = value!;
-              widget.onCategorySelect.call(selectedCategory!.id.validate());
-
-              if (selectedSubCategory != null) {
-                selectedSubCategory = null;
-                subCategoryList.clear();
-                widget.onSubCategorySelect.call(null);
-              }
-              getSubCategory(categoryId: value.id.validate());
-              setState(() {});
-            },
-          ),
-          16.height,
-          DropdownButtonFormField<CategoryData>(
-            decoration: inputDecoration(
-              context,
-              labelText: getStringValue(),
-            ),
-            dropdownColor: context.cardColor,
-            initialValue: subCategoryValue,
-            validator: widget.isSubCategoryValidate.validate(value: true)
-                ? (value) {
-                    if (value == null) return errorThisFieldRequired;
-
-                    return null;
-                  }
-                : null,
-            items: uniqueSubCategories.map((data) {
-              return DropdownMenuItem<CategoryData>(
-                value: data,
-                child: Text(data.name.validate(), style: primaryTextStyle()),
-              );
-            }).toList(),
-            onChanged: (CategoryData? value) async {
-              selectedSubCategory = value!;
-              widget.onSubCategorySelect.call(selectedSubCategory!.id.validate());
-              setState(() {});
-            },
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        _buildPickerField(
+          fieldKey: _catKey,
+          label: language.lblCategory,
+          selected: resolvedCategory,
+          items: uniqueCategories,
+          validate: widget.isCategoryValidate.validate(value: true),
+          onSelect: (value) async {
+            selectedCategory = value;
+            widget.onCategorySelect.call(value.id.validate());
+            if (selectedSubCategory != null) {
+              selectedSubCategory = null;
+              subCategoryList.clear();
+              widget.onSubCategorySelect.call(null);
+              _subCatKey.currentState?.didChange(null);
+            }
+            await getSubCategory(categoryId: value.id.validate());
+          },
+        ),
+        16.height,
+        _buildPickerField(
+          fieldKey: _subCatKey,
+          label: selectedCategory == null ? language.selectCategory : language.lblSubCategory,
+          selected: resolvedSubCategory,
+          items: uniqueSubCategories,
+          validate: widget.isSubCategoryValidate.validate(value: true),
+          onSelect: (value) async {
+            selectedSubCategory = value;
+            widget.onSubCategorySelect.call(value.id.validate());
+            setState(() {});
+          },
+        ),
+      ],
     );
   }
 }

@@ -1790,12 +1790,12 @@ abstract class BaseLanguage {
   String get lblExpMoreThan10Years;
 
   // Education Level (second set — first 14 use edu* getters directly)
-  String get lblEduNotSpecified2;
-  String get lblEduAnyGraduate2;
-  String get lblEduApprenticeship2;
-  String get lblEduTraineeship2;
-  String get lblEduSecondaryDegree2;
-  String get lblEduUndergraduate2;
+  String get lblEduBachelor;
+  String get lblEduMaster;
+  String get lblEduStaatsexamen;
+  String get lblEduPromotion;
+  String get lblEduHabilitation;
+  String get lblEduProfessur;
 
   // Price Type
   String get lblPriceHourly;

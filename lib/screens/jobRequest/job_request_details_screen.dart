@@ -1347,7 +1347,7 @@ class _JobRequestDetailsScreenState extends State<JobRequestDetailsScreen> {
 
     return ClipRect(
       child: SizedBox(
-        height: 26,
+        height: 34,
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           physics: ClampingScrollPhysics(),

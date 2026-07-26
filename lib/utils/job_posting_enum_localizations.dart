@@ -92,17 +92,17 @@ extension EducationLevelLocalization on EducationLevel {
       case EducationLevel.professionalDegree:
         return language.eduProfessionalDegree;
       case EducationLevel.notSpecified2:
-        return language.lblEduNotSpecified2;
+        return language.lblEduBachelor;
       case EducationLevel.anyGraduate2:
-        return language.lblEduAnyGraduate2;
+        return language.lblEduMaster;
       case EducationLevel.apprenticeshipDegree2:
-        return language.lblEduApprenticeship2;
+        return language.lblEduStaatsexamen;
       case EducationLevel.traineeshipDegree2:
-        return language.lblEduTraineeship2;
+        return language.lblEduPromotion;
       case EducationLevel.secondaryDegree2:
-        return language.lblEduSecondaryDegree2;
+        return language.lblEduHabilitation;
       case EducationLevel.undergraduateDiploma2:
-        return language.lblEduUndergraduate2;
+        return language.lblEduProfessur;
     }
   }
 }

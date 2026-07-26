@@ -2888,12 +2888,12 @@ class LanguageFr extends BaseLanguage {
   @override String get lblExpUnspecified => '—';
   @override String get lblExpMoreThan10Years => 'More than 10 Years';
 
-  @override String get lblEduNotSpecified2 => 'Bachelor';
-  @override String get lblEduAnyGraduate2 => 'Master';
-  @override String get lblEduApprenticeship2 => 'State Examination (Staatsexamen)';
-  @override String get lblEduTraineeship2 => 'Doctorate (PhD)';
-  @override String get lblEduSecondaryDegree2 => 'Habilitation';
-  @override String get lblEduUndergraduate2 => 'Professorship';
+  @override String get lblEduBachelor => 'Bachelor';
+  @override String get lblEduMaster => 'Master';
+  @override String get lblEduStaatsexamen => 'State Examination (Staatsexamen)';
+  @override String get lblEduPromotion => 'Doctorate (PhD)';
+  @override String get lblEduHabilitation => 'Habilitation';
+  @override String get lblEduProfessur => 'Professorship';
 
   @override String get lblPriceHourly => 'Hourly';
   @override String get lblPriceFixed => 'Fixed';
