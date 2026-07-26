@@ -3009,19 +3009,6 @@ class LanguageDe extends BaseLanguage {
   @override
   String get cash => 'Bargeld';
   
-  @override String get lblCareerNotSpecified => careerNotSpecified;
-  @override String get lblCareerEntryLevel => careerEntryLevel;
-  @override String get lblCareerIntermediateLevel => careerIntermediateLevel;
-  @override String get lblCareerExperienced => careerExperienced;
-  @override String get lblCareerProfessional => careerProfessional;
-  @override String get lblCareerMiddleManagement => careerMiddleManagement;
-  @override String get lblCareerExecutiveManagement => careerExecutiveManagement;
-  @override String get lblCareerSeniorManagement => careerSeniorManagement;
-  @override String get lblCareerDirector => careerDirector;
-  @override String get lblCareerTechnician => careerTechnician;
-  @override String get lblCareerLeader => careerLeader;
-  @override String get lblCareerManager => careerManager;
-
   @override String get lblExpUnspecified => 'keine Angabe';
   @override String get lblExpLessThan1Year => expLessThan1;
   @override String get lblExp1To3Years => exp1To3;
@@ -3030,20 +3017,6 @@ class LanguageDe extends BaseLanguage {
   @override String get lblExp8To10Years => exp8To10;
   @override String get lblExpMoreThan10Years => expMoreThan10;
 
-  @override String get lblEduNotSpecified => eduNotSpecified;
-  @override String get lblEduAnyGraduate => eduAnyGraduate;
-  @override String get lblEduApprenticeship => eduApprenticeshipDegree;
-  @override String get lblEduTraineeship => eduTraineeshipDegree;
-  @override String get lblEduSecondaryDegree => eduSecondaryDegree;
-  @override String get lblEduUndergraduate => eduUndergraduateDiploma;
-  @override String get lblEduHighSchool => eduHighSchoolGraduate;
-  @override String get lblEduAssociate => eduAssociateDegree;
-  @override String get lblEduCollege => eduCollegeDegree;
-  @override String get lblEduUniversity => eduUniversityDegree;
-  @override String get lblEduBachelors => eduBachelorsDegree;
-  @override String get lblEduMasters => eduMastersDegree;
-  @override String get lblEduDoctorate => eduDoctorateDegree;
-  @override String get lblEduProfessional => eduProfessionalDegree;
   @override String get lblEduNotSpecified2 => 'Bachelor';
   @override String get lblEduAnyGraduate2 => 'Master';
   @override String get lblEduApprenticeship2 => 'Staatsexamen';

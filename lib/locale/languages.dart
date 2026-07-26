@@ -1780,20 +1780,6 @@ abstract class BaseLanguage {
   String get stripe;
   String get cash;
 
-  // Career Level
-  String get lblCareerNotSpecified;
-  String get lblCareerEntryLevel;
-  String get lblCareerIntermediateLevel;
-  String get lblCareerExperienced;
-  String get lblCareerProfessional;
-  String get lblCareerMiddleManagement;
-  String get lblCareerExecutiveManagement;
-  String get lblCareerSeniorManagement;
-  String get lblCareerDirector;
-  String get lblCareerTechnician;
-  String get lblCareerLeader;
-  String get lblCareerManager;
-
   // Years of Experience
   String get lblExpLessThan1Year;
   String get lblExp1To3Years;
@@ -1803,21 +1789,7 @@ abstract class BaseLanguage {
   String get lblExpUnspecified;
   String get lblExpMoreThan10Years;
 
-  // Education Level
-  String get lblEduNotSpecified;
-  String get lblEduAnyGraduate;
-  String get lblEduApprenticeship;
-  String get lblEduTraineeship;
-  String get lblEduSecondaryDegree;
-  String get lblEduUndergraduate;
-  String get lblEduHighSchool;
-  String get lblEduAssociate;
-  String get lblEduCollege;
-  String get lblEduUniversity;
-  String get lblEduBachelors;
-  String get lblEduMasters;
-  String get lblEduDoctorate;
-  String get lblEduProfessional;
+  // Education Level (second set — first 14 use edu* getters directly)
   String get lblEduNotSpecified2;
   String get lblEduAnyGraduate2;
   String get lblEduApprenticeship2;
