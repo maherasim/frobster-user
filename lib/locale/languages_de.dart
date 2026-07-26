@@ -3139,84 +3139,41 @@ class LanguageDe extends BaseLanguage {
   @override
   String get cash => 'Bargeld';
 
-  // Education levels
-  @override
-  String get eduNotSpecified => 'Nicht angegeben';
-  @override
-  String get eduAnyGraduate => 'Beliebiger Abschluss';
-  @override
-  String get eduApprenticeshipDegree => 'Ausbildungsabschluss';
-  @override
-  String get eduTraineeshipDegree => 'Praktikumsabschluss';
-  @override
-  String get eduSecondaryDegree => 'Sekundarschulabschluss';
-  @override
-  String get eduUndergraduateDiploma => 'Vordiplom';
-  @override
-  String get eduHighSchoolGraduate => 'Abitur';
-  @override
-  String get eduAssociateDegree => 'Fachhochschulreife';
-  @override
-  String get eduCollegeDegree => 'Hochschulabschluss';
-  @override
-  String get eduUniversityDegree => 'Universitätsabschluss';
-  @override
-  String get eduBachelorsDegree => 'Bachelor-Abschluss';
-  @override
-  String get eduMastersDegree => 'Master-Abschluss';
-  @override
-  String get eduDoctorateDegree => 'Doktorgrad';
-  @override
-  String get eduProfessionalDegree => 'Berufsabschluss';
-
-  // Career levels
-  @override
-  String get careerNotSpecified => 'Nicht angegeben';
-  @override
-  String get careerEntryLevel => 'Berufseinsteiger';
-  @override
-  String get careerIntermediateLevel => 'Mittleres Niveau';
-  @override
-  String get careerExperienced => 'Erfahren';
-  @override
-  String get careerProfessional => 'Fachkraft';
-  @override
-  String get careerMiddleManagement => 'Mittleres Management';
-  @override
-  String get careerExecutiveManagement => 'Führungsebene';
-  @override
-  String get careerSeniorManagement => 'Oberes Management';
-  @override
-  String get careerDirector => 'Direktor';
-  @override
-  String get careerTechnician => 'Techniker';
-  @override
-  String get careerLeader => 'Führungskraft';
-  @override
-  String get careerManager => 'Manager';
+  @override String get lblCareerNotSpecified => careerNotSpecified;
+  @override String get lblCareerEntryLevel => careerEntryLevel;
+  @override String get lblCareerIntermediateLevel => careerIntermediateLevel;
+  @override String get lblCareerExperienced => careerExperienced;
+  @override String get lblCareerProfessional => careerProfessional;
+  @override String get lblCareerMiddleManagement => careerMiddleManagement;
+  @override String get lblCareerExecutiveManagement => careerExecutiveManagement;
+  @override String get lblCareerSeniorManagement => careerSeniorManagement;
+  @override String get lblCareerDirector => careerDirector;
+  @override String get lblCareerTechnician => careerTechnician;
+  @override String get lblCareerLeader => careerLeader;
+  @override String get lblCareerManager => careerManager;
 
   @override String get lblExpUnspecified => 'keine Angabe';
-  @override String get lblExpLessThan1Year => 'Weniger als 1 Jahr';
-  @override String get lblExp1To3Years => '1 bis 3 Jahre';
-  @override String get lblExp3To5Years => '3 bis 5 Jahre';
-  @override String get lblExp5To8Years => '5 bis 8 Jahre';
-  @override String get lblExp8To10Years => '8 bis 10 Jahre';
-  @override String get lblExpMoreThan10Years => 'Mehr als 10 Jahre';
+  @override String get lblExpLessThan1Year => expLessThan1;
+  @override String get lblExp1To3Years => exp1To3;
+  @override String get lblExp3To5Years => exp3To5;
+  @override String get lblExp5To8Years => exp5To8;
+  @override String get lblExp8To10Years => exp8To10;
+  @override String get lblExpMoreThan10Years => expMoreThan10;
 
-  @override String get lblEduNotSpecified => 'Grundschule';
-  @override String get lblEduAnyGraduate => 'Hauptschule';
-  @override String get lblEduApprenticeship => 'Realschule';
-  @override String get lblEduTraineeship => 'Gesamtschule';
-  @override String get lblEduSecondaryDegree => 'Gymnasium';
-  @override String get lblEduUndergraduate => 'Hauptschulabschluss';
-  @override String get lblEduHighSchool => 'Realschulabschluss';
-  @override String get lblEduAssociate => 'Fachhochschulreife';
-  @override String get lblEduCollege => 'Allgemeine Hochschulreife';
-  @override String get lblEduUniversity => 'Abitur';
-  @override String get lblEduBachelors => 'Berufsschule';
-  @override String get lblEduMasters => 'Fachschule';
-  @override String get lblEduDoctorate => 'Fachhochschule';
-  @override String get lblEduProfessional => 'Universität';
+  @override String get lblEduNotSpecified => eduNotSpecified;
+  @override String get lblEduAnyGraduate => eduAnyGraduate;
+  @override String get lblEduApprenticeship => eduApprenticeshipDegree;
+  @override String get lblEduTraineeship => eduTraineeshipDegree;
+  @override String get lblEduSecondaryDegree => eduSecondaryDegree;
+  @override String get lblEduUndergraduate => eduUndergraduateDiploma;
+  @override String get lblEduHighSchool => eduHighSchoolGraduate;
+  @override String get lblEduAssociate => eduAssociateDegree;
+  @override String get lblEduCollege => eduCollegeDegree;
+  @override String get lblEduUniversity => eduUniversityDegree;
+  @override String get lblEduBachelors => eduBachelorsDegree;
+  @override String get lblEduMasters => eduMastersDegree;
+  @override String get lblEduDoctorate => eduDoctorateDegree;
+  @override String get lblEduProfessional => eduProfessionalDegree;
   @override String get lblEduNotSpecified2 => 'Bachelor';
   @override String get lblEduAnyGraduate2 => 'Master';
   @override String get lblEduApprenticeship2 => 'Staatsexamen';
