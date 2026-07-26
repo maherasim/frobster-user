@@ -7,13 +7,13 @@ extension RemoteWorkLevelLocalization on RemoteWorkLevel {
       case RemoteWorkLevel.onsite0:
         return language.onsiteFullPresenceLabel;
       case RemoteWorkLevel.remote25:
-        return '25% ${language.remoteWorkShareSuffix}';
+        return '25 % ${language.remoteWorkShareSuffix}';
       case RemoteWorkLevel.remote50:
-        return '50% ${language.remoteWorkShareSuffix}';
+        return '50 % ${language.remoteWorkShareSuffix}';
       case RemoteWorkLevel.remote75:
-        return '75% ${language.remoteWorkShareSuffix}';
+        return '75 % ${language.remoteWorkShareSuffix}';
       case RemoteWorkLevel.remote100:
-        return '100% ${language.remoteWorkShareSuffix}';
+        return '100 % ${language.remoteWorkShareSuffix}';
     }
   }
 }

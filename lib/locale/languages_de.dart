@@ -2836,7 +2836,7 @@ class LanguageDe extends BaseLanguage {
   String get bookingsLabel => 'Buchungen';
 
   @override
-  String get onsiteFullPresenceLabel => 'Vor Ort (100%)';
+  String get onsiteFullPresenceLabel => '100 % vor Ort';
 
   @override
   String get remoteWorkShareSuffix => 'Remote';
@@ -3195,17 +3195,94 @@ class LanguageDe extends BaseLanguage {
   @override
   String get careerManager => 'Manager';
 
-  // Years of experience
-  @override
-  String get expLessThan1 => 'Weniger als 1 Jahr';
-  @override
-  String get exp1To3 => '1 bis 3 Jahre';
-  @override
-  String get exp3To5 => '3 bis 5 Jahre';
-  @override
-  String get exp5To8 => '5 bis 8 Jahre';
-  @override
-  String get exp8To10 => '8 bis 10 Jahre';
-  @override
-  String get expMoreThan10 => 'Mehr als 10 Jahre';
+  @override String get lblExpUnspecified => 'keine Angabe';
+  @override String get lblExpLessThan1Year => 'Weniger als 1 Jahr';
+  @override String get lblExp1To3Years => '1 bis 3 Jahre';
+  @override String get lblExp3To5Years => '3 bis 5 Jahre';
+  @override String get lblExp5To8Years => '5 bis 8 Jahre';
+  @override String get lblExp8To10Years => '8 bis 10 Jahre';
+  @override String get lblExpMoreThan10Years => 'Mehr als 10 Jahre';
+
+  @override String get lblEduNotSpecified => 'Grundschule';
+  @override String get lblEduAnyGraduate => 'Hauptschule';
+  @override String get lblEduApprenticeship => 'Realschule';
+  @override String get lblEduTraineeship => 'Gesamtschule';
+  @override String get lblEduSecondaryDegree => 'Gymnasium';
+  @override String get lblEduUndergraduate => 'Hauptschulabschluss';
+  @override String get lblEduHighSchool => 'Realschulabschluss';
+  @override String get lblEduAssociate => 'Fachhochschulreife';
+  @override String get lblEduCollege => 'Allgemeine Hochschulreife';
+  @override String get lblEduUniversity => 'Abitur';
+  @override String get lblEduBachelors => 'Berufsschule';
+  @override String get lblEduMasters => 'Fachschule';
+  @override String get lblEduDoctorate => 'Fachhochschule';
+  @override String get lblEduProfessional => 'Universität';
+  @override String get lblEduNotSpecified2 => 'Bachelor';
+  @override String get lblEduAnyGraduate2 => 'Master';
+  @override String get lblEduApprenticeship2 => 'Staatsexamen';
+  @override String get lblEduTraineeship2 => 'Promotion (Doktor)';
+  @override String get lblEduSecondaryDegree2 => 'Habilitation';
+  @override String get lblEduUndergraduate2 => 'Professur';
+
+  @override String get lblPriceHourly => 'pro Stunde';
+  @override String get lblPriceFixed => 'Pauschal';
+  @override String get lblPriceDaily => 'pro Tag';
+
+  @override String get lblScheduleFullTime => 'Stundenbasis';
+  @override String get lblSchedulePartTime => 'Tagesauftrag';
+  @override String get lblScheduleContract => 'Einmalauftrag';
+  @override String get lblScheduleTemporary => 'Schichtarbeit';
+  @override String get lblScheduleInternship => 'Freiberuflich';
+
+  @override String get na => 'K.A.';
+  @override String get all => 'Alle';
+  @override String get provider => 'Agentur';
+  @override String get handyman => 'Fachkaft';
+  @override String get remaining => 'Restbetrag';
+  @override String get work => 'Arbeit';
+  @override String get writeReviewHint => 'Teilen Sie Ihre Erfahrung mit...';
+  @override String get totalPrice => 'Gesamtbetrag';
+  @override String get totalServices => 'Services';
+  @override String get paypalPaymentTitle => 'PayPal-Zahlung';
+  @override String get redirecting => 'Weiterleiten...';
+  @override String get rateService => 'Service bewerten';
+  @override String get skillsHint => 'z.B. Fähigkeit 1, 2, 3(kommagetrennt)';
+  @override String get paypalUrlFailed => 'PayPal-Zahlungs-URL konnte nicht abgerufen werden. Bitte erneut versuchen.';
+  @override String get locationNotAvailableMsg => 'Standort nicht verfügbar. Der Mitarbeiter hat möglicherweise noch keinen Standort geteilt, oder die Anfrage ist fehlgeschlagen. Tippen Sie auf Aktualisieren, um es erneut zu versuchen.';
+  @override String get bankTransferPendingMsg => 'Zahlung per Banküberweisung eingereicht. Warte auf Bestätigung durch den Administrator.';
+
+  @override String get eduNotSpecified => 'Grundschule';
+  @override String get eduAnyGraduate => 'Hauptschule';
+  @override String get eduApprenticeshipDegree => 'Realschule';
+  @override String get eduTraineeshipDegree => 'Gesamtschule';
+  @override String get eduSecondaryDegree => 'Gymnasium';
+  @override String get eduUndergraduateDiploma => 'Hauptschulabschluss';
+  @override String get eduHighSchoolGraduate => 'Realschulabschluss';
+  @override String get eduAssociateDegree => 'Fachhochschulreife';
+  @override String get eduCollegeDegree => 'Allgemeine Hochschulreife';
+  @override String get eduUniversityDegree => 'Abitur';
+  @override String get eduBachelorsDegree => 'Berufsschule';
+  @override String get eduMastersDegree => 'Fachschule';
+  @override String get eduDoctorateDegree => 'Fachhochschule';
+  @override String get eduProfessionalDegree => 'Universität';
+
+  @override String get careerNotSpecified => 'Nicht angegeben';
+  @override String get careerEntryLevel => 'Einsteiger';
+  @override String get careerIntermediateLevel => 'Werkstudent';
+  @override String get careerExperienced => 'Mit Berufserfahrung';
+  @override String get careerProfessional => 'Fachkraft';
+  @override String get careerMiddleManagement => 'Spezialist';
+  @override String get careerExecutiveManagement => 'Führungskraft';
+  @override String get careerSeniorManagement => 'Senior Management';
+  @override String get careerDirector => 'Meister';
+  @override String get careerTechnician => 'Branchenexperte';
+  @override String get careerLeader => 'Manager';
+  @override String get careerManager => 'Geschäftsführung';
+
+  @override String get expLessThan1 => 'Weniger als 1 Jahr';
+  @override String get exp1To3 => '1 bis 3 Jahre';
+  @override String get exp3To5 => '3 bis 5 Jahre';
+  @override String get exp5To8 => '5 bis 8 Jahre';
+  @override String get exp8To10 => '8 bis 10 Jahre';
+  @override String get expMoreThan10 => 'Mehr als 10 Jahre';
 }
