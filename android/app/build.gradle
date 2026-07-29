@@ -5,6 +5,12 @@ plugins {
     id "com.google.gms.google-services"
 }
 
+def keystorePropertiesFile = rootProject.file("key.properties")
+def keystoreProperties = new Properties()
+if (keystorePropertiesFile.exists()) {
+    keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+}
+
 android {
     namespace = "de.persotel.user"
     compileSdk = 36
@@ -25,17 +31,18 @@ android {
         applicationId = android.namespace
         minSdk = 24
         targetSdk = 36
-        versionCode = 3  // Increment by 1 for every new Play Store upload
-        versionName = "11.13.0"
+        versionCode = flutter.versionCode
+        versionName = flutter.versionName
     }
     
     signingConfigs {
         release {
-            // Germany app (de.persotel.user) – upload-keystore-germany.jks
-            keyAlias = 'upload'
-            keyPassword = 'AsimR@6869rI#'
-            storeFile = file('upload-keystore-germany.jks')
-            storePassword = 'AsimR@6869rI#'
+            if (keystorePropertiesFile.exists()) {
+                keyAlias = keystoreProperties["keyAlias"]
+                keyPassword = keystoreProperties["keyPassword"]
+                storeFile = file(keystoreProperties["storeFile"])
+                storePassword = keystoreProperties["storePassword"]
+            }
         }
     }
 

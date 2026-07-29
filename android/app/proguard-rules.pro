@@ -1,3 +1,7 @@
+# Reflectively-referenced classes not present at runtime (R8 missing_rules.txt)
+-dontwarn com.google.gson.internal.bind.DateTypeAdapter
+-dontwarn org.slf4j.impl.StaticLoggerBinder
+
 # Flutter wrapper
 -keep class io.flutter.app.** { *; }
 -keep class io.flutter.plugin.**  { *; }

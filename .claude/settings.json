@@ -1,0 +1,12 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git checkout *)",
+      "Read(//d/Germany/provider-app/keystores/**)",
+      "Read(//d/Germany/provider-app/**)"
+    ],
+    "additionalDirectories": [
+      "D:\\Germany\\provider-app"
+    ]
+  }
+}
