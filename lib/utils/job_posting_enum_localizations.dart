@@ -22,29 +22,29 @@ extension CareerLevelLocalization on CareerLevel {
   String get localizedLabel {
     switch (this) {
       case CareerLevel.notSpecified:
-        return language.lblCareerNotSpecified;
+        return language.careerNotSpecified;
       case CareerLevel.entryLevel:
-        return language.lblCareerEntryLevel;
+        return language.careerEntryLevel;
       case CareerLevel.intermediateLevel:
-        return language.lblCareerIntermediateLevel;
+        return language.careerIntermediateLevel;
       case CareerLevel.experienced:
-        return language.lblCareerExperienced;
+        return language.careerExperienced;
       case CareerLevel.professional:
-        return language.lblCareerProfessional;
+        return language.careerProfessional;
       case CareerLevel.middleManagement:
-        return language.lblCareerMiddleManagement;
+        return language.careerMiddleManagement;
       case CareerLevel.executiveManagement:
-        return language.lblCareerExecutiveManagement;
+        return language.careerExecutiveManagement;
       case CareerLevel.seniorManagement:
-        return language.lblCareerSeniorManagement;
+        return language.careerSeniorManagement;
       case CareerLevel.director:
-        return language.lblCareerDirector;
+        return language.careerDirector;
       case CareerLevel.technician:
-        return language.lblCareerTechnician;
+        return language.careerTechnician;
       case CareerLevel.leader:
-        return language.lblCareerLeader;
+        return language.careerLeader;
       case CareerLevel.manager:
-        return language.lblCareerManager;
+        return language.careerManager;
     }
   }
 }
@@ -64,45 +64,33 @@ extension EducationLevelLocalization on EducationLevel {
   String get localizedLabel {
     switch (this) {
       case EducationLevel.notSpecified:
-        return language.lblEduNotSpecified;
+        return language.eduNotSpecified;
       case EducationLevel.anyGraduate:
-        return language.lblEduAnyGraduate;
+        return language.eduAnyGraduate;
       case EducationLevel.apprenticeshipDegree:
-        return language.lblEduApprenticeship;
+        return language.eduApprenticeshipDegree;
       case EducationLevel.traineeshipDegree:
-        return language.lblEduTraineeship;
+        return language.eduTraineeshipDegree;
       case EducationLevel.secondaryDegree:
-        return language.lblEduSecondaryDegree;
+        return language.eduSecondaryDegree;
       case EducationLevel.undergraduateDiploma:
-        return language.lblEduUndergraduate;
+        return language.eduUndergraduateDiploma;
       case EducationLevel.highSchoolGraduate:
-        return language.lblEduHighSchool;
+        return language.eduHighSchoolGraduate;
       case EducationLevel.associateDegree:
-        return language.lblEduAssociate;
+        return language.eduAssociateDegree;
       case EducationLevel.collegeDegree:
-        return language.lblEduCollege;
+        return language.eduCollegeDegree;
       case EducationLevel.universityDegree:
-        return language.lblEduUniversity;
+        return language.eduUniversityDegree;
       case EducationLevel.bachelorsDegree:
-        return language.lblEduBachelors;
+        return language.eduBachelorsDegree;
       case EducationLevel.mastersDegree:
-        return language.lblEduMasters;
+        return language.eduMastersDegree;
       case EducationLevel.doctorateDegree:
-        return language.lblEduDoctorate;
+        return language.eduDoctorateDegree;
       case EducationLevel.professionalDegree:
-        return language.lblEduProfessional;
-      case EducationLevel.notSpecified2:
-        return language.lblEduNotSpecified2;
-      case EducationLevel.anyGraduate2:
-        return language.lblEduAnyGraduate2;
-      case EducationLevel.apprenticeshipDegree2:
-        return language.lblEduApprenticeship2;
-      case EducationLevel.traineeshipDegree2:
-        return language.lblEduTraineeship2;
-      case EducationLevel.secondaryDegree2:
-        return language.lblEduSecondaryDegree2;
-      case EducationLevel.undergraduateDiploma2:
-        return language.lblEduUndergraduate2;
+        return language.eduProfessionalDegree;
     }
   }
 }
